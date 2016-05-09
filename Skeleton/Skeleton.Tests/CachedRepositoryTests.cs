@@ -30,7 +30,7 @@ namespace Skeleton.Tests
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
             Assert.IsTrue(repository.Cache.Contains<Customer>(
-                CustomerCacheKey.ForFind(repository.QueryBuilder.AsSql())));
+                CustomerCacheKey.ForFind(repository.Query.AsSql())));
         }
 
         [TestMethod]
@@ -50,8 +50,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void FirstOrDefault_ById()
         {
-            var sql = repository.QueryBuilder.SelectTop(1).AsSql();
-            var customer1 = repository.Find(sql).FirstOrDefault();
+            var customer1 = repository.Query.SelectTop(1).FirstOrDefault();
             var customer2 = repository.FirstOrDefault(customer1.Id);
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));

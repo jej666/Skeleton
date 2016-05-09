@@ -12,7 +12,7 @@
         IHideObjectMethods
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        ISqlQueryBuilder<TEntity, TIdentity> QueryBuilder { get; }
+        IQueryBuilder<TEntity, TIdentity> Query { get; }
 
         Task<TEntity> FirstOrDefaultAsync(TIdentity id);
 

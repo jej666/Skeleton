@@ -10,7 +10,7 @@
     using System.Data.SqlClient;
     using System.Threading;
 
-    public class Database : DatabaseBase, IDatabase
+    public sealed class Database : DatabaseContext, IDatabase
     {
         public Database(
             IDatabaseConfiguration configuration,
@@ -37,7 +37,7 @@
             return WrapRetryPolicy(() =>
             {
                 var result = CreateTextCommand(query, parameters)
-                    .ExecuteScalar();
+                                     .ExecuteScalar();
 
                 return result is DBNull ?
                     default(TValue) :
@@ -54,7 +54,7 @@
             return WrapRetryPolicy(() =>
             {
                 return CreateStoredProcedureCommand(procedureName, parameters)
-                    .ExecuteNonQuery();
+                               .ExecuteNonQuery();
             });
         }
 
@@ -66,7 +66,7 @@
             return WrapRetryPolicy(() =>
             {
                 var reader = CreateTextCommand(query, parameters)
-                    .ExecuteReader();
+                                     .ExecuteReader();
 
                 return CreateMapper<TResult>().MapQuery(reader);
             });
@@ -80,7 +80,7 @@
             return WrapRetryPolicy(() =>
             {
                 var reader = CreateTextCommand(query, parameters)
-                    .ExecuteReader(CommandBehavior.SingleRow);
+                                     .ExecuteReader(CommandBehavior.SingleRow);
 
                 return CreateMapper<TResult>().MapSingle(reader);
             });

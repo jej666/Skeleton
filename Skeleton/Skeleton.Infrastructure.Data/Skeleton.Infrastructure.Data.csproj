@@ -57,7 +57,7 @@
     <Compile Include="Configuration\DatabaseConfigurationBuilder.cs" />
     <Compile Include="Configuration\DatabaseConfiguration.cs" />
     <Compile Include="DatabaseAsync.cs" />
-    <Compile Include="DatabaseBase.cs" />
+    <Compile Include="DatabaseContext.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="DataAdapter.cs" />
     <Compile Include="DatabaseFactory.cs" />

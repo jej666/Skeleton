@@ -7,9 +7,9 @@
         DisposableBase,
         IDatabaseTransaction
     {
-        private readonly DatabaseBase _database;
+        private readonly DatabaseContext _database;
 
-        public DatabaseTransaction(DatabaseBase database)
+        public DatabaseTransaction(DatabaseContext database)
         {
             _database = database;
         }

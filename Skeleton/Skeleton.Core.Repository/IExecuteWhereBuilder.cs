@@ -5,21 +5,21 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    public interface ISqlExecuteWhereBuilder<TEntity, TIdentity>
+    public interface IExecuteWhereBuilder<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        ISqlExecuteBuilder<TEntity, TIdentity> Where(
+        IExecuteBuilder<TEntity, TIdentity> Where(
             Expression<Func<TEntity, bool>> expression);
 
-        ISqlExecuteBuilder<TEntity, TIdentity> WhereIsIn(
+        IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values);
 
-        ISqlExecuteBuilder<TEntity, TIdentity> WhereNotIn(
+        IExecuteBuilder<TEntity, TIdentity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values);
 
-        ISqlExecuteBuilder<TEntity, TIdentity> WherePrimaryKey(
+        IExecuteBuilder<TEntity, TIdentity> WherePrimaryKey(
             Expression<Func<TEntity, bool>> whereExpression);
     }
 }

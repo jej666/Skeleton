@@ -11,7 +11,9 @@
         IHideObjectMethods
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        ISqlQueryBuilder<TEntity, TIdentity> QueryBuilder { get; }
+        IQueryBuilder<TEntity, TIdentity> Query { get; }
+
+        IAggregateBuilder<TEntity, TIdentity> Aggregate { get; }
 
         TEntity FirstOrDefault(TIdentity id);
 
@@ -19,9 +21,7 @@
 
         IEnumerable<TEntity> Find(
             Expression<Func<TEntity, bool>> where,
-            Expression<Func<TEntity, object>> orderBy);
-
-        IEnumerable<TEntity> Find(ISqlQuery query);
+            Expression<Func<TEntity, object>> orderBy); 
 
         IEnumerable<TEntity> GetAll();
 
@@ -32,7 +32,5 @@
             int pageNumber,
             Expression<Func<TEntity, bool>> where,
             Expression<Func<TEntity, object>> orderBy);
-
-        TResult Aggregate<TResult>(ISqlQuery query);
     }
 }

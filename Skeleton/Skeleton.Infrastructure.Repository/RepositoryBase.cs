@@ -28,7 +28,7 @@
             this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
         { }
 
-        private ISqlExecuteBuilder<TEntity, TIdentity> ExecuteBuilder
+        private IExecuteBuilder<TEntity, TIdentity> ExecuteBuilder
         {
             get
             {

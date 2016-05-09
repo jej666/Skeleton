@@ -6,6 +6,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     using Core.Domain;
     using Core.Repository;
     using ExpressionTree;
+    using Skeleton.Infrastructure.Data;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -13,24 +14,29 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
     public sealed class SqlQueryBuilder<TEntity, TIdentity> :
         SqlBuilderBase,
-        ISqlQueryBuilder<TEntity, TIdentity>
+        IQueryBuilder<TEntity, TIdentity>,
+        IQueryWhereBuilder<TEntity,TIdentity>,
+        IAggregateBuilder<TEntity,TIdentity>,
+        IAggregateExecutor
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly ITypeAccessor _accessor;
+        private readonly IDatabase _database;
 
-        public SqlQueryBuilder(ITypeAccessorCache accessorCache)
+        public SqlQueryBuilder(IDatabase database, ITypeAccessorCache accessorCache)
             : base(TableInfo.GetTableName<TEntity>())
         {
             accessorCache.ThrowIfNull(() => accessorCache);
 
             _accessor = accessorCache.Get<TEntity>();
+            _database = database;
         }
 
         private SqlQueryBuilder(InternalQueryBuilder builder, LambdaExpressionResolver resolver)
             : base(builder, resolver)
         { }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> And(Expression<Func<TEntity, bool>> expression)
+        public IQueryBuilder<TEntity, TIdentity> And(Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.And();
@@ -44,7 +50,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> GroupBy(Expression<Func<TEntity, object>> expression)
+        public IQueryBuilder<TEntity, TIdentity> GroupBy(Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Resolver.GroupBy(expression);
@@ -52,7 +58,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
+        public IQueryBuilder<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
             where TEntity2 : class, IEntity<TEntity2, TIdentity2>
         {
@@ -64,7 +70,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return joinQuery;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> Or(
+        public IQueryBuilder<TEntity, TIdentity> Or(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -75,7 +81,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> OrderBy(
+        public IQueryBuilder<TEntity, TIdentity> OrderBy(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -84,7 +90,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> OrderByDescending(
+        public IQueryBuilder<TEntity, TIdentity> OrderByDescending(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -93,7 +99,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> Select(
+        public IQueryBuilder<TEntity, TIdentity> Select(
             params Expression<Func<TEntity, object>>[] expressions)
         {
             expressions.ThrowIfNull(() => expressions);
@@ -104,8 +110,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> SelectAverage(
-            Expression<Func<TEntity, object>> expression)
+        public IAggregateExecutor Average(Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Resolver.SelectWithFunction(expression, SelectFunction.AVG);
@@ -113,8 +118,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> SelectCount(
-            Expression<Func<TEntity, object>> expression)
+        public IAggregateExecutor Count(Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Resolver.SelectWithFunction(expression, SelectFunction.COUNT);
@@ -122,7 +126,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> SelectDistinct(
+        public IQueryBuilder<TEntity, TIdentity> SelectDistinct(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -131,8 +135,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> SelectMax(
-            Expression<Func<TEntity, object>> expression)
+        public IAggregateExecutor Max(Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Resolver.SelectWithFunction(expression, SelectFunction.MAX);
@@ -140,8 +143,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> SelectMin(
-            Expression<Func<TEntity, object>> expression)
+        public IAggregateExecutor Min(Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Resolver.SelectWithFunction(expression, SelectFunction.MIN);
@@ -149,8 +151,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> SelectSum(
-            Expression<Func<TEntity, object>> expression)
+        public IAggregateExecutor Sum(Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Resolver.SelectWithFunction(expression, SelectFunction.SUM);
@@ -158,21 +159,21 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> SelectTop(int take)
+        public IQueryBuilder<TEntity, TIdentity> SelectTop(int take)
         {
             Resolver.SelectTop(take);
 
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> Where(
+        public IQueryBuilder<TEntity, TIdentity> Where(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
             return And(expression);
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> WhereIsIn(
+        public IQueryBuilder<TEntity, TIdentity> WhereIsIn(
             Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
         {
             expression.ThrowIfNull(() => expression);
@@ -182,7 +183,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> WhereIsIn(
+        public IQueryBuilder<TEntity, TIdentity> WhereIsIn(
             Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
@@ -192,7 +193,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> WhereNotIn(
+        public IQueryBuilder<TEntity, TIdentity> WhereNotIn(
             Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
         {
             expression.ThrowIfNull(() => expression);
@@ -202,7 +203,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> WhereNotIn(
+        public IQueryBuilder<TEntity, TIdentity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
@@ -213,7 +214,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return this;
         }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> WherePrimaryKey(
+        public IQueryBuilder<TEntity, TIdentity> WherePrimaryKey(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -224,15 +225,20 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
             return this;
         }
+
+        public IEnumerable<TEntity> Find()
+        {
+            return _database.Find<TEntity>(Builder.Query, Builder.Parameters);
+        }
+
+        public TEntity FirstOrDefault()
+        {
+            return _database.FirstOrDefault<TEntity>(Builder.Query, Builder.Parameters);
+        }
+
+        public TResult As<TResult>()
+        {
+            return _database.ExecuteScalar<TResult>(Builder.Query, Builder.Parameters);
+        }
     }
 }
-
-//public ISqlQueryBuilder<TResult> Join<T2, TKey, TResult>(SqlBuilder<T2> joinQuery,
-//    Expression<Func<T, TKey>> primaryKeySelector,
-//    Expression<Func<T, TKey>> foreignKeySelector,
-//    Func<T, T2, TResult> selection)
-//{
-//    var query = new SqlBuilder<TResult>(Builder, Resolver);
-//    Resolver.Join<T, T2, TKey>(primaryKeySelector, foreignKeySelector);
-//    return query;
-//}

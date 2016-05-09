@@ -9,7 +9,6 @@
     using Data.Configuration;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -58,22 +57,15 @@
             where.ThrowIfNull(() => where);
             orderBy.ThrowIfNull(() => orderBy);
 
-            var sql = QueryBuilder.Where(where)
+            var sql = Query.Where(where)
                                   .OrderBy(orderBy)
                                   .AsSql();
-            
-            return Find(sql);
-        }
 
-        public override IEnumerable<TEntity> Find(ISqlQuery query)
-        {
-            query.ThrowIfNull(() => query);
-
-            var key = _keyGenerator.ForFind(query);
+            var key = _keyGenerator.ForFind(sql);
             Func<IEnumerable<TEntity>> valueFactory = () =>
               Database.Find<TEntity>(
-                     query.Query,
-                     query.Parameters);
+                     sql.Query,
+                     sql.Parameters);
 
             return Cache.GetOrAdd(key, valueFactory, CacheConfigurator);
         }
@@ -92,7 +84,7 @@
         {
             where.ThrowIfNull(() => where);
 
-            var sql = QueryBuilder.Where(where).AsSql();
+            var sql = Query.Where(where).AsSql();
             var key = _keyGenerator.ForFirstOrDefault(sql.Parameters);
             Func<TEntity> valueFactory = () =>
                 Database.FirstOrDefault<TEntity>(sql.Query, sql.Parameters);
@@ -126,7 +118,7 @@
             where.ThrowIfNull(() => where);
             orderBy.ThrowIfNull(() => orderBy);
 
-            var sql = QueryBuilder.Where(where)
+            var sql = Query.Where(where)
                                   .OrderBy(orderBy)
                                   .AsSql();
             var key = _keyGenerator.ForPage(

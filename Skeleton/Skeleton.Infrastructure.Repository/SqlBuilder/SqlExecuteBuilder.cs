@@ -12,8 +12,8 @@
 
     public sealed class SqlExecuteBuilder<TEntity, TIdentity> :
         SqlBuilderBase,
-        ISqlExecuteBuilder<TEntity, TIdentity>,
-        ISqlExecuteWhereBuilder<TEntity, TIdentity>
+        IExecuteBuilder<TEntity, TIdentity>,
+        IExecuteWhereBuilder<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private static readonly Func<IMemberAccessor, bool> SimplePropertiesCondition =
@@ -47,7 +47,7 @@
             return this;
         }
 
-        public ISqlExecuteWhereBuilder<TEntity, TIdentity> Delete(TEntity entity)
+        public IExecuteWhereBuilder<TEntity, TIdentity> Delete(TEntity entity)
         {
             entity.ThrowIfNull(() => entity);
             _entity = entity;
@@ -55,7 +55,7 @@
             return this;
         }
 
-        public ISqlExecuteBuilder<TEntity, TIdentity> Insert(TEntity entity)
+        public IExecuteBuilder<TEntity, TIdentity> Insert(TEntity entity)
         {
             entity.ThrowIfNull(() => entity);
             _entity = entity;
@@ -64,7 +64,7 @@
             return this;
         }
 
-        public ISqlExecuteWhereBuilder<TEntity, TIdentity> Update(TEntity entity)
+        public IExecuteWhereBuilder<TEntity, TIdentity> Update(TEntity entity)
         {
             entity.ThrowIfNull(() => entity);
             _entity = entity;
@@ -73,7 +73,7 @@
             return this;
         }
 
-        public ISqlExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
+        public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
         {
             Builder.And();
             Resolver.ResolveQuery(expression);
@@ -81,7 +81,7 @@
             return this;
         }
 
-        public ISqlExecuteBuilder<TEntity, TIdentity> WhereIsIn(
+        public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
@@ -91,7 +91,7 @@
             return this;
         }
 
-        public ISqlExecuteBuilder<TEntity, TIdentity> WhereNotIn(
+        public IExecuteBuilder<TEntity, TIdentity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
@@ -101,7 +101,7 @@
             return this;
         }
 
-        public ISqlExecuteBuilder<TEntity, TIdentity> WherePrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
+        public IExecuteBuilder<TEntity, TIdentity> WherePrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
         {
             Builder.And();
             Resolver.QueryByPrimaryKey(_entity.IdAccessor.Name, whereExpression);

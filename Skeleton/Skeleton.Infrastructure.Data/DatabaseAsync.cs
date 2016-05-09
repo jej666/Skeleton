@@ -10,7 +10,7 @@
     using System.Data.SqlClient;
     using System.Threading.Tasks;
 
-    public class DatabaseAsync : DatabaseBase, IDatabaseAsync
+    public sealed class DatabaseAsync : DatabaseContext, IDatabaseAsync
     {
         public DatabaseAsync(
             IDatabaseConfiguration configuration,

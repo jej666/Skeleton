@@ -10,7 +10,7 @@
     using System.Data.Common;
     using System.Threading.Tasks;
 
-    public abstract class DatabaseBase : DisposableBase
+    public abstract class DatabaseContext : DisposableBase
     {
         private readonly DataAdapter _adapter;
         private readonly IDatabaseConfiguration _configuration;
@@ -20,7 +20,7 @@
         private IDbConnection _connection;
         private IDbTransaction _transaction;
 
-        protected DatabaseBase(
+        protected DatabaseContext(
             IDatabaseConfiguration configuration,
             ITypeAccessorCache typeAccessorCache,
             ILogger logger)

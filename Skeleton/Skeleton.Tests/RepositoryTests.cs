@@ -42,8 +42,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Delete()
         {
-            var sql = repository.QueryBuilder.SelectTop(1).AsSql();
-            var customer = repository.Find(sql).FirstOrDefault();
+            var customer = repository.Query.SelectTop(1).FirstOrDefault();
             var successed = repository.Delete(customer);
             Assert.IsTrue(successed);
 
@@ -54,8 +53,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Delete_Multiple()
         {
-            var sql = repository.QueryBuilder.SelectTop(3).AsSql();
-            var customers = repository.Find(sql);
+            var customers = repository.Query.SelectTop(3).Find();
             var successed = repository.Delete(customers);
             Assert.IsTrue(successed);
         }
@@ -63,8 +61,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Find_ByExpression()
         {
-            var sql = repository.QueryBuilder.SelectTop(1).AsSql();
-            var customer = repository.Find(sql).FirstOrDefault();
+            var customer = repository.Query.SelectTop(1).FirstOrDefault();
             var results = repository.Find(
                 c => c.Name.Equals(customer.Name),
                 c => c.CustomerId);
@@ -86,8 +83,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void FirstOrDefault_ById()
         {
-            var sql = repository.QueryBuilder.SelectTop(1).AsSql();
-            var customer1 = repository.Find(sql).FirstOrDefault();
+            var customer1 = repository.Query.SelectTop(1).FirstOrDefault();
             var customer2 = repository.FirstOrDefault(customer1.Id);
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
@@ -105,8 +101,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Update()
         {
-            var sql = repository.QueryBuilder.SelectTop(1).AsSql();
-            var customer = repository.Find(sql).FirstOrDefault();
+            var customer = repository.Query.SelectTop(1).FirstOrDefault();
             customer.Name = "UpdatedName";
             var successed = repository.Update(customer);
             Assert.IsTrue(successed);
@@ -119,8 +114,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Update_Multiple()
         {
-            var sql = repository.QueryBuilder.SelectTop(3).AsSql();
-            var customers = repository.Find(sql);
+            var customers = repository.Query.SelectTop(5).Find();
             foreach (var cust in customers)
                 cust.Name = "Updated" + cust.Id;
 
@@ -131,8 +125,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectTop()
         {
-            var sql = repository.QueryBuilder.SelectTop(5).AsSql();
-            var customers = repository.Find(sql);
+            var customers = repository.Query.SelectTop(5).Find();
             Assert.IsNotNull(customers);
             Assert.IsInstanceOfType(customers.First(), typeof(Customer));
             Assert.IsTrue(customers.Count() == 5);
@@ -141,11 +134,9 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectCount()
         {
-            var sql = repository.QueryBuilder.SelectCount(c => c.CustomerId).AsSql();
-            var customers = repository.Find(sql);
-            Assert.IsNotNull(customers);
-            Assert.IsInstanceOfType(customers.First(), typeof(Customer));
-            Assert.IsTrue(customers.Count() == 5);
+            var count = repository.Aggregate.Count(c => c.CustomerId).As<int>();
+            Assert.IsNotNull(count);
+            Assert.IsTrue(count> 0);
         }
     }
 }

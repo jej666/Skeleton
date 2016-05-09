@@ -19,7 +19,7 @@
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabase _database;
-        private readonly ISqlQueryBuilder<TEntity, TIdentity> _queryBuilder;
+        private readonly SqlQueryBuilder<TEntity, TIdentity> _queryBuilder;
         private readonly ITypeAccessorCache _typeAccessorCache;
 
         protected ReadOnlyRepositoryBase(
@@ -31,7 +31,7 @@
 
             _typeAccessorCache = typeAccessorCache;
             _database = database;
-            _queryBuilder = new SqlQueryBuilder<TEntity, TIdentity>(typeAccessorCache);
+            _queryBuilder = new SqlQueryBuilder<TEntity, TIdentity>(database, typeAccessorCache);
         }
 
         protected ReadOnlyRepositoryBase(
@@ -41,7 +41,12 @@
             this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
         { }
 
-        public ISqlQueryBuilder<TEntity, TIdentity> QueryBuilder
+        public IQueryBuilder<TEntity, TIdentity> Query
+        {
+            get { return _queryBuilder; }
+        }
+
+        public IAggregateBuilder<TEntity, TIdentity> Aggregate
         {
             get { return _queryBuilder; }
         }
@@ -63,35 +68,26 @@
             where.ThrowIfNull(() => where);
             orderBy.ThrowIfNull(() => orderBy);
 
-            var sql = QueryBuilder.Where(where)
+            var sql = Query.Where(where)
                                   .OrderBy(orderBy)
                                   .AsSql();
 
             return Database.Find<TEntity>(sql.Query, sql.Parameters);
         }
 
-        public virtual IEnumerable<TEntity> Find(ISqlQuery query)
-        {
-            query.ThrowIfNull(() => query);
-
-            return Database.Find<TEntity>(query.Query, query.Parameters);
-        }
-
         public virtual TEntity FirstOrDefault(TIdentity id)
         {
             id.ThrowIfNull(() => id);
 
-            var sql = QueryBuilder.WherePrimaryKey(e => e.Id.Equals(id))
-                                  .AsSql();
-
-            return Database.FirstOrDefault<TEntity>(sql.Query, sql.Parameters);
+            return Query.WherePrimaryKey(e => e.Id.Equals(id))
+                        .FirstOrDefault();
         }
 
         public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> where)
         {
             where.ThrowIfNull(() => where);
 
-            var sql = QueryBuilder.Where(where)
+            var sql = Query.Where(where)
                                   .AsSql();
 
             return Database.FirstOrDefault<TEntity>(sql.Query, sql.Parameters);
@@ -99,7 +95,7 @@
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            var sql = QueryBuilder.AsSql();
+            var sql = Query.AsSql();
 
             return Database.Find<TEntity>(sql.Query, sql.Parameters);
         }
@@ -113,9 +109,9 @@
             where.ThrowIfNull(() => where);
             orderBy.ThrowIfNull(() => orderBy);
 
-            var sql = QueryBuilder.Where(where)
-                                  .OrderBy(orderBy)
-                                  .AsSql();
+            var sql = Query.Where(where)
+                           .OrderBy(orderBy)
+                           .AsSql();
 
             return Database.Find<TEntity>(
                 sql.PagedQuery(pageSize, pageNumber),
@@ -124,7 +120,7 @@
 
         public virtual IEnumerable<TEntity> PageAll(int pageSize, int pageNumber)
         {
-            var sql = QueryBuilder.AsSql();
+            var sql = Query.AsSql();
 
             return Database.Find<TEntity>(
                 sql.PagedQuery(pageSize, pageNumber),
