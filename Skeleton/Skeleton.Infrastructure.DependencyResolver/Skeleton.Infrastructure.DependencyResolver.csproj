@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{97FA52F3-1D4E-4A5D-870C-03E8CA4AFD58}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Skeleton.Infrastructure.DependencyResolver</RootNamespace>
+    <AssemblyName>Skeleton.Infrastructure.DependencyResolver</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Infrastructure.Bootstrapper.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommonModuleExtension.cs" />
+    <Compile Include="DataModuleExtension.cs" />
+    <Compile Include="LoggerExtension\LoggerConstructorInjectionExtension.cs" />
+    <Compile Include="LoggerExtension\LogBuilderStrategy.cs" />
+    <Compile Include="LoggerExtension\CreationStackTrackerPolicy.cs" />
+    <Compile Include="LoggerExtension\CreationStackTrackerStrategy.cs" />
+    <Compile Include="LoggerExtension\ICreationStackTrackerPolicy.cs" />
+    <Compile Include="LoggerExtension\PeekableCollection.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ServiceModuleExtension.cs" />
+    <Compile Include="RepositoryModuleExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Infrastructure.Bootstrapper.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
+      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
+      <Name>Skeleton.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Core.Service\Skeleton.Core.Service.csproj">
+      <Project>{b06dee96-287f-421b-9171-7c2a276ed5cc}</Project>
+      <Name>Skeleton.Core.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
+      <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
+      <Name>Skeleton.Core.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Core.Repository\Skeleton.Core.Repository.csproj">
+      <Project>{6e2901d9-48ae-405b-8353-8e299c7693e5}</Project>
+      <Name>Skeleton.Core.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Infrastructure.Data\Skeleton.Infrastructure.Data.csproj">
+      <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>
+      <Name>Skeleton.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Infrastructure.Logging\Skeleton.Infrastructure.Logging.csproj">
+      <Project>{db2464da-a301-44a0-8eeb-e5b8c16bd7f8}</Project>
+      <Name>Skeleton.Infrastructure.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Infrastructure.Repository\Skeleton.Infrastructure.Repository.csproj">
+      <Project>{d246546e-e1e1-431a-9e3f-116128d3afd9}</Project>
+      <Name>Skeleton.Infrastructure.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Infrastructure.Service\Skeleton.Infrastructure.Service.csproj">
+      <Project>{75ecbc4d-2aa1-44f4-8af9-49aca990962f}</Project>
+      <Name>Skeleton.Infrastructure.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
