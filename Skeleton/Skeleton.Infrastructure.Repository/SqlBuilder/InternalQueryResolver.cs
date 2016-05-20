@@ -1,8 +1,8 @@
-﻿using Skeleton.Common.Extensions;
-using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using Skeleton.Common.Extensions;
+using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -10,15 +10,15 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     {
         internal static Node ResolveQuery(ConstantExpression constantExpression)
         {
-            return new ValueNode() { Value = constantExpression.Value };
+            return new ValueNode {Value = constantExpression.Value};
         }
 
         internal static Node ResolveQuery(UnaryExpression unaryExpression)
         {
-            return new SingleOperationNode()
+            return new SingleOperationNode
             {
                 Operator = unaryExpression.NodeType,
-                Child = ResolveQuery((dynamic)unaryExpression.Operand)
+                Child = ResolveQuery((dynamic) unaryExpression.Operand)
             };
         }
 
@@ -26,9 +26,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             return new OperationNode
             {
-                Left = ResolveQuery((dynamic)binaryExpression.Left),
+                Left = ResolveQuery((dynamic) binaryExpression.Left),
                 Operator = binaryExpression.NodeType,
-                Right = ResolveQuery((dynamic)binaryExpression.Right)
+                Right = ResolveQuery((dynamic) binaryExpression.Right)
             };
         }
 
@@ -45,22 +45,19 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 var member = callExpression.Object as MemberExpression;
                 var fieldValue = callExpression.Arguments.First().GetExpressionValue().ToString();
 
-                return new LikeNode()
+                return new LikeNode
                 {
-                    MemberNode = new MemberNode()
+                    MemberNode = new MemberNode
                     {
                         TableName = TableInfo.GetTableName(member),
-                        FieldName = columnName,
+                        FieldName = columnName
                     },
                     Method = callFunction,
                     Value = fieldValue
                 };
             }
-            else
-            {
-                var value = callExpression.InvokeMethodCall();
-                return new ValueNode() { Value = value };
-            }
+            var value = callExpression.InvokeMethodCall();
+            return new ValueNode {Value = value};
         }
 
         internal static Node ResolveQuery(MemberExpression memberExpression, MemberExpression rootExpression = null)
@@ -69,7 +66,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             switch (memberExpression.Expression.NodeType)
             {
                 case ExpressionType.Parameter:
-                    return new MemberNode()
+                    return new MemberNode
                     {
                         TableName = TableInfo.GetTableName(rootExpression),
                         FieldName = TableInfo.GetColumnName(rootExpression)
@@ -80,7 +77,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
                 case ExpressionType.Call:
                 case ExpressionType.Constant:
-                    return new ValueNode() { Value = rootExpression.GetExpressionValue() };
+                    return new ValueNode {Value = rootExpression.GetExpressionValue()};
 
                 default:
                     throw new ArgumentException("Expected member expression");
@@ -91,7 +88,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             throw new ArgumentException(
                 "The provided expression '{0}' is currently not supported"
-                .FormatWith(expression.NodeType));
+                    .FormatWith(expression.NodeType));
         }
     }
 }

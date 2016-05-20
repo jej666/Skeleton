@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using System.Reflection;
+﻿using System.Reflection;
 
+namespace Skeleton.Common.Reflection
+{
     public interface IMethodAccessor
     {
         MethodInfo MethodInfo { get; }

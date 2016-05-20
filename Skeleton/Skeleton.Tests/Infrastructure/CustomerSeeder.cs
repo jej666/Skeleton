@@ -4,14 +4,14 @@ namespace Skeleton.Tests.Infrastructure
 {
     public class CustomerSeeder
     {
-        private readonly IList<Customer> customers = new List<Customer>();
+        private readonly IList<Customer> _customers = new List<Customer>();
 
         public IEnumerable<Customer> Seed(int iteration)
         {
             for (var i = 0; i <= iteration; ++i)
-                customers.Add(new Customer { Name = "Name" + i });
+                _customers.Add(new Customer {Name = "Name" + i});
 
-            return customers;
+            return _customers;
         }
     }
 }

@@ -1,36 +1,81 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using Common;
-    using Core.Domain;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Skeleton.Common;
+using Skeleton.Core.Domain;
 
+namespace Skeleton.Core.Repository
+{
     public interface IReadOnlyRepository<TEntity, TIdentity> :
         IDisposable,
         IHideObjectMethods
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        IQueryBuilder<TEntity, TIdentity> Query { get; }
+      //  IAggregateBuilder<TEntity, TIdentity> Aggregate { get; }
 
-        IAggregateBuilder<TEntity, TIdentity> Aggregate { get; }
+        TEntity FirstOrDefault();
 
         TEntity FirstOrDefault(TIdentity id);
 
-        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> where);
+        //TEntity FirstOrDefault(Expression<Func<TEntity, bool>> where);
 
-        IEnumerable<TEntity> Find(
-            Expression<Func<TEntity, bool>> where,
-            Expression<Func<TEntity, object>> orderBy); 
+        IEnumerable<TEntity> Find();
+
+        //IEnumerable<TEntity> Find(
+        //    Expression<Func<TEntity, bool>> where,
+        //    Expression<Func<TEntity, object>> orderBy);
 
         IEnumerable<TEntity> GetAll();
 
-        IEnumerable<TEntity> PageAll(int pageSize, int pageNumber);
+        IEnumerable<TEntity> Page(int pageSize, int pageNumber);
 
-        IEnumerable<TEntity> Page(
-            int pageSize,
-            int pageNumber,
-            Expression<Func<TEntity, bool>> where,
-            Expression<Func<TEntity, object>> orderBy);
+        //IEnumerable<TEntity> Page(
+        //    int pageSize,
+        //    int pageNumber,
+        //    Expression<Func<TEntity, bool>> where,
+        //    Expression<Func<TEntity, object>> orderBy);
+
+        IReadOnlyRepository<TEntity, TIdentity> GroupBy(
+           Expression<Func<TEntity, object>> expression);
+
+        //IQueryBuilder<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
+        //    Expression<Func<TEntity, TEntity2, bool>> expression)
+        //    where TEntity2 : class, IEntity<TEntity2, TIdentity2>;
+
+        IReadOnlyRepository<TEntity, TIdentity> OrderBy(
+            Expression<Func<TEntity, object>> expression);
+
+        IReadOnlyRepository<TEntity, TIdentity> OrderByDescending(
+            Expression<Func<TEntity, object>> expression);
+
+        IReadOnlyRepository<TEntity, TIdentity> Select(
+            params Expression<Func<TEntity, object>>[] expressions);
+
+        IReadOnlyRepository<TEntity, TIdentity> SelectDistinct(
+            Expression<Func<TEntity, object>> expression);
+
+        IReadOnlyRepository<TEntity, TIdentity> SelectTop(int take);
+
+        IReadOnlyRepository<TEntity, TIdentity> Where(
+            Expression<Func<TEntity, bool>> expression);
+
+        IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
+            Expression<Func<TEntity, object>> expression,
+            ISqlQuery sqlQuery);
+
+        IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
+            Expression<Func<TEntity, object>> expression,
+            IEnumerable<object> values);
+
+        IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
+            Expression<Func<TEntity, object>> expression,
+            ISqlQuery sqlQuery);
+
+        IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
+            Expression<Func<TEntity, object>> expression,
+            IEnumerable<object> values);
+
+        IReadOnlyRepository<TEntity, TIdentity> WherePrimaryKey(
+            Expression<Func<TEntity, bool>> expression);
     }
 }

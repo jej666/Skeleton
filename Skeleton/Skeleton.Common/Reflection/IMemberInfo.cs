@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using System;
-    using System.Reflection;
+﻿using System;
+using System.Reflection;
 
+namespace Skeleton.Common.Reflection
+{
     public interface IMemberInfo
     {
         bool HasGetter { get; }

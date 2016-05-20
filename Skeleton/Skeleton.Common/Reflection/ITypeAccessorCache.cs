@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Common.Reflection
+﻿using System;
+
+namespace Skeleton.Common.Reflection
 {
-    using System;
-   
     public interface ITypeAccessorCache
     {
         ITypeAccessor Get(Type type);

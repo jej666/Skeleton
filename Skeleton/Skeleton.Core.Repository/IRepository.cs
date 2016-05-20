@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using Core.Domain;
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Skeleton.Core.Domain;
 
+namespace Skeleton.Core.Repository
+{
     public interface IRepository<TEntity, TIdentity> :
         IReadOnlyRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>

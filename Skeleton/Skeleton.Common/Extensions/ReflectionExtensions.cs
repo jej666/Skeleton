@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
+﻿using System;
 
+namespace Skeleton.Common.Extensions
+{
     public static class ReflectionExtensions
     {
         public static Type GetNonNullableType(this Type type)
@@ -16,7 +16,7 @@
             type.ThrowIfNull(() => type);
 
             return type.IsGenericType &&
-                type.GetGenericTypeDefinition() == typeof(Nullable<>);
+                   type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
         public static bool IsNumeric(this Type type)

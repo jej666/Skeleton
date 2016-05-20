@@ -1,10 +1,9 @@
-﻿namespace Skeleton.Infrastructure.Data.Configuration
-{
-    using Common;
-    using Common.Extensions;
-    using Common.Reflection;
-    using System.Configuration;
+﻿using System.Configuration;
+using Skeleton.Common;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Infrastructure.Data.Configuration
+{
     public sealed class DatabaseConfigurationBuilder :
         HideObjectMethods,
         IDatabaseConfigurationBuilder,
@@ -14,37 +13,6 @@
         IDatabaseConfigurationRetryPolicyEnd
     {
         private readonly DatabaseConfiguration _configuration = new DatabaseConfiguration();
-
-        public IDatabaseConfiguration Build()
-        {
-            return _configuration;
-        }
-
-        public IDatabaseConfigurationRetryPolicy SetCommandTimeout(int seconds)
-        {
-            _configuration.CommandTimeout = seconds;
-
-            return this;
-        }
-
-        public IDatabaseConfigurationRetryPolicyEnd SetRetryPolicyCount(int value)
-        {
-            _configuration.RetryPolicyCount = value;
-
-            return this;
-        }
-
-        public IDatabaseConfiguration SetRetryPolicyInterval(int value)
-        {
-            _configuration.RetryPolicyInterval = value;
-
-            return _configuration;
-        }
-
-        public IDatabaseConfigurationSettings UsingAdvancedSettings()
-        {
-            return this;
-        }
 
         public IDatabaseConfigurationProperties UsingConfigConnectionString(string connectionStringConfigName)
         {
@@ -63,7 +31,7 @@
         {
             connectionString.ThrowIfNullOrEmpty(() => connectionString);
 
-            var settings = new ConnectionStringSettings() { ConnectionString = connectionString };
+            var settings = new ConnectionStringSettings {ConnectionString = connectionString};
             Initialize(settings);
 
             return this;
@@ -82,13 +50,44 @@
             return this;
         }
 
+        public IDatabaseConfiguration Build()
+        {
+            return _configuration;
+        }
+
+        public IDatabaseConfigurationSettings UsingAdvancedSettings()
+        {
+            return this;
+        }
+
+        public IDatabaseConfigurationRetryPolicyEnd SetRetryPolicyCount(int value)
+        {
+            _configuration.RetryPolicyCount = value;
+
+            return this;
+        }
+
+        public IDatabaseConfiguration SetRetryPolicyInterval(int value)
+        {
+            _configuration.RetryPolicyInterval = value;
+
+            return _configuration;
+        }
+
+        public IDatabaseConfigurationRetryPolicy SetCommandTimeout(int seconds)
+        {
+            _configuration.CommandTimeout = seconds;
+
+            return this;
+        }
+
         private void Initialize(ConnectionStringSettings settings)
         {
             _configuration.ConnectionString = settings.ConnectionString;
             _configuration.Name = settings.Name;
-            _configuration.ProviderName = !string.IsNullOrEmpty(settings.ProviderName) ?
-                settings.ProviderName :
-                "System.Data.SqlClient";
+            _configuration.ProviderName = !string.IsNullOrEmpty(settings.ProviderName)
+                ? settings.ProviderName
+                : "System.Data.SqlClient";
         }
     }
 }

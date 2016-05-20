@@ -1,9 +1,7 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using Common;
-    using Core.Domain;
-    using System.Collections.Generic;
+﻿using Skeleton.Common;
 
+namespace Skeleton.Core.Repository
+{
     public interface IAggregateExecutor : IHideObjectMethods
     {
         TResult As<TResult>();

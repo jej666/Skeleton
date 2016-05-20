@@ -1,10 +1,10 @@
-﻿namespace Skeleton.Infrastructure.DependencyResolver
-{
-    using Common;
-    using Microsoft.Practices.Unity;
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Practices.Unity;
+using Skeleton.Common;
 
+namespace Skeleton.Infrastructure.DependencyResolver
+{
     public class Container : HideObjectMethods, IContainer
     {
         private readonly IUnityContainer _unityContainer;

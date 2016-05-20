@@ -1,16 +1,16 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 
+namespace Skeleton.Common.Extensions
+{
     [DebuggerStepThrough]
     public static class GuardExtensions
     {
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters"),
-        SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+         SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public static void ThrowIfNull<T>(this T value, Expression<Func<T>> reference)
         {
             if (value.Equals(default(T)))
@@ -20,7 +20,7 @@
         }
 
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters"),
-        SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+         SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public static void ThrowIfNullOrEmpty<T>(this IEnumerable<T> value, Expression<Func<IEnumerable<T>>> reference)
         {
             if (value.IsNullOrEmpty())

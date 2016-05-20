@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Common
-{
-    using System;
+﻿using System;
 
+namespace Skeleton.Common
+{
     [Serializable]
     public abstract class DisposableBase :
         HideObjectMethods,
@@ -9,15 +9,15 @@
     {
         private bool _disposed;
 
-        ~DisposableBase()
-        {
-            Dispose(false);
-        }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        ~DisposableBase()
+        {
+            Dispose(false);
         }
 
         protected virtual void DisposeManagedResources()

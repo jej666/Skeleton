@@ -1,10 +1,10 @@
-﻿namespace Skeleton.Infrastructure.DependencyResolver
-{
-    using Common;
-    using Common.Reflection;
-    using LoggerExtension;
-    using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
+using Skeleton.Common;
+using Skeleton.Common.Reflection;
+using Skeleton.Infrastructure.DependencyResolver.LoggerExtension;
 
+namespace Skeleton.Infrastructure.DependencyResolver
+{
     internal sealed class CommonModuleExtension : UnityContainerExtension
     {
         protected override void Initialize()

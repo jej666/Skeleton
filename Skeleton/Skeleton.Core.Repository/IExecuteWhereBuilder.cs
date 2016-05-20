@@ -1,10 +1,10 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using Core.Domain;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Skeleton.Core.Domain;
 
+namespace Skeleton.Core.Repository
+{
     public interface IExecuteWhereBuilder<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {

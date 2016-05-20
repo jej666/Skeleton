@@ -1,9 +1,9 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using Core.Domain;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Skeleton.Core.Domain;
 
+namespace Skeleton.Core.Repository
+{
     public interface IRepositoryAsync<TEntity, TIdentity> :
         IReadOnlyRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>

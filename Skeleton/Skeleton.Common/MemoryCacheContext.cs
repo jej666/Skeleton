@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Common
-{
-    using System;
+﻿using System;
 
+namespace Skeleton.Common
+{
     public class MemoryCacheContext : HideObjectMethods, ICacheContext
     {
         public DateTimeOffset? AbsoluteExpiration { get; private set; }

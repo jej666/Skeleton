@@ -1,18 +1,20 @@
-﻿namespace Skeleton.Common
-{
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
+namespace Skeleton.Common
+{
     public class LazyAsync<T> : Lazy<Task<T>>
     {
         public LazyAsync(Func<T> valueFactory) :
             base(() => Task.Factory.StartNew(valueFactory))
-        { }
+        {
+        }
 
         public LazyAsync(Func<Task<T>> taskFactory) :
-            base(() => Task.Factory.StartNew(() => taskFactory()).Unwrap())
-        { }
+            base(() => Task.Factory.StartNew(taskFactory).Unwrap())
+        {
+        }
 
         public TaskAwaiter<T> GetAwaiter()
         {

@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Infrastructure.Data.Configuration
-{
-    using Common;
+﻿using Skeleton.Common;
 
+namespace Skeleton.Infrastructure.Data.Configuration
+{
     public interface IDatabaseConfigurationBuilder : IHideObjectMethods
     {
         IDatabaseConfigurationProperties UsingConfigConnectionString(string connectionStringConfigName);

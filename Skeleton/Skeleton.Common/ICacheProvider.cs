@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Common
-{
-    using System;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
+namespace Skeleton.Common
+{
     public interface ICacheProvider :
         IHideObjectMethods
     {

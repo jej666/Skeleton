@@ -1,16 +1,17 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Common.Reflection;
-    using System.Collections.Generic;
-    using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using Skeleton.Common.Reflection;
 
+namespace Skeleton.Infrastructure.Data
+{
     internal sealed class DataReaderMapper<TResult> :
         DataReaderMapperBase<TResult>
         where TResult : class
     {
         internal DataReaderMapper(ITypeAccessorCache accessorCache)
             : base(accessorCache)
-        { }
+        {
+        }
 
         internal IEnumerable<TResult> MapQuery(IDataReader dataReader)
         {
@@ -30,13 +31,17 @@
 
                     list.Add(instance);
                 }
-                while (dataReader.NextResult()) { }
+                while (dataReader.NextResult())
+                {
+                }
 
                 return list;
             }
             finally
             {
-                using (dataReader) { };
+                using (dataReader)
+                {
+                }
             }
         }
 
@@ -47,21 +52,25 @@
                 if (dataReader == null || dataReader.FieldCount == 0)
                     return default(TResult);
 
-                if (dataReader.Read())
-                {
-                    var values = new object[dataReader.FieldCount];
-                    dataReader.GetValues(values);
-                    var instance = SetMatchingValues(dataReader, values);
-                    while (dataReader.NextResult()) { }
+                if (!dataReader.Read()) 
+                    return default(TResult);
 
-                    return instance;
+                var values = new object[dataReader.FieldCount];
+                dataReader.GetValues(values);
+                var instance = SetMatchingValues(dataReader, values);
+
+                while (dataReader.NextResult())
+                {
                 }
 
-                return default(TResult);
+                return instance;
+
             }
             finally
             {
-                using (dataReader) { };
+                using (dataReader)
+                {
+                }
             }
         }
     }

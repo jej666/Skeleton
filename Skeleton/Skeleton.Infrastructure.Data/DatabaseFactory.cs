@@ -1,16 +1,16 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Common.Extensions;
-    using Common.Reflection;
-    using Configuration;
-    using Common;
-    using System;
+﻿using System;
+using Skeleton.Common;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
+using Skeleton.Infrastructure.Data.Configuration;
 
+namespace Skeleton.Infrastructure.Data
+{
     public sealed class DatabaseFactory : IDatabaseFactory
     {
         private readonly IDatabaseConfigurationBuilder _configurationBuilder;
-        private readonly ITypeAccessorCache _typeAccessorCache;
         private readonly ILogger _logger;
+        private readonly ITypeAccessorCache _typeAccessorCache;
 
         public DatabaseFactory(ITypeAccessorCache typeAccessorCache, ILogger logger)
         {
@@ -26,7 +26,8 @@
             return new Database(configurator.Invoke(_configurationBuilder), _typeAccessorCache, _logger);
         }
 
-        public IDatabaseAsync CreateDatabaseForAsyncOperations(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
+        public IDatabaseAsync CreateDatabaseForAsyncOperations(
+            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
         {
             configurator.ThrowIfNull(() => configurator);
 

@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace Skeleton.Infrastructure.Data
+{
     public interface IDatabaseExecute
     {
         int Execute(

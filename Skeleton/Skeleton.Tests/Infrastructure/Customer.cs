@@ -7,7 +7,8 @@ namespace Skeleton.Tests.Infrastructure
         // Need an empty ctor
         public Customer()
             : base(pk => pk.CustomerId)
-        { }
+        {
+        }
 
         public int CustomerId { get; set; }
 

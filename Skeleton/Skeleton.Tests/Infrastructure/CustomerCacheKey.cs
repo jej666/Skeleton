@@ -1,6 +1,6 @@
-﻿using Skeleton.Common.Extensions;
+﻿using System.Collections.Generic;
+using Skeleton.Common.Extensions;
 using Skeleton.Core.Repository;
-using System.Collections.Generic;
 
 namespace Skeleton.Tests.Infrastructure
 {

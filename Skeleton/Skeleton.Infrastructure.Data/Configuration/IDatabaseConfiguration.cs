@@ -1,8 +1,7 @@
-﻿namespace Skeleton.Infrastructure.Data.Configuration
-{
-    using Common;
-    using Common.Reflection;
+﻿using Skeleton.Common;
 
+namespace Skeleton.Infrastructure.Data.Configuration
+{
     public interface IDatabaseConfiguration : IHideObjectMethods
     {
         int CommandTimeout { get; set; }

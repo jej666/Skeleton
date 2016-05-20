@@ -1,11 +1,11 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using Core.Domain;
-    using Common;
-    using System;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
+using Skeleton.Common;
+using Skeleton.Core.Domain;
 
-    public interface IAggregateBuilder<TEntity, TIdentity>:
+namespace Skeleton.Core.Repository
+{
+    public interface IAggregateBuilder<TEntity, TIdentity> :
         IHideObjectMethods
         where TEntity : class, IEntity<TEntity, TIdentity>
     {

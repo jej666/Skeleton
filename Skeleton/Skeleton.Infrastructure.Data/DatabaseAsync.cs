@@ -1,15 +1,15 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Common;
-    using Common.Extensions;
-    using Common.Reflection;
-    using Configuration;
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Common;
-    using System.Data.SqlClient;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
+using Skeleton.Common;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
+using Skeleton.Infrastructure.Data.Configuration;
 
+namespace Skeleton.Infrastructure.Data
+{
     public sealed class DatabaseAsync : DatabaseContext, IDatabaseAsync
     {
         public DatabaseAsync(
@@ -17,7 +17,8 @@
             ITypeAccessorCache typeAccessorCache,
             ILogger logger)
             : base(configuration, typeAccessorCache, logger)
-        { }
+        {
+        }
 
         public async Task<int> ExecuteAsync(
             string query,
@@ -26,10 +27,10 @@
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand)CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(query, parameters);
 
                 return await command.ExecuteNonQueryAsync()
-                                    .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             catch (SqlException e)
             {
@@ -45,13 +46,13 @@
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand)CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(query, parameters);
                 var result = await command.ExecuteScalarAsync()
-                                          .ConfigureAwait(false);
+                    .ConfigureAwait(false);
 
-                return result is DBNull ?
-                    default(TValue) :
-                    result.ChangeType<TValue>();
+                return result is DBNull
+                    ? default(TValue)
+                    : result.ChangeType<TValue>();
             }
             catch (SqlException e)
             {
@@ -69,11 +70,11 @@
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand)CreateStoredProcedureCommand(
+                var command = (DbCommand) CreateStoredProcedureCommand(
                     procedureName, parameters);
 
                 return await command.ExecuteNonQueryAsync()
-                                    .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             catch (SqlException e)
             {
@@ -90,9 +91,9 @@
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand)CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(query, parameters);
                 var reader = await command.ExecuteReaderAsync()
-                                          .ConfigureAwait(false);
+                    .ConfigureAwait(false);
 
                 return await CreateMapperAsync<TResult>().MapQueryAsync(reader);
             }
@@ -111,9 +112,9 @@
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand)CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(query, parameters);
                 var reader = await command.ExecuteReaderAsync()
-                                          .ConfigureAwait(false);
+                    .ConfigureAwait(false);
 
                 return await CreateMapperAsync<TResult>().MapSingleAsync(reader);
             }

@@ -1,13 +1,13 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
+namespace Skeleton.Common.Extensions
+{
     public static class DateTimeExtensions
     {
-        private static int[] moveByDays = { 6, 7, 8, 9, 10, 4, 5 };
+        private static readonly int[] MoveByDays = {6, 7, 8, 9, 10, 4, 5};
 
         public static DateTime FirstMonthDay(this DateTime value)
         {
@@ -17,7 +17,7 @@
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WeekDay")]
         public static DateTime FirstWeekDay(this DateTime value)
         {
-            int day = value.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)value.DayOfWeek;
+            var day = value.DayOfWeek == DayOfWeek.Sunday ? 7 : (int) value.DayOfWeek;
 
             return value.AddDays(-(day - 1));
         }
@@ -41,10 +41,10 @@
 
         public static double GetBusinessDaysUntil(this DateTime from, DateTime until)
         {
-            double calcBusinessDays = 1 + ((until - from).TotalDays * 5 -
-                (from.DayOfWeek - until.DayOfWeek) * 2) / 7;
+            var calcBusinessDays = 1 + ((until - from).TotalDays*5 -
+                                        (from.DayOfWeek - until.DayOfWeek)*2)/7;
 
-            if ((int)until.DayOfWeek == 6)
+            if ((int) until.DayOfWeek == 6)
                 calcBusinessDays--;
 
             if (until.DayOfWeek == 0)
@@ -67,9 +67,9 @@
 
         public static DateTime GetNext(this DateTime value, DayOfWeek dayOfWeek)
         {
-            int daysToAdd = value.DayOfWeek < dayOfWeek ?
-                dayOfWeek - value.DayOfWeek :
-               ((7 - (int)value.DayOfWeek) + (int)dayOfWeek);
+            var daysToAdd = value.DayOfWeek < dayOfWeek
+                ? dayOfWeek - value.DayOfWeek
+                : 7 - (int) value.DayOfWeek + (int) dayOfWeek;
 
             return value.AddDays(daysToAdd);
         }
@@ -91,7 +91,7 @@
 
         public static bool IsDateEqual(this DateTime value, DateTime dateToCompare)
         {
-            return (value.Date == dateToCompare.Date);
+            return value.Date == dateToCompare.Date;
         }
 
         public static bool IsWeekend(this DateTime value)
@@ -107,7 +107,7 @@
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WeekDay")]
         public static DateTime LastWeekDay(this DateTime value)
         {
-            int day = value.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)value.DayOfWeek;
+            var day = value.DayOfWeek == DayOfWeek.Sunday ? 7 : (int) value.DayOfWeek;
 
             return value.AddDays(7 - day);
         }
@@ -115,7 +115,8 @@
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "ToDay")]
         public static string ToDayName(this DateTime value)
         {
-            return DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(value.DayOfWeek);
+            return DateTimeFormatInfo.CurrentInfo != null ? 
+                DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(value.DayOfWeek) : null;
         }
 
         public static string ToShortDate(this DateTime value)
@@ -128,10 +129,10 @@
             var startOfYear = new DateTime(date.Year, 1, 1);
             var endOfYear = new DateTime(date.Year, 12, 31);
 
-            int numberDays = date.Subtract(startOfYear).Days +
-                             moveByDays[(int)startOfYear.DayOfWeek];
+            var numberDays = date.Subtract(startOfYear).Days +
+                             MoveByDays[(int) startOfYear.DayOfWeek];
 
-            int weekNumber = numberDays / 7;
+            var weekNumber = numberDays/7;
 
             switch (weekNumber)
             {

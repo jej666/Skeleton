@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
+﻿using System;
 
+namespace Skeleton.Common.Extensions
+{
     public static class DecimalExtensions
     {
         public static decimal RoundDecimalPoints(this decimal value, int decimalPoints)

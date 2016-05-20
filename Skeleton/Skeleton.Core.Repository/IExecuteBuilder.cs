@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using Core.Domain;
+﻿using Skeleton.Core.Domain;
 
+namespace Skeleton.Core.Repository
+{
     public interface IExecuteBuilder<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {

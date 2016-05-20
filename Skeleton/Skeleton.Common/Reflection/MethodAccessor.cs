@@ -1,13 +1,13 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using Extensions;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Linq;
-    using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Common.Reflection
+{
     [DebuggerDisplay("Name: {Name}")]
     public class MethodAccessor : IMethodAccessor
     {
@@ -36,11 +36,20 @@
             get { return _name; }
         }
 
+        public object Invoke(object instance, params object[] arguments)
+        {
+            instance.ThrowIfNull(() => instance);
+
+            return _methodDelegate.Value == null
+                ? null
+                : _methodDelegate.Value(instance, arguments);
+        }
+
         public static IMethodAccessor Create(MethodInfo methodInfo)
         {
-            return methodInfo == null ?
-                null :
-                new MethodAccessor(methodInfo);
+            return methodInfo == null
+                ? null
+                : new MethodAccessor(methodInfo);
         }
 
         public static IMethodAccessor Create(Type type, string name, Type[] parameterTypes)
@@ -62,27 +71,18 @@
 
             if (methodInfo == null)
                 throw new InvalidOperationException(
-                        string.Format(CultureInfo.CurrentCulture, "Method '{0}' was not found in type {1}.", name, type));
+                    string.Format(CultureInfo.CurrentCulture, "Method '{0}' was not found in type {1}.", name, type));
 
             return new MethodAccessor(methodInfo);
-        }
-
-        public object Invoke(object instance, params object[] arguments)
-        {
-            instance.ThrowIfNull(() => instance);
-
-            return _methodDelegate.Value == null ?
-                null :
-                _methodDelegate.Value(instance, arguments);
         }
 
         internal static int GetKey(string name, IEnumerable<Type> parameterTypes)
         {
             unchecked
             {
-                var result = (name != null ? name.GetHashCode() : 0);
+                var result = name != null ? name.GetHashCode() : 0;
                 result = parameterTypes.Aggregate(result,
-                  (r, p) => (r * 397) ^ (p != null ? p.GetHashCode() : 0));
+                    (r, p) => (r*397) ^ (p != null ? p.GetHashCode() : 0));
 
                 return result;
             }

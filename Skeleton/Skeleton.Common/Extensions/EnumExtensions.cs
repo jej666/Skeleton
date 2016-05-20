@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace Skeleton.Common.Extensions
+{
     public static class EnumExtensions
     {
         public static int FromEnum<T>(this T value) where T : struct
@@ -16,7 +16,7 @@
 
             if (Enum.IsDefined(enumType, value))
             {
-                return (int)Enum.ToObject(enumType, value);
+                return (int) Enum.ToObject(enumType, value);
             }
 
             return 0;
@@ -42,12 +42,12 @@
             if (int.TryParse(value, out num))
             {
                 if (Enum.IsDefined(typeof(T), num))
-                    return (T)Enum.ToObject(typeof(T), num);
+                    return (T) Enum.ToObject(typeof(T), num);
             }
             else
             {
                 if (Enum.IsDefined(typeof(T), value))
-                    return (T)Enum.Parse(typeof(T), value, true);
+                    return (T) Enum.Parse(typeof(T), value, true);
             }
 
             return defaultValue;
@@ -61,7 +61,7 @@
 
             if (Enum.IsDefined(enumType, value))
             {
-                return (T)Enum.ToObject(enumType, value);
+                return (T) Enum.ToObject(enumType, value);
             }
 
             return defaultValue;
@@ -71,7 +71,7 @@
         {
             if (!type.IsEnum)
             {
-                throw new InvalidOperationException("Invalid Enum Type. " + type.ToString() + "  must be an Enum");
+                throw new InvalidOperationException("Invalid Enum Type. " + type + "  must be an Enum");
             }
         }
     }

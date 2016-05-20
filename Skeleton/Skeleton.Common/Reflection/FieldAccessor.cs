@@ -1,10 +1,10 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using Extensions;
-    using System;
-    using System.Diagnostics;
-    using System.Reflection;
+﻿using System;
+using System.Diagnostics;
+using System.Reflection;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Common.Reflection
+{
     [DebuggerDisplay("Name: {Name}")]
     public class FieldAccessor : MemberAccessorBase
     {
@@ -65,9 +65,9 @@
             if (instance == null)
                 return null;
 
-            return _getDelegate.Value == null ?
-                null :
-                _getDelegate.Value(instance);
+            return _getDelegate.Value == null
+                ? null
+                : _getDelegate.Value(instance);
         }
 
         public override void SetValue(object instance, object value)

@@ -1,9 +1,9 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
-    using System.Reflection;
-    using System.Reflection.Emit;
+﻿using System;
+using System.Reflection;
+using System.Reflection.Emit;
 
+namespace Skeleton.Common.Extensions
+{
     public static class EmitExtensions
     {
         public static void BoxIfNeeded(this ILGenerator generator, Type type)
@@ -74,7 +74,7 @@
 
             if (value > -129 && value < 128)
             {
-                generator.Emit(OpCodes.Ldc_I4_S, (sbyte)value);
+                generator.Emit(OpCodes.Ldc_I4_S, (sbyte) value);
             }
             else
             {
@@ -98,9 +98,9 @@
 
             for (int i = 0, imax = parameterTypes.Length; i < imax; i++)
             {
-                generator.Emit(OpCodes.Ldarg_0);        // push args array
-                generator.FastInt(i);                   // push index
-                generator.Emit(OpCodes.Ldelem_Ref);     // push array[index]
+                generator.Emit(OpCodes.Ldarg_0); // push args array
+                generator.FastInt(i); // push index
+                generator.Emit(OpCodes.Ldelem_Ref); // push array[index]
                 generator.UnboxIfNeeded(parameterTypes[i]); // cast
             }
         }

@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Common
-{
-    using Extensions;
-    using System;
+﻿using System;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Common
+{
     public sealed class LazyRef<T> : HideObjectMethods
     {
         private Func<T> _initializer;

@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Core.Domain
-{
-    using System;
+﻿using System;
 
+namespace Skeleton.Core.Domain
+{
     public interface IAuditable
     {
         string CreatedBy { get; }

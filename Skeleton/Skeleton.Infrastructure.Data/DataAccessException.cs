@@ -1,9 +1,9 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using System;
-    using System.Data.Common;
-    using System.Runtime.Serialization;
+﻿using System;
+using System.Data.Common;
+using System.Runtime.Serialization;
 
+namespace Skeleton.Infrastructure.Data
+{
     [Serializable]
     public class DataAccessException : DbException
     {

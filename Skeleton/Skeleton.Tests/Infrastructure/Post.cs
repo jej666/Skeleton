@@ -1,5 +1,5 @@
-﻿using Skeleton.Core.Domain;
-using System;
+﻿using System;
+using Skeleton.Core.Domain;
 
 namespace Skeleton.Tests.Infrastructure
 {
@@ -7,7 +7,8 @@ namespace Skeleton.Tests.Infrastructure
     {
         public Post()
             : base(pk => pk.PostId)
-        { }
+        {
+        }
 
         public int? Counter1 { get; set; }
         public int? Counter2 { get; set; }

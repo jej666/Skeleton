@@ -1,244 +1,235 @@
-﻿//https://github.com/base33/lambda-sql-builder
-namespace Skeleton.Infrastructure.Repository.SqlBuilder
-{
-    using Common.Extensions;
-    using Common.Reflection;
-    using Core.Domain;
-    using Core.Repository;
-    using ExpressionTree;
-    using Skeleton.Infrastructure.Data;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq.Expressions;
+﻿////https://github.com/base33/lambda-sql-builder
 
-    public sealed class SqlQueryBuilder<TEntity, TIdentity> :
-        SqlBuilderBase,
-        IQueryBuilder<TEntity, TIdentity>,
-        IQueryWhereBuilder<TEntity,TIdentity>,
-        IAggregateBuilder<TEntity,TIdentity>,
-        IAggregateExecutor
-        where TEntity : class, IEntity<TEntity, TIdentity>
-    {
-        private readonly ITypeAccessor _accessor;
-        private readonly IDatabase _database;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq.Expressions;
+//using Skeleton.Common.Extensions;
+//using Skeleton.Common.Reflection;
+//using Skeleton.Core.Domain;
+//using Skeleton.Core.Repository;
+//using Skeleton.Infrastructure.Data;
+//using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
 
-        public SqlQueryBuilder(IDatabase database, ITypeAccessorCache accessorCache)
-            : base(TableInfo.GetTableName<TEntity>())
-        {
-            accessorCache.ThrowIfNull(() => accessorCache);
+//namespace Skeleton.Infrastructure.Repository.SqlBuilder
+//{
+//    public sealed class SqlQueryBuilder<TEntity, TIdentity> :
+//        SqlBuilderBase,
+//        IQueryBuilder<TEntity, TIdentity>,
+//        IAggregateBuilder<TEntity, TIdentity>,
+//        IAggregateExecutor
+//        where TEntity : class, IEntity<TEntity, TIdentity>
+//    {
+//        private readonly ITypeAccessor _accessor;
+//        private readonly IDatabase _database;
 
-            _accessor = accessorCache.Get<TEntity>();
-            _database = database;
-        }
+//        public SqlQueryBuilder(IDatabase database, ITypeAccessorCache accessorCache)
+//            : base(TableInfo.GetTableName<TEntity>())
+//        {
+//            accessorCache.ThrowIfNull(() => accessorCache);
 
-        private SqlQueryBuilder(InternalQueryBuilder builder, LambdaExpressionResolver resolver)
-            : base(builder, resolver)
-        { }
+//            _accessor = accessorCache.Get<TEntity>();
+//            _database = database;
+//        }
 
-        public IQueryBuilder<TEntity, TIdentity> And(Expression<Func<TEntity, bool>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Builder.And();
-            Resolver.ResolveQuery(expression);
+//        private SqlQueryBuilder(InternalQueryBuilder builder, LambdaExpressionResolver resolver)
+//            : base(builder, resolver)
+//        {
+//        }
 
-            return this;
-        }
+//        public IAggregateExecutor Average(Expression<Func<TEntity, object>> expression)
+//        {
+//            expression.ThrowIfNull(() => expression);
+//            Resolver.SelectWithFunction(expression, SelectFunction.AVG);
 
-        public ISqlQuery AsSql()
-        {
-            return this;
-        }
+//            return this;
+//        }
 
-        public IQueryBuilder<TEntity, TIdentity> GroupBy(Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.GroupBy(expression);
+//        public IAggregateExecutor Count(Expression<Func<TEntity, object>> expression)
+//        {
+//            expression.ThrowIfNull(() => expression);
+//            Resolver.SelectWithFunction(expression, SelectFunction.COUNT);
 
-            return this;
-        }
+//            return this;
+//        }
 
-        public IQueryBuilder<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
-            Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity2>
-        {
-            expression.ThrowIfNull(() => expression);
+//        public IAggregateExecutor Max(Expression<Func<TEntity, object>> expression)
+//        {
+//            expression.ThrowIfNull(() => expression);
+//            Resolver.SelectWithFunction(expression, SelectFunction.MAX);
 
-            var joinQuery = new SqlQueryBuilder<TEntity2, TIdentity2>(Builder, Resolver);
-            Resolver.Join(expression);
+//            return this;
+//        }
 
-            return joinQuery;
-        }
+//        public IAggregateExecutor Min(Expression<Func<TEntity, object>> expression)
+//        {
+//            expression.ThrowIfNull(() => expression);
+//            Resolver.SelectWithFunction(expression, SelectFunction.MIN);
 
-        public IQueryBuilder<TEntity, TIdentity> Or(
-            Expression<Func<TEntity, bool>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
+//            return this;
+//        }
 
-            Builder.Or();
-            Resolver.ResolveQuery(expression);
+//        public IAggregateExecutor Sum(Expression<Func<TEntity, object>> expression)
+//        {
+//            expression.ThrowIfNull(() => expression);
+//            Resolver.SelectWithFunction(expression, SelectFunction.SUM);
 
-            return this;
-        }
+//            return this;
+//        }
 
-        public IQueryBuilder<TEntity, TIdentity> OrderBy(
-            Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.OrderBy(expression);
+//        public TResult As<TResult>()
+//        {
+//            return _database.ExecuteScalar<TResult>(Builder.Query, Builder.Parameters);
+//        }
 
-            return this;
-        }
+//        public ISqlQuery AsSql()
+//        {
+//            return this;
+//        }
 
-        public IQueryBuilder<TEntity, TIdentity> OrderByDescending(
-            Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.OrderByDescending(expression);
+//        //public IQueryBuilder<TEntity, TIdentity> GroupBy(Expression<Func<TEntity, object>> expression)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Resolver.GroupBy(expression);
 
-            return this;
-        }
+//        //    return this;
+//        //}
 
-        public IQueryBuilder<TEntity, TIdentity> Select(
-            params Expression<Func<TEntity, object>>[] expressions)
-        {
-            expressions.ThrowIfNull(() => expressions);
+//        //public IQueryBuilder<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
+//        //    Expression<Func<TEntity, TEntity2, bool>> expression)
+//        //    where TEntity2 : class, IEntity<TEntity2, TIdentity2>
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
 
-            foreach (var expression in expressions)
-                Resolver.Select(expression);
+//        //    var joinQuery = new SqlQueryBuilder<TEntity2, TIdentity2>(Builder, Resolver);
+//        //    Resolver.Join(expression);
 
-            return this;
-        }
+//        //    return joinQuery;
+//        //}
 
-        public IAggregateExecutor Average(Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.SelectWithFunction(expression, SelectFunction.AVG);
+//        //public IQueryBuilder<TEntity, TIdentity> OrderBy(
+//        //    Expression<Func<TEntity, object>> expression)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Resolver.OrderBy(expression);
 
-            return this;
-        }
+//        //    return this;
+//        //}
 
-        public IAggregateExecutor Count(Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.SelectWithFunction(expression, SelectFunction.COUNT);
+//        //public IQueryBuilder<TEntity, TIdentity> OrderByDescending(
+//        //    Expression<Func<TEntity, object>> expression)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Resolver.OrderByDescending(expression);
 
-            return this;
-        }
+//        //    return this;
+//        //}
 
-        public IQueryBuilder<TEntity, TIdentity> SelectDistinct(
-            Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.SelectWithFunction(expression, SelectFunction.DISTINCT);
+//        //public IQueryBuilder<TEntity, TIdentity> Select(
+//        //    params Expression<Func<TEntity, object>>[] expressions)
+//        //{
+//        //    expressions.ThrowIfNull(() => expressions);
 
-            return this;
-        }
+//        //    foreach (var expression in expressions)
+//        //        Resolver.Select(expression);
 
-        public IAggregateExecutor Max(Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.SelectWithFunction(expression, SelectFunction.MAX);
+//        //    return this;
+//        //}
 
-            return this;
-        }
+//        //public IQueryBuilder<TEntity, TIdentity> SelectDistinct(
+//        //    Expression<Func<TEntity, object>> expression)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Resolver.SelectWithFunction(expression, SelectFunction.DISTINCT);
 
-        public IAggregateExecutor Min(Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.SelectWithFunction(expression, SelectFunction.MIN);
+//        //    return this;
+//        //}
 
-            return this;
-        }
+//        //public IQueryBuilder<TEntity, TIdentity> SelectTop(int take)
+//        //{
+//        //    Resolver.SelectTop(take);
 
-        public IAggregateExecutor Sum(Expression<Func<TEntity, object>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Resolver.SelectWithFunction(expression, SelectFunction.SUM);
+//        //    return this;
+//        //}
 
-            return this;
-        }
+//        //public IQueryBuilder<TEntity, TIdentity> Where(
+//        //    Expression<Func<TEntity, bool>> expression)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    return And(expression);
+//        //}
 
-        public IQueryBuilder<TEntity, TIdentity> SelectTop(int take)
-        {
-            Resolver.SelectTop(take);
+//        //public IQueryBuilder<TEntity, TIdentity> WhereIsIn(
+//        //    Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Builder.And();
+//        //    Resolver.QueryByIsIn(expression, sqlQuery);
 
-            return this;
-        }
+//        //    return this;
+//        //}
 
-        public IQueryBuilder<TEntity, TIdentity> Where(
-            Expression<Func<TEntity, bool>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            return And(expression);
-        }
+//        //public IQueryBuilder<TEntity, TIdentity> WhereIsIn(
+//        //    Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Builder.And();
+//        //    Resolver.QueryByIsIn(expression, values);
 
-        public IQueryBuilder<TEntity, TIdentity> WhereIsIn(
-            Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
-        {
-            expression.ThrowIfNull(() => expression);
-            Builder.And();
-            Resolver.QueryByIsIn(expression, sqlQuery);
+//        //    return this;
+//        //}
 
-            return this;
-        }
+//        //public IQueryBuilder<TEntity, TIdentity> WhereNotIn(
+//        //    Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Builder.And();
+//        //    Resolver.QueryByNotIn(expression, sqlQuery);
 
-        public IQueryBuilder<TEntity, TIdentity> WhereIsIn(
-            Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
-        {
-            expression.ThrowIfNull(() => expression);
-            Builder.And();
-            Resolver.QueryByIsIn(expression, values);
+//        //    return this;
+//        //}
 
-            return this;
-        }
+//        //public IQueryBuilder<TEntity, TIdentity> WhereNotIn(
+//        //    Expression<Func<TEntity, object>> expression,
+//        //    IEnumerable<object> values)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Builder.And();
+//        //    Resolver.QueryByNotIn(expression, values);
 
-        public IQueryBuilder<TEntity, TIdentity> WhereNotIn(
-            Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
-        {
-            expression.ThrowIfNull(() => expression);
-            Builder.And();
-            Resolver.QueryByNotIn(expression, sqlQuery);
+//        //    return this;
+//        //}
 
-            return this;
-        }
+//        //public IQueryBuilder<TEntity, TIdentity> WherePrimaryKey(
+//        //    Expression<Func<TEntity, bool>> expression)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    var instance = _accessor.CreateInstance<TEntity>();
 
-        public IQueryBuilder<TEntity, TIdentity> WhereNotIn(
-            Expression<Func<TEntity, object>> expression,
-            IEnumerable<object> values)
-        {
-            expression.ThrowIfNull(() => expression);
-            Builder.And();
-            Resolver.QueryByNotIn(expression, values);
+//        //    Builder.And();
+//        //    Resolver.QueryByPrimaryKey(instance.IdAccessor.Name, expression);
 
-            return this;
-        }
+//        //    return this;
+//        //}
+        
+//        //public IQueryBuilder<TEntity, TIdentity> And(
+//        //    Expression<Func<TEntity, bool>> expression)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
+//        //    Builder.And();
+//        //    Resolver.ResolveQuery(expression);
 
-        public IQueryBuilder<TEntity, TIdentity> WherePrimaryKey(
-            Expression<Func<TEntity, bool>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            var instance = _accessor.CreateInstance<TEntity>();
+//        //    return this;
+//        //}
 
-            Builder.And();
-            Resolver.QueryByPrimaryKey(instance.IdAccessor.Name, expression);
+//        //public IQueryBuilder<TEntity, TIdentity> Or(
+//        //    Expression<Func<TEntity, bool>> expression)
+//        //{
+//        //    expression.ThrowIfNull(() => expression);
 
-            return this;
-        }
+//        //    Builder.Or();
+//        //    Resolver.ResolveQuery(expression);
 
-        public IEnumerable<TEntity> Find()
-        {
-            return _database.Find<TEntity>(Builder.Query, Builder.Parameters);
-        }
-
-        public TEntity FirstOrDefault()
-        {
-            return _database.FirstOrDefault<TEntity>(Builder.Query, Builder.Parameters);
-        }
-
-        public TResult As<TResult>()
-        {
-            return _database.ExecuteScalar<TResult>(Builder.Query, Builder.Parameters);
-        }
-    }
-}
+//        //    return this;
+//        //}
+//    }
+//}

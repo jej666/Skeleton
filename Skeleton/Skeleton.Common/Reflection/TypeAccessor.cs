@@ -1,13 +1,13 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using Extensions;
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq.Expressions;
-    using System.Reflection;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq.Expressions;
+using System.Reflection;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Common.Reflection
+{
     [DebuggerDisplay("Type = {Type}, Properties = {PropertiesCount}, Fields = {FieldsCount}, Methods = {MethodsCount}")]
     public sealed class TypeAccessor : ITypeAccessor
     {
@@ -57,12 +57,12 @@
 
         public object CreateInstance()
         {
-            return CreateInstance(new object[] { });
+            return CreateInstance(new object[] {});
         }
 
         public T CreateInstance<T>()
         {
-            return (T)CreateInstance();
+            return (T) CreateInstance();
         }
 
         public object CreateInstance(object[] parameters)
@@ -74,7 +74,7 @@
 
         public T CreateInstance<T>(object[] parameters)
         {
-            return (T)CreateInstance(parameters);
+            return (T) CreateInstance(parameters);
         }
 
         public IEnumerable<IMemberAccessor> GetDeclaredOnlyFields()

@@ -1,9 +1,9 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
+namespace Skeleton.Common.Extensions
+{
     public static class ConvertExtensions
     {
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
@@ -50,9 +50,9 @@
                 {
                     if (canConvert)
                     {
-                        return (T)Convert.ChangeType(value, toType, provider);
+                        return (T) Convert.ChangeType(value, toType, provider);
                     }
-                    return (T)value;
+                    return (T) value;
                 }
                 catch
                 {
@@ -107,7 +107,7 @@
 
         public static bool ToBoolean(this int binaryValue)
         {
-            return binaryValue == 1 ? true : false;
+            return binaryValue == 1;
         }
 
         public static object TrimIfNeeded(this object item)
@@ -119,9 +119,9 @@
 
         private static string SafeTrimEnd(this object value)
         {
-            return value == null ?
-                string.Empty :
-                Convert.ToString(value, CultureInfo.InvariantCulture).TrimEnd();
+            return value == null
+                ? string.Empty
+                : Convert.ToString(value, CultureInfo.InvariantCulture).TrimEnd();
         }
     }
 }

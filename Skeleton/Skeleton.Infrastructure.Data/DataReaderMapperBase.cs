@@ -1,15 +1,15 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Common.Extensions;
-    using Common.Reflection;
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
 
+namespace Skeleton.Infrastructure.Data
+{
     internal abstract class DataReaderMapperBase<TResult> where TResult : class
     {
-        private static readonly Func<IMemberAccessor, bool> SimplePropertiesCondition =
+        private readonly Func<IMemberAccessor, bool> _simplePropertiesCondition =
             x => x.MemberType.IsPrimitive ||
                  x.MemberType == typeof(decimal) ||
                  x.MemberType == typeof(string);
@@ -21,8 +21,8 @@
         {
             _accessor = accessorCache.Get<TResult>();
             _tableColumns = _accessor.GetDeclaredOnlyProperties()
-                                     .Where(SimplePropertiesCondition)
-                                     .ToList();
+                .Where(_simplePropertiesCondition)
+                .ToList();
         }
 
         protected internal TResult SetMatchingValues(

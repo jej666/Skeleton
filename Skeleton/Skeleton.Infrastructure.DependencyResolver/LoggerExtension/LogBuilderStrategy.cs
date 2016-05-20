@@ -1,10 +1,10 @@
-﻿namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
-{
-    using Common;
-    using Common.Extensions;
-    using Logging;
-    using Microsoft.Practices.ObjectBuilder2;
+﻿using Microsoft.Practices.ObjectBuilder2;
+using Skeleton.Common;
+using Skeleton.Common.Extensions;
+using Skeleton.Infrastructure.Logging;
 
+namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
+{
     public class LogBuilderStrategy : BuilderStrategy
     {
         public override void PreBuildUp(IBuilderContext context)

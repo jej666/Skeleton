@@ -1,8 +1,7 @@
-﻿namespace Skeleton.Infrastructure.Data.Configuration
-{
-    using Common;
-    using Common.Reflection;
+﻿using Skeleton.Common;
 
+namespace Skeleton.Infrastructure.Data.Configuration
+{
     public sealed class DatabaseConfiguration :
         HideObjectMethods,
         IDatabaseConfiguration
@@ -10,7 +9,7 @@
         private const int DefaultRetryPolicyCount = 5;
         private const int DefaultRetryPolicyInterval = 1;
         private const int DefaultTimeout = 300;
-       
+
         private int _commandTimeout;
         private int _retryPolicyCount;
         private int _retryPolicyInterval;

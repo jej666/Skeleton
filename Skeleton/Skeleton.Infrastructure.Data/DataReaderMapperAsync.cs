@@ -1,17 +1,18 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Common.Reflection;
-    using System.Collections.Generic;
-    using System.Data.Common;
-    using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Data.Common;
+using System.Threading.Tasks;
+using Skeleton.Common.Reflection;
 
+namespace Skeleton.Infrastructure.Data
+{
     internal sealed class DataReaderMapperAsync<TResult> :
         DataReaderMapperBase<TResult>
         where TResult : class
     {
         internal DataReaderMapperAsync(ITypeAccessorCache accessorCache)
             : base(accessorCache)
-        { }
+        {
+        }
 
         internal async Task<IEnumerable<TResult>> MapQueryAsync(DbDataReader dataReader)
         {
@@ -31,13 +32,17 @@
 
                     list.Add(instance);
                 }
-                while (await dataReader.NextResultAsync().ConfigureAwait(false)) { }
+                while (await dataReader.NextResultAsync().ConfigureAwait(false))
+                {
+                }
 
                 return list;
             }
             finally
             {
-                using (dataReader) { };
+                using (dataReader)
+                {
+                }
             }
         }
 
@@ -48,21 +53,23 @@
                 if (dataReader == null || dataReader.FieldCount == 0)
                     return default(TResult);
 
-                if (await dataReader.ReadAsync().ConfigureAwait(false))
-                {
-                    var values = new object[dataReader.FieldCount];
-                    dataReader.GetValues(values);
-                    var instance = SetMatchingValues(dataReader, values);
-                    while (await dataReader.NextResultAsync().ConfigureAwait(false)) { }
+                if (!await dataReader.ReadAsync().ConfigureAwait(false)) 
+                    return default(TResult);
 
-                    return instance;
+                var values = new object[dataReader.FieldCount];
+                dataReader.GetValues(values);
+                var instance = SetMatchingValues(dataReader, values);
+                while (await dataReader.NextResultAsync().ConfigureAwait(false))
+                {
                 }
 
-                return default(TResult);
+                return instance;
             }
             finally
             {
-                using (dataReader) { };
+                using (dataReader)
+                {
+                }
             }
         }
     }

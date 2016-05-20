@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace Skeleton.Core.Repository
+{
     public interface ISqlExecute
     {
         string DeleteQuery { get; }

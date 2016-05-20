@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Common
-{
-    using System;
-    using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
+namespace Skeleton.Common
+{
     public abstract class HideObjectMethods : IHideObjectMethods
     {
         [EditorBrowsable(EditorBrowsableState.Never)]

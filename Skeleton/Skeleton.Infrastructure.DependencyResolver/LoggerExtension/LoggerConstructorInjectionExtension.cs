@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
-{
-    using Microsoft.Practices.Unity;
-    using Microsoft.Practices.Unity.ObjectBuilder;
+﻿using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.ObjectBuilder;
 
+namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
+{
     public class LoggerConstructorInjectionExtension : UnityContainerExtension
     {
         protected override void Initialize()

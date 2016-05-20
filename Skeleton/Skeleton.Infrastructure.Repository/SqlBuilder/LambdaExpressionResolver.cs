@@ -1,13 +1,14 @@
 ﻿//https://github.com/base33/lambda-sql-builder
+
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Skeleton.Common.Extensions;
+using Skeleton.Core.Repository;
+using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
+
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    using Common.Extensions;
-    using Core.Repository;
-    using ExpressionTree;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-
     internal sealed class LambdaExpressionResolver
     {
         private readonly InternalQueryBuilder _builder;
@@ -31,7 +32,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Join<T1, T2>(leftExpression, rightExpression);
         }
 
-        internal void Join<T1, T2, TKey>(Expression<Func<T1, TKey>> leftExpression, Expression<Func<T1, TKey>> rightExpression)
+        internal void Join<T1, T2, TKey>(Expression<Func<T1, TKey>> leftExpression,
+            Expression<Func<T1, TKey>> rightExpression)
         {
             Join<T1, T2>(leftExpression.Body.GetMemberExpression(), rightExpression.Body.GetMemberExpression());
         }
@@ -87,13 +89,13 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             string idColumnName,
             Expression<Func<T, bool>> whereExpression)
         {
-            var expressionTree = InternalQueryResolver.ResolveQuery((dynamic)whereExpression.Body, idColumnName);
+            var expressionTree = InternalQueryResolver.ResolveQuery((dynamic) whereExpression.Body, idColumnName);
             _builder.BuildSql(expressionTree);
         }
 
         internal void ResolveQuery<T>(Expression<Func<T, bool>> expression)
         {
-            var expressionTree = InternalQueryResolver.ResolveQuery((dynamic)expression.Body);
+            var expressionTree = InternalQueryResolver.ResolveQuery((dynamic) expression.Body);
             _builder.BuildSql(expressionTree);
         }
 
@@ -118,15 +120,15 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             _builder.GroupBy(TableInfo.GetTableName<T>(), fieldName);
         }
 
-        private void ResolveSingleOperation(ExpressionType op)
-        {
-            switch (op)
-            {
-                case ExpressionType.Not:
-                    _builder.Not();
-                    break;
-            }
-        }
+        //private void ResolveSingleOperation(ExpressionType op)
+        //{
+        //    switch (op)
+        //    {
+        //        case ExpressionType.Not:
+        //            _builder.Not();
+        //            break;
+        //    }
+        //}
 
         private void Select<T>(Expression expression)
         {
@@ -142,8 +144,13 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     break;
 
                 case ExpressionType.New:
-                    foreach (MemberExpression memberExp in (expression as NewExpression).Arguments)
-                        Select<T>(memberExp);
+                    var newExpression = expression as NewExpression;
+                    if (newExpression != null)
+                        foreach (var expr in newExpression.Arguments)
+                        {
+                            var memberExp = (MemberExpression) expr;
+                            Select<T>(memberExp);
+                        }
                     break;
 
                 default:
@@ -153,7 +160,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         private void Select<T>(MemberExpression expression)
         {
-            if (expression.Type.IsClass && expression.Type != typeof(String))
+            if (expression.Type.IsClass && expression.Type != typeof(string))
                 _builder.Select(TableInfo.GetTableName(expression.Type));
             else
                 _builder.Select(TableInfo.GetTableName<T>(), TableInfo.GetColumnName(expression));

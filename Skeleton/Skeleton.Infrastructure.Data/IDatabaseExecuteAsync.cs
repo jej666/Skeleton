@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
+namespace Skeleton.Infrastructure.Data
+{
     public interface IDatabaseExecuteAsync
     {
         Task<int> ExecuteAsync(

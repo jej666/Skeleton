@@ -1,11 +1,11 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using Extensions;
-    using System;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Reflection;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.Reflection;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Common.Reflection
+{
     [DebuggerDisplay("Name: {Name}")]
     public class PropertyAccessor : MemberAccessorBase
     {
@@ -61,9 +61,9 @@
 
         public static IMemberAccessor Create(PropertyInfo propertyInfo)
         {
-            return propertyInfo == null ?
-                null :
-                new PropertyAccessor(propertyInfo);
+            return propertyInfo == null
+                ? null
+                : new PropertyAccessor(propertyInfo);
         }
 
         public override object GetValue(object instance)
@@ -75,9 +75,9 @@
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture, "Property '{0}' does not have a getter.", Name));
 
-            return _getDelegate.Value == null ?
-                null :
-                _getDelegate.Value(instance);
+            return _getDelegate.Value == null
+                ? null
+                : _getDelegate.Value(instance);
         }
 
         public override void SetValue(object instance, object value)

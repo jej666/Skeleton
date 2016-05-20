@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Common
+﻿using System;
+
+namespace Skeleton.Common
 {
-    using System;
-    
     public interface ILogger : IHideObjectMethods
     {
         void Debug(object message);

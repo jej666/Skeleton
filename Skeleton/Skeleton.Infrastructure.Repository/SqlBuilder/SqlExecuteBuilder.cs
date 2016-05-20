@@ -1,22 +1,21 @@
-﻿namespace Skeleton.Infrastructure.Repository.SqlBuilder
-{
-    using Common.Extensions;
-    using Common.Reflection;
-    using Core.Domain;
-    using Core.Repository;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
+using Skeleton.Core.Domain;
+using Skeleton.Core.Repository;
 
+namespace Skeleton.Infrastructure.Repository.SqlBuilder
+{
     public sealed class SqlExecuteBuilder<TEntity, TIdentity> :
         SqlBuilderBase,
         IExecuteBuilder<TEntity, TIdentity>,
         IExecuteWhereBuilder<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private static readonly Func<IMemberAccessor, bool> SimplePropertiesCondition =
+        private readonly Func<IMemberAccessor, bool> _simplePropertiesCondition =
             x => x.MemberType.IsPrimitive ||
                  x.MemberType == typeof(decimal) ||
                  x.MemberType == typeof(string);
@@ -32,13 +31,13 @@
             _accessor = accessorCache.Get<TEntity>();
         }
 
-        private IMemberAccessor[] TableColumns
+        private IEnumerable<IMemberAccessor> TableColumns
         {
             get
             {
                 return _accessor.GetDeclaredOnlyProperties()
-                                .Where(SimplePropertiesCondition)
-                                .ToArray();
+                    .Where(_simplePropertiesCondition)
+                    .ToArray();
             }
         }
 
@@ -59,7 +58,7 @@
         {
             entity.ThrowIfNull(() => entity);
             _entity = entity;
-            TableColumns.ForEach(column => SetInsertByColumn(column));
+            TableColumns.ForEach(SetInsertByColumn);
 
             return this;
         }
@@ -68,7 +67,7 @@
         {
             entity.ThrowIfNull(() => entity);
             _entity = entity;
-            TableColumns.ForEach(column => SetUpdateByColumn(column));
+            TableColumns.ForEach(SetUpdateByColumn);
 
             return this;
         }
@@ -101,7 +100,8 @@
             return this;
         }
 
-        public IExecuteBuilder<TEntity, TIdentity> WherePrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
+        public IExecuteBuilder<TEntity, TIdentity> WherePrimaryKey(
+            Expression<Func<TEntity, bool>> whereExpression)
         {
             Builder.And();
             Resolver.QueryByPrimaryKey(_entity.IdAccessor.Name, whereExpression);

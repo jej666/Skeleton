@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Common
+﻿using System;
+using System.ComponentModel;
+
+namespace Skeleton.Common
 {
-    using System;
-    using System.ComponentModel;
-   
     public interface IHideObjectMethods
     {
         [EditorBrowsable(EditorBrowsableState.Never)]

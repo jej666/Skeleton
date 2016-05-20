@@ -1,9 +1,7 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
 
-    [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+namespace Skeleton.Infrastructure.Data
+{
     public interface IDatabaseQuery
     {
         IEnumerable<TResult> Find<TResult>(

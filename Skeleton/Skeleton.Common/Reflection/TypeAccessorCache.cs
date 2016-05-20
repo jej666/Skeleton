@@ -1,13 +1,13 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using Extensions;
-    using System;
-    using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Common.Reflection
+{
     public class TypeAccessorCache : ITypeAccessorCache
     {
         private static readonly ConcurrentDictionary<Type, ITypeAccessor> TypeCache =
-          new ConcurrentDictionary<Type, ITypeAccessor>();
+            new ConcurrentDictionary<Type, ITypeAccessor>();
 
         public ITypeAccessor Get<T>()
         {

@@ -1,7 +1,7 @@
-﻿using Skeleton.Common.Extensions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using Skeleton.Common.Extensions;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -33,7 +33,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             var reflectedType = expression.Member.ReflectedType;
 
-            if (reflectedType.IsGenericType)
+            if (reflectedType != null && reflectedType.IsGenericType)
                 reflectedType = reflectedType.GenericTypeArguments.First();
 
             return GetTableName(reflectedType);

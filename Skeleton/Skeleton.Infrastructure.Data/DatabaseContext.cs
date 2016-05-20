@@ -1,15 +1,15 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Common;
-    using Common.Extensions;
-    using Common.Reflection;
-    using Configuration;
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Data.Common;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Threading.Tasks;
+using Skeleton.Common;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
+using Skeleton.Infrastructure.Data.Configuration;
 
+namespace Skeleton.Infrastructure.Data
+{
     public abstract class DatabaseContext : DisposableBase
     {
         private readonly DataAdapter _adapter;
@@ -53,15 +53,13 @@
 
         internal void BeginTransaction(IsolationLevel? isolationLevel)
         {
-            if (_transaction == null)
-            {
-                OpenConnection();
+            if (_transaction != null) return;
 
-                if (isolationLevel.HasValue)
-                    _transaction = _connection.BeginTransaction(isolationLevel.Value);
-                else
-                    _transaction = _connection.BeginTransaction();
-            }
+            OpenConnection();
+
+            _transaction = isolationLevel.HasValue ? 
+                _connection.BeginTransaction(isolationLevel.Value) : 
+                _connection.BeginTransaction();
         }
 
         internal void CommitTransaction()
@@ -72,11 +70,10 @@
 
         internal void DisposeTransaction()
         {
-            if (_transaction != null)
-            {
-                _transaction.Dispose();
-                _transaction = null;
-            }
+            if (_transaction == null) return;
+
+            _transaction.Dispose();
+            _transaction = null;
         }
 
         protected internal void CloseConnection()
@@ -136,7 +133,7 @@
                     _connection = _adapter.CreateConnection();
 
                 if (_connection.State != ConnectionState.Open)
-                    await ((DbConnection)_connection).OpenAsync()
+                    await ((DbConnection) _connection).OpenAsync()
                         .ConfigureAwait(false);
             }
             catch (Exception ex)

@@ -1,11 +1,11 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Configuration;
-    using System.Data;
-    using System.Data.Odbc;
-    using System.Data.OleDb;
-    using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.Odbc;
+using System.Data.OleDb;
+using System.Data.SqlClient;
+using Skeleton.Infrastructure.Data.Configuration;
 
+namespace Skeleton.Infrastructure.Data
+{
     internal sealed class DataAdapter
     {
         private readonly IDatabaseConfiguration _configuration;

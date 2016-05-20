@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Skeleton.Common;
-    using System.Data;
+﻿using System.Data;
+using Skeleton.Common;
 
+namespace Skeleton.Infrastructure.Data
+{
     public sealed class DatabaseTransaction :
         DisposableBase,
         IDatabaseTransaction

@@ -1,14 +1,14 @@
-﻿namespace Skeleton.Core.Domain
-{
-    using Common;
-    using Common.Extensions;
-    using Common.Reflection;
-    using System;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
+using Skeleton.Common;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
 
+namespace Skeleton.Core.Domain
+{
     public abstract class EntityBase<TEntity, TIdentity> :
-       IEntity<TEntity, TIdentity>
-       where TEntity : EntityBase<TEntity, TIdentity>
+        IEntity<TEntity, TIdentity>
+        where TEntity : EntityBase<TEntity, TIdentity>
     {
         private readonly IMemberAccessor _idAccessor;
 
@@ -29,7 +29,7 @@
 
         public TIdentity Id
         {
-            get { return (TIdentity)_idAccessor.GetValue(this); }
+            get { return (TIdentity) _idAccessor.GetValue(this); }
         }
 
         public IMemberAccessor IdAccessor
@@ -44,25 +44,6 @@
         public ITypeAccessor TypeAccessor
         {
             get { return _typeAccessor.Value; }
-        }
-
-        public static bool operator !=(
-            EntityBase<TEntity, TIdentity> entity1,
-            EntityBase<TEntity, TIdentity> entity2)
-        {
-            return (!(entity1 == entity2));
-        }
-
-        public static bool operator ==(
-            EntityBase<TEntity, TIdentity> entity1,
-            EntityBase<TEntity, TIdentity> entity2)
-        {
-            return Equals(entity1, entity2);
-        }
-
-        public int CompareTo(object other)
-        {
-            return CompareTo(other as TEntity);
         }
 
         public virtual int CompareTo(TEntity other)
@@ -91,6 +72,32 @@
             return other.Id.Equals(Id);
         }
 
+        public IValidationResult Validate(IValidator<TEntity, TIdentity> validator)
+        {
+            validator.ThrowIfNull(() => validator);
+
+            return new ValidationResult(validator.BrokenRules((TEntity) this));
+        }
+
+        public static bool operator !=(
+            EntityBase<TEntity, TIdentity> entity1,
+            EntityBase<TEntity, TIdentity> entity2)
+        {
+            return !(entity1 == entity2);
+        }
+
+        public static bool operator ==(
+            EntityBase<TEntity, TIdentity> entity1,
+            EntityBase<TEntity, TIdentity> entity2)
+        {
+            return Equals(entity1, entity2);
+        }
+
+        public int CompareTo(object other)
+        {
+            return CompareTo(other as TEntity);
+        }
+
         public override bool Equals(object obj)
         {
             var entity = obj as TEntity;
@@ -107,13 +114,6 @@
         {
             var thisIsTransient = Equals(Id, null);
             return thisIsTransient ? GetHashCode() : Id.GetHashCode();
-        }
-
-        public IValidationResult Validate(IValidator<TEntity, TIdentity> validator)
-        {
-            validator.ThrowIfNull(() => validator);
-
-            return new ValidationResult(validator.BrokenRules((TEntity)this));
         }
     }
 }

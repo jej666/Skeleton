@@ -1,12 +1,12 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
+namespace Skeleton.Common.Extensions
+{
     public static class DictionaryExtensions
     {
         public static T GetValue<T>(
-            this IDictionary<string, object> source, 
+            this IDictionary<string, object> source,
             string key)
         {
             source.ThrowIfNull(() => source);
@@ -25,15 +25,15 @@
             }
             else
             {
-                result = (T)value;
+                result = (T) value;
             }
 
             return result;
         }
 
         public static void SetValue(
-            this IDictionary<string, object> source, 
-            string key, 
+            this IDictionary<string, object> source,
+            string key,
             object value)
         {
             source.ThrowIfNull(() => source);
@@ -45,19 +45,19 @@
         }
 
         public static string ToString<TKey, TValue>(
-            this IDictionary<TKey, TValue> dictionary, 
-            string keyValueSeparator, 
+            this IDictionary<TKey, TValue> dictionary,
+            string keyValueSeparator,
             string sequenceSeparator)
         {
             var stringBuilder = new StringBuilder();
             dictionary.ForEach(
-                x => stringBuilder.AppendFormat("{0}{1}{2}{3}", 
-                    x.Key.ToString(), 
-                    keyValueSeparator, 
-                    x.Value.ToString(), 
+                x => stringBuilder.AppendFormat("{0}{1}{2}{3}",
+                    x.Key.ToString(),
+                    keyValueSeparator,
+                    x.Value.ToString(),
                     sequenceSeparator));
 
-            return stringBuilder.ToString(0, 
+            return stringBuilder.ToString(0,
                 stringBuilder.Length - sequenceSeparator.Length);
         }
     }

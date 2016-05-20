@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Core.Domain
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace Skeleton.Core.Domain
+{
     public interface IValidationResult
     {
         IEnumerable<string> BrokenRules { get; }

@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Core.Domain
-{
-    using Common.Reflection;
-    using System;
+﻿using System;
+using Skeleton.Common.Reflection;
 
+namespace Skeleton.Core.Domain
+{
     public interface IEntity<TEntity, TIdentity> :
         IComparable<TEntity>,
         IEquatable<TEntity>,

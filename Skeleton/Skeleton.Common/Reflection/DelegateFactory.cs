@@ -1,23 +1,23 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using Extensions;
-    using System;
-    using System.Reflection;
-    using System.Reflection.Emit;
+﻿using System;
+using System.Reflection;
+using System.Reflection.Emit;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Common.Reflection
+{
     internal static class DelegateFactory
     {
         internal static ConstructorDelegate CreateConstructor(Type type, Type[] paramTypes)
         {
             type.ThrowIfNull(() => type);
 
-            DynamicMethod dynamicMethod = CreateDynamicMethod(
+            var dynamicMethod = CreateDynamicMethod(
                 "Create" + type.FullName,
                 typeof(object),
-                new[] { typeof(object[]) },
+                new[] {typeof(object[])},
                 type);
 
-            ILGenerator generator = dynamicMethod.GetILGenerator();
+            var generator = dynamicMethod.GetILGenerator();
 
             if (type.IsValueType && paramTypes.Length == 0)
             {
@@ -38,7 +38,7 @@
 
             generator.Return();
 
-            return (ConstructorDelegate)dynamicMethod.CreateDelegate(typeof(ConstructorDelegate));
+            return (ConstructorDelegate) dynamicMethod.CreateDelegate(typeof(ConstructorDelegate));
         }
 
         internal static GetterDelegate CreateGet(PropertyInfo propertyInfo)
@@ -48,16 +48,16 @@
             if (!propertyInfo.CanRead)
                 return null;
 
-            MethodInfo methodInfo = propertyInfo.GetGetMethod(true);
+            var methodInfo = propertyInfo.GetGetMethod(true);
 
             if (methodInfo == null)
                 return null;
 
-            DynamicMethod dynamicMethod = CreateDynamicMethod(
-              "Get" + propertyInfo.Name,
-              typeof(object),
-              new[] { typeof(object) },
-              propertyInfo.DeclaringType);
+            var dynamicMethod = CreateDynamicMethod(
+                "Get" + propertyInfo.Name,
+                typeof(object),
+                new[] {typeof(object)},
+                propertyInfo.DeclaringType);
 
             var generator = dynamicMethod.GetILGenerator();
 
@@ -68,7 +68,7 @@
             generator.BoxIfNeeded(propertyInfo.PropertyType);
             generator.Return();
 
-            return (GetterDelegate)dynamicMethod.CreateDelegate(typeof(GetterDelegate));
+            return (GetterDelegate) dynamicMethod.CreateDelegate(typeof(GetterDelegate));
         }
 
         internal static GetterDelegate CreateGet(FieldInfo fieldInfo)
@@ -76,10 +76,10 @@
             fieldInfo.ThrowIfNull(() => fieldInfo);
 
             var dynamicMethod = CreateDynamicMethod(
-              "Get" + fieldInfo.Name,
-              typeof(object),
-              new[] { typeof(object) },
-              fieldInfo.DeclaringType);
+                "Get" + fieldInfo.Name,
+                typeof(object),
+                new[] {typeof(object)},
+                fieldInfo.DeclaringType);
 
             var generator = dynamicMethod.GetILGenerator();
 
@@ -92,7 +92,7 @@
             generator.BoxIfNeeded(fieldInfo.FieldType);
             generator.Return();
 
-            return (GetterDelegate)dynamicMethod.CreateDelegate(typeof(GetterDelegate));
+            return (GetterDelegate) dynamicMethod.CreateDelegate(typeof(GetterDelegate));
         }
 
         internal static MethodDelegate CreateMethod(MethodInfo methodInfo)
@@ -100,10 +100,10 @@
             methodInfo.ThrowIfNull(() => methodInfo);
 
             var dynamicMethod = CreateDynamicMethod(
-              "Dynamic" + methodInfo.Name,
-              typeof(object),
-              new[] { typeof(object), typeof(object[]) },
-              methodInfo.DeclaringType);
+                "Dynamic" + methodInfo.Name,
+                typeof(object),
+                new[] {typeof(object), typeof(object[])},
+                methodInfo.DeclaringType);
 
             var generator = dynamicMethod.GetILGenerator();
             var ps = methodInfo.GetParameters();
@@ -160,7 +160,7 @@
 
             generator.Emit(OpCodes.Ret);
 
-            return (MethodDelegate)dynamicMethod.CreateDelegate(typeof(MethodDelegate));
+            return (MethodDelegate) dynamicMethod.CreateDelegate(typeof(MethodDelegate));
         }
 
         internal static SetterDelegate CreateSet(PropertyInfo propertyInfo)
@@ -175,10 +175,10 @@
                 return null;
 
             var dynamicMethod = CreateDynamicMethod(
-              "Set" + propertyInfo.Name,
-              null,
-              new[] { typeof(object), typeof(object) },
-              propertyInfo.DeclaringType);
+                "Set" + propertyInfo.Name,
+                null,
+                new[] {typeof(object), typeof(object)},
+                propertyInfo.DeclaringType);
 
             var generator = dynamicMethod.GetILGenerator();
 
@@ -190,7 +190,7 @@
             generator.CallMethod(methodInfo);
             generator.Return();
 
-            return (SetterDelegate)dynamicMethod.CreateDelegate(typeof(SetterDelegate));
+            return (SetterDelegate) dynamicMethod.CreateDelegate(typeof(SetterDelegate));
         }
 
         internal static SetterDelegate CreateSet(FieldInfo fieldInfo)
@@ -198,10 +198,10 @@
             fieldInfo.ThrowIfNull(() => fieldInfo);
 
             var dynamicMethod = CreateDynamicMethod(
-              "Set" + fieldInfo.Name,
-              null,
-              new[] { typeof(object), typeof(object) },
-              fieldInfo.DeclaringType);
+                "Set" + fieldInfo.Name,
+                null,
+                new[] {typeof(object), typeof(object)},
+                fieldInfo.DeclaringType);
 
             var generator = dynamicMethod.GetILGenerator();
 
@@ -215,14 +215,14 @@
             generator.Emit(OpCodes.Stfld, fieldInfo);
             generator.Return();
 
-            return (SetterDelegate)dynamicMethod.CreateDelegate(typeof(SetterDelegate));
+            return (SetterDelegate) dynamicMethod.CreateDelegate(typeof(SetterDelegate));
         }
 
         private static DynamicMethod CreateDynamicMethod(string name, Type returnType, Type[] parameterTypes, Type owner)
         {
             return !owner.IsInterface
-              ? new DynamicMethod(name, returnType, parameterTypes, owner, true)
-              : new DynamicMethod(name, returnType, parameterTypes, owner.Assembly.ManifestModule, true);
+                ? new DynamicMethod(name, returnType, parameterTypes, owner, true)
+                : new DynamicMethod(name, returnType, parameterTypes, owner.Assembly.ManifestModule, true);
         }
     }
 }

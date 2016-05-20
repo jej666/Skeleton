@@ -1,10 +1,9 @@
-﻿namespace Skeleton.Common.Reflection
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
+namespace Skeleton.Common.Reflection
+{
     public interface ITypeAccessor
     {
         int FieldsCount { get; }

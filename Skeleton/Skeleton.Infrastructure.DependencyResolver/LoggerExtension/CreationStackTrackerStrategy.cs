@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
-{
-    using Common.Extensions;
-    using Microsoft.Practices.ObjectBuilder2;
+﻿using Microsoft.Practices.ObjectBuilder2;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
+{
     public class CreationStackTrackerStrategy : BuilderStrategy
     {
         public override void PostBuildUp(IBuilderContext context)

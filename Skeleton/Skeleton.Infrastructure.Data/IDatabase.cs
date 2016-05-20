@@ -1,9 +1,9 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Common;
-    using Configuration;
-    using System;
+﻿using System;
+using Skeleton.Common;
+using Skeleton.Infrastructure.Data.Configuration;
 
+namespace Skeleton.Infrastructure.Data
+{
     public interface IDatabase :
         IHideObjectMethods,
         IDisposable,

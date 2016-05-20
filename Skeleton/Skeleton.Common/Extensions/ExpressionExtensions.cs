@@ -1,19 +1,20 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
+namespace Skeleton.Common.Extensions
+{
     public static class ExpressionExtensions
     {
         public static BinaryExpression GetBinaryExpression(this Expression expression)
         {
             expression.ThrowIfNull(() => expression);
 
-            if (expression is BinaryExpression)
-                return expression as BinaryExpression;
+            var binaryExpression = expression as BinaryExpression;
+            if (binaryExpression != null)
+                return binaryExpression;
 
             throw new ArgumentException("Binary expression expected");
         }
@@ -31,14 +32,14 @@
                     return (expression as MethodCallExpression).InvokeMethodCall();
 
                 case ExpressionType.MemberAccess:
-                    var memberExpr = (expression as MemberExpression);
+                    var memberExpr = expression as MemberExpression;
                     var obj = GetExpressionValue(memberExpr.Expression);
-                    return ((dynamic)memberExpr.Member).GetValue(obj);
+                    return ((dynamic) memberExpr.Member).GetValue(obj);
 
                 case ExpressionType.Convert:
                     var member = GetMemberExpression(expression);
                     var instance = GetExpressionValue(member.Expression);
-                    return ((dynamic)member.Member).GetValue(instance);
+                    return ((dynamic) member.Member).GetValue(instance);
 
                 default:
                     throw new ArgumentException("Expected constant expression");
@@ -92,11 +93,6 @@
             return callExpression.Method.Invoke(obj, arguments);
         }
 
-        private static object GetValue(this PropertyInfo property, object obj)
-        {
-            return property.GetValue(obj, null);
-        }
-
         private static PropertyInfo[] MatchPropertyAccess(
             this Expression parameterExpression,
             Expression propertyAccessExpression)
@@ -124,8 +120,7 @@
                 propertyInfos.Insert(0, propertyInfo);
 
                 propertyAccessExpression = memberExpression.Expression;
-            }
-            while (memberExpression.Expression.RemoveConvert() != parameterExpression);
+            } while (memberExpression.Expression.RemoveConvert() != parameterExpression);
 
             return propertyInfos.ToArray();
         }
@@ -145,7 +140,7 @@
                    && (expression.NodeType == ExpressionType.Convert
                        || expression.NodeType == ExpressionType.ConvertChecked))
             {
-                expression = RemoveConvert(((UnaryExpression)expression).Operand);
+                expression = RemoveConvert(((UnaryExpression) expression).Operand);
             }
 
             return expression;

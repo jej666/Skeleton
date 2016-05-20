@@ -5,7 +5,7 @@ namespace Skeleton.Tests
 {
     public abstract class TestBase
     {
-        public TestBase()
+        protected TestBase()
         {
             Bootstrapper.Initialize();
         }

@@ -1,24 +1,27 @@
-﻿namespace Skeleton.Infrastructure.DependencyResolver
-{
-    using Common;
-    using Microsoft.Practices.Unity;
-    using System;
+﻿using System;
+using Microsoft.Practices.Unity;
+using Skeleton.Common;
 
+namespace Skeleton.Infrastructure.DependencyResolver
+{
     public static class Bootstrapper
     {
-        private readonly static Lazy<IUnityContainer> unityContainer =
+        private static readonly Lazy<IUnityContainer> UnityContainer =
             new Lazy<IUnityContainer>(() => new UnityContainer());
 
-        private readonly static Lazy<IContainer> wrapper =
-            new Lazy<IContainer>(() => new Container(unityContainer.Value));
+        private static readonly Lazy<IContainer> Wrapper =
+            new Lazy<IContainer>(() => new Container(UnityContainer.Value));
 
-        public static IContainer Container { get { return wrapper.Value; } }
+        public static IContainer Container
+        {
+            get { return Wrapper.Value; }
+        }
 
         public static void Initialize()
         {
-            unityContainer.Value.RegisterInstance<IContainer>(Container);
+            UnityContainer.Value.RegisterInstance(Container);
 
-            unityContainer.Value
+            UnityContainer.Value
                 .AddExtension(new CommonModuleExtension())
                 .AddExtension(new DataModuleExtension())
                 .AddExtension(new RepositoryModuleExtension())

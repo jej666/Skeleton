@@ -1,10 +1,10 @@
-﻿namespace Skeleton.Infrastructure.Repository
-{
-    using Common.Extensions;
-    using Core.Domain;
-    using Skeleton.Core.Repository;
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Skeleton.Common.Extensions;
+using Skeleton.Core.Domain;
+using Skeleton.Core.Repository;
 
+namespace Skeleton.Infrastructure.Repository
+{
     internal sealed class CacheKeyGenerator<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {

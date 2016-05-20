@@ -5,28 +5,29 @@ namespace Skeleton.Tests.Infrastructure
 {
     public sealed class SqlConnectionHelper : IDisposable
     {
-        private static string ConnectionString = @"Data Source=(localdb)\v11.0;Initial Catalog=TestDb;Integrated Security=True;Pooling=False;";
-        private readonly SqlConnection innerConnection = new SqlConnection(ConnectionString);
+        private static readonly string ConnectionString =
+            @"Data Source=(localdb)\v11.0;Initial Catalog=TestDb;Integrated Security=True;Pooling=False;";
 
-        public void CloseConnection()
-        {
-            if (innerConnection != null)
-            {
-                innerConnection.Close();
-                innerConnection.Dispose();
-            }
-        }
+        private readonly SqlConnection _innerConnection = new SqlConnection(ConnectionString);
 
         public void Dispose()
         {
             CloseConnection();
         }
 
+        public void CloseConnection()
+        {
+            if (_innerConnection == null) return;
+
+            _innerConnection.Close();
+            _innerConnection.Dispose();
+        }
+
         public SqlConnection OpenConnection()
         {
-            innerConnection.Open();
+            _innerConnection.Open();
 
-            return innerConnection;
+            return _innerConnection;
         }
     }
 }

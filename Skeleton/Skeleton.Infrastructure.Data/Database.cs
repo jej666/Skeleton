@@ -1,15 +1,15 @@
-﻿namespace Skeleton.Infrastructure.Data
-{
-    using Common;
-    using Common.Extensions;
-    using Common.Reflection;
-    using Configuration;
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Data.SqlClient;
-    using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Threading;
+using Skeleton.Common;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
+using Skeleton.Infrastructure.Data.Configuration;
 
+namespace Skeleton.Infrastructure.Data
+{
     public sealed class Database : DatabaseContext, IDatabase
     {
         public Database(
@@ -26,8 +26,8 @@
             IDictionary<string, object> parameters)
         {
             return WrapRetryPolicy(() =>
-                     CreateTextCommand(query, parameters)
-                     .ExecuteNonQuery());
+                CreateTextCommand(query, parameters)
+                    .ExecuteNonQuery());
         }
 
         public TValue ExecuteScalar<TValue>(
@@ -37,11 +37,11 @@
             return WrapRetryPolicy(() =>
             {
                 var result = CreateTextCommand(query, parameters)
-                                     .ExecuteScalar();
+                    .ExecuteScalar();
 
-                return result is DBNull ?
-                    default(TValue) :
-                    result.ChangeType<TValue>();
+                return result is DBNull
+                    ? default(TValue)
+                    : result.ChangeType<TValue>();
             });
         }
 
@@ -51,11 +51,9 @@
         {
             parameters.ThrowIfNull(() => parameters);
 
-            return WrapRetryPolicy(() =>
-            {
-                return CreateStoredProcedureCommand(procedureName, parameters)
-                               .ExecuteNonQuery();
-            });
+            return WrapRetryPolicy(() => 
+                CreateStoredProcedureCommand(procedureName, parameters)
+                    .ExecuteNonQuery());
         }
 
         public IEnumerable<TResult> Find<TResult>(
@@ -66,7 +64,7 @@
             return WrapRetryPolicy(() =>
             {
                 var reader = CreateTextCommand(query, parameters)
-                                     .ExecuteReader();
+                    .ExecuteReader();
 
                 return CreateMapper<TResult>().MapQuery(reader);
             });
@@ -80,7 +78,7 @@
             return WrapRetryPolicy(() =>
             {
                 var reader = CreateTextCommand(query, parameters)
-                                     .ExecuteReader(CommandBehavior.SingleRow);
+                    .ExecuteReader(CommandBehavior.SingleRow);
 
                 return CreateMapper<TResult>().MapSingle(reader);
             });
@@ -121,16 +119,16 @@
             }
         }
 
-        //private TResult WrapProfiler<TResult>(Func<TResult> func)
-        //{
-        //    Stopwatch stopWatch = new Stopwatch();
-        //    stopWatch.Start();
-        //    var res = func();
-        //    stopWatch.Stop();
+        //    System.Diagnostics.Debug.Write(
 
         //    double elapsed = stopWatch.Elapsed.TotalSeconds;
+        //    stopWatch.Stop();
+        //    var res = func();
+        //    stopWatch.Start();
+        //    Stopwatch stopWatch = new Stopwatch();
+        //{
 
-        //    System.Diagnostics.Debug.Write(
+        //private TResult WrapProfiler<TResult>(Func<TResult> func)
         //       elapsed + " second(s)");
         //    return res;
         //}

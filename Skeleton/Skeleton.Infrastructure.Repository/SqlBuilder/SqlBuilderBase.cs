@@ -1,10 +1,11 @@
 ﻿//https://github.com/base33/lambda-sql-builder
+
+using System.Collections.Generic;
+using Skeleton.Core.Repository;
+
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    using Core.Repository;
-    using System.Collections.Generic;
-
-    public abstract class SqlBuilderBase : ISqlQuery, ISqlExecute
+    public class SqlBuilderBase : ISqlQuery, ISqlExecute
     {
         private readonly InternalQueryBuilder _builder;
         private readonly LambdaExpressionResolver _resolver;
@@ -17,10 +18,20 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             _resolver = resolver;
         }
 
-        protected SqlBuilderBase(string tableName)
+        internal SqlBuilderBase(string tableName)
         {
             _builder = new InternalQueryBuilder(tableName);
             _resolver = new LambdaExpressionResolver(_builder);
+        }
+
+        internal InternalQueryBuilder Builder
+        {
+            get { return _builder; }
+        }
+
+        internal LambdaExpressionResolver Resolver
+        {
+            get { return _resolver; }
         }
 
         public string DeleteQuery
@@ -33,6 +44,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             get { return _builder.Insert; }
         }
 
+        public string UpdateQuery
+        {
+            get { return _builder.Update; }
+        }
+
         public IDictionary<string, object> Parameters
         {
             get { return _builder.Parameters; }
@@ -42,15 +58,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             get { return _builder.Query; }
         }
-
-        public string UpdateQuery
-        {
-            get { return _builder.Update; }
-        }
-
-        internal InternalQueryBuilder Builder { get { return _builder; } }
-
-        internal LambdaExpressionResolver Resolver { get { return _resolver; } }
 
         public string PagedQuery(int pageSize, int pageNumber)
         {

@@ -1,8 +1,9 @@
-﻿namespace Skeleton.Core.Domain
-{
-    using Common.Extensions;
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Skeleton.Common.Extensions;
 
+namespace Skeleton.Core.Domain
+{
     // make return type a rule
     public class ValidationResult : IValidationResult
     {
@@ -10,9 +11,10 @@
 
         public ValidationResult(IEnumerable<string> brokenRules)
         {
-            brokenRules.ThrowIfNull(() => brokenRules);
+            var enumerable = brokenRules as IList<string> ?? brokenRules.ToList();
+            enumerable.ThrowIfNull(() => enumerable);
 
-            _brokenRules = brokenRules;
+            _brokenRules = enumerable;
         }
 
         public IEnumerable<string> BrokenRules

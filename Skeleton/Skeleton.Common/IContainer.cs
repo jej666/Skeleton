@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Common
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace Skeleton.Common
+{
     public interface IContainer : IHideObjectMethods
     {
         object Resolve(Type serviceType);

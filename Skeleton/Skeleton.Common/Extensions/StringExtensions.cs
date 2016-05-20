@@ -1,8 +1,8 @@
-﻿namespace Skeleton.Common.Extensions
-{
-    using System;
-    using System.Globalization;
+﻿using System;
+using System.Globalization;
 
+namespace Skeleton.Common.Extensions
+{
     public static class StringExtensions
     {
         public static string ConcatWith(this string value, params string[] values)

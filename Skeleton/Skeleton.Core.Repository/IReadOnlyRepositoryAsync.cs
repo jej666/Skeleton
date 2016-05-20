@@ -1,12 +1,12 @@
-﻿namespace Skeleton.Core.Repository
-{
-    using Common;
-    using Core.Domain;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Skeleton.Common;
+using Skeleton.Core.Domain;
 
+namespace Skeleton.Core.Repository
+{
     public interface IReadOnlyRepositoryAsync<TEntity, TIdentity> :
         IDisposable,
         IHideObjectMethods

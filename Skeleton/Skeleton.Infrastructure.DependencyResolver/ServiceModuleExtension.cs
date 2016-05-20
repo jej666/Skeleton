@@ -1,7 +1,7 @@
-﻿namespace Skeleton.Infrastructure.DependencyResolver
-{
-    using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
 
+namespace Skeleton.Infrastructure.DependencyResolver
+{
     internal sealed class ServiceModuleExtension : UnityContainerExtension
     {
         protected override void Initialize()
