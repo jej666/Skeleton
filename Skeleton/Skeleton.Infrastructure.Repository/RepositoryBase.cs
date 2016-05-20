@@ -1,184 +1,281 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using Skeleton.Common.Extensions;
-//using Skeleton.Common.Reflection;
-//using Skeleton.Core.Domain;
-//using Skeleton.Core.Repository;
-//using Skeleton.Infrastructure.Data;
-//using Skeleton.Infrastructure.Data.Configuration;
-//using Skeleton.Infrastructure.Repository.SqlBuilder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
+using Skeleton.Core.Domain;
+using Skeleton.Core.Repository;
+using Skeleton.Infrastructure.Data;
+using Skeleton.Infrastructure.Data.Configuration;
 
-//namespace Skeleton.Infrastructure.Repository
-//{
-//    public abstract class RepositoryBase<TEntity, TIdentity> :
-//        ReadOnlyRepositoryBase<TEntity, TIdentity>,
-//        IRepository<TEntity, TIdentity>
-//        where TEntity : class, IEntity<TEntity, TIdentity>
-//    {
-//        protected RepositoryBase(
-//            ITypeAccessorCache typeAccessorCache,
-//            IDatabase database) :
-//                base(typeAccessorCache, database)
-//        {
-//        }
+namespace Skeleton.Infrastructure.Repository
+{
+    public abstract class RepositoryBase<TEntity, TIdentity> :
+        ReadOnlyRepositoryBase<TEntity, TIdentity>,
+        IRepository<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity, TIdentity>
+    {
+        private readonly Func<IMemberAccessor, bool> _simplePropertiesCondition =
+            x => x.MemberType.IsPrimitive ||
+                 x.MemberType == typeof(decimal) ||
+                 x.MemberType == typeof(string);
 
-//        protected RepositoryBase(
-//            ITypeAccessorCache typeAccessorCache,
-//            IDatabaseFactory databaseFactory,
-//            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-//                this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
-//        {
-//        }
+        protected RepositoryBase(
+            ITypeAccessorCache typeAccessorCache,
+            IDatabase database) :
+            base(typeAccessorCache, database)
+        {
+        }
 
-//        private IExecuteBuilder<TEntity, TIdentity> ExecuteBuilder
-//        {
-//            get { return new SqlExecuteBuilder<TEntity, TIdentity>(TypeAccessorCache); }
-//        }
+        protected RepositoryBase(
+            ITypeAccessorCache typeAccessorCache,
+            IDatabaseFactory databaseFactory,
+            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
+            this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
+        {
+        }
 
-//        public virtual bool Add(TEntity entity)
-//        {
-//            entity.ThrowIfNull(() => entity);
+        public ISqlExecute SqlExecute
+        {
+            get { return Builder; }
+        }
 
-//            return AddCommand(entity) != null;
-//        }
+        private IEnumerable<IMemberAccessor> TableColumns
+        {
+            get
+            {
+                return TypeAccessor.GetDeclaredOnlyProperties()
+                    .Where(_simplePropertiesCondition)
+                    .ToArray();
+            }
+        }
 
-//        public virtual bool Add(IEnumerable<TEntity> entities)
-//        {
-//            var enumerable = entities as IList<TEntity> ?? entities.ToList();
-//            enumerable.ThrowIfNullOrEmpty(() => enumerable);
-//            var count = 0;
+        public virtual bool Add(TEntity entity)
+        {
+            entity.ThrowIfNull(() => entity);
 
-//            using (var transaction = Database.Transaction)
-//            {
-//                transaction.Begin();
+            return AddCommand(entity) != null;
+        }
 
-//                enumerable.ForEach(entity =>
-//                {
-//                    AddCommand(entity);
-//                    ++count;
-//                });
+        public virtual bool Add(IEnumerable<TEntity> entities)
+        {
+            var enumerable = entities as IList<TEntity> ?? entities.ToList();
+            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            var count = 0;
 
-//                if (count > 0)
-//                    transaction.Commit();
-//            }
-//            return count > 0;
-//        }
+            using (var transaction = Database.Transaction)
+            {
+                transaction.Begin();
 
-//        public virtual bool Delete(TEntity entity)
-//        {
-//            entity.ThrowIfNull(() => entity);
+                enumerable.ForEach(entity =>
+                {
+                    AddCommand(entity);
+                    ++count;
+                });
 
-//            return DeleteCommand(entity) > 0;
-//        }
+                if (count > 0)
+                    transaction.Commit();
+            }
+            return count > 0;
+        }
 
-//        public virtual bool Delete(IEnumerable<TEntity> entities)
-//        {
-//            var enumerable = entities as IList<TEntity> ?? entities.ToList();
-//            enumerable.ThrowIfNullOrEmpty(() => enumerable);
-//            int count = 0, result = 0;
+        public virtual bool Delete(TEntity entity)
+        {
+            entity.ThrowIfNull(() => entity);
 
-//            using (var transaction = Database.Transaction)
-//            {
-//                transaction.Begin();
+            return DeleteCommand(entity) > 0;
+        }
 
-//                enumerable.ForEach(entity =>
-//                {
-//                    result += DeleteCommand(entity);
-//                    ++count;
-//                });
+        public virtual bool Delete(IEnumerable<TEntity> entities)
+        {
+            var enumerable = entities as IList<TEntity> ?? entities.ToList();
+            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            int count = 0, result = 0;
 
-//                if (result == count)
-//                    transaction.Commit();
-//            }
-//            return result == count;
-//        }
+            using (var transaction = Database.Transaction)
+            {
+                transaction.Begin();
 
-//        public virtual bool Save(TEntity entity)
-//        {
-//            return entity.Id.IsZeroOrEmpty() ? 
-//                Add(entity) : 
-//                Update(entity);
-//        }
+                enumerable.ForEach(entity =>
+                {
+                    result += DeleteCommand(entity);
+                    ++count;
+                });
 
-//        public virtual bool Save(IEnumerable<TEntity> entities)
-//        {
-//            var enumerable = entities as IList<TEntity> ?? entities.ToList();
-//            enumerable.ThrowIfNullOrEmpty(() => enumerable);
-//            var result = false;
+                if (result == count)
+                    transaction.Commit();
+            }
+            return result == count;
+        }
 
-//            using (var transaction = Database.Transaction)
-//            {
-//                transaction.Begin();
+        public virtual bool Save(TEntity entity)
+        {
+            return entity.Id.IsZeroOrEmpty() ?
+                Add(entity) :
+                Update(entity);
+        }
 
-//                enumerable.ForEach(entity => { result = Save(entity); });
+        public virtual bool Save(IEnumerable<TEntity> entities)
+        {
+            var enumerable = entities as IList<TEntity> ?? entities.ToList();
+            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            var result = false;
 
-//                if (result)
-//                    transaction.Commit();
-//            }
-//            return result;
-//        }
+            using (var transaction = Database.Transaction)
+            {
+                transaction.Begin();
 
-//        public virtual bool Update(TEntity entity)
-//        {
-//            entity.ThrowIfNull(() => entity);
+                enumerable.ForEach(entity =>
+                { result = Save(entity); });
 
-//            return UpdateCommand(entity) > 0;
-//        }
+                if (result)
+                    transaction.Commit();
+            }
+            return result;
+        }
 
-//        public virtual bool Update(IEnumerable<TEntity> entities)
-//        {
-//            var enumerable = entities as IList<TEntity> ?? entities.ToList();
-//            enumerable.ThrowIfNullOrEmpty(() => enumerable);
-//            int count = 0, result = 0;
+        public virtual bool Update(TEntity entity)
+        {
+            entity.ThrowIfNull(() => entity);
 
-//            using (var transaction = Database.Transaction)
-//            {
-//                transaction.Begin();
+            return UpdateCommand(entity) > 0;
+        }
 
-//                enumerable.ForEach(entity =>
-//                {
-//                    result += UpdateCommand(entity);
-//                    ++count;
-//                });
+        public virtual bool Update(IEnumerable<TEntity> entities)
+        {
+            var enumerable = entities as IList<TEntity> ?? entities.ToList();
+            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            int count = 0, result = 0;
 
-//                if (result == count)
-//                    transaction.Commit();
-//            }
-//            return result == count;
-//        }
+            using (var transaction = Database.Transaction)
+            {
+                transaction.Begin();
 
-//        private TIdentity AddCommand(TEntity entity)
-//        {
-//            var sql = ExecuteBuilder.Insert(entity)
-//                .AsSql();
+                enumerable.ForEach(entity =>
+                {
+                    result += UpdateCommand(entity);
+                    ++count;
+                });
 
-//            var id = Database.ExecuteScalar<TIdentity>(
-//                sql.InsertQuery,
-//                sql.Parameters);
+                if (result == count)
+                    transaction.Commit();
+            }
+            return result == count;
+        }
 
-//            if (id != null)
-//                entity.IdAccessor.SetValue(entity, id);
+        private TIdentity AddCommand(TEntity entity)
+        {
+            try
+            {
+                TableColumns.ForEach(c => SetInsertByColumn(c, entity));
 
-//            return id;
-//        }
+                var id = Database.ExecuteScalar<TIdentity>(
+                    Builder.InsertQuery,
+                    Builder.Parameters);
 
-//        private int DeleteCommand(TEntity entity)
-//        {
-//            var sql = ExecuteBuilder.Delete(entity)
-//                .WherePrimaryKey(e => e.Id.Equals(entity.Id))
-//                .AsSql();
+                if (id != null)
+                    entity.IdAccessor.SetValue(entity, id);
 
-//            return Database.Execute(sql.DeleteQuery, sql.Parameters);
-//        }
+                return id;
+            }
+            finally
+            {
+                CreateBuilder();
+            }
+        }
 
-//        private int UpdateCommand(TEntity entity)
-//        {
-//            var sql = ExecuteBuilder.Update(entity)
-//                .WherePrimaryKey(e => e.Id.Equals(entity.Id))
-//                .AsSql();
+        private int DeleteCommand(TEntity entity)
+        {
+            try
+            {
+                Builder.QueryByPrimaryKey<TEntity>(
+                               entity.IdAccessor.Name,
+                               e => e.Id.Equals(entity.Id));
 
-//            return Database.Execute(sql.UpdateQuery, sql.Parameters);
-//        }
-//    }
-//}
+                return Database.Execute(
+                    Builder.DeleteQuery, 
+                    Builder.Parameters);
+            }
+            finally
+            {
+                CreateBuilder();
+            }
+        }
+
+        private int UpdateCommand(TEntity entity)
+        {
+            try
+            {
+                TableColumns.ForEach(column =>
+                    SetUpdateByColumn(column, entity));
+
+                Builder.QueryByPrimaryKey<TEntity>(
+                                    entity.IdAccessor.Name,
+                                    e => e.Id.Equals(entity.Id));
+
+                return Database.Execute(
+                    Builder.UpdateQuery, 
+                    Builder.Parameters);
+            }
+            finally
+            {
+                CreateBuilder();
+            }
+        }
+
+        private void SetInsertByColumn(IMemberAccessor column, TEntity entity)
+        {
+            if (entity.IdAccessor.Name.IsNullOrEmpty() ||
+                entity.IdAccessor.Name == column.Name)
+                return;
+
+            Builder.Insert(column.Name, column.GetValue(entity));
+        }
+
+        private void SetUpdateByColumn(IMemberAccessor column, TEntity entity)
+        {
+            if (entity.IdAccessor.Name.IsNullOrEmpty() ||
+                entity.IdAccessor.Name == column.Name)
+                return;
+
+            Builder.Update(column.Name, column.GetValue(entity));
+        }
+
+        //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
+        //{
+        //    Builder.And();
+        //    Resolver.ResolveQuery(expression);
+
+        //    return this;
+        //}
+
+        //public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    IEnumerable<object> values)
+        //{
+        //    Builder.And();
+        //    Resolver.QueryByIsIn(expression, values);
+
+        //    return this;
+        //}
+
+        //public IExecuteBuilder<TEntity, TIdentity> WhereNotIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    IEnumerable<object> values)
+        //{
+        //    Builder.And();
+        //    Resolver.QueryByNotIn(expression, values);
+
+        //    return this;
+        //}
+
+        //public IExecuteBuilder<TEntity, TIdentity> WherePrimaryKey(
+        //    Expression<Func<TEntity, bool>> whereExpression)
+        //{
+        //    Builder.And();
+        //    Resolver.QueryByPrimaryKey(_entity.IdAccessor.Name, whereExpression);
+
+        //    return this;
+        //}
+    }
+}

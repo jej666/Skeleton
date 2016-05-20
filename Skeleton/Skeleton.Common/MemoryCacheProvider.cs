@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
 
@@ -16,16 +18,13 @@ namespace Skeleton.Common
         public T GetOrAdd<T>(string key, Func<T> valueFactory, Action<ICacheContext> configurator)
         {
             if (Cache.Contains(key))
-                return (T) Cache[key];
+                return (T)Cache[key];
 
             if (configurator == null)
                 configurator = _defaultCacheContext;
 
             var policy = new CachePolicyFactory().Create(configurator);
             var value = valueFactory();
-
-            if (value == null)
-                return default(T);
 
             Cache.Add(key, value, policy);
 
@@ -40,7 +39,7 @@ namespace Skeleton.Common
             var policy = new CachePolicyFactory().Create(configurator);
 
             var asyncLazyValue = new LazyAsync<T>(valueFactory);
-            var existingValue = (LazyAsync<T>) Cache.AddOrGetExisting(key, asyncLazyValue, policy);
+            var existingValue = (LazyAsync<T>)Cache.AddOrGetExisting(key, asyncLazyValue, policy);
 
             if (existingValue != null)
             {
@@ -77,7 +76,7 @@ namespace Skeleton.Common
         private class CachePolicyFactory
         {
             private readonly MemoryCacheContext _cacheContext =
-                new MemoryCacheContext {CreationTime = DateTimeOffset.UtcNow};
+                new MemoryCacheContext { CreationTime = DateTimeOffset.UtcNow };
 
             internal CacheItemPolicy Create(Action<ICacheContext> configurator)
             {

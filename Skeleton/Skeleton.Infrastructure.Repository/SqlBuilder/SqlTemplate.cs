@@ -4,7 +4,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal static class SqlTemplate
     {
-        internal static string ScopeIdentity
+        private static string ScopeIdentity
         {
             get { return "SELECT scope_identity() AS [SCOPE_IDENTITY]"; }
         }

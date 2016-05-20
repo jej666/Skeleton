@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Skeleton.Common.Extensions;
-using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
 
-namespace Skeleton.Infrastructure.Repository.SqlBuilder
+namespace Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree
 {
     internal static class InternalQueryResolver
     {

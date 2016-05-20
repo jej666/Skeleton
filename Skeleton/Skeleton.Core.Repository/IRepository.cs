@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using Skeleton.Core.Domain;
 
 namespace Skeleton.Core.Repository
@@ -7,6 +9,8 @@ namespace Skeleton.Core.Repository
         IReadOnlyRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
+        ISqlExecute SqlExecute { get; }
+
         bool Add(TEntity entity);
 
         bool Add(IEnumerable<TEntity> entities);
@@ -22,5 +26,19 @@ namespace Skeleton.Core.Repository
         bool Update(TEntity entity);
 
         bool Update(IEnumerable<TEntity> entities);
+
+        //IExecuteProcessor<TEntity, TIdentity> Where(
+        //    Expression<Func<TEntity, bool>> expression);
+
+        //IExecuteProcessor<TEntity, TIdentity> WhereIsIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    IEnumerable<object> values);
+
+        //IExecuteProcessor<TEntity, TIdentity> WhereNotIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    IEnumerable<object> values);
+
+        //IExecuteProcessor<TEntity, TIdentity> WherePrimaryKey(
+        //    Expression<Func<TEntity, bool>> whereExpression);
     }
 }

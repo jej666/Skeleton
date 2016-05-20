@@ -17,7 +17,7 @@ namespace Skeleton.Common.Reflection
         private readonly Type _propertyType;
         private readonly LazyRef<SetterDelegate> _setDelegate;
 
-        public PropertyAccessor(PropertyInfo propertyInfo)
+        private PropertyAccessor(PropertyInfo propertyInfo)
         {
             propertyInfo.ThrowIfNull(() => propertyInfo);
 

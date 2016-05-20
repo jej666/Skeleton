@@ -8,37 +8,17 @@ namespace Skeleton.Core.Repository
 {
     public interface IReadOnlyRepository<TEntity, TIdentity> :
         IDisposable,
-        IHideObjectMethods
+        IHideObjectMethods,
+        IQuery<TEntity, TIdentity>,
+        IAggregate<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-      //  IAggregateBuilder<TEntity, TIdentity> Aggregate { get; }
-
-        TEntity FirstOrDefault();
-
-        TEntity FirstOrDefault(TIdentity id);
-
-        //TEntity FirstOrDefault(Expression<Func<TEntity, bool>> where);
-
-        IEnumerable<TEntity> Find();
-
-        //IEnumerable<TEntity> Find(
-        //    Expression<Func<TEntity, bool>> where,
-        //    Expression<Func<TEntity, object>> orderBy);
-
-        IEnumerable<TEntity> GetAll();
-
-        IEnumerable<TEntity> Page(int pageSize, int pageNumber);
-
-        //IEnumerable<TEntity> Page(
-        //    int pageSize,
-        //    int pageNumber,
-        //    Expression<Func<TEntity, bool>> where,
-        //    Expression<Func<TEntity, object>> orderBy);
+        ISqlQuery SqlQuery { get; }
 
         IReadOnlyRepository<TEntity, TIdentity> GroupBy(
-           Expression<Func<TEntity, object>> expression);
+            Expression<Func<TEntity, object>> expression);
 
-        //IQueryBuilder<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
+        //IReadOnlyRepository<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
         //    Expression<Func<TEntity, TEntity2, bool>> expression)
         //    where TEntity2 : class, IEntity<TEntity2, TIdentity2>;
 
@@ -59,17 +39,17 @@ namespace Skeleton.Core.Repository
         IReadOnlyRepository<TEntity, TIdentity> Where(
             Expression<Func<TEntity, bool>> expression);
 
-        IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
-            Expression<Func<TEntity, object>> expression,
-            ISqlQuery sqlQuery);
+        //IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    ISqlQuery sqlQuery);
 
         IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values);
 
-        IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
-            Expression<Func<TEntity, object>> expression,
-            ISqlQuery sqlQuery);
+        //IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    ISqlQuery sqlQuery);
 
         IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,

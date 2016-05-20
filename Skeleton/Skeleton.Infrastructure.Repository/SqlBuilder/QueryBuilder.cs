@@ -14,7 +14,7 @@ using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal sealed class InternalQueryBuilder
+    internal sealed class QueryBuilder
     {
         private const string PARAMETER_PREFIX = "P";
         private readonly LazyRef<List<string>> columns = new LazyRef<List<string>>(() => new List<string>());
@@ -43,7 +43,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private readonly string _primaryTableName;
         private string _top;
 
-        internal InternalQueryBuilder(string tableName)
+        internal QueryBuilder(string tableName)
         {
             _primaryTableName = tableName;
             _tableNames.Add(tableName);
@@ -51,12 +51,12 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Parameters = new ExpandoObject();
         }
 
-        internal string Delete
+        internal string DeleteQuery
         {
             get { return SqlTemplate.Delete(_primaryTableName, Conditions); }
         }
 
-        internal string Insert
+        internal string InsertQuery
         {
             get { return SqlTemplate.Insert(_primaryTableName, Columns, InsertValues); }
         }
@@ -68,7 +68,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             get { return SqlTemplate.Query(Selection, Source, Conditions, Grouping, Having, Order); }
         }
 
-        internal string Update
+        internal string UpdateQuery
         {
             get { return SqlTemplate.Update(_primaryTableName, UpdateColumnValues, Conditions); }
         }
@@ -200,13 +200,13 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             get { return string.Join(", ", _insertValues); }
         }
 
-        internal void AddInsert(string columnName, object value)
+        internal void Insert(string columnName, object value)
         {
             _columns.Add(columnName);
             _insertValues.Add(GetFormattedValue(value));
         }
 
-        internal void AddUpdate(string columnName, object value)
+        internal void Update(string columnName, object value)
         {
             _updateColumnValues.Add(
                 SqlTemplate.ColumnValue(

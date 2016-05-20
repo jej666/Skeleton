@@ -9,29 +9,52 @@ namespace Skeleton.Core.Repository
 {
     public interface IReadOnlyRepositoryAsync<TEntity, TIdentity> :
         IDisposable,
-        IHideObjectMethods
+        IHideObjectMethods,
+        IQueryAsync<TEntity, TIdentity>,
+        IAggregateAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        IQueryBuilder<TEntity, TIdentity> Query { get; }
+        IReadOnlyRepository<TEntity, TIdentity> GroupBy(
+            Expression<Func<TEntity, object>> expression);
 
-        Task<TEntity> FirstOrDefaultAsync(TIdentity id);
+        //IReadOnlyRepository<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
+        //    Expression<Func<TEntity, TEntity2, bool>> expression)
+        //    where TEntity2 : class, IEntity<TEntity2, TIdentity2>;
 
-        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> where);
+        IReadOnlyRepository<TEntity, TIdentity> OrderBy(
+            Expression<Func<TEntity, object>> expression);
 
-        Task<IEnumerable<TEntity>> FindAsync(
-            Expression<Func<TEntity, bool>> where,
-            Expression<Func<TEntity, object>> orderBy);
+        IReadOnlyRepository<TEntity, TIdentity> OrderByDescending(
+            Expression<Func<TEntity, object>> expression);
 
-        Task<IEnumerable<TEntity>> FindAsync(ISqlQuery query);
+        IReadOnlyRepository<TEntity, TIdentity> Select(
+            params Expression<Func<TEntity, object>>[] expressions);
 
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        IReadOnlyRepository<TEntity, TIdentity> SelectDistinct(
+            Expression<Func<TEntity, object>> expression);
 
-        Task<IEnumerable<TEntity>> PageAllAsync(int pageSize, int pageNumber);
+        IReadOnlyRepository<TEntity, TIdentity> SelectTop(int take);
 
-        Task<IEnumerable<TEntity>> PageAsync(
-            int pageSize,
-            int pageNumber,
-            Expression<Func<TEntity, bool>> where,
-            Expression<Func<TEntity, object>> orderBy);
+        IReadOnlyRepository<TEntity, TIdentity> Where(
+            Expression<Func<TEntity, bool>> expression);
+
+        //IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    ISqlQuery sqlQuery);
+
+        IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
+            Expression<Func<TEntity, object>> expression,
+            IEnumerable<object> values);
+
+        //IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    ISqlQuery sqlQuery);
+
+        IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
+            Expression<Func<TEntity, object>> expression,
+            IEnumerable<object> values);
+
+        IReadOnlyRepository<TEntity, TIdentity> WherePrimaryKey(
+            Expression<Func<TEntity, bool>> expression);
     }
 }

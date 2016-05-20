@@ -39,7 +39,7 @@
 //            ITypeAccessorCache typeAccessorCache,
 //            IDatabaseFactory databaseFactory,
 //            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-//            this(typeAccessorCache, 
+//            this(typeAccessorCache,
 //                 databaseFactory.CreateDatabaseForAsyncOperations(configurator))
 //        { }
 
@@ -70,7 +70,7 @@
 //                                   .AsSql();
 
 //            return await Database.FindAsync<TEntity>(
-//                    sql.Query, 
+//                    sql.Query,
 //                    sql.Parameters)
 //                .ConfigureAwait(false);
 //        }
@@ -80,7 +80,7 @@
 //            query.ThrowIfNull(() => query);
 
 //            return await Database.FindAsync<TEntity>(
-//                    query.Query, 
+//                    query.Query,
 //                    query.Parameters)
 //                .ConfigureAwait(false);
 //        }
@@ -93,7 +93,7 @@
 //                                   .AsSql();
 
 //            return await Database.FirstOrDefaultAsync<TEntity>(
-//                    sql.Query, 
+//                    sql.Query,
 //                    sql.Parameters)
 //                .ConfigureAwait(false);
 //        }
@@ -106,7 +106,7 @@
 //                                  .AsSql();
 
 //            return await Database.FirstOrDefaultAsync<TEntity>(
-//                    sql.Query, 
+//                    sql.Query,
 //                    sql.Parameters)
 //                .ConfigureAwait(false);
 //        }
@@ -116,7 +116,7 @@
 //            var sql = QueryBuilder.AsSql();
 
 //            return await Database.FindAsync<TEntity>(
-//                    sql.Query, 
+//                    sql.Query,
 //                    sql.Parameters)
 //                .ConfigureAwait(false);
 //        }

@@ -15,7 +15,7 @@ namespace Skeleton.Common.Reflection
         private readonly string _name;
         private readonly LazyRef<SetterDelegate> _setDelegate;
 
-        public FieldAccessor(FieldInfo fieldInfo)
+        private FieldAccessor(FieldInfo fieldInfo)
         {
             fieldInfo.ThrowIfNull(() => fieldInfo);
 

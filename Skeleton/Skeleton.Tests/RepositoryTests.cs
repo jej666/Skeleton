@@ -20,44 +20,44 @@ namespace Skeleton.Tests
             _repository = new CustomerRepository(accessorCache, database);
         }
 
-        //[TestMethod]
-        //public void Add()
-        //{
-        //    var customer = new Customer { Name = "Foo" };
-        //    var successed = _repository.Add(customer);
-        //    Assert.IsTrue(successed);
-        //    Assert.IsTrue(customer.Id > 0);
-        //    var result = _repository.FirstOrDefault(customer.Id);
-        //    Assert.IsNotNull(result);
-        //    Assert.IsInstanceOfType(result, typeof(Customer));
-        //}
+        [TestMethod]
+        public void Add()
+        {
+            var customer = new Customer { Name = "Foo" };
+            var successed = _repository.Add(customer);
+            Assert.IsTrue(successed);
+            Assert.IsTrue(customer.Id > 0);
+            var result = _repository.FirstOrDefault(customer.Id);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(Customer));
+        }
 
-        //[TestMethod]
-        //public void Add_Multiple()
-        //{
-        //    var customers = new CustomerSeeder().Seed(5);
-        //    var successed = _repository.Add(customers);
-        //    Assert.IsTrue(successed);
-        //}
+        [TestMethod]
+        public void Add_Multiple()
+        {
+            var customers = new CustomerSeeder().Seed(5);
+            var successed = _repository.Add(customers);
+            Assert.IsTrue(successed);
+        }
 
-        //[TestMethod]
-        //public void Delete()
-        //{
-        //    var customer = _repository.Query.SelectTop(1).FirstOrDefault();
-        //    var successed = _repository.Delete(customer);
-        //    Assert.IsTrue(successed);
+        [TestMethod]
+        public void Delete()
+        {
+            var customer = _repository.SelectTop(1).FirstOrDefault();
+            var successed = _repository.Delete(customer);
+            Assert.IsTrue(successed);
 
-        //    var result = _repository.FirstOrDefault(customer.Id);
-        //    Assert.IsNull(result);
-        //}
+            var result = _repository.FirstOrDefault(customer.Id);
+            Assert.IsNull(result);
+        }
 
-        //[TestMethod]
-        //public void Delete_Multiple()
-        //{
-        //    var customers = _repository.Query.SelectTop(3).Find();
-        //    var successed = _repository.Delete(customers);
-        //    Assert.IsTrue(successed);
-        //}
+        [TestMethod]
+        public void Delete_Multiple()
+        {
+            var customers = _repository.SelectTop(3).Find();
+            var successed = _repository.Delete(customers);
+            Assert.IsTrue(successed);
+        }
 
         [TestMethod]
         public void Find_ByExpression()
@@ -73,7 +73,8 @@ namespace Skeleton.Tests
         [TestMethod]
         public void FirstOrDefault_ByExpression()
         {
-            var result = _repository.Where(c => c.Name.Equals("Foo")).FirstOrDefault();
+            var result = _repository.Where(c => c.Name.Equals("Foo"))
+                                    .FirstOrDefault();
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(Customer));
         }
@@ -96,29 +97,29 @@ namespace Skeleton.Tests
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
         }
 
-        //[TestMethod]
-        //public void Update()
-        //{
-        //    var customer = _repository.Query.SelectTop(1).FirstOrDefault();
-        //    customer.Name = "UpdatedName";
-        //    var successed = _repository.Update(customer);
-        //    Assert.IsTrue(successed);
+        [TestMethod]
+        public void Update()
+        {
+            var customer = _repository.SelectTop(1).FirstOrDefault();
+            customer.Name = "UpdatedName";
+            var successed = _repository.Update(customer);
+            Assert.IsTrue(successed);
 
-        //    var result = _repository.FirstOrDefault(customer.Id);
-        //    Assert.IsNotNull(result);
-        //    Assert.IsTrue(result.Name.Equals("UpdatedName"));
-        //}
+            var result = _repository.FirstOrDefault(customer.Id);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Name.Equals("UpdatedName"));
+        }
 
-        //[TestMethod]
-        //public void Update_Multiple()
-        //{
-        //    var customers = _repository.Query.SelectTop(5).Find();
-        //    foreach (var cust in customers)
-        //        cust.Name = "Updated" + cust.Id;
+        [TestMethod]
+        public void Update_Multiple()
+        {
+            var customers = _repository.SelectTop(5).Find();
+            foreach (var cust in customers)
+                cust.Name = "Updated" + cust.Id;
 
-        //    var successed = _repository.Update(customers);
-        //    Assert.IsTrue(successed);
-        //}
+            var successed = _repository.Update(customers);
+            Assert.IsTrue(successed);
+        }
 
         [TestMethod]
         public void SelectTop()
@@ -129,13 +130,13 @@ namespace Skeleton.Tests
             Assert.IsTrue(customers.Count() == 5);
         }
 
-        //[TestMethod]
-        //public void SelectCount()
-        //{
-        //    var count = _repository.Aggregate.Count(c => c.CustomerId).As<int>();
-        //    Assert.IsNotNull(count);
-        //    Assert.IsTrue(count > 0);
-        //}
+        [TestMethod]
+        public void SelectCount()
+        {
+            var count = _repository.Count<int>(c => c.CustomerId);
+            Assert.IsNotNull(count);
+            Assert.IsTrue(count > 0);
+        }
 
         [TestMethod]
         public void CustomQuery()
@@ -147,6 +148,5 @@ namespace Skeleton.Tests
             Assert.IsNotNull(customer2);
             Assert.AreEqual(customer1, customer2);
         }
-
     }
 }

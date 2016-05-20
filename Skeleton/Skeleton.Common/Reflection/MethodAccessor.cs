@@ -15,7 +15,7 @@ namespace Skeleton.Common.Reflection
         private readonly MethodInfo _methodInfo;
         private readonly string _name;
 
-        public MethodAccessor(MethodInfo methodInfo)
+        private MethodAccessor(MethodInfo methodInfo)
         {
             methodInfo.ThrowIfNull(() => methodInfo);
 

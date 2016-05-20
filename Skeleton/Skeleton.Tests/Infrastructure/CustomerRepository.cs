@@ -6,7 +6,7 @@ using Skeleton.Infrastructure.Repository;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class CustomerRepository : ReadOnlyRepositoryBase<Customer, int>
+    public class CustomerRepository : RepositoryBase<Customer, int>
     {
         private static readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> Configurator =
             config => config.UsingConfigConnectionString("Default")

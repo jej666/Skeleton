@@ -9,42 +9,76 @@ using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal sealed class LambdaExpressionResolver
+    public class SqlBuilderImpl : ISqlQuery, ISqlExecute
     {
-        private readonly InternalQueryBuilder _builder;
+        private readonly QueryBuilder _builder;
+        
+        //internal SqlBuilderImpl(
+        //    QueryBuilder builder,
+        //    SqlQueryExpressionResolver resolver)
+        //{
+        //    _builder = builder;
+        //    _resolver = resolver;
+        //}
 
-        internal LambdaExpressionResolver(InternalQueryBuilder builder)
+        internal SqlBuilderImpl(string tableName)
         {
-            _builder = builder;
+            _builder = new QueryBuilder(tableName);
+        }
+
+        public string DeleteQuery
+        {
+            get { return _builder.DeleteQuery; }
+        }
+
+        public string InsertQuery
+        {
+            get { return _builder.InsertQuery; }
+        }
+
+        public string UpdateQuery
+        {
+            get { return _builder.UpdateQuery; }
+        }
+
+        public IDictionary<string, object> Parameters
+        {
+            get { return _builder.Parameters; }
+        }
+
+        public string Query
+        {
+            get { return _builder.Query; }
+        }
+
+        public string PagedQuery(int pageSize, int pageNumber)
+        {
+            return _builder.PagedQuery(pageSize, pageNumber);
+        }
+
+        internal void And()
+        {
+            _builder.And();
+        }
+
+        internal void Or()
+        {
+            _builder.Or();
+        }
+
+        internal void Insert(string columnName, object value)
+        {
+            _builder.Insert(columnName,value);
+        }
+
+        internal void Update(string columnName, object value)
+        {
+            _builder.Update(columnName,value);
         }
 
         internal void GroupBy<T>(Expression<Func<T, object>> expression)
         {
             GroupBy<T>(expression.Body.GetMemberExpression());
-        }
-
-        internal void Join<T1, T2>(Expression<Func<T1, T2, bool>> expression)
-        {
-            var joinExpression = expression.Body.GetBinaryExpression();
-            var leftExpression = joinExpression.Left.GetMemberExpression();
-            var rightExpression = joinExpression.Right.GetMemberExpression();
-
-            Join<T1, T2>(leftExpression, rightExpression);
-        }
-
-        internal void Join<T1, T2, TKey>(Expression<Func<T1, TKey>> leftExpression,
-            Expression<Func<T1, TKey>> rightExpression)
-        {
-            Join<T1, T2>(leftExpression.Body.GetMemberExpression(), rightExpression.Body.GetMemberExpression());
-        }
-
-        internal void Join<T1, T2>(MemberExpression leftExpression, MemberExpression rightExpression)
-        {
-            _builder.Join(
-                TableInfo.GetTableName<T1>(),
-                TableInfo.GetTableName<T2>(),
-                TableInfo.GetColumnName(leftExpression),
-                TableInfo.GetColumnName(rightExpression));
         }
 
         internal void OrderBy<T>(Expression<Func<T, object>> expression)
@@ -59,11 +93,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             _builder.OrderByDescending(TableInfo.GetTableName<T>(), fieldName);
         }
 
-        internal void QueryByIsIn<T>(Expression<Func<T, object>> expression, ISqlQuery sqlQuery)
-        {
-            var fieldName = TableInfo.GetColumnName(expression);
-            _builder.QueryByIsIn(TableInfo.GetTableName<T>(), fieldName, sqlQuery);
-        }
+        //internal void QueryByIsIn<T>(Expression<Func<T, object>> expression, ISqlQuery sqlQuery)
+        //{
+        //    var fieldName = TableInfo.GetColumnName(expression);
+        //    _builder.QueryByIsIn(TableInfo.GetTableName<T>(), fieldName, sqlQuery);
+        //}
 
         internal void QueryByIsIn<T>(Expression<Func<T, object>> expression, IEnumerable<object> values)
         {
@@ -71,12 +105,12 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             _builder.QueryByIsIn(TableInfo.GetTableName<T>(), fieldName, values);
         }
 
-        internal void QueryByNotIn<T>(Expression<Func<T, object>> expression, ISqlQuery sqlQuery)
-        {
-            var fieldName = TableInfo.GetColumnName(expression);
-            _builder.Not();
-            _builder.QueryByIsIn(TableInfo.GetTableName<T>(), fieldName, sqlQuery);
-        }
+        //internal void QueryByNotIn<T>(Expression<Func<T, object>> expression, ISqlQuery sqlQuery)
+        //{
+        //    var fieldName = TableInfo.GetColumnName(expression);
+        //    _builder.Not();
+        //    _builder.QueryByIsIn(TableInfo.GetTableName<T>(), fieldName, sqlQuery);
+        //}
 
         internal void QueryByNotIn<T>(Expression<Func<T, object>> expression, IEnumerable<object> values)
         {
@@ -89,13 +123,13 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             string idColumnName,
             Expression<Func<T, bool>> whereExpression)
         {
-            var expressionTree = InternalQueryResolver.ResolveQuery((dynamic) whereExpression.Body, idColumnName);
+            var expressionTree = InternalQueryResolver.ResolveQuery((dynamic)whereExpression.Body, idColumnName);
             _builder.BuildSql(expressionTree);
         }
 
         internal void ResolveQuery<T>(Expression<Func<T, bool>> expression)
         {
-            var expressionTree = InternalQueryResolver.ResolveQuery((dynamic) expression.Body);
+            var expressionTree = InternalQueryResolver.ResolveQuery((dynamic)expression.Body);
             _builder.BuildSql(expressionTree);
         }
 
@@ -148,7 +182,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     if (newExpression != null)
                         foreach (var expr in newExpression.Arguments)
                         {
-                            var memberExp = (MemberExpression) expr;
+                            var memberExp = (MemberExpression)expr;
                             Select<T>(memberExp);
                         }
                     break;
@@ -171,5 +205,29 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             var fieldName = TableInfo.GetColumnName(expression.GetMemberExpression());
             _builder.Select(TableInfo.GetTableName<T>(), fieldName, selectFunction);
         }
+
+        //internal void Join<T1, T2>(Expression<Func<T1, T2, bool>> expression)
+        //{
+        //    var joinExpression = expression.Body.GetBinaryExpression();
+        //    var leftExpression = joinExpression.Left.GetMemberExpression();
+        //    var rightExpression = joinExpression.Right.GetMemberExpression();
+
+        //    Join<T1, T2>(leftExpression, rightExpression);
+        //}
+
+        //internal void Join<T1, T2, TKey>(Expression<Func<T1, TKey>> leftExpression,
+        //    Expression<Func<T1, TKey>> rightExpression)
+        //{
+        //    Join<T1, T2>(leftExpression.Body.GetMemberExpression(), rightExpression.Body.GetMemberExpression());
+        //}
+
+        //internal void Join<T1, T2>(MemberExpression leftExpression, MemberExpression rightExpression)
+        //{
+        //    _builder.Join(
+        //        TableInfo.GetTableName<T1>(),
+        //        TableInfo.GetTableName<T2>(),
+        //        TableInfo.GetColumnName(leftExpression),
+        //        TableInfo.GetColumnName(rightExpression));
+        //}
     }
 }

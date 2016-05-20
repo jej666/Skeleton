@@ -22,26 +22,17 @@ namespace Skeleton.Infrastructure.Repository
                 id.ToString());
         }
 
-        internal string ForFirstOrDefault(IDictionary<string, object> parameters)
+        internal string ForFirstOrDefault(ISqlQuery query)
         {
             return "{0}.FirstOrDefault.{1}".FormatWith(
                 typeof(TEntity).FullName,
-                parameters.ToString("=", "|"));
+                query.Query);
         }
 
         internal string ForGetAll()
         {
             return "{0}.GetAll".FormatWith(
                 typeof(TEntity).FullName);
-        }
-
-        internal string ForPage(int pageSize, int pageNumber, IDictionary<string, object> parameters)
-        {
-            return "{0}.Paged.Size{1}.Page{2}.{3}".FormatWith(
-                typeof(TEntity).FullName,
-                pageSize,
-                pageNumber,
-                parameters.ToString("=", "|"));
         }
 
         internal string ForPageAll(int pageSize, int pageNumber)
