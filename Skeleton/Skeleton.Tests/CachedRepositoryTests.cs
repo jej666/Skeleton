@@ -39,7 +39,6 @@ namespace Skeleton.Tests
         [TestMethod]
         public void FirstOrDefault_ByExpression()
         {
-
             var customer1 = _repository.SelectTop(1).FirstOrDefault();
             var sql = _repository.Where(c => c.Name.Equals(customer1.Name)).SqlQuery;
             var customer2 = _repository.FirstOrDefault();
@@ -47,7 +46,6 @@ namespace Skeleton.Tests
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            
             Assert.IsTrue(_repository.Cache.Contains<Customer>(
                 CustomerCacheKey.ForFirstOrDefault(sql)));
         }

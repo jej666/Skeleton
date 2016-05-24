@@ -205,7 +205,8 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
-            Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
+            Expression<Func<TEntity, object>> expression, 
+            ISqlQuery sqlQuery)
         {
             expression.ThrowIfNull(() => expression);
             Builder.And();
@@ -215,7 +216,8 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
-            Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
+            Expression<Func<TEntity, object>> expression, 
+            IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
             Builder.And();
@@ -225,7 +227,8 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
-            Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
+            Expression<Func<TEntity, object>> expression, 
+            ISqlQuery sqlQuery)
         {
             expression.ThrowIfNull(() => expression);
             Builder.And();
@@ -245,7 +248,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public TResult Average<TResult>(Expression<Func<TEntity, object>> expression)
+        public TResult Average<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Avg);
@@ -253,7 +256,7 @@ namespace Skeleton.Infrastructure.Repository
             return AggregateAs<TResult>();
         }
 
-        public TResult Count<TResult>(Expression<Func<TEntity, object>> expression)
+        public TResult Count<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Count);
@@ -261,7 +264,7 @@ namespace Skeleton.Infrastructure.Repository
             return AggregateAs<TResult>();
         }
 
-        public TResult Max<TResult>(Expression<Func<TEntity, object>> expression)
+        public TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Max);
@@ -269,7 +272,7 @@ namespace Skeleton.Infrastructure.Repository
             return AggregateAs<TResult>();
         }
 
-        public TResult Min<TResult>(Expression<Func<TEntity, object>> expression)
+        public TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Min);
@@ -277,7 +280,7 @@ namespace Skeleton.Infrastructure.Repository
             return AggregateAs<TResult>();
         }
 
-        public TResult Sum<TResult>(Expression<Func<TEntity, object>> expression)
+        public TResult Sum<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Sum);

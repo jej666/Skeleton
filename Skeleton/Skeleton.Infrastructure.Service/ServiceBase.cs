@@ -1,10 +1,10 @@
-﻿namespace Skeleton.Infrastructure.Service
-{
-    using Common;
-    using Common.Extensions;
-    using Core.Service;
-    using System;
+﻿using System;
+using Skeleton.Common;
+using Skeleton.Common.Extensions;
+using Skeleton.Core.Service;
 
+namespace Skeleton.Infrastructure.Service
+{
     public abstract class ServiceBase :
         DisposableBase,
         IService

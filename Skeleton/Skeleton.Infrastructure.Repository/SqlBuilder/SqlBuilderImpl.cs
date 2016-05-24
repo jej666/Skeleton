@@ -134,7 +134,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             _builder.SelectTop(take);
         }
 
-        internal void SelectWithFunction<T>(Expression<Func<T, object>> expression, SelectFunction selectFunction)
+        internal void SelectWithFunction<T, TResult>(Expression<Func<T, TResult>> expression, SelectFunction selectFunction)
         {
             SelectWithFunction<T>(expression.Body, selectFunction);
         }

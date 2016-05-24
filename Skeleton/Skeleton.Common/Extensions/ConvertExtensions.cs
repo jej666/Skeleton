@@ -123,5 +123,114 @@ namespace Skeleton.Common.Extensions
                 ? string.Empty
                 : Convert.ToString(value, CultureInfo.InvariantCulture).TrimEnd();
         }
+
+        public static int? ToInt(this string str, NumberStyles ns = NumberStyles.Integer, CultureInfo ci = null)
+        {
+            int result;
+            if (int.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
+                return result;
+            else
+                return null;
+        }
+
+        public static long? ToLong(this string str, NumberStyles ns = NumberStyles.Integer, CultureInfo ci = null)
+        {
+            long result;
+            if (long.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
+                return result;
+            else
+                return null;
+        }
+
+        public static short? ToShort(this string str, NumberStyles ns = NumberStyles.Integer, CultureInfo ci = null)
+        {
+            short result;
+            if (short.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
+                return result;
+            else
+                return null;
+        }
+
+        public static float? ToFloat(this string str, NumberStyles ns = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo ci = null)
+        {
+            float result;
+            if (float.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
+                return result;
+            else
+                return null;
+        }
+
+        public static double? ToDouble(this string str, NumberStyles ns = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo ci = null)
+        {
+            double result;
+            if (double.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
+                return result;
+            else
+                return null;
+        }
+
+        public static decimal? ToDecimal(this string str, NumberStyles ns = NumberStyles.Number, CultureInfo ci = null)
+        {
+            decimal result;
+            if (decimal.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
+                return result;
+            else
+                return null;
+        }
+
+        public static int ToInt(this string str, string error)
+        {
+            int result;
+            if (int.TryParse(str, out result))
+                return result;
+
+            throw new FormatException(error);
+        }
+
+        public static long ToLong(this string str, string error)
+        {
+            long result;
+            if (long.TryParse(str, out result))
+                return result;
+
+            throw new FormatException(error);
+        }
+
+        public static short ToShort(this string str, string error)
+        {
+            short result;
+            if (short.TryParse(str, out result))
+                return result;
+
+            throw new FormatException(error);
+        }
+
+
+        public static float? ToFloat(this string str, string error)
+        {
+            float result;
+            if (float.TryParse(str, out result))
+                return result;
+
+            throw new FormatException(error);
+        }
+
+        public static double ToDouble(this string str, string error)
+        {
+            double result;
+            if (double.TryParse(str, out result))
+                return result;
+
+            throw new FormatException(error);
+        }
+
+        public static decimal ToDecimal(this string str, string error)
+        {
+            decimal result;
+            if (decimal.TryParse(str, out result))
+                return result;
+
+            throw new FormatException(error);
+        }
     }
 }

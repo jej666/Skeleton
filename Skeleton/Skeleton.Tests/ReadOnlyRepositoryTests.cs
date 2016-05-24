@@ -73,7 +73,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectCount()
         {
-            var count = _customerRepository.Count<int>(c => c.CustomerId);
+            var count = _customerRepository.Count(c => c.CustomerId);
             Assert.IsNotNull(count);
             Assert.IsTrue(count > 0);
         }
@@ -85,7 +85,7 @@ namespace Skeleton.Tests
                .OrderBy(c => c.CustomerId)
                .SelectTop(1)
                .FirstOrDefault();
-            var min = _customerRepository.Min<int>(c => c.CustomerId);
+            var min = _customerRepository.Min(c => c.CustomerId);
             Assert.IsNotNull(min);
             Assert.IsTrue(min == minCustomer.CustomerId);
         }
@@ -97,7 +97,7 @@ namespace Skeleton.Tests
                 .OrderByDescending(c => c.CustomerId)
                 .SelectTop(1)
                 .FirstOrDefault();
-            var max = _customerRepository.Max<int>(c => c.CustomerId);
+            var max = _customerRepository.Max(c => c.CustomerId);
             Assert.IsNotNull(max);
             Assert.IsTrue(max == maxCustomer.CustomerId);
         }

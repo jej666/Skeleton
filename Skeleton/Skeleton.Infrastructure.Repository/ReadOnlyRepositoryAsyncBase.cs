@@ -282,7 +282,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public async Task<TResult> AverageAsync<TResult>(
-            Expression<Func<TEntity, object>> expression)
+            Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Avg);
@@ -291,7 +291,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public async Task<TResult> CountAsync<TResult>(
-            Expression<Func<TEntity, object>> expression)
+            Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Count);
@@ -300,7 +300,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public async Task<TResult> MaxAsync<TResult>(
-            Expression<Func<TEntity, object>> expression)
+            Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Max);
@@ -309,7 +309,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public async Task<TResult> MinAsync<TResult>(
-            Expression<Func<TEntity, object>> expression)
+            Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Min);
@@ -318,7 +318,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public async Task<TResult> SumAsync<TResult>(
-            Expression<Func<TEntity, object>> expression)
+            Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.SelectWithFunction(expression, SelectFunction.Sum);
