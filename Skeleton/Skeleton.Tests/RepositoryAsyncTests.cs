@@ -34,7 +34,7 @@
 //        [TestMethod]
 //        public async Task AddAsync_Multiple()
 //        {
-//            var customers = new CustomerSeeder().Seed(5);
+//            var customers = new CustomerSeeder().SeedPosts(5);
 //            var successed = await repository.AddAsync(customers);
 //            Assert.IsTrue(successed);
 //        }

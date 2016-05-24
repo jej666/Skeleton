@@ -7,6 +7,7 @@ using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Data.Configuration;
+using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -15,11 +16,6 @@ namespace Skeleton.Infrastructure.Repository
         IRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly Func<IMemberAccessor, bool> _simplePropertiesCondition =
-            x => x.MemberType.IsPrimitive ||
-                 x.MemberType == typeof(decimal) ||
-                 x.MemberType == typeof(string);
-
         protected RepositoryBase(
             ITypeAccessorCache typeAccessorCache,
             IDatabase database) :
@@ -38,16 +34,6 @@ namespace Skeleton.Infrastructure.Repository
         public ISqlExecute SqlExecute
         {
             get { return Builder; }
-        }
-
-        private IEnumerable<IMemberAccessor> TableColumns
-        {
-            get
-            {
-                return TypeAccessor.GetDeclaredOnlyProperties()
-                    .Where(_simplePropertiesCondition)
-                    .ToArray();
-            }
         }
 
         public virtual bool Add(TEntity entity)
@@ -167,7 +153,8 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                TableColumns.ForEach(c => SetInsertByColumn(c, entity));
+                var columns = TypeAccessor.GetTableColumns();
+                Builder.SetInsertColumns<TEntity, TIdentity>(columns, entity);
 
                 var id = Database.ExecuteScalar<TIdentity>(
                     Builder.InsertQuery,
@@ -180,7 +167,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                CreateBuilder();
+                InitializeBuilder();
             }
         }
 
@@ -198,7 +185,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                CreateBuilder();
+                InitializeBuilder();
             }
         }
 
@@ -206,8 +193,8 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                TableColumns.ForEach(column =>
-                    SetUpdateByColumn(column, entity));
+                var columns = TypeAccessor.GetTableColumns();
+                Builder.SetUpdateColumns<TEntity,TIdentity>(columns, entity);
 
                 Builder.QueryByPrimaryKey<TEntity>(
                                     entity.IdAccessor.Name,
@@ -219,26 +206,8 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                CreateBuilder();
+                InitializeBuilder();
             }
-        }
-
-        private void SetInsertByColumn(IMemberAccessor column, TEntity entity)
-        {
-            if (entity.IdAccessor.Name.IsNullOrEmpty() ||
-                entity.IdAccessor.Name == column.Name)
-                return;
-
-            Builder.Insert(column.Name, column.GetValue(entity));
-        }
-
-        private void SetUpdateByColumn(IMemberAccessor column, TEntity entity)
-        {
-            if (entity.IdAccessor.Name.IsNullOrEmpty() ||
-                entity.IdAccessor.Name == column.Name)
-                return;
-
-            Builder.Update(column.Name, column.GetValue(entity));
         }
 
         //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)

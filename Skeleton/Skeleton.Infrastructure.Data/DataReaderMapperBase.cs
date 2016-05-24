@@ -9,12 +9,13 @@ namespace Skeleton.Infrastructure.Data
 {
     internal abstract class DataReaderMapperBase<TResult> where TResult : class
     {
+        private readonly ITypeAccessor _accessor;
+
         private readonly Func<IMemberAccessor, bool> _simplePropertiesCondition =
             x => x.MemberType.IsPrimitive ||
                  x.MemberType == typeof(decimal) ||
                  x.MemberType == typeof(string);
 
-        private readonly ITypeAccessor _accessor;
         private readonly IList<IMemberAccessor> _tableColumns;
 
         protected internal DataReaderMapperBase(ITypeAccessorCache accessorCache)

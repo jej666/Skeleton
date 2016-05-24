@@ -15,7 +15,7 @@ namespace Skeleton.Tests.Infrastructure
             CloseConnection();
         }
 
-        public void CloseConnection()
+        private void CloseConnection()
         {
             if (_innerConnection == null) return;
 

@@ -59,24 +59,26 @@
   <ItemGroup>
     <Compile Include="CachedRepositoryAsyncTests.cs" />
     <Compile Include="Infrastructure\Benchmark.cs" />
+    <Compile Include="Infrastructure\CustomerCategoryRepository.cs" />
+    <Compile Include="Infrastructure\CustomerCategory.cs" />
     <Compile Include="Infrastructure\Customer.cs" />
     <Compile Include="Infrastructure\CachedCustomerRepository.cs" />
     <Compile Include="Infrastructure\CustomerCacheKey.cs" />
     <Compile Include="Infrastructure\CachedCustomerRepositoryAsync.cs" />
     <Compile Include="Infrastructure\PostRepositoryAsync.cs" />
-    <Compile Include="Infrastructure\PostSeeder.cs" />
     <Compile Include="Infrastructure\SqlConnectionHelper.cs" />
     <Compile Include="Infrastructure\SqlDataReaderHelper.cs" />
     <Compile Include="Infrastructure\PostRepository.cs" />
     <Compile Include="Infrastructure\CustomerRepository.cs" />
     <Compile Include="Infrastructure\CustomerRepositoryAsync.cs" />
-    <Compile Include="Infrastructure\CustomerSeeder.cs" />
+    <Compile Include="Infrastructure\Seeder.cs" />
     <Compile Include="Infrastructure\Post.cs" />
     <Compile Include="PerformanceTests.cs" />
     <Compile Include="RepositoryAsyncTests.cs" />
     <Compile Include="CachedRepositoryTests.cs" />
-    <Compile Include="TestBase.cs" />
     <Compile Include="RepositoryTests.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="ReadOnlyRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

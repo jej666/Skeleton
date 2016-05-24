@@ -18,8 +18,11 @@ namespace Skeleton.Tests
             var accessorCache = Container.Resolve<ITypeAccessorCache>();
             var database = Container.Resolve<IDatabase>();
             var cacheProvider = Container.Resolve<ICacheProvider>();
+
             _repository = new CachedCustomerRepository(
                 accessorCache, cacheProvider, database);
+
+            Seeder.SeedCustomers();
         }
 
         [TestMethod]

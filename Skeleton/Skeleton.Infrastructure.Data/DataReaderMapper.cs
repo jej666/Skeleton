@@ -52,7 +52,7 @@ namespace Skeleton.Infrastructure.Data
                 if (dataReader == null || dataReader.FieldCount == 0)
                     return default(TResult);
 
-                if (!dataReader.Read()) 
+                if (!dataReader.Read())
                     return default(TResult);
 
                 var values = new object[dataReader.FieldCount];
@@ -64,7 +64,6 @@ namespace Skeleton.Infrastructure.Data
                 }
 
                 return instance;
-
             }
             finally
             {

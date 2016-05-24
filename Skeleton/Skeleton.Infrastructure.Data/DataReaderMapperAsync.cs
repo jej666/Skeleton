@@ -53,7 +53,7 @@ namespace Skeleton.Infrastructure.Data
                 if (dataReader == null || dataReader.FieldCount == 0)
                     return default(TResult);
 
-                if (!await dataReader.ReadAsync().ConfigureAwait(false)) 
+                if (!await dataReader.ReadAsync().ConfigureAwait(false))
                     return default(TResult);
 
                 var values = new object[dataReader.FieldCount];

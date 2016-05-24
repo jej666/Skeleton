@@ -41,12 +41,12 @@ namespace Skeleton.Infrastructure.Data
             get { return new DatabaseTransaction(this); }
         }
 
-        protected internal ILogger Logger
+        internal ILogger Logger
         {
             get { return _logger; }
         }
 
-        protected internal ITypeAccessorCache TypeAccessorCache
+        internal ITypeAccessorCache TypeAccessorCache
         {
             get { return _typeAccessorCache; }
         }
@@ -76,7 +76,7 @@ namespace Skeleton.Infrastructure.Data
             _transaction = null;
         }
 
-        protected internal void CloseConnection()
+        private void CloseConnection()
         {
             if (_connection == null)
                 return;
@@ -88,21 +88,21 @@ namespace Skeleton.Infrastructure.Data
                 _connection.Close();
         }
 
-        protected internal IDbCommand CreateStoredProcedureCommand(
+        internal IDbCommand CreateStoredProcedureCommand(
             string procedureName,
             IDictionary<string, object> parameters)
         {
             return CreateCommand(CommandType.StoredProcedure, procedureName, parameters);
         }
 
-        protected internal IDbCommand CreateTextCommand(
+        internal IDbCommand CreateTextCommand(
             string commandText,
             IDictionary<string, object> parameters)
         {
             return CreateCommand(CommandType.Text, commandText, parameters);
         }
 
-        protected internal void OpenConnection()
+        internal void OpenConnection()
         {
             try
             {
@@ -125,7 +125,7 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        protected internal async Task OpenConnectionAsync()
+        internal async Task OpenConnectionAsync()
         {
             try
             {

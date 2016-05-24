@@ -16,17 +16,17 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal sealed class QueryBuilder
     {
-        private const string PARAMETER_PREFIX = "P";
-        private readonly LazyRef<List<string>> columns = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> conditions = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> groupingList = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> havingConditions = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> insertValues = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> joinExpressions = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> selectionList = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> sortList = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> tableNames = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> updateColumnValues = new LazyRef<List<string>>(() => new List<string>());
+        private const string ParameterPrefix = "P";
+        private readonly LazyRef<List<string>> _columns = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _conditions = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _groupingList = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _havingConditions = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _insertValues = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _joinExpressions = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _selectionList = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _sortList = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _tableNames = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _updateColumnValues = new LazyRef<List<string>>(() => new List<string>());
 
         private readonly Dictionary<ExpressionType, string> _operationDictionary =
             new Dictionary<ExpressionType, string>
@@ -46,7 +46,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         internal QueryBuilder(string tableName)
         {
             _primaryTableName = tableName;
-            _tableNames.Add(tableName);
+            _tableNames.Value.Add(tableName);
 
             Parameters = new ExpandoObject();
         }
@@ -73,73 +73,23 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             get { return SqlTemplate.Update(_primaryTableName, UpdateColumnValues, Conditions); }
         }
 
-        private List<string> _columns
-        {
-            get { return columns.Value; }
-        }
-
-        private List<string> _updateColumnValues
-        {
-            get { return updateColumnValues.Value; }
-        }
-
-        private List<string> _conditions
-        {
-            get { return conditions.Value; }
-        }
-
-        private List<string> _groupingList
-        {
-            get { return groupingList.Value; }
-        }
-
-        private List<string> _havingConditions
-        {
-            get { return havingConditions.Value; }
-        }
-
-        private List<string> _joinExpressions
-        {
-            get { return joinExpressions.Value; }
-        }
-
-        private List<string> _selectionList
-        {
-            get { return selectionList.Value; }
-        }
-
-        private List<string> _sortList
-        {
-            get { return sortList.Value; }
-        }
-
-        private List<string> _tableNames
-        {
-            get { return tableNames.Value; }
-        }
-
-        private List<string> _insertValues
-        {
-            get { return insertValues.Value; }
-        }
-
         private string Columns
         {
-            get { return string.Join(", ", _columns); }
+            get { return string.Join(", ", _columns.Value); }
         }
 
         private string UpdateColumnValues
         {
-            get { return string.Join(", ", _updateColumnValues); }
+            get { return string.Join(", ", _updateColumnValues.Value); }
         }
 
         private string Conditions
         {
             get
             {
-                if (_conditions.Count == 0)
+                if (_conditions.Value.Count == 0)
                     return "";
-                return "WHERE " + string.Join("", _conditions);
+                return "WHERE " + string.Join("", _conditions.Value);
             }
         }
 
@@ -147,9 +97,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             get
             {
-                if (_groupingList.Count == 0)
+                if (_groupingList.Value.Count == 0)
                     return "";
-                return "GROUP BY " + string.Join(", ", _groupingList);
+                return "GROUP BY " + string.Join(", ", _groupingList.Value);
             }
         }
 
@@ -157,9 +107,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             get
             {
-                if (_havingConditions.Count == 0)
+                if (_havingConditions.Value.Count == 0)
                     return "";
-                return "HAVING " + string.Join(" ", _havingConditions);
+                return "HAVING " + string.Join(" ", _havingConditions.Value);
             }
         }
 
@@ -167,9 +117,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             get
             {
-                if (_sortList.Count == 0)
+                if (_sortList.Value.Count == 0)
                     return "";
-                return "ORDER BY " + string.Join(", ", _sortList);
+                return "ORDER BY " + string.Join(", ", _sortList.Value);
             }
         }
 
@@ -180,9 +130,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 var result = string.Empty;
                 if (!string.IsNullOrEmpty(_top))
                     result = _top;
-                if (_selectionList.Count == 0)
+
+                if (_selectionList.Value.Count == 0)
                     return result += "{0}.*".FormatWith(_primaryTableName);
-                return result += string.Join(", ", _selectionList);
+
+                return result += string.Join(", ", _selectionList.Value);
             }
         }
 
@@ -190,25 +142,25 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             get
             {
-                var joinExpression = string.Join(" ", _joinExpressions);
+                var joinExpression = string.Join(" ", _joinExpressions.Value);
                 return "{0} {1}".FormatWith(_primaryTableName, joinExpression);
             }
         }
 
         private string InsertValues
         {
-            get { return string.Join(", ", _insertValues); }
+            get { return string.Join(", ", _insertValues.Value); }
         }
 
         internal void Insert(string columnName, object value)
         {
-            _columns.Add(columnName);
-            _insertValues.Add(GetFormattedValue(value));
+            _columns.Value.Add(columnName);
+            _insertValues.Value.Add(GetFormattedValue(value));
         }
 
         internal void Update(string columnName, object value)
         {
-            _updateColumnValues.Add(
+            _updateColumnValues.Value.Add(
                 SqlTemplate.ColumnValue(
                     _primaryTableName,
                     columnName,
@@ -217,13 +169,13 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal void And()
         {
-            if (_conditions.Count > 0)
-                _conditions.Add(" AND ");
+            if (_conditions.Value.Count > 0)
+                _conditions.Value.Add(" AND ");
         }
 
-        internal void BeginExpression()
+        private void BeginExpression()
         {
-            _conditions.Add("(");
+            _conditions.Value.Add("(");
         }
 
         internal void BuildSql(Node node)
@@ -282,7 +234,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             BuildSql(node.Child);
         }
 
-        internal void BuildSql(MemberNode memberNode, ValueNode valueNode, ExpressionType op)
+        private void BuildSql(MemberNode memberNode, ValueNode valueNode, ExpressionType op)
         {
             if (valueNode.Value == null)
             {
@@ -298,12 +250,12 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        internal void BuildSql(ValueNode valueNode, MemberNode memberNode, ExpressionType op)
+        private void BuildSql(ValueNode valueNode, MemberNode memberNode, ExpressionType op)
         {
             BuildSql(memberNode, valueNode, op);
         }
 
-        internal void BuildSql(MemberNode leftMember, MemberNode rightMember, ExpressionType op)
+        private void BuildSql(MemberNode leftMember, MemberNode rightMember, ExpressionType op)
         {
             QueryByFieldComparison(
                 leftMember.TableName,
@@ -313,7 +265,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 rightMember.FieldName);
         }
 
-        internal void BuildSql(SingleOperationNode leftMember, Node rightMember, ExpressionType op)
+        private void BuildSql(SingleOperationNode leftMember, Node rightMember, ExpressionType op)
         {
             if (leftMember.Operator == ExpressionType.Not)
                 BuildSql(leftMember as Node, rightMember, op);
@@ -321,12 +273,12 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 BuildSql((dynamic) leftMember.Child, (dynamic) rightMember, op);
         }
 
-        internal void BuildSql(Node leftMember, SingleOperationNode rightMember, ExpressionType op)
+        private void BuildSql(Node leftMember, SingleOperationNode rightMember, ExpressionType op)
         {
             BuildSql(rightMember, leftMember, op);
         }
 
-        internal void BuildSql(Node leftNode, Node rightNode, ExpressionType op)
+        private void BuildSql(Node leftNode, Node rightNode, ExpressionType op)
         {
             BeginExpression();
             BuildSql((dynamic) leftNode);
@@ -335,46 +287,48 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             EndExpression();
         }
 
-        internal void EndExpression()
+        private void EndExpression()
         {
-            _conditions.Add(")");
+            _conditions.Value.Add(")");
         }
 
         internal void GroupBy(string tableName, string fieldName)
         {
-            _groupingList.Add(SqlTemplate.Field(tableName, fieldName));
+            _groupingList.Value.Add(SqlTemplate.Field(tableName, fieldName));
         }
 
         internal void Join(
             string originalTableName,
             string joinTableName,
             string leftField,
-            string rightField)
+            string rightField,
+            JoinType joinType)
         {
-            var joinString = "JOIN {0} ON {1} = {2}".FormatWith(
+            var joinString = " {0} JOIN {1} ON {2} = {3}".FormatWith(
+                joinType.ToString(),
                 SqlTemplate.Table(joinTableName),
                 SqlTemplate.Field(originalTableName, leftField),
                 SqlTemplate.Field(joinTableName, rightField));
-            _tableNames.Add(joinTableName);
-            _joinExpressions.Add(joinString);
+            _tableNames.Value.Add(joinTableName);
+            _joinExpressions.Value.Add(joinString);
         }
 
         internal void Not()
         {
-            _conditions.Add(" NOT ");
+            _conditions.Value.Add(" NOT ");
         }
 
         internal void Or()
         {
-            if (_conditions.Count > 0)
-                _conditions.Add(" OR ");
+            if (_conditions.Value.Count > 0)
+                _conditions.Value.Add(" OR ");
         }
 
         internal void OrderBy(string tableName, string fieldName)
         {
             var order = SqlTemplate.Field(tableName, fieldName);
 
-            _sortList.Add(order);
+            _sortList.Value.Add(order);
         }
 
         internal void OrderByDescending(string tableName, string fieldName)
@@ -382,18 +336,18 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             var order = SqlTemplate.Field(tableName, fieldName);
             order += " DESC";
 
-            _sortList.Add(order);
+            _sortList.Value.Add(order);
         }
 
         internal string PagedQuery(int pageSize, int pageNumber)
         {
-            if (_sortList.Count == 0)
+            if (_sortList.Value.Count == 0)
                 throw new ArgumentException("Pagination requires the ORDER BY statement to be specified");
 
             return SqlTemplate.PagedQuery(Selection, Source, Conditions, Order, pageSize, pageNumber);
         }
 
-        internal void QueryByField(string tableName, string fieldName, string op, object fieldValue)
+        private void QueryByField(string tableName, string fieldName, string op, object fieldValue)
         {
             var paramId = NextParamId();
             var newCondition = "{0} {1} {2}".FormatWith(
@@ -401,11 +355,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 op,
                 SqlTemplate.Parameter(paramId));
 
-            _conditions.Add(newCondition);
+            _conditions.Value.Add(newCondition);
             AddParameter(paramId, fieldValue);
         }
 
-        internal void QueryByFieldComparison(string leftTableName, string leftFieldName, string op,
+        private void QueryByFieldComparison(string leftTableName, string leftFieldName, string op,
             string rightTableName, string rightFieldName)
         {
             var newCondition = "{0} {1} {2}".FormatWith(
@@ -413,30 +367,30 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 op,
                 SqlTemplate.Field(rightTableName, rightFieldName));
 
-            _conditions.Add(newCondition);
+            _conditions.Value.Add(newCondition);
         }
 
-        internal void QueryByFieldLike(string tableName, string fieldName, string fieldValue)
+        private void QueryByFieldLike(string tableName, string fieldName, string fieldValue)
         {
             var paramId = NextParamId();
             var newCondition = "{0} LIKE {1}".FormatWith(
                 SqlTemplate.Field(tableName, fieldName),
                 SqlTemplate.Parameter(paramId));
 
-            _conditions.Add(newCondition);
+            _conditions.Value.Add(newCondition);
             AddParameter(paramId, fieldValue);
         }
 
-        internal void QueryByFieldNotNull(string tableName, string fieldName)
+        private void QueryByFieldNotNull(string tableName, string fieldName)
         {
-            _conditions.Add("{0} IS NOT NULL"
+            _conditions.Value.Add("{0} IS NOT NULL"
                 .FormatWith(
                     SqlTemplate.Field(tableName, fieldName)));
         }
 
-        internal void QueryByFieldNull(string tableName, string fieldName)
+        private void QueryByFieldNull(string tableName, string fieldName)
         {
-            _conditions.Add("{0} IS NULL"
+            _conditions.Value.Add("{0} IS NULL"
                 .FormatWith(
                     SqlTemplate.Field(tableName, fieldName)));
         }
@@ -455,7 +409,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 SqlTemplate.Field(tableName, fieldName),
                 innerQuery);
 
-            _conditions.Add(newCondition);
+            _conditions.Value.Add(newCondition);
         }
 
         internal void QueryByIsIn(string tableName, string fieldName, IEnumerable<object> values)
@@ -471,18 +425,18 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 SqlTemplate.Field(tableName, fieldName),
                 string.Join(",", paramIds));
 
-            _conditions.Add(newCondition);
+            _conditions.Value.Add(newCondition);
         }
 
         internal void Select(string tableName)
         {
             var selectionString = "{0}.*".FormatWith(SqlTemplate.Table(tableName));
-            _selectionList.Add(selectionString);
+            _selectionList.Value.Add(selectionString);
         }
 
         internal void Select(string tableName, string fieldName)
         {
-            _selectionList.Add(SqlTemplate.Field(tableName, fieldName));
+            _selectionList.Value.Add(SqlTemplate.Field(tableName, fieldName));
         }
 
         internal void Select(string tableName, string fieldName, SelectFunction selectFunction)
@@ -491,7 +445,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 selectFunction.ToString(),
                 SqlTemplate.Field(tableName, fieldName));
 
-            _selectionList.Add(selectionString);
+            _selectionList.Value.Add(selectionString);
         }
 
         internal void SelectTop(int take)
@@ -501,22 +455,14 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         private static string GetFormattedValue(object value)
         {
-            var formattedValue = string.Empty;
-
             if (value is string)
-            {
-                formattedValue = "'{0}'".FormatWith(value.ToString().Replace("'", "''"));
-            }
-            else if (value != null && value.ToString().Contains(","))
-            {
-                formattedValue = value.ToString().Replace(",", ".");
-            }
-            else
-            {
-                formattedValue = value != null ? value.ToString() : "null";
-            }
+                return "'{0}'".FormatWith(value.ToString().Replace("'", "''"));
+           
 
-            return formattedValue;
+            if (value != null && value.ToString().Contains(","))
+                return value.ToString().Replace(",", ".");
+          
+                return value != null ? value.ToString() : "null";
         }
 
         private void AddParameter(string key, object value)
@@ -528,7 +474,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private string NextParamId()
         {
             ++_paramIndex;
-            return PARAMETER_PREFIX + _paramIndex.ToString(CultureInfo.InvariantCulture);
+            return ParameterPrefix + _paramIndex.ToString(CultureInfo.InvariantCulture);
         }
 
         private void ResolveNullValue(MemberNode memberNode, ExpressionType op)

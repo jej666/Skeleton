@@ -5,7 +5,7 @@ using Skeleton.Common.Extensions;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree
 {
-    internal static class InternalQueryResolver
+    internal static class ExpressionResolver
     {
         internal static Node ResolveQuery(ConstantExpression constantExpression)
         {

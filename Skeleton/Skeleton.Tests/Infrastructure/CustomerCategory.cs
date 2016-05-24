@@ -2,18 +2,16 @@
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class Customer : EntityBase<Customer, int>
+    public class CustomerCategory : EntityBase<CustomerCategory, int>
     {
         // Need an empty ctor
-        public Customer()
-            : base(pk => pk.CustomerId)
+        public CustomerCategory()
+            : base(pk => pk.CustomerCategoryId)
         {
         }
 
-        public int CustomerId { get; set; }
-
         public int CustomerCategoryId { get; set; }
-    
+
         public string Name { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Skeleton.Infrastructure.Repository
 
             _typeAccessor = typeAccessorCache.Get<TEntity>();
             _database = database;
-            CreateBuilder();
+            InitializeBuilder();
         }
 
         protected ReadOnlyRepositoryBase(
@@ -71,7 +71,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                CreateBuilder();
+                InitializeBuilder();
             }
         }
 
@@ -85,7 +85,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                CreateBuilder();
+                InitializeBuilder();
             }
         }
 
@@ -108,7 +108,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                CreateBuilder();
+                InitializeBuilder();
             }
         }
 
@@ -122,7 +122,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                CreateBuilder();
+                InitializeBuilder();
             }
         }
 
@@ -135,17 +135,45 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        //public IReadOnlyRepository<TEntity2, TIdentity2> Join<TEntity2, TIdentity2>(
-        //    Expression<Func<TEntity, TEntity2, bool>> expression)
-        //    where TEntity2 : class, IEntity<TEntity2, TIdentity2>
-        //{
-        //    expression.ThrowIfNull(() => expression);
+        public IReadOnlyRepository<TEntity, TIdentity> LeftJoin<TEntity2>(
+            Expression<Func<TEntity, TEntity2, bool>> expression)
+            where TEntity2 : class, IEntity<TEntity2, TIdentity>
+        {
+            expression.ThrowIfNull(() => expression);
+            Builder.Join(expression, JoinType.Left);
 
-        //    var joinQuery = new SqlBuilderImpl(_builder.Builder, _builder.Resolver);
-        //    joinQuery.Resolver.Join(expression);
+            return this;
+        }
 
-        //    return this;
-        //}
+        public IReadOnlyRepository<TEntity, TIdentity> RightJoin<TEntity2>(
+            Expression<Func<TEntity, TEntity2, bool>> expression)
+            where TEntity2 : class, IEntity<TEntity2, TIdentity>
+        {
+            expression.ThrowIfNull(() => expression);
+            Builder.Join(expression,JoinType.Right);
+
+            return this;
+        }
+
+        public IReadOnlyRepository<TEntity, TIdentity> InnerJoin<TEntity2>(
+            Expression<Func<TEntity, TEntity2, bool>> expression)
+            where TEntity2 : class, IEntity<TEntity2, TIdentity>
+        {
+            expression.ThrowIfNull(() => expression);
+            Builder.Join(expression, JoinType.Inner);
+
+            return this;
+        }
+
+        public IReadOnlyRepository<TEntity, TIdentity> CrossJoin<TEntity2>(
+            Expression<Func<TEntity, TEntity2, bool>> expression)
+            where TEntity2 : class, IEntity<TEntity2, TIdentity>
+        {
+            expression.ThrowIfNull(() => expression);
+            Builder.Join(expression, JoinType.Cross);
+
+            return this;
+        }
 
         public IReadOnlyRepository<TEntity, TIdentity> OrderBy(
             Expression<Func<TEntity, object>> expression)
@@ -199,15 +227,15 @@ namespace Skeleton.Infrastructure.Repository
             return And(expression);
         }
 
-        //public IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
-        //    Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
-        //{
-        //    expression.ThrowIfNull(() => expression);
-        //    _builder.Builder.And();
-        //    _builder.Resolver.QueryByIsIn(expression, sqlQuery);
+        public IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
+            Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
+        {
+            expression.ThrowIfNull(() => expression);
+            Builder.And();
+            Builder.QueryByIsIn(expression, sqlQuery);
 
-        //    return this;
-        //}
+            return this;
+        }
 
         public IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
             Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
@@ -219,15 +247,15 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        //public IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
-        //    Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
-        //{
-        //    expression.ThrowIfNull(() => expression);
-        //    _builder.Builder.And();
-        //    _builder.Resolver.QueryByNotIn(expression, sqlQuery);
+        public IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
+            Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
+        {
+            expression.ThrowIfNull(() => expression);
+            Builder.And();
+            Builder.QueryByNotIn(expression, sqlQuery);
 
-        //    return this;
-        //}
+            return this;
+        }
 
         public IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
@@ -240,7 +268,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepository<TEntity, TIdentity> WherePrimaryKey(
+        protected IReadOnlyRepository<TEntity, TIdentity> WherePrimaryKey(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -302,11 +330,11 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                CreateBuilder();
+                InitializeBuilder();
             }
         }
 
-        protected void CreateBuilder()
+        protected void InitializeBuilder()
         {
             Builder = new SqlBuilderImpl(TableInfo.GetTableName<TEntity>());
         }
@@ -316,17 +344,6 @@ namespace Skeleton.Infrastructure.Repository
         {
             expression.ThrowIfNull(() => expression);
             Builder.And();
-            Builder.ResolveQuery(expression);
-
-            return this;
-        }
-
-        private IReadOnlyRepository<TEntity, TIdentity> Or(
-            Expression<Func<TEntity, bool>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-
-            Builder.Or();
             Builder.ResolveQuery(expression);
 
             return this;

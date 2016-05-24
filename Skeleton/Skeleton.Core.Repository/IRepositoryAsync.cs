@@ -8,6 +8,8 @@ namespace Skeleton.Core.Repository
         IReadOnlyRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
+        ISqlExecute SqlExecute { get; }
+
         Task<bool> AddAsync(TEntity entity);
 
         Task<bool> AddAsync(IEnumerable<TEntity> entities);

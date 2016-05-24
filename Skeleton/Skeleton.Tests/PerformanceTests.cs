@@ -13,7 +13,7 @@
 //        [TestMethod]
 //        public void Run()
 //        {
-//            PostSeeder.Seed();
+//            PostSeeder.SeedPosts();
 
 //            var benchmarks = new Benchmarks();
 

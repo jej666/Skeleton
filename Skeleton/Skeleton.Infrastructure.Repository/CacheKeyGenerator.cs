@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Skeleton.Common.Extensions;
+﻿using Skeleton.Common.Extensions;
 using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 

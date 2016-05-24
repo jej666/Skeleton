@@ -23,7 +23,10 @@ namespace Skeleton.Infrastructure.Data
         {
             configurator.ThrowIfNull(() => configurator);
 
-            return new Database(configurator.Invoke(_configurationBuilder), _typeAccessorCache, _logger);
+            return new Database(
+                configurator.Invoke(_configurationBuilder), 
+                _typeAccessorCache, 
+                _logger);
         }
 
         public IDatabaseAsync CreateDatabaseForAsyncOperations(
@@ -31,7 +34,10 @@ namespace Skeleton.Infrastructure.Data
         {
             configurator.ThrowIfNull(() => configurator);
 
-            return new DatabaseAsync(configurator.Invoke(_configurationBuilder), _typeAccessorCache, _logger);
+            return new DatabaseAsync(
+                configurator.Invoke(_configurationBuilder), 
+                _typeAccessorCache, 
+                _logger);
         }
     }
 }

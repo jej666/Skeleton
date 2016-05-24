@@ -51,7 +51,7 @@ namespace Skeleton.Infrastructure.Data
         {
             parameters.ThrowIfNull(() => parameters);
 
-            return WrapRetryPolicy(() => 
+            return WrapRetryPolicy(() =>
                 CreateStoredProcedureCommand(procedureName, parameters)
                     .ExecuteNonQuery());
         }
@@ -119,16 +119,16 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        //    System.Diagnostics.Debug.Write(
+        //private TResult WrapProfiler<TResult>(Func<TResult> func)
+        //{
+        //    Stopwatch stopWatch = new Stopwatch();
+        //    stopWatch.Start();
+        //    var res = func();
+        //    stopWatch.Stop();
 
         //    double elapsed = stopWatch.Elapsed.TotalSeconds;
-        //    stopWatch.Stop();
-        //    var res = func();
-        //    stopWatch.Start();
-        //    Stopwatch stopWatch = new Stopwatch();
-        //{
 
-        //private TResult WrapProfiler<TResult>(Func<TResult> func)
+        //    System.Diagnostics.Debug.Write(
         //       elapsed + " second(s)");
         //    return res;
         //}

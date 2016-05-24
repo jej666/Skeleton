@@ -1,189 +1,199 @@
-﻿//namespace Skeleton.Infrastructure.Repository
-//{
-//    using Common.Extensions;
-//    using Common.Reflection;
-//    using Core.Domain;
-//    using Core.Repository;
-//    using Data;
-//    using Data.Configuration;
-//    using SqlBuilder;
-//    using System;
-//    using System.Collections.Generic;
-//    using System.Diagnostics.CodeAnalysis;
-//    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Skeleton.Common.Extensions;
+using Skeleton.Common.Reflection;
+using Skeleton.Core.Domain;
+using Skeleton.Core.Repository;
+using Skeleton.Infrastructure.Data;
+using Skeleton.Infrastructure.Data.Configuration;
+using Skeleton.Infrastructure.Repository.SqlBuilder;
 
-//    public abstract class RepositoryAsyncBase<TEntity, TIdentity> :
-//        ReadOnlyRepositoryAsyncBase<TEntity, TIdentity>,
-//        IRepositoryAsync<TEntity, TIdentity>
-//        where TEntity : class, IEntity<TEntity, TIdentity>
-//    {
-//        protected RepositoryAsyncBase(
-//            ITypeAccessorCache typeAccessorCache,
-//            IDatabaseAsync database) :
-//            base(typeAccessorCache, database)
-//        { }
+namespace Skeleton.Infrastructure.Repository
+{
+    public abstract class RepositoryAsyncBase<TEntity, TIdentity> :
+        ReadOnlyRepositoryAsyncBase<TEntity, TIdentity>,
+        IRepositoryAsync<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity, TIdentity>
+    {
+        protected RepositoryAsyncBase(
+            ITypeAccessorCache typeAccessorCache,
+            IDatabaseAsync database) :
+                base(typeAccessorCache, database)
+        {
+        }
 
-//        protected RepositoryAsyncBase(
-//            ITypeAccessorCache typeAccessorCache,
-//            IDatabaseFactory databaseFactory,
-//            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-//            this(typeAccessorCache, databaseFactory.CreateDatabaseForAsyncOperations(configurator))
-//        { }
+        protected RepositoryAsyncBase(
+            ITypeAccessorCache typeAccessorCache,
+            IDatabaseFactory databaseFactory,
+            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
+                this(typeAccessorCache, databaseFactory.CreateDatabaseForAsyncOperations(configurator))
+        {
+        }
 
-//        private ISqlExecuteBuilder<TEntity, TIdentity> ExecuteBuilder
-//        {
-//            get
-//            {
-//                return new SqlExecuteBuilder<TEntity, TIdentity>(TypeAccessorCache);
-//            }
-//        }
+        public ISqlExecute SqlExecute
+        {
+            get { return Builder; }
+        }
 
-//        public async virtual Task<bool> AddAsync(TEntity entity)
-//        {
-//            entity.ThrowIfNull(() => entity);
+        public virtual async Task<bool> AddAsync(TEntity entity)
+        {
+            entity.ThrowIfNull(() => entity);
 
-//            return await AddCommand(entity) != null;
-//        }
+            return await AddCommand(entity) != null;
+        }
 
-//        public async virtual Task<bool> AddAsync(IEnumerable<TEntity> entities)
-//        {
-//            entities.ThrowIfNullOrEmpty(() => entities);
-//            int count = 0;
+        public virtual async Task<bool> AddAsync(IEnumerable<TEntity> entities)
+        {
+            var enumerable = entities as IList<TEntity> ?? entities.ToList();
+            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            var count = 0;
 
-//            using (var transaction = Database.Transaction)
-//            {
-//                transaction.Begin();
+            using (var transaction = Database.Transaction)
+            {
+                transaction.Begin();
 
-//                foreach (var entity in entities)
-//                {
-//                    await AddCommand(entity);
-//                    ++count;
-//                }
+                foreach (var entity in enumerable)
+                {
+                    await AddCommand(entity);
+                    ++count;
+                }
 
-//                if (count > 0)
-//                    transaction.Commit();
-//            }
-//            return count > 0;
-//        }
+                if (count > 0)
+                    transaction.Commit();
+            }
+            return count > 0;
+        }
 
-//        public async virtual Task<bool> DeleteAsync(TEntity entity)
-//        {
-//            entity.ThrowIfNull(() => entity);
+        public virtual async Task<bool> DeleteAsync(TEntity entity)
+        {
+            entity.ThrowIfNull(() => entity);
 
-//            return await DeleteCommand(entity) > 0;
-//        }
+            return await DeleteCommand(entity) > 0;
+        }
 
-//        public async virtual Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
-//        {
-//            entities.ThrowIfNullOrEmpty(() => entities);
-//            int count = 0, result = 0;
+        public virtual async Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
+        {
+            var enumerable = entities as IList<TEntity> ?? entities.ToList();
+            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            int count = 0, result = 0;
 
-//            using (var transaction = Database.Transaction)
-//            {
-//                transaction.Begin();
+            using (var transaction = Database.Transaction)
+            {
+                transaction.Begin();
 
-//                foreach (var entity in entities)
-//                {
-//                    result += await DeleteCommand(entity);
-//                    ++count;
-//                }
+                foreach (var entity in enumerable)
+                {
+                    result += await DeleteCommand(entity);
+                    ++count;
+                }
 
-//                if (result == count)
-//                    transaction.Commit();
-//            }
-//            return result == count;
-//        }
+                if (result == count)
+                    transaction.Commit();
+            }
+            return result == count;
+        }
 
-//        public async virtual Task<bool> SaveAsync(TEntity entity)
-//        {
-//            if (entity.Id.IsZeroOrEmpty())
-//                return await AddAsync(entity);
-//            else
-//                return await UpdateAsync(entity);
-//        }
+        public virtual async Task<bool> SaveAsync(TEntity entity)
+        {
+            if (entity.Id.IsZeroOrEmpty())
+                return await AddAsync(entity);
 
-//        public async virtual Task<bool> SaveAsync(IEnumerable<TEntity> entities)
-//        {
-//            entities.ThrowIfNullOrEmpty(() => entities);
-//            bool result = false;
+            return await UpdateAsync(entity);
+        }
 
-//            using (var transaction = Database.Transaction)
-//            {
-//                transaction.Begin();
+        public virtual async Task<bool> SaveAsync(IEnumerable<TEntity> entities)
+        {
+            var enumerable = entities as IList<TEntity> ?? entities.ToList();
+            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            var result = false;
 
-//                foreach (var entity in entities)
-//                {
-//                    result = await SaveAsync(entity);
-//                }
+            using (var transaction = Database.Transaction)
+            {
+                transaction.Begin();
 
-//                if (result)
-//                    transaction.Commit();
-//            }
-//            return result;
-//        }
+                foreach (var entity in enumerable)
+                {
+                    result = await SaveAsync(entity);
+                }
 
-//        public async virtual Task<bool> UpdateAsync(TEntity entity)
-//        {
-//            entity.ThrowIfNull(() => entity);
+                if (result)
+                    transaction.Commit();
+            }
+            return result;
+        }
 
-//            return await UpdateCommand(entity) > 0;
-//        }
+        public virtual async Task<bool> UpdateAsync(TEntity entity)
+        {
+            entity.ThrowIfNull(() => entity);
 
-//        public async virtual Task<bool> UpdateAsync(IEnumerable<TEntity> entities)
-//        {
-//            entities.ThrowIfNullOrEmpty(() => entities);
-//            int count = 0, result = 0;
+            return await UpdateCommand(entity) > 0;
+        }
 
-//            using (var transaction = Database.Transaction)
-//            {
-//                transaction.Begin();
+        public virtual async Task<bool> UpdateAsync(IEnumerable<TEntity> entities)
+        {
+            var enumerable = entities as IList<TEntity> ?? entities.ToList();
+            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            int count = 0, result = 0;
 
-//                foreach (var entity in entities)
-//                {
-//                    result += await UpdateCommand(entity);
-//                    ++count;
-//                }
+            using (var transaction = Database.Transaction)
+            {
+                transaction.Begin();
 
-//                if (result == count)
-//                    transaction.Commit();
-//            }
-//            return result == count;
-//        }
+                foreach (var entity in enumerable)
+                {
+                    result += await UpdateCommand(entity);
+                    ++count;
+                }
 
-//        private async Task<TIdentity> AddCommand(TEntity entity)
-//        {
-//            var sql = ExecuteBuilder.Insert(entity)
-//                                    .AsSql();
+                if (result == count)
+                    transaction.Commit();
+            }
+            return result == count;
+        }
 
-//            var id = await Database.ExecuteScalarAsync<TIdentity>(
-//                                        sql.InsertQuery, sql.Parameters)
-//                                   .ConfigureAwait(false);
+        private async Task<TIdentity> AddCommand(TEntity entity)
+        {
+            var columns = TypeAccessor.GetTableColumns();
+            Builder.SetInsertColumns<TEntity, TIdentity>(columns, entity);
 
-//            if (id != null)
-//                entity.IdAccessor.SetValue(entity, id);
+            var id = await Database.ExecuteScalarAsync<TIdentity>(
+                Builder.InsertQuery,
+                Builder.Parameters)
+                .ConfigureAwait(false);
 
-//            return id;
-//        }
+            if (id != null)
+                entity.IdAccessor.SetValue(entity, id);
 
-//        private async Task<int> DeleteCommand(TEntity entity)
-//        {
-//            var sql = ExecuteBuilder.Delete(entity)
-//                                    .WherePrimaryKey(e => e.Id.Equals(entity.Id))
-//                                    .AsSql();
+            return id;
+        }
 
-//            return await Database.ExecuteAsync(sql.DeleteQuery, sql.Parameters)
-//                                 .ConfigureAwait(false);
-//        }
+        private async Task<int> DeleteCommand(TEntity entity)
+        {
+            Builder.QueryByPrimaryKey<TEntity>(
+                entity.IdAccessor.Name,
+                e => e.Id.Equals(entity.Id));
 
-//        private async Task<int> UpdateCommand(TEntity entity)
-//        {
-//            var sql = ExecuteBuilder.Update(entity)
-//                                    .WherePrimaryKey(e => e.Id.Equals(entity.Id))
-//                                    .AsSql();
+            return await Database.ExecuteAsync(
+                Builder.DeleteQuery,
+                Builder.Parameters)
+                .ConfigureAwait(false);
+        }
 
-//            return await Database.ExecuteAsync(sql.UpdateQuery, sql.Parameters)
-//                                 .ConfigureAwait(false);
-//        }
-//    }
-//}
+        private async Task<int> UpdateCommand(TEntity entity)
+        {
+            var columns = TypeAccessor.GetTableColumns();
+            Builder.SetUpdateColumns<TEntity, TIdentity>(columns, entity);
 
+            Builder.QueryByPrimaryKey<TEntity>(
+                entity.IdAccessor.Name,
+                e => e.Id.Equals(entity.Id));
+
+            return await Database.ExecuteAsync(
+                Builder.UpdateQuery,
+                Builder.Parameters)
+                .ConfigureAwait(false);
+        }
+    }
+}
