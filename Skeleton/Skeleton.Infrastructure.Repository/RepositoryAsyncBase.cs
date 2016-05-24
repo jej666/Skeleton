@@ -155,45 +155,66 @@ namespace Skeleton.Infrastructure.Repository
 
         private async Task<TIdentity> AddCommand(TEntity entity)
         {
-            var columns = TypeAccessor.GetTableColumns();
-            Builder.SetInsertColumns<TEntity, TIdentity>(columns, entity);
+            try
+            {
+                var columns = TypeAccessor.GetTableColumns();
+                Builder.SetInsertColumns<TEntity, TIdentity>(columns, entity);
 
-            var id = await Database.ExecuteScalarAsync<TIdentity>(
-                Builder.InsertQuery,
-                Builder.Parameters)
-                .ConfigureAwait(false);
+                var id = await Database.ExecuteScalarAsync<TIdentity>(
+                    Builder.InsertQuery,
+                    Builder.Parameters)
+                    .ConfigureAwait(false);
 
-            if (id != null)
-                entity.IdAccessor.SetValue(entity, id);
+                if (id != null)
+                    entity.IdAccessor.SetValue(entity, id);
 
-            return id;
+                return id;
+            }
+            finally
+            {
+                InitializeBuilder();
+            }
         }
 
         private async Task<int> DeleteCommand(TEntity entity)
         {
-            Builder.QueryByPrimaryKey<TEntity>(
-                entity.IdAccessor.Name,
-                e => e.Id.Equals(entity.Id));
+            try
+            {
+                Builder.QueryByPrimaryKey<TEntity>(
+                    entity.IdAccessor.Name,
+                    e => e.Id.Equals(entity.Id));
 
-            return await Database.ExecuteAsync(
-                Builder.DeleteQuery,
-                Builder.Parameters)
-                .ConfigureAwait(false);
+                return await Database.ExecuteAsync(
+                    Builder.DeleteQuery,
+                    Builder.Parameters)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                InitializeBuilder();
+            }
         }
 
         private async Task<int> UpdateCommand(TEntity entity)
         {
-            var columns = TypeAccessor.GetTableColumns();
-            Builder.SetUpdateColumns<TEntity, TIdentity>(columns, entity);
+            try
+            {
+                var columns = TypeAccessor.GetTableColumns();
+                Builder.SetUpdateColumns<TEntity, TIdentity>(columns, entity);
 
-            Builder.QueryByPrimaryKey<TEntity>(
-                entity.IdAccessor.Name,
-                e => e.Id.Equals(entity.Id));
+                Builder.QueryByPrimaryKey<TEntity>(
+                    entity.IdAccessor.Name,
+                    e => e.Id.Equals(entity.Id));
 
-            return await Database.ExecuteAsync(
-                Builder.UpdateQuery,
-                Builder.Parameters)
-                .ConfigureAwait(false);
+                return await Database.ExecuteAsync(
+                    Builder.UpdateQuery,
+                    Builder.Parameters)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                InitializeBuilder();
+            }
         }
     }
 }

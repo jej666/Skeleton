@@ -53,8 +53,8 @@ namespace Skeleton.Infrastructure.Repository
         public override IEnumerable<TEntity> Find()
         {
             return Cache.GetOrAdd(
-                _keyGenerator.ForFind(SqlQuery), 
-                () => base.Find(), 
+                _keyGenerator.ForFind(SqlQuery),
+                () => base.Find(),
                 CacheConfigurator);
         }
 
@@ -63,31 +63,31 @@ namespace Skeleton.Infrastructure.Repository
             id.ThrowIfNull(() => id);
 
             return Cache.GetOrAdd(
-                _keyGenerator.ForFirstOrDefault(id), 
-                () => base.FirstOrDefault(id), 
+                _keyGenerator.ForFirstOrDefault(id),
+                () => base.FirstOrDefault(id),
                 CacheConfigurator);
         }
 
         public override TEntity FirstOrDefault()
         {
             return Cache.GetOrAdd(
-                _keyGenerator.ForFirstOrDefault(SqlQuery), 
-                () => base.FirstOrDefault(), 
+                _keyGenerator.ForFirstOrDefault(SqlQuery),
+                () => base.FirstOrDefault(),
                 CacheConfigurator);
         }
 
         public override IEnumerable<TEntity> GetAll()
         {
             return Cache.GetOrAdd(
-                _keyGenerator.ForGetAll(), 
-                () => base.GetAll(), 
+                _keyGenerator.ForGetAll(),
+                () => base.GetAll(),
                 CacheConfigurator);
         }
 
         public override IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
             return Cache.GetOrAdd(
-                _keyGenerator.ForPageAll(pageSize, pageNumber), 
+                _keyGenerator.ForPageAll(pageSize, pageNumber),
                 () => base.Page(pageSize, pageNumber),
                 CacheConfigurator);
         }

@@ -20,11 +20,11 @@ namespace Skeleton.Tests.Infrastructure
                 id.ToString());
         }
 
-        internal static string ForFirstOrDefault(IDictionary<string, object> parameters)
+        internal static string ForFirstOrDefault(ISqlQuery query)
         {
             return "{0}.FirstOrDefault.{1}".FormatWith(
                 typeof(Customer).FullName,
-                parameters.ToString("=", "|"));
+                query.Query);
         }
 
         internal static string ForGetAll()

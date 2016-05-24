@@ -29,20 +29,15 @@ namespace Skeleton.Infrastructure.Repository
 
             _typeAccessor = typeAccessorCache.Get<TEntity>();
             _database = database;
-            InitializeBuilder();
+            Builder= new SqlBuilderImpl(typeof(TEntity));
         }
 
         protected ReadOnlyRepositoryBase(
             ITypeAccessorCache typeAccessorCache,
             IDatabaseFactory databaseFactory,
             Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-            this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
+                this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
         {
-        }
-
-        public ISqlQuery SqlQuery
-        {
-            get { return Builder; }
         }
 
         protected IDatabase Database
@@ -55,75 +50,57 @@ namespace Skeleton.Infrastructure.Repository
             get { return _typeAccessor; }
         }
 
-        protected SqlBuilderImpl Builder
+        protected SqlBuilderImpl Builder { get; private set; }
+
+        public ISqlQuery SqlQuery
         {
-            get;
-            private set;
+            get { return Builder; }
         }
 
         public virtual IEnumerable<TEntity> Find()
         {
-            try
-            {
-                return Database.Find<TEntity>(
+            return InitializeBuilder(() =>
+                Database.Find<TEntity>(
                     Builder.Query,
-                    Builder.Parameters);
-            }
-            finally
-            {
-                InitializeBuilder();
-            }
+                    Builder.Parameters));
         }
 
         public virtual TEntity FirstOrDefault()
         {
-            try
-            {
-                return Database.FirstOrDefault<TEntity>(
+             return InitializeBuilder(() =>
+                 Database.FirstOrDefault<TEntity>(
                     Builder.Query,
-                    Builder.Parameters);
-            }
-            finally
-            {
-                InitializeBuilder();
-            }
+                    Builder.Parameters));
         }
 
         public virtual TEntity FirstOrDefault(TIdentity id)
         {
             id.ThrowIfNull(() => id);
 
-            WherePrimaryKey(e => e.Id.Equals(id));
+            var instance = _typeAccessor.CreateInstance<TEntity>();
+
+            Builder.And();
+            Builder.QueryByPrimaryKey<TEntity>(
+                instance.IdAccessor.Name, 
+                e => e.Id.Equals(id));
 
             return FirstOrDefault();
         }
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            try
-            {
-                return Database.Find<TEntity>(
+             return InitializeBuilder(() => 
+                 Database.Find<TEntity>(
                     Builder.Query,
-                    Builder.Parameters);
-            }
-            finally
-            {
-                InitializeBuilder();
-            }
+                    Builder.Parameters));
         }
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
-            try
-            {
-                return Database.Find<TEntity>(
+             return InitializeBuilder(() =>
+                 Database.Find<TEntity>(
                     Builder.PagedQuery(pageSize, pageNumber),
-                    Builder.Parameters);
-            }
-            finally
-            {
-                InitializeBuilder();
-            }
+                    Builder.Parameters));
         }
 
         public IReadOnlyRepository<TEntity, TIdentity> GroupBy(
@@ -150,7 +127,7 @@ namespace Skeleton.Infrastructure.Repository
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
             expression.ThrowIfNull(() => expression);
-            Builder.Join(expression,JoinType.Right);
+            Builder.Join(expression, JoinType.Right);
 
             return this;
         }
@@ -268,18 +245,6 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        protected IReadOnlyRepository<TEntity, TIdentity> WherePrimaryKey(
-            Expression<Func<TEntity, bool>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            var instance = _typeAccessor.CreateInstance<TEntity>();
-
-            Builder.And();
-            Builder.QueryByPrimaryKey(instance.IdAccessor.Name, expression);
-
-            return this;
-        }
-
         public TResult Average<TResult>(Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -322,21 +287,22 @@ namespace Skeleton.Infrastructure.Repository
 
         private TResult AggregateAs<TResult>()
         {
+            return InitializeBuilder(() =>
+                Database.ExecuteScalar<TResult>(
+                    Builder.Query,
+                    Builder.Parameters));
+        }
+
+        protected T InitializeBuilder<T>(Func<T> func)
+        {
             try
             {
-                return Database.ExecuteScalar<TResult>(
-                    Builder.Query,
-                    Builder.Parameters);
+                return func();
             }
             finally
             {
-                InitializeBuilder();
-            }
-        }
-
-        protected void InitializeBuilder()
-        {
-            Builder = new SqlBuilderImpl(TableInfo.GetTableName<TEntity>());
+                Builder = new SqlBuilderImpl(typeof(TEntity));
+            } 
         }
 
         private IReadOnlyRepository<TEntity, TIdentity> And(

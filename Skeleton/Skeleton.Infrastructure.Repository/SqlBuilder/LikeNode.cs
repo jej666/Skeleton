@@ -1,4 +1,4 @@
-﻿namespace Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree
+﻿namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal class LikeNode : Node
     {

@@ -81,9 +81,13 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectMin()
         {
+            var minCustomer = _customerRepository
+               .OrderBy(c => c.CustomerId)
+               .SelectTop(1)
+               .FirstOrDefault();
             var min = _customerRepository.Min<int>(c => c.CustomerId);
             Assert.IsNotNull(min);
-            Assert.IsTrue(min == 1);
+            Assert.IsTrue(min == minCustomer.CustomerId);
         }
 
         [TestMethod]

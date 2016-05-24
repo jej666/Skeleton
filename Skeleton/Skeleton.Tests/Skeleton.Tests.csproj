@@ -74,6 +74,7 @@
     <Compile Include="Infrastructure\Seeder.cs" />
     <Compile Include="Infrastructure\Post.cs" />
     <Compile Include="PerformanceTests.cs" />
+    <Compile Include="ReadOnlyRepositoryAsyncTests.cs" />
     <Compile Include="RepositoryAsyncTests.cs" />
     <Compile Include="CachedRepositoryTests.cs" />
     <Compile Include="RepositoryTests.cs" />

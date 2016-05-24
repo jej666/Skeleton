@@ -19,7 +19,7 @@ namespace Skeleton.Infrastructure.Repository
         protected RepositoryBase(
             ITypeAccessorCache typeAccessorCache,
             IDatabase database) :
-            base(typeAccessorCache, database)
+                base(typeAccessorCache, database)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Skeleton.Infrastructure.Repository
             ITypeAccessorCache typeAccessorCache,
             IDatabaseFactory databaseFactory,
             Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-            this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
+                this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
         {
         }
 
@@ -96,9 +96,9 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual bool Save(TEntity entity)
         {
-            return entity.Id.IsZeroOrEmpty() ?
-                Add(entity) :
-                Update(entity);
+            return entity.Id.IsZeroOrEmpty()
+                ? Add(entity)
+                : Update(entity);
         }
 
         public virtual bool Save(IEnumerable<TEntity> entities)
@@ -111,8 +111,7 @@ namespace Skeleton.Infrastructure.Repository
             {
                 transaction.Begin();
 
-                enumerable.ForEach(entity =>
-                { result = Save(entity); });
+                enumerable.ForEach(entity => { result = Save(entity); });
 
                 if (result)
                     transaction.Commit();
@@ -151,7 +150,7 @@ namespace Skeleton.Infrastructure.Repository
 
         private TIdentity AddCommand(TEntity entity)
         {
-            try
+            return InitializeBuilder(() =>
             {
                 var columns = TypeAccessor.GetTableColumns();
                 Builder.SetInsertColumns<TEntity, TIdentity>(columns, entity);
@@ -164,50 +163,38 @@ namespace Skeleton.Infrastructure.Repository
                     entity.IdAccessor.SetValue(entity, id);
 
                 return id;
-            }
-            finally
-            {
-                InitializeBuilder();
-            }
+            });
         }
 
         private int DeleteCommand(TEntity entity)
         {
-            try
+            return InitializeBuilder(() =>
             {
                 Builder.QueryByPrimaryKey<TEntity>(
-                               entity.IdAccessor.Name,
-                               e => e.Id.Equals(entity.Id));
+                    entity.IdAccessor.Name,
+                    e => e.Id.Equals(entity.Id));
 
                 return Database.Execute(
-                    Builder.DeleteQuery, 
+                    Builder.DeleteQuery,
                     Builder.Parameters);
-            }
-            finally
-            {
-                InitializeBuilder();
-            }
+            });
         }
 
         private int UpdateCommand(TEntity entity)
         {
-            try
+            return InitializeBuilder(() =>
             {
                 var columns = TypeAccessor.GetTableColumns();
-                Builder.SetUpdateColumns<TEntity,TIdentity>(columns, entity);
+                Builder.SetUpdateColumns<TEntity, TIdentity>(columns, entity);
 
                 Builder.QueryByPrimaryKey<TEntity>(
-                                    entity.IdAccessor.Name,
-                                    e => e.Id.Equals(entity.Id));
+                    entity.IdAccessor.Name,
+                    e => e.Id.Equals(entity.Id));
 
                 return Database.Execute(
-                    Builder.UpdateQuery, 
+                    Builder.UpdateQuery,
                     Builder.Parameters);
-            }
-            finally
-            {
-                InitializeBuilder();
-            }
+            });
         }
 
         //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
@@ -226,6 +213,7 @@ namespace Skeleton.Infrastructure.Repository
         //    Resolver.QueryByIsIn(expression, values);
 
         //    return this;
+
         //}
 
         //public IExecuteBuilder<TEntity, TIdentity> WhereNotIn(

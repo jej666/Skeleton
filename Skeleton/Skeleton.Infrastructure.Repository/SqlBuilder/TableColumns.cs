@@ -14,7 +14,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                  x.MemberType == typeof(decimal) ||
                  x.MemberType == typeof(string);
 
-        internal static IEnumerable<IMemberAccessor> GetTableColumns(this ITypeAccessor typeAccessor)
+        internal static IEnumerable<IMemberAccessor> GetTableColumns(
+            this ITypeAccessor typeAccessor)
         {
             return typeAccessor.GetDeclaredOnlyProperties()
                 .Where(SimplePropertiesCondition)
@@ -47,7 +48,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             {
                 if (entity.IdAccessor.Name.IsNullOrEmpty() ||
                     entity.IdAccessor.Name == column.Name)
-                    return;
+                    continue;
 
                 builder.Update(column.Name, column.GetValue(entity));
             }

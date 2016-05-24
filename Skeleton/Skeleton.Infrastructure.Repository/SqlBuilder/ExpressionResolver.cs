@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Skeleton.Common.Extensions;
 
-namespace Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree
+namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal static class ExpressionResolver
     {

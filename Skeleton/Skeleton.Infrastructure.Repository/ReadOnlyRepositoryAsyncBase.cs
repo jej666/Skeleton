@@ -30,6 +30,7 @@ namespace Skeleton.Infrastructure.Repository
 
             _typeAccessor = typeAccessorCache.Get<TEntity>();
             _database = database;
+            Builder = new SqlBuilderImpl(typeof(TEntity));
         }
 
         protected ReadOnlyRepositoryAsyncBase(
@@ -51,10 +52,7 @@ namespace Skeleton.Infrastructure.Repository
             get { return _typeAccessor; }
         }
 
-        protected SqlBuilderImpl Builder
-        {
-            get; private set;
-        }
+        protected SqlBuilderImpl Builder { get; private set; }
 
         public ISqlQuery SqlQuery
         {
@@ -82,7 +80,7 @@ namespace Skeleton.Infrastructure.Repository
             {
                 id.ThrowIfNull(() => id);
 
-                WherePrimaryKey(e => e.Id.Equals(id));
+                SetWherePrimaryKey(e => e.Id.Equals(id));
 
                 return await FirstOrDefaultAsync();
             }
@@ -328,7 +326,7 @@ namespace Skeleton.Infrastructure.Repository
             return await AggregateAsAsync<TResult>();
         }
 
-        protected IReadOnlyRepositoryAsync<TEntity, TIdentity> WherePrimaryKey(
+        private void SetWherePrimaryKey(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -336,8 +334,6 @@ namespace Skeleton.Infrastructure.Repository
 
             Builder.And();
             Builder.QueryByPrimaryKey(instance.IdAccessor.Name, expression);
-
-            return this;
         }
 
         private async Task<TResult> AggregateAsAsync<TResult>()
@@ -357,7 +353,7 @@ namespace Skeleton.Infrastructure.Repository
 
         protected void InitializeBuilder()
         {
-            Builder = new SqlBuilderImpl(TableInfo.GetTableName<TEntity>());
+            Builder = new SqlBuilderImpl(typeof(TEntity));
         }
 
         private IReadOnlyRepositoryAsync<TEntity, TIdentity> And(

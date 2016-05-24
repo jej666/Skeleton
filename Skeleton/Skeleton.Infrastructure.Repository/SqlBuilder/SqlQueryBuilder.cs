@@ -10,11 +10,10 @@ using System.Text.RegularExpressions;
 using Skeleton.Common;
 using Skeleton.Common.Extensions;
 using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal sealed class QueryBuilder
+    internal sealed class SqlQueryBuilder
     {
         private const string ParameterPrefix = "P";
         private readonly LazyRef<List<string>> _columns = new LazyRef<List<string>>(() => new List<string>());
@@ -23,10 +22,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private readonly LazyRef<List<string>> _havingConditions = new LazyRef<List<string>>(() => new List<string>());
         private readonly LazyRef<List<string>> _insertValues = new LazyRef<List<string>>(() => new List<string>());
         private readonly LazyRef<List<string>> _joinExpressions = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _selectionList = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _sortList = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _tableNames = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _updateColumnValues = new LazyRef<List<string>>(() => new List<string>());
 
         private readonly Dictionary<ExpressionType, string> _operationDictionary =
             new Dictionary<ExpressionType, string>
@@ -39,11 +34,16 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 {ExpressionType.LessThanOrEqual, "<="}
             };
 
-        private int _paramIndex;
         private readonly string _primaryTableName;
+        private readonly LazyRef<List<string>> _selectionList = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _sortList = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _tableNames = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyRef<List<string>> _updateColumnValues = new LazyRef<List<string>>(() => new List<string>());
+
+        private int _paramIndex;
         private string _top;
 
-        internal QueryBuilder(string tableName)
+        internal SqlQueryBuilder(string tableName)
         {
             _primaryTableName = tableName;
             _tableNames.Value.Add(tableName);
@@ -457,12 +457,12 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             if (value is string)
                 return "'{0}'".FormatWith(value.ToString().Replace("'", "''"));
-           
+
 
             if (value != null && value.ToString().Contains(","))
                 return value.ToString().Replace(",", ".");
-          
-                return value != null ? value.ToString() : "null";
+
+            return value != null ? value.ToString() : "null";
         }
 
         private void AddParameter(string key, object value)

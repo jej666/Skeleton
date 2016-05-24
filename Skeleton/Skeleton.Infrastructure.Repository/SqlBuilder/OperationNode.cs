@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree
+namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal class OperationNode : Node
     {

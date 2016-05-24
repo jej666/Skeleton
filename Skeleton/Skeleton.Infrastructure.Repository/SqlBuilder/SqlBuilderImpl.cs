@@ -5,17 +5,16 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Skeleton.Common.Extensions;
 using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Repository.SqlBuilder.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     public class SqlBuilderImpl : ISqlQuery, ISqlExecute
     {
-        private readonly QueryBuilder _builder;
+        private readonly SqlQueryBuilder _builder;
 
-        internal SqlBuilderImpl(string tableName)
+        internal SqlBuilderImpl(Type type)
         {
-            _builder = new QueryBuilder(tableName);
+            _builder = new SqlQueryBuilder(type.Name);
         }
 
         public string DeleteQuery
@@ -60,12 +59,12 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal void Insert(string columnName, object value)
         {
-            _builder.Insert(columnName,value);
+            _builder.Insert(columnName, value);
         }
 
         internal void Update(string columnName, object value)
         {
-            _builder.Update(columnName,value);
+            _builder.Update(columnName, value);
         }
 
         internal void GroupBy<T>(Expression<Func<T, object>> expression)
@@ -115,13 +114,13 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             string idColumnName,
             Expression<Func<T, bool>> whereExpression)
         {
-            var expressionTree = ExpressionResolver.ResolveQuery((dynamic)whereExpression.Body, idColumnName);
+            var expressionTree = ExpressionResolver.ResolveQuery((dynamic) whereExpression.Body, idColumnName);
             _builder.BuildSql(expressionTree);
         }
 
         internal void ResolveQuery<T>(Expression<Func<T, bool>> expression)
         {
-            var expressionTree = ExpressionResolver.ResolveQuery((dynamic)expression.Body);
+            var expressionTree = ExpressionResolver.ResolveQuery((dynamic) expression.Body);
             _builder.BuildSql(expressionTree);
         }
 
@@ -164,7 +163,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     if (newExpression != null)
                         foreach (var expr in newExpression.Arguments)
                         {
-                            var memberExp = (MemberExpression)expr;
+                            var memberExp = (MemberExpression) expr;
                             Select<T>(memberExp);
                         }
                     break;
