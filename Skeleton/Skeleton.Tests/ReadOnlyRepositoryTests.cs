@@ -27,8 +27,8 @@ namespace Skeleton.Tests
         {
             var customer = _customerRepository.SelectTop(1).FirstOrDefault();
             var results = _customerRepository.Where(c => c.Name.Equals(customer.Name))
-                                     .OrderBy(c => c.CustomerId)
-                                     .Find();
+                .OrderBy(c => c.CustomerId)
+                .Find();
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
         }
@@ -82,9 +82,9 @@ namespace Skeleton.Tests
         public void SelectMin()
         {
             var minCustomer = _customerRepository
-               .OrderBy(c => c.CustomerId)
-               .SelectTop(1)
-               .FirstOrDefault();
+                .OrderBy(c => c.CustomerId)
+                .SelectTop(1)
+                .FirstOrDefault();
             var min = _customerRepository.Min(c => c.CustomerId);
             Assert.IsNotNull(min);
             Assert.IsTrue(min == minCustomer.CustomerId);
@@ -108,7 +108,7 @@ namespace Skeleton.Tests
             var results = _customerRepository.LeftJoin<CustomerCategory>(
                 (customer, category) =>
                     customer.CustomerCategoryId == category.CustomerCategoryId)
-                    .Find();
+                .Find();
 
             Assert.IsNotNull(results);
             Assert.IsTrue(results.FastAny());
@@ -117,7 +117,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void WhereIsIn()
         {
-            var customerIds = new object[] { 5, 15, 25 };
+            var customerIds = new object[] {5, 15, 25};
 
             var results = _customerRepository
                 .WhereIsIn(c => c.CustomerId, customerIds)
@@ -130,7 +130,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void WhereNotIn()
         {
-            var customerIds = new object[] { 5, 15, 25 };
+            var customerIds = new object[] {5, 15, 25};
 
             var results = _customerRepository
                 .WhereNotIn(c => c.CustomerId, customerIds)
@@ -146,7 +146,7 @@ namespace Skeleton.Tests
         {
             const int pageSize = 50;
             const int numberOfPages = 5;
-            
+
             for (var page = 1; page < numberOfPages; ++page)
             {
                 var results = _customerRepository

@@ -1,14 +1,13 @@
-﻿using log4net.Config;
+﻿using System;
+using System.Globalization;
+using log4net;
+using log4net.Config;
+using Skeleton.Common;
 
 [assembly: XmlConfigurator(ConfigFile = "log4Net.config", Watch = true)]
 
 namespace Skeleton.Infrastructure.Logging
 {
-    using Common;
-    using log4net;
-    using System;
-    using System.Globalization;
-
     public class Logger : HideObjectMethods, ILogger
     {
         private readonly ILog _log;

@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Common;
 using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Tests.Infrastructure;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Skeleton.Tests
 {
@@ -73,4 +72,3 @@ namespace Skeleton.Tests
         }
     }
 }
-

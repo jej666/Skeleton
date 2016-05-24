@@ -119,16 +119,16 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        //private TResult WrapProfiler<TResult>(Func<TResult> func)
-        //{
-        //    Stopwatch stopWatch = new Stopwatch();
-        //    stopWatch.Start();
-        //    var res = func();
-        //    stopWatch.Stop();
+        //    System.Diagnostics.Debug.Write(
 
         //    double elapsed = stopWatch.Elapsed.TotalSeconds;
+        //    stopWatch.Stop();
+        //    var res = func();
+        //    stopWatch.Start();
+        //    Stopwatch stopWatch = new Stopwatch();
+        //{
 
-        //    System.Diagnostics.Debug.Write(
+        //private TResult WrapProfiler<TResult>(Func<TResult> func)
         //       elapsed + " second(s)");
         //    return res;
         //}

@@ -10,7 +10,7 @@ namespace Skeleton.Tests.Infrastructure
             ITypeAccessorCache typeAccessorCache,
             IDatabaseAsync database)
             : base(typeAccessorCache, database)
-        { }
+        {
+        }
     }
 }
-

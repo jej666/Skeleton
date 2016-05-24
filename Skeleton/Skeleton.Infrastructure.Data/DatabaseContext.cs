@@ -57,9 +57,9 @@ namespace Skeleton.Infrastructure.Data
 
             OpenConnection();
 
-            _transaction = isolationLevel.HasValue ? 
-                _connection.BeginTransaction(isolationLevel.Value) : 
-                _connection.BeginTransaction();
+            _transaction = isolationLevel.HasValue
+                ? _connection.BeginTransaction(isolationLevel.Value)
+                : _connection.BeginTransaction();
         }
 
         internal void CommitTransaction()

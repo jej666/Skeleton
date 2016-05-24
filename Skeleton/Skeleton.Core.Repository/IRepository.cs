@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using Skeleton.Core.Domain;
 
 namespace Skeleton.Core.Repository
@@ -27,18 +25,18 @@ namespace Skeleton.Core.Repository
 
         bool Update(IEnumerable<TEntity> entities);
 
-        //IExecuteProcessor<TEntity, TIdentity> Where(
-        //    Expression<Func<TEntity, bool>> expression);
-
-        //IExecuteProcessor<TEntity, TIdentity> WhereIsIn(
-        //    Expression<Func<TEntity, object>> expression,
+        //IExecuteProcessor<TEntity, TIdentity> WherePrimaryKey(
         //    IEnumerable<object> values);
+        //    Expression<Func<TEntity, object>> expression,
 
         //IExecuteProcessor<TEntity, TIdentity> WhereNotIn(
-        //    Expression<Func<TEntity, object>> expression,
         //    IEnumerable<object> values);
+        //    Expression<Func<TEntity, object>> expression,
 
-        //IExecuteProcessor<TEntity, TIdentity> WherePrimaryKey(
+        //IExecuteProcessor<TEntity, TIdentity> WhereIsIn(
+        //    Expression<Func<TEntity, bool>> expression);
+
+        //IExecuteProcessor<TEntity, TIdentity> Where(
         //    Expression<Func<TEntity, bool>> whereExpression);
     }
 }

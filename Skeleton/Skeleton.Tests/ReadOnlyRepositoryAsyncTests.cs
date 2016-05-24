@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Tests.Infrastructure;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Skeleton.Tests
 {
@@ -23,7 +23,7 @@ namespace Skeleton.Tests
         public async Task FindAsync_ByExpression()
         {
             var results = await _repository.Where(c => c.Name.StartsWith("Customer")).FindAsync();
-        
+
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
         }
@@ -41,7 +41,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FirstOrDefaultAsync_ById()
         {
-            var customer1 = await  _repository.SelectTop(1).FirstOrDefaultAsync();
+            var customer1 = await _repository.SelectTop(1).FirstOrDefaultAsync();
             var customer2 = await _repository.FirstOrDefaultAsync(customer1.Id);
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
@@ -57,4 +57,3 @@ namespace Skeleton.Tests
         }
     }
 }
-

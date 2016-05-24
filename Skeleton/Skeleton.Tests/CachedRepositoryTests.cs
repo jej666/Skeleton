@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Common;
 using Skeleton.Common.Reflection;
@@ -29,7 +28,7 @@ namespace Skeleton.Tests
         public void Find_ByExpression()
         {
             var sql = _repository.Where(c => c.Name.Equals("Foo")).SqlQuery;
-            var results = _repository.Find(); 
+            var results = _repository.Find();
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
             Assert.IsTrue(_repository.Cache.Contains<Customer>(
@@ -42,7 +41,7 @@ namespace Skeleton.Tests
             var customer1 = _repository.SelectTop(1).FirstOrDefault();
             var sql = _repository.Where(c => c.Name.Equals(customer1.Name)).SqlQuery;
             var customer2 = _repository.FirstOrDefault();
-            
+
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);

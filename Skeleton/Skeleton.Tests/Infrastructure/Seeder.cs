@@ -7,7 +7,7 @@ namespace Skeleton.Tests.Infrastructure
         internal static IEnumerable<Customer> SeedCustomers(int iterations)
         {
             for (var i = 0; i < iterations; ++i)
-                yield return new Customer() { Name = "Customer" + i };
+                yield return new Customer {Name = "Customer" + i};
         }
 
         internal static void SeedCustomers()

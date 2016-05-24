@@ -1,7 +1,5 @@
-﻿using System;
-using Skeleton.Common.Reflection;
+﻿using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.Repository;
 
 namespace Skeleton.Tests.Infrastructure

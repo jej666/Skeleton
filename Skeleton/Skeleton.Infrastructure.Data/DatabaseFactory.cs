@@ -24,8 +24,8 @@ namespace Skeleton.Infrastructure.Data
             configurator.ThrowIfNull(() => configurator);
 
             return new Database(
-                configurator.Invoke(_configurationBuilder), 
-                _typeAccessorCache, 
+                configurator.Invoke(_configurationBuilder),
+                _typeAccessorCache,
                 _logger);
         }
 
@@ -35,8 +35,8 @@ namespace Skeleton.Infrastructure.Data
             configurator.ThrowIfNull(() => configurator);
 
             return new DatabaseAsync(
-                configurator.Invoke(_configurationBuilder), 
-                _typeAccessorCache, 
+                configurator.Invoke(_configurationBuilder),
+                _typeAccessorCache,
                 _logger);
         }
     }

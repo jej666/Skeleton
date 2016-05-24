@@ -115,8 +115,9 @@ namespace Skeleton.Common.Extensions
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "ToDay")]
         public static string ToDayName(this DateTime value)
         {
-            return DateTimeFormatInfo.CurrentInfo != null ? 
-                DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(value.DayOfWeek) : null;
+            return DateTimeFormatInfo.CurrentInfo != null
+                ? DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(value.DayOfWeek)
+                : null;
         }
 
         public static string ToShortDate(this DateTime value)

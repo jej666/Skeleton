@@ -129,8 +129,7 @@ namespace Skeleton.Common.Extensions
             int result;
             if (int.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
                 return result;
-            else
-                return null;
+            return null;
         }
 
         public static long? ToLong(this string str, NumberStyles ns = NumberStyles.Integer, CultureInfo ci = null)
@@ -138,8 +137,7 @@ namespace Skeleton.Common.Extensions
             long result;
             if (long.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
                 return result;
-            else
-                return null;
+            return null;
         }
 
         public static short? ToShort(this string str, NumberStyles ns = NumberStyles.Integer, CultureInfo ci = null)
@@ -147,26 +145,25 @@ namespace Skeleton.Common.Extensions
             short result;
             if (short.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
                 return result;
-            else
-                return null;
+            return null;
         }
 
-        public static float? ToFloat(this string str, NumberStyles ns = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo ci = null)
+        public static float? ToFloat(this string str, NumberStyles ns = NumberStyles.Float | NumberStyles.AllowThousands,
+            CultureInfo ci = null)
         {
             float result;
             if (float.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
                 return result;
-            else
-                return null;
+            return null;
         }
 
-        public static double? ToDouble(this string str, NumberStyles ns = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo ci = null)
+        public static double? ToDouble(this string str,
+            NumberStyles ns = NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo ci = null)
         {
             double result;
             if (double.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
                 return result;
-            else
-                return null;
+            return null;
         }
 
         public static decimal? ToDecimal(this string str, NumberStyles ns = NumberStyles.Number, CultureInfo ci = null)
@@ -174,8 +171,7 @@ namespace Skeleton.Common.Extensions
             decimal result;
             if (decimal.TryParse(str, ns, ci ?? CultureInfo.CurrentCulture, out result))
                 return result;
-            else
-                return null;
+            return null;
         }
 
         public static int ToInt(this string str, string error)

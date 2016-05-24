@@ -1,9 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Tests.Infrastructure;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Skeleton.Tests
 {
@@ -22,7 +21,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task AddAsync()
         {
-            var customer = new Customer() { Name = "Foo" };
+            var customer = new Customer {Name = "Foo"};
             var successed = await _repository.AddAsync(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id > 0);
@@ -53,7 +52,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task DeleteAsync_Multiple()
         {
-            var customers = await _repository.SelectTop(3).FindAsync(); 
+            var customers = await _repository.SelectTop(3).FindAsync();
             var successed = await _repository.DeleteAsync(customers);
             Assert.IsTrue(successed);
         }
@@ -74,10 +73,9 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task UpdateAsync_Multiple()
         {
-            var customers = await _repository.SelectTop(3).FindAsync(); 
+            var customers = await _repository.SelectTop(3).FindAsync();
             var successed = await _repository.UpdateAsync(customers);
             Assert.IsTrue(successed);
         }
     }
 }
-

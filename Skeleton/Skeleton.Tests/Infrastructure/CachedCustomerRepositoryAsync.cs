@@ -12,7 +12,7 @@ namespace Skeleton.Tests.Infrastructure
             ICacheProvider cacheProvider,
             IDatabaseAsync database)
             : base(typeAccessorCache, cacheProvider, database)
-        { }
+        {
+        }
     }
 }
-

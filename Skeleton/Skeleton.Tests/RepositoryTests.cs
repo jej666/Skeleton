@@ -22,7 +22,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Add()
         {
-            var customer = new Customer { Name = "Customer" };
+            var customer = new Customer {Name = "Customer"};
             var successed = _customerRepository.Add(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id > 0);

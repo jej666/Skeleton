@@ -29,7 +29,7 @@ namespace Skeleton.Infrastructure.Repository
 
             _typeAccessor = typeAccessorCache.Get<TEntity>();
             _database = database;
-            Builder= new SqlBuilderImpl(typeof(TEntity));
+            Builder = new SqlBuilderImpl(typeof(TEntity));
         }
 
         protected ReadOnlyRepositoryBase(
@@ -67,8 +67,8 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual TEntity FirstOrDefault()
         {
-             return InitializeBuilder(() =>
-                 Database.FirstOrDefault<TEntity>(
+            return InitializeBuilder(() =>
+                Database.FirstOrDefault<TEntity>(
                     Builder.Query,
                     Builder.Parameters));
         }
@@ -81,7 +81,7 @@ namespace Skeleton.Infrastructure.Repository
 
             Builder.And();
             Builder.QueryByPrimaryKey<TEntity>(
-                instance.IdAccessor.Name, 
+                instance.IdAccessor.Name,
                 e => e.Id.Equals(id));
 
             return FirstOrDefault();
@@ -89,16 +89,16 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-             return InitializeBuilder(() => 
-                 Database.Find<TEntity>(
+            return InitializeBuilder(() =>
+                Database.Find<TEntity>(
                     Builder.Query,
                     Builder.Parameters));
         }
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
-             return InitializeBuilder(() =>
-                 Database.Find<TEntity>(
+            return InitializeBuilder(() =>
+                Database.Find<TEntity>(
                     Builder.PagedQuery(pageSize, pageNumber),
                     Builder.Parameters));
         }
@@ -205,7 +205,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
-            Expression<Func<TEntity, object>> expression, 
+            Expression<Func<TEntity, object>> expression,
             ISqlQuery sqlQuery)
         {
             expression.ThrowIfNull(() => expression);
@@ -216,7 +216,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public IReadOnlyRepository<TEntity, TIdentity> WhereIsIn(
-            Expression<Func<TEntity, object>> expression, 
+            Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
@@ -227,7 +227,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public IReadOnlyRepository<TEntity, TIdentity> WhereNotIn(
-            Expression<Func<TEntity, object>> expression, 
+            Expression<Func<TEntity, object>> expression,
             ISqlQuery sqlQuery)
         {
             expression.ThrowIfNull(() => expression);
@@ -305,7 +305,7 @@ namespace Skeleton.Infrastructure.Repository
             finally
             {
                 Builder = new SqlBuilderImpl(typeof(TEntity));
-            } 
+            }
         }
 
         private IReadOnlyRepository<TEntity, TIdentity> And(

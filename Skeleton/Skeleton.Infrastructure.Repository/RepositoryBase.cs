@@ -197,24 +197,24 @@ namespace Skeleton.Infrastructure.Repository
             });
         }
 
-        //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
-        //{
-        //    Builder.And();
-        //    Resolver.ResolveQuery(expression);
+        //}
 
         //    return this;
-        //}
+        //    Resolver.QueryByIsIn(expression, values);
+        //    Builder.And();
+        //{
+        //    IEnumerable<object> values)
+        //    Expression<Func<TEntity, object>> expression,
 
         //public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
-        //    Expression<Func<TEntity, object>> expression,
-        //    IEnumerable<object> values)
-        //{
-        //    Builder.And();
-        //    Resolver.QueryByIsIn(expression, values);
+        //}
 
         //    return this;
+        //    Resolver.ResolveQuery(expression);
+        //    Builder.And();
+        //{
 
-        //}
+        //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
 
         //public IExecuteBuilder<TEntity, TIdentity> WhereNotIn(
         //    Expression<Func<TEntity, object>> expression,
