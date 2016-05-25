@@ -12,9 +12,7 @@ namespace Skeleton.Infrastructure.Data
         private readonly ITypeAccessor _accessor;
 
         private readonly Func<IMemberAccessor, bool> _simplePropertiesCondition =
-            x => x.MemberType.IsPrimitive ||
-                 x.MemberType == typeof(decimal) ||
-                 x.MemberType == typeof(string);
+            x => x.MemberType.IsPrimitiveExtended();
 
         private readonly IList<IMemberAccessor> _tableColumns;
 

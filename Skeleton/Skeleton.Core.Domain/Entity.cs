@@ -6,16 +6,16 @@ using Skeleton.Common.Reflection;
 
 namespace Skeleton.Core.Domain
 {
-    public abstract class EntityBase<TEntity, TIdentity> :
+    public abstract class Entity<TEntity, TIdentity> :
         IEntity<TEntity, TIdentity>
-        where TEntity : EntityBase<TEntity, TIdentity>
+        where TEntity : Entity<TEntity, TIdentity>
     {
         private readonly IMemberAccessor _idAccessor;
 
         private readonly LazyRef<ITypeAccessor> _typeAccessor =
             new LazyRef<ITypeAccessor>(() => new TypeAccessor(typeof(TEntity)));
 
-        protected EntityBase(Expression<Func<TEntity, object>> idExpression)
+        protected Entity(Expression<Func<TEntity, object>> idExpression)
         {
             idExpression.ThrowIfNull(() => idExpression);
 
@@ -41,7 +41,7 @@ namespace Skeleton.Core.Domain
 
         public DateTime? LastModifiedDateTime { get; protected set; }
 
-        public ITypeAccessor TypeAccessor
+        private ITypeAccessor TypeAccessor
         {
             get { return _typeAccessor.Value; }
         }
@@ -80,15 +80,15 @@ namespace Skeleton.Core.Domain
         }
 
         public static bool operator !=(
-            EntityBase<TEntity, TIdentity> entity1,
-            EntityBase<TEntity, TIdentity> entity2)
+            Entity<TEntity, TIdentity> entity1,
+            Entity<TEntity, TIdentity> entity2)
         {
             return !(entity1 == entity2);
         }
 
         public static bool operator ==(
-            EntityBase<TEntity, TIdentity> entity1,
-            EntityBase<TEntity, TIdentity> entity2)
+            Entity<TEntity, TIdentity> entity1,
+            Entity<TEntity, TIdentity> entity2)
         {
             return Equals(entity1, entity2);
         }
@@ -113,7 +113,7 @@ namespace Skeleton.Core.Domain
         public override int GetHashCode()
         {
             var thisIsTransient = Equals(Id, null);
-            return thisIsTransient ? GetHashCode() : Id.GetHashCode();
+            return thisIsTransient ? base.GetHashCode() : Id.GetHashCode();
         }
     }
 }

@@ -8,11 +8,11 @@ using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    public class SqlBuilderImpl : ISqlQuery, ISqlExecute
+    public class SqlBuilderManager : ISqlQuery, ISqlExecute
     {
         private readonly SqlQueryBuilder _builder;
 
-        internal SqlBuilderImpl(Type type)
+        internal SqlBuilderManager(Type type)
         {
             _builder = new SqlQueryBuilder(type.Name);
         }
@@ -50,11 +50,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         internal void And()
         {
             _builder.And();
-        }
-
-        internal void Or()
-        {
-            _builder.Or();
         }
 
         internal void Insert(string columnName, object value)

@@ -10,8 +10,8 @@ using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class CachedRepositoryBase<TEntity, TIdentity> :
-        ReadOnlyRepositoryBase<TEntity, TIdentity>,
+    public abstract class CachedRepository<TEntity, TIdentity> :
+        ReadOnlyRepository<TEntity, TIdentity>,
         ICachedRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
@@ -20,7 +20,7 @@ namespace Skeleton.Infrastructure.Repository
         private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator =
             new CacheKeyGenerator<TEntity, TIdentity>();
 
-        protected CachedRepositoryBase(
+        protected CachedRepository(
             ITypeAccessorCache accessorCache,
             ICacheProvider cacheProvider,
             IDatabase database)
@@ -31,7 +31,7 @@ namespace Skeleton.Infrastructure.Repository
             _cacheProvider = cacheProvider;
         }
 
-        protected CachedRepositoryBase(
+        protected CachedRepository(
             ITypeAccessorCache typeAccessorCache,
             ICacheProvider cacheProvider,
             IDatabaseFactory databaseFactory,
@@ -43,11 +43,18 @@ namespace Skeleton.Infrastructure.Repository
         {
         }
 
-        protected Action<ICacheContext> CacheConfigurator { get; set; }
+        public Action<ICacheContext> CacheConfigurator { get; protected set; }
+
+        protected abstract void ConfigureCache(Action<ICacheContext> configurator);
 
         public ICacheProvider Cache
         {
             get { return _cacheProvider; }
+        }
+
+        public ICacheKeyGenerator<TEntity, TIdentity> CacheKeyGenerator
+        {
+            get {return _keyGenerator;}
         }
 
         public override IEnumerable<TEntity> Find()
@@ -87,7 +94,7 @@ namespace Skeleton.Infrastructure.Repository
         public override IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
             return Cache.GetOrAdd(
-                _keyGenerator.ForPageAll(pageSize, pageNumber),
+                _keyGenerator.ForPage(pageSize, pageNumber),
                 () => base.Page(pageSize, pageNumber),
                 CacheConfigurator);
         }

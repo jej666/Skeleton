@@ -10,6 +10,5 @@ namespace Skeleton.Infrastructure.Data.Configuration
         string ProviderName { get; }
         int RetryPolicyCount { get; set; }
         int RetryPolicyInterval { get; set; }
-        bool ProfilerActivated { get; set; }
     }
 }

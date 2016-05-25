@@ -46,7 +46,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityBase.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="ValidationResult.cs" />
     <Compile Include="IAuditable.cs" />
     <Compile Include="IEntity.cs" />

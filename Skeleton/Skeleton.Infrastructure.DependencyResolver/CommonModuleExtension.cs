@@ -12,6 +12,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
             Container.AddExtension(new LoggerConstructorInjectionExtension());
             Container.RegisterType<ICacheProvider, MemoryCacheProvider>();
             Container.RegisterType<ITypeAccessorCache, TypeAccessorCache>();
+            Container.RegisterType<IConfigurationProvider, ConfigurationProvider>();
         }
     }
 }

@@ -11,8 +11,8 @@ using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class CachedRepositoryAsyncBase<TEntity, TIdentity> :
-        ReadOnlyRepositoryAsyncBase<TEntity, TIdentity>,
+    public abstract class CachedRepositoryAsync<TEntity, TIdentity> :
+        ReadOnlyRepositoryAsync<TEntity, TIdentity>,
         ICachedRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
@@ -21,7 +21,7 @@ namespace Skeleton.Infrastructure.Repository
         private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator =
             new CacheKeyGenerator<TEntity, TIdentity>();
 
-        protected CachedRepositoryAsyncBase(
+        protected CachedRepositoryAsync(
             ITypeAccessorCache accessorCache,
             ICacheProvider cacheProvider,
             IDatabaseAsync database)
@@ -32,7 +32,7 @@ namespace Skeleton.Infrastructure.Repository
             _cacheProvider = cacheProvider;
         }
 
-        protected CachedRepositoryAsyncBase(
+        protected CachedRepositoryAsync(
             ITypeAccessorCache typeAccessorCache,
             ICacheProvider cacheProvider,
             IDatabaseFactory databaseFactory,
@@ -44,11 +44,18 @@ namespace Skeleton.Infrastructure.Repository
         {
         }
 
-        protected Action<ICacheContext> CacheConfigurator { get; set; }
+        public Action<ICacheContext> CacheConfigurator { get; protected set; }
+
+        protected abstract void ConfigureCache(Action<ICacheContext> configurator);
 
         public ICacheProvider Cache
         {
             get { return _cacheProvider; }
+        }
+
+        public ICacheKeyGenerator<TEntity, TIdentity> CacheKeyGenerator
+        {
+            get { return _keyGenerator; }
         }
 
         public override async Task<IEnumerable<TEntity>> FindAsync()
@@ -94,7 +101,7 @@ namespace Skeleton.Infrastructure.Repository
             int pageNumber)
         {
             return await Cache.GetOrAddAsync(
-                _keyGenerator.ForPageAll(pageSize, pageNumber),
+                _keyGenerator.ForPage(pageSize, pageNumber),
                 () => base.PageAsync(pageSize, pageNumber),
                 CacheConfigurator)
                 .ConfigureAwait(false);

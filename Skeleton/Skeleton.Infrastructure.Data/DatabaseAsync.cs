@@ -35,7 +35,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw;
+                throw new DataAccessException(e);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw;
+                throw new DataAccessException(e);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw;
+                throw new DataAccessException(e);
             }
         }
 
@@ -95,12 +95,13 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await CreateMapperAsync<TResult>().MapQueryAsync(reader);
+                return await TypeAccessorCache.CreateMapperAsync<TResult>()
+                    .MapQueryAsync(reader);
             }
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw;
+                throw new DataAccessException(e);
             }
         }
 
@@ -116,19 +117,14 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await CreateMapperAsync<TResult>().MapSingleAsync(reader);
+                return await TypeAccessorCache.CreateMapperAsync<TResult>()
+                    .MapSingleAsync(reader);
             }
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw;
+                throw new DataAccessException(e);
             }
-        }
-
-        private DataReaderMapperAsync<TResult> CreateMapperAsync<TResult>()
-            where TResult : class
-        {
-            return new DataReaderMapperAsync<TResult>(TypeAccessorCache);
         }
     }
 }

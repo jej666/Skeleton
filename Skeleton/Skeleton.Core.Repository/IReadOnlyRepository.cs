@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Skeleton.Common;
 using Skeleton.Core.Domain;
 
 namespace Skeleton.Core.Repository
 {
     public interface IReadOnlyRepository<TEntity, TIdentity> :
-        IDisposable,
-        IHideObjectMethods,
+        IEntityRepository<TEntity, TIdentity>,
         IQuery<TEntity, TIdentity>,
         IAggregate<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>

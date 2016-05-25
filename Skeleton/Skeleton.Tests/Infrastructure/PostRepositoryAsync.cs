@@ -4,7 +4,7 @@ using Skeleton.Infrastructure.Repository;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class PostRepositoryAsync : RepositoryAsyncBase<Post, int>
+    public class PostRepositoryAsync : RepositoryAsync<Post, int>
     {
         public PostRepositoryAsync(
             ITypeAccessorCache typeAccessorCache,

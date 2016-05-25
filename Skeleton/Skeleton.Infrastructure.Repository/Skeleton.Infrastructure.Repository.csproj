@@ -46,13 +46,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedRepositoryAsyncBase.cs" />
-    <Compile Include="CachedRepositoryBase.cs" />
+    <Compile Include="CachedRepositoryAsync.cs" />
+    <Compile Include="CachedRepository.cs" />
     <Compile Include="CacheKeyGenerator.cs" />
-    <Compile Include="ReadOnlyRepositoryAsyncBase.cs" />
-    <Compile Include="ReadOnlyRepositoryBase.cs" />
-    <Compile Include="RepositoryAsyncBase.cs" />
-    <Compile Include="RepositoryBase.cs" />
+    <Compile Include="EntityRepository.cs" />
+    <Compile Include="ReadOnlyRepositoryAsync.cs" />
+    <Compile Include="ReadOnlyRepository.cs" />
+    <Compile Include="RepositoryAsync.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlBuilder\JoinType.cs" />
     <Compile Include="SqlBuilder\SqlQueryBuilder.cs" />
@@ -65,10 +66,11 @@
     <Compile Include="SqlBuilder\SingleOperationNode.cs" />
     <Compile Include="SqlBuilder\ValueNode.cs" />
     <Compile Include="SqlBuilder\SelectFunction.cs" />
-    <Compile Include="SqlBuilder\SqlBuilderImpl.cs" />
+    <Compile Include="SqlBuilder\SqlBuilderManager.cs" />
     <Compile Include="SqlBuilder\SqlTemplate.cs" />
     <Compile Include="SqlBuilder\TableColumns.cs" />
     <Compile Include="SqlBuilder\TableInfo.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">

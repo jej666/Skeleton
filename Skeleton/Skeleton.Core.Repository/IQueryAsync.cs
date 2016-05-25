@@ -4,7 +4,7 @@ using Skeleton.Core.Domain;
 
 namespace Skeleton.Core.Repository
 {
-    public interface IQueryAsync<TEntity, TIdentity>
+    public interface IQueryAsync<TEntity, in TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         Task<TEntity> FirstOrDefaultAsync();

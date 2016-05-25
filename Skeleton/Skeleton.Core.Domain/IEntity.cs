@@ -13,6 +13,5 @@ namespace Skeleton.Core.Domain
         TIdentity Id { get; }
 
         IMemberAccessor IdAccessor { get; }
-        ITypeAccessor TypeAccessor { get; }
     }
 }

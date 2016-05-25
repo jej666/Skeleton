@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Skeleton.Common;
 using Skeleton.Common.Extensions;
 using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
@@ -13,27 +12,24 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class ReadOnlyRepositoryAsyncBase<TEntity, TIdentity> :
-        DisposableBase,
+    public abstract class ReadOnlyRepositoryAsync<TEntity, TIdentity> :
+        EntityRepository<TEntity, TIdentity>,
         IReadOnlyRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabaseAsync _database;
-        private readonly ITypeAccessor _typeAccessor;
 
-        protected ReadOnlyRepositoryAsyncBase(
+        protected ReadOnlyRepositoryAsync(
             ITypeAccessorCache typeAccessorCache,
-            IDatabaseAsync database)
+            IDatabaseAsync database) :
+                base(typeAccessorCache)
         {
-            typeAccessorCache.ThrowIfNull(() => typeAccessorCache);
             database.ThrowIfNull(() => database);
 
-            _typeAccessor = typeAccessorCache.Get<TEntity>();
             _database = database;
-            Builder = new SqlBuilderImpl(typeof(TEntity));
         }
 
-        protected ReadOnlyRepositoryAsyncBase(
+        protected ReadOnlyRepositoryAsync(
             ITypeAccessorCache typeAccessorCache,
             IDatabaseFactory databaseFactory,
             Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
@@ -46,13 +42,6 @@ namespace Skeleton.Infrastructure.Repository
         {
             get { return _database; }
         }
-
-        protected ITypeAccessor TypeAccessor
-        {
-            get { return _typeAccessor; }
-        }
-
-        protected SqlBuilderImpl Builder { get; private set; }
 
         public ISqlQuery SqlQuery
         {
@@ -330,7 +319,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            var instance = _typeAccessor.CreateInstance<TEntity>();
+            var instance = TypeAccessor.CreateInstance<TEntity>();
 
             Builder.And();
             Builder.QueryByPrimaryKey(instance.IdAccessor.Name, expression);
@@ -349,11 +338,6 @@ namespace Skeleton.Infrastructure.Repository
             {
                 InitializeBuilder();
             }
-        }
-
-        protected void InitializeBuilder()
-        {
-            Builder = new SqlBuilderImpl(typeof(TEntity));
         }
 
         private IReadOnlyRepositoryAsync<TEntity, TIdentity> And(

@@ -23,8 +23,7 @@ namespace Skeleton.Infrastructure.Data.Configuration
         public string ConnectionString { get; set; }
         public string Name { get; set; }
         public string ProviderName { get; set; }
-        public bool ProfilerActivated { get; set; }
-
+   
         public int RetryPolicyCount
         {
             get { return _retryPolicyCount; }

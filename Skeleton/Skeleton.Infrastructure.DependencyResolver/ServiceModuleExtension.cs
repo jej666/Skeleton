@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using Skeleton.Core.Service;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
@@ -6,8 +7,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
     {
         protected override void Initialize()
         {
-            //TODO : test this or scan assembly for convention based registration
-            // Container.RegisterType(typeof(IService< , >), typeof(ServiceBase<,>));
+            Container.RegisterType(typeof(IAggregateService), typeof(Service.Service));
         }
     }
 }

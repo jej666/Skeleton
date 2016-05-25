@@ -3,7 +3,7 @@ using Skeleton.Core.Domain;
 
 namespace Skeleton.Core.Repository
 {
-    public interface IQuery<TEntity, TIdentity>
+    public interface IQuery<TEntity, in TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         TEntity FirstOrDefault();

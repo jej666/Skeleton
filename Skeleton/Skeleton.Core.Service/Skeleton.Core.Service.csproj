@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="IAggregateService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.Service.snk" />

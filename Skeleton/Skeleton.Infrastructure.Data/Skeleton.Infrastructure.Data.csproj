@@ -65,6 +65,7 @@
     <Compile Include="DataReaderMapperBase.cs" />
     <Compile Include="DataReaderMapper.cs" />
     <Compile Include="DataProviderType.cs" />
+    <Compile Include="DataReaderMapperFactory.cs" />
     <Compile Include="DbTypeMapper.cs" />
     <Compile Include="IDatabaseAsync.cs" />
     <Compile Include="IDatabase.cs" />

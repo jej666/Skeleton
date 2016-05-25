@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Skeleton.Common;
 using Skeleton.Common.Extensions;
 using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
@@ -12,27 +11,23 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class ReadOnlyRepositoryBase<TEntity, TIdentity> :
-        DisposableBase,
+    public abstract class ReadOnlyRepository<TEntity, TIdentity> :
+        EntityRepository<TEntity, TIdentity>,
         IReadOnlyRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabase _database;
-        private readonly ITypeAccessor _typeAccessor;
 
-        protected ReadOnlyRepositoryBase(
+        protected ReadOnlyRepository(
             ITypeAccessorCache typeAccessorCache,
-            IDatabase database)
+            IDatabase database) : base(typeAccessorCache)
         {
-            typeAccessorCache.ThrowIfNull(() => typeAccessorCache);
             database.ThrowIfNull(() => database);
 
-            _typeAccessor = typeAccessorCache.Get<TEntity>();
             _database = database;
-            Builder = new SqlBuilderImpl(typeof(TEntity));
         }
 
-        protected ReadOnlyRepositoryBase(
+        protected ReadOnlyRepository(
             ITypeAccessorCache typeAccessorCache,
             IDatabaseFactory databaseFactory,
             Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
@@ -45,13 +40,6 @@ namespace Skeleton.Infrastructure.Repository
             get { return _database; }
         }
 
-        protected ITypeAccessor TypeAccessor
-        {
-            get { return _typeAccessor; }
-        }
-
-        protected SqlBuilderImpl Builder { get; private set; }
-
         public ISqlQuery SqlQuery
         {
             get { return Builder; }
@@ -59,7 +47,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> Find()
         {
-            return InitializeBuilder(() =>
+            return HandleBuilderInitialization(() =>
                 Database.Find<TEntity>(
                     Builder.Query,
                     Builder.Parameters));
@@ -67,7 +55,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual TEntity FirstOrDefault()
         {
-            return InitializeBuilder(() =>
+            return HandleBuilderInitialization(() =>
                 Database.FirstOrDefault<TEntity>(
                     Builder.Query,
                     Builder.Parameters));
@@ -77,7 +65,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             id.ThrowIfNull(() => id);
 
-            var instance = _typeAccessor.CreateInstance<TEntity>();
+            var instance = TypeAccessor.CreateInstance<TEntity>();
 
             Builder.And();
             Builder.QueryByPrimaryKey<TEntity>(
@@ -89,7 +77,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return InitializeBuilder(() =>
+            return HandleBuilderInitialization(() =>
                 Database.Find<TEntity>(
                     Builder.Query,
                     Builder.Parameters));
@@ -97,7 +85,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
-            return InitializeBuilder(() =>
+            return HandleBuilderInitialization(() =>
                 Database.Find<TEntity>(
                     Builder.PagedQuery(pageSize, pageNumber),
                     Builder.Parameters));
@@ -290,22 +278,10 @@ namespace Skeleton.Infrastructure.Repository
 
         private TResult AggregateAs<TResult>()
         {
-            return InitializeBuilder(() =>
+            return HandleBuilderInitialization(() =>
                 Database.ExecuteScalar<TResult>(
                     Builder.Query,
                     Builder.Parameters));
-        }
-
-        protected T InitializeBuilder<T>(Func<T> func)
-        {
-            try
-            {
-                return func();
-            }
-            finally
-            {
-                Builder = new SqlBuilderImpl(typeof(TEntity));
-            }
         }
 
         private IReadOnlyRepository<TEntity, TIdentity> And(

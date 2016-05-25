@@ -11,11 +11,6 @@ namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
             _list = new List<T>();
         }
 
-        public PeekableCollection(IEnumerable<T> initialItems)
-        {
-            _list = new List<T>(initialItems);
-        }
-
         public int Count
         {
             get { return _list.Count; }

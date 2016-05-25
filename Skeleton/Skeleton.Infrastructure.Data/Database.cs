@@ -66,7 +66,8 @@ namespace Skeleton.Infrastructure.Data
                 var reader = CreateTextCommand(query, parameters)
                     .ExecuteReader();
 
-                return CreateMapper<TResult>().MapQuery(reader);
+                return TypeAccessorCache.CreateMapper<TResult>()
+                    .MapQuery(reader);
             });
         }
 
@@ -80,14 +81,9 @@ namespace Skeleton.Infrastructure.Data
                 var reader = CreateTextCommand(query, parameters)
                     .ExecuteReader(CommandBehavior.SingleRow);
 
-                return CreateMapper<TResult>().MapSingle(reader);
+                return TypeAccessorCache.CreateMapper<TResult>()
+                        .MapSingle(reader);
             });
-        }
-
-        private DataReaderMapper<TResult> CreateMapper<TResult>()
-            where TResult : class
-        {
-            return new DataReaderMapper<TResult>(TypeAccessorCache);
         }
 
         private TResult WrapRetryPolicy<TResult>(Func<TResult> func)
@@ -118,19 +114,5 @@ namespace Skeleton.Infrastructure.Data
                 }
             }
         }
-
-        //    System.Diagnostics.Debug.Write(
-
-        //    double elapsed = stopWatch.Elapsed.TotalSeconds;
-        //    stopWatch.Stop();
-        //    var res = func();
-        //    stopWatch.Start();
-        //    Stopwatch stopWatch = new Stopwatch();
-        //{
-
-        //private TResult WrapProfiler<TResult>(Func<TResult> func)
-        //       elapsed + " second(s)");
-        //    return res;
-        //}
     }
 }

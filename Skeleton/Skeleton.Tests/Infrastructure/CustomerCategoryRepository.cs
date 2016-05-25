@@ -4,7 +4,7 @@ using Skeleton.Infrastructure.Repository;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class CustomerCategoryRepository : RepositoryBase<CustomerCategory, int>
+    public class CustomerCategoryRepository : Repository<CustomerCategory, int>
     {
         public CustomerCategoryRepository(
             ITypeAccessorCache typeAccessorCache,

@@ -59,12 +59,13 @@
   <ItemGroup>
     <Compile Include="CachedRepositoryAsyncTests.cs" />
     <Compile Include="Infrastructure\Benchmark.cs" />
-    <Compile Include="Infrastructure\CustomerCategoryRepository.cs" />
     <Compile Include="Infrastructure\CustomerCategory.cs" />
     <Compile Include="Infrastructure\Customer.cs" />
     <Compile Include="Infrastructure\CachedCustomerRepository.cs" />
     <Compile Include="Infrastructure\CustomerCacheKey.cs" />
     <Compile Include="Infrastructure\CachedCustomerRepositoryAsync.cs" />
+    <Compile Include="Infrastructure\CustomerCategoryRepository.cs" />
+    <Compile Include="Infrastructure\CustomerService.cs" />
     <Compile Include="Infrastructure\PostRepositoryAsync.cs" />
     <Compile Include="Infrastructure\SqlConnectionHelper.cs" />
     <Compile Include="Infrastructure\SqlDataReaderHelper.cs" />

@@ -23,7 +23,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         }
 
         internal static void SetInsertColumns<TEntity, TIdentity>(
-            this SqlBuilderImpl builder,
+            this SqlBuilderManager builder,
             IEnumerable<IMemberAccessor> columns,
             TEntity entity)
             where TEntity : class, IEntity<TEntity, TIdentity>
@@ -39,7 +39,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         }
 
         internal static void SetUpdateColumns<TEntity, TIdentity>(
-            this SqlBuilderImpl builder,
+            this SqlBuilderManager builder,
             IEnumerable<IMemberAccessor> columns,
             TEntity entity)
             where TEntity : class, IEntity<TEntity, TIdentity>

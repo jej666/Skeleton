@@ -1,4 +1,5 @@
-﻿using Skeleton.Common;
+﻿using System;
+using Skeleton.Common;
 using Skeleton.Core.Domain;
 
 namespace Skeleton.Core.Repository
@@ -8,5 +9,9 @@ namespace Skeleton.Core.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         ICacheProvider Cache { get; }
+
+        ICacheKeyGenerator<TEntity, TIdentity> CacheKeyGenerator { get; }
+
+        Action<ICacheContext> CacheConfigurator { get; }
     }
 }

@@ -50,6 +50,8 @@
     <Compile Include="IAggregateAsync.cs" />
     <Compile Include="ICachedRepositoryAsync.cs" />
     <Compile Include="ICachedRepository.cs" />
+    <Compile Include="ICacheKeyGenerator.cs" />
+    <Compile Include="IEntityRepository.cs" />
     <Compile Include="IQueryAsync.cs" />
     <Compile Include="IQuery.cs" />
     <Compile Include="IReadOnlyRepositoryAsync.cs" />
@@ -58,8 +60,8 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="IAggregate.cs" />
     <Compile Include="ISqlExecute.cs" />
-    <Compile Include="IExecuteProcessor.cs" />
     <Compile Include="ISqlQuery.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
