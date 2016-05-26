@@ -7,9 +7,9 @@ namespace Skeleton.Tests.Infrastructure
 {
     public class Benchmark
     {
-        public Action Executor { get; set; }
+        public Action Executor { get; private set; }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public Stopwatch Watch { get; set; }
 

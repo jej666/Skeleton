@@ -21,12 +21,5 @@ namespace Skeleton.Tests.Infrastructure
             : base(typeAccessorCache, databaseFactory, Configurator)
         {
         }
-
-        public CustomerRepositoryAsync(
-            ITypeAccessorCache typeAccessorCache,
-            IDatabaseAsync database)
-            : base(typeAccessorCache, database)
-        {
-        }
     }
 }

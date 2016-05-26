@@ -5,9 +5,9 @@ using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class UnitOfWork :
+    public abstract class Repositories :
         DisposableBase,
-        IUnitOfWork
+        IRepositories
     {
         private readonly Dictionary<Type, IEntityRepository> _repositories =
             new Dictionary<Type, IEntityRepository>();
@@ -29,12 +29,12 @@ namespace Skeleton.Infrastructure.Repository
                 : null;
         }
 
-        public IUnitOfWork Register<TType>(IEntityRepository repository) where TType : class, IEntityRepository
+        public IRepositories Register<TType>(IEntityRepository repository) where TType : class, IEntityRepository
         {
            return Register(typeof(TType), repository);
         }
 
-        public IUnitOfWork Register(Type type, IEntityRepository repository)
+        public IRepositories Register(Type type, IEntityRepository repository)
         {
              if (!_repositories.ContainsKey(type))
                  _repositories.Add(type,repository);

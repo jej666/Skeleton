@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
-using Skeleton.Infrastructure.Data;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -10,14 +10,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class ReadOnlyRepositoryTests : TestBase
     {
-        private readonly CustomerRepository _customerRepository;
+        private readonly IRepository<Customer, int> _customerRepository;
 
         public ReadOnlyRepositoryTests()
         {
-            var accessorCache = Container.Resolve<ITypeAccessorCache>();
-            var database = Container.Resolve<IDatabase>();
-
-            _customerRepository = new CustomerRepository(accessorCache, database);
+            _customerRepository = Container.Resolve<IRepository<Customer, int>>();
 
             Seeder.SeedCustomers();
         }
@@ -25,12 +22,15 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Find_ByExpression()
         {
-            var customer = _customerRepository.SelectTop(1).FirstOrDefault();
-            var results = _customerRepository.Where(c => c.Name.Equals(customer.Name))
+            var customer = _customerRepository
+                .SelectTop(1)
+                .FirstOrDefault();
+            var results = _customerRepository
+                .Where(c => c.Name.Equals(customer.Name))
                 .OrderBy(c => c.CustomerId)
                 .Find();
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(Customer));
+            Assert.IsInstanceOfType(results.First(), typeof(Customer)); 
         }
 
         [TestMethod]
@@ -64,7 +64,10 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectTop()
         {
-            var customers = _customerRepository.SelectTop(5).Find().ToList();
+            var customers = _customerRepository
+                .SelectTop(5)
+                .Find()
+                .ToList();
             Assert.IsNotNull(customers);
             Assert.IsInstanceOfType(customers.First(), typeof(Customer));
             Assert.IsTrue(customers.Count == 5);
@@ -121,7 +124,8 @@ namespace Skeleton.Tests
 
             var results = _customerRepository
                 .WhereIsIn(c => c.CustomerId, customerIds)
-                .Find().ToList();
+                .Find()
+                .ToList();
 
             Assert.IsNotNull(results);
             Assert.IsTrue(results.All(c => customerIds.Contains(c.CustomerId)));

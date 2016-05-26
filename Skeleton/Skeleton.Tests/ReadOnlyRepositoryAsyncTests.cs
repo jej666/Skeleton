@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Common.Reflection;
-using Skeleton.Infrastructure.Data;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -10,13 +9,13 @@ namespace Skeleton.Tests
     [TestClass]
     public class ReadOnlyRepositoryAsyncTests : TestBase
     {
-        private readonly CustomerRepositoryAsync _repository;
+        private readonly IRepositoryAsync<Customer, int> _repository;
 
         public ReadOnlyRepositoryAsyncTests()
         {
-            var accessorCache = Container.Resolve<ITypeAccessorCache>();
-            var databaseFactory = Container.Resolve<IDatabaseFactory>();
-            _repository = new CustomerRepositoryAsync(accessorCache, databaseFactory);
+            _repository = Container.Resolve<IRepositoryAsync<Customer, int>>();
+
+            Seeder.SeedCustomers();
         }
 
         [TestMethod]

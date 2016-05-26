@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Skeleton.Common;
 using Skeleton.Common.Extensions;
 using Skeleton.Common.Reflection;
 
@@ -12,14 +11,11 @@ namespace Skeleton.Core.Domain
     {
         private readonly IMemberAccessor _idAccessor;
 
-        private readonly LazyRef<ITypeAccessor> _typeAccessor =
-            new LazyRef<ITypeAccessor>(() => new TypeAccessor(typeof(TEntity)));
-
         protected Entity(Expression<Func<TEntity, object>> idExpression)
         {
             idExpression.ThrowIfNull(() => idExpression);
 
-            _idAccessor = TypeAccessor.GetProperty(idExpression);
+            _idAccessor = PropertyAccessor.Create(idExpression.GetPropertyAccess());
             CreatedDateTime = DateTime.Now;
         }
 
@@ -40,11 +36,6 @@ namespace Skeleton.Core.Domain
         public string LastModifiedBy { get; protected set; }
 
         public DateTime? LastModifiedDateTime { get; protected set; }
-
-        private ITypeAccessor TypeAccessor
-        {
-            get { return _typeAccessor.Value; }
-        }
 
         public virtual int CompareTo(TEntity other)
         {
@@ -107,7 +98,8 @@ namespace Skeleton.Core.Domain
 
         public override string ToString()
         {
-            return Id.ToString();
+            var thisIsTransient = Equals(Id, null);
+            return thisIsTransient ? base.ToString() : Id.ToString();
         }
 
         public override int GetHashCode()

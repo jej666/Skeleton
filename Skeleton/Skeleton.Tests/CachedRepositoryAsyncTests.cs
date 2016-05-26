@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Common;
-using Skeleton.Common.Reflection;
-using Skeleton.Infrastructure.Data;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -11,16 +9,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class CachedRepositoryAsyncTests : TestBase
     {
-        private readonly CachedCustomerRepositoryAsync _repository;
+        private readonly ICachedRepositoryAsync<Customer, int> _repository;
 
         public CachedRepositoryAsyncTests()
         {
-            var accessorCache = Container.Resolve<ITypeAccessorCache>();
-            var database = Container.Resolve<IDatabaseAsync>();
-            var cacheProvider = Container.Resolve<ICacheProvider>();
-
-            _repository = new CachedCustomerRepositoryAsync(
-                accessorCache, cacheProvider, database);
+            _repository = Container.Resolve<ICachedRepositoryAsync<Customer, int>>();
         }
 
         [TestMethod]
@@ -32,7 +25,7 @@ namespace Skeleton.Tests
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
             Assert.IsTrue(_repository.Cache.Contains<Customer>(
-                CustomerCacheKey.ForFind(sql)));
+                _repository.CacheKeyGenerator.ForFind(sql)));
         }
 
         [TestMethod]
@@ -46,7 +39,7 @@ namespace Skeleton.Tests
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
             Assert.IsTrue(_repository.Cache.Contains<Customer>(
-                CustomerCacheKey.ForFirstOrDefault(sql)));
+                _repository.CacheKeyGenerator.ForFirstOrDefault(sql)));
         }
 
         [TestMethod]
@@ -58,7 +51,7 @@ namespace Skeleton.Tests
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
             Assert.IsTrue(_repository.Cache.Contains<Customer>(
-                CustomerCacheKey.ForFirstOrDefault(customer1.Id)));
+                _repository.CacheKeyGenerator.ForFirstOrDefault(customer1.Id)));
         }
 
         [TestMethod]
@@ -68,7 +61,7 @@ namespace Skeleton.Tests
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
             Assert.IsTrue(_repository.Cache.Contains<Customer>(
-                CustomerCacheKey.ForGetAll()));
+                _repository.CacheKeyGenerator.ForGetAll()));
         }
     }
 }

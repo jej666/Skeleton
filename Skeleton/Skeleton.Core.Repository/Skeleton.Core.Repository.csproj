@@ -61,7 +61,7 @@
     <Compile Include="IAggregate.cs" />
     <Compile Include="ISqlExecute.cs" />
     <Compile Include="ISqlQuery.cs" />
-    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="IRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

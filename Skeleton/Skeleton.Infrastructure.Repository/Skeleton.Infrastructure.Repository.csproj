@@ -70,7 +70,7 @@
     <Compile Include="SqlBuilder\SqlTemplate.cs" />
     <Compile Include="SqlBuilder\TableColumns.cs" />
     <Compile Include="SqlBuilder\TableInfo.cs" />
-    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="Repositories.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">

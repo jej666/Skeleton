@@ -52,6 +52,7 @@
     <Compile Include="ICacheContext.cs" />
     <Compile Include="ICacheProvider.cs" />
     <Compile Include="IConfigurationProvider.cs" />
+    <Compile Include="IDependencyRegistrar.cs" />
     <Compile Include="LazyAsync.cs" />
     <Compile Include="MemoryCacheContext.cs" />
     <Compile Include="MemoryCacheProvider.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HideObjectMethods.cs" />
     <Compile Include="IHideObjectMethods.cs" />
-    <Compile Include="IContainer.cs" />
+    <Compile Include="IDependencyContainer.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="LazyRef.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

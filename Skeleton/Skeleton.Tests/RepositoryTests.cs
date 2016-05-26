@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Common.Reflection;
-using Skeleton.Infrastructure.Data;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -9,14 +8,13 @@ namespace Skeleton.Tests
     [TestClass]
     public class RepositoryTests : TestBase
     {
-        private readonly CustomerRepository _customerRepository;
+        private readonly IRepository<Customer, int> _customerRepository;
 
         public RepositoryTests()
         {
-            var accessorCache = Container.Resolve<ITypeAccessorCache>();
-            var database = Container.Resolve<IDatabase>();
+            _customerRepository = Container.Resolve<IRepository<Customer, int>>();
 
-            _customerRepository = new CustomerRepository(accessorCache, database);
+            Seeder.SeedCustomers();
         }
 
         [TestMethod]
@@ -42,7 +40,9 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Delete()
         {
-            var customer = _customerRepository.SelectTop(1).FirstOrDefault();
+            var customer = _customerRepository
+                .SelectTop(1)
+                .FirstOrDefault();
             var successed = _customerRepository.Delete(customer);
             Assert.IsTrue(successed);
 
@@ -53,7 +53,9 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Delete_Multiple()
         {
-            var customers = _customerRepository.SelectTop(3).Find();
+            var customers = _customerRepository
+                .SelectTop(3)
+                .Find();
             var successed = _customerRepository.Delete(customers);
             Assert.IsTrue(successed);
         }
@@ -61,7 +63,9 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Update()
         {
-            var customer = _customerRepository.SelectTop(1).FirstOrDefault();
+            var customer = _customerRepository
+                .SelectTop(1)
+                .FirstOrDefault();
             customer.Name = "UpdatedName";
             var successed = _customerRepository.Update(customer);
             Assert.IsTrue(successed);
@@ -74,7 +78,10 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Update_Multiple()
         {
-            var customers = _customerRepository.SelectTop(5).Find().ToList();
+            var customers = _customerRepository
+                .SelectTop(5)
+                .Find()
+                .ToList();
             foreach (var cust in customers)
                 cust.Name = "Updated" + cust.Id;
 

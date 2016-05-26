@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Skeleton.Core.Service;
+using Skeleton.Infrastructure.Service;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
@@ -7,7 +8,8 @@ namespace Skeleton.Infrastructure.DependencyResolver
     {
         protected override void Initialize()
         {
-            Container.RegisterType(typeof(IAggregateService), typeof(Service.Service));
+            Container.RegisterType(typeof(IReadOnlyService<,>), typeof(ReadOnlyService<,>));
+            Container.RegisterType(typeof(IService<,>), typeof(Service<,>));
         }
     }
 }

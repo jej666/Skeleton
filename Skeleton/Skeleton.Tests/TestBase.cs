@@ -1,5 +1,7 @@
 ﻿using Skeleton.Common;
+using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.DependencyResolver;
+using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
 {
@@ -7,12 +9,23 @@ namespace Skeleton.Tests
     {
         protected TestBase()
         {
-            Bootstrapper.Initialize();
+           Bootstrapper.Initialize();
+           Register();
         }
 
-        public IContainer Container
+        protected static IDependencyContainer Container
         {
             get { return Bootstrapper.Container; }
+        }
+
+        private static void Register()
+        {
+            Bootstrapper.Registrar
+            .RegisterType(typeof(IRepository<Customer,int>), typeof(CustomerRepository))
+            .RegisterType(typeof(IRepository<CustomerCategory,int>), typeof(CustomerCategoryRepository))
+            .RegisterType(typeof(ICachedRepository<Customer,int>), typeof(CachedCustomerRepository))
+            .RegisterType(typeof(IRepositoryAsync<Customer,int>), typeof(CustomerRepositoryAsync))
+            .RegisterType(typeof(ICachedRepositoryAsync<Customer,int>), typeof(CachedCustomerRepositoryAsync));
         }
     }
 }

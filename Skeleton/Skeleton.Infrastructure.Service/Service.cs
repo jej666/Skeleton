@@ -1,51 +1,33 @@
-﻿using System;
-using Skeleton.Common;
+﻿using Skeleton.Common;
 using Skeleton.Common.Extensions;
+using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Core.Service;
 
 namespace Skeleton.Infrastructure.Service
 {
-    public abstract class Service :
-        DisposableBase,
-        IAggregateService
+    public abstract class Service<TEntity, TIdentity> :
+        EntityService<TEntity, TIdentity>,
+        IService<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly ILogger _logger;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<TEntity, TIdentity> _repository;
 
-        protected Service(ILogger logger, IUnitOfWork unitOfWork)
+        protected Service(ILogger logger, IRepository<TEntity, TIdentity> repository) : base(logger)
         {
-            logger.ThrowIfNull(() => logger);
-            unitOfWork.ThrowIfNull(() => unitOfWork);
+            repository.ThrowIfNull(() => repository);
 
-            _logger = logger;
-            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
 
-        public IUnitOfWork UnitOfWork
+        public IRepository<TEntity, TIdentity> Repository
         {
-            get { return _unitOfWork; }
-        }
-
-        protected T HandleException<T>(Func<T> handler)
-        {
-            handler.ThrowIfNull(() => handler);
-
-            try
-            {
-                return handler();
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e.Message);
-                throw;
-            }
+            get { return _repository; }
         }
 
         protected override void DisposeManagedResources()
         {
-            _unitOfWork.ResolveAll().ForEach(
-                repository => repository.Dispose());
+            _repository.Dispose();
         }
     }
 }

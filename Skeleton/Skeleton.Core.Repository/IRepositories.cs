@@ -4,7 +4,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Core.Repository
 {
-    public interface IUnitOfWork :
+    public interface IRepositories :
         IDisposable,
         IHideObjectMethods
     {
@@ -13,7 +13,7 @@ namespace Skeleton.Core.Repository
         IEntityRepository Resolve<TType>() where TType : class,IEntityRepository;
         IEntityRepository Resolve(Type type);
 
-        IUnitOfWork Register<TType>(IEntityRepository repository) where TType : class, IEntityRepository;
-        IUnitOfWork Register(Type type, IEntityRepository repository);
+        IRepositories Register<TType>(IEntityRepository repository) where TType : class, IEntityRepository;
+        IRepositories Register(Type type, IEntityRepository repository);
     }
 }
