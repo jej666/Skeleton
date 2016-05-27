@@ -8,7 +8,7 @@ using Skeleton.Common.Extensions;
 
 namespace Skeleton.Common.Reflection
 {
-    [DebuggerDisplay("Type = {Type}, Properties = {PropertiesCount}, Fields = {FieldsCount}, Methods = {MethodsCount}")]
+    [DebuggerDisplay("Type = {Type}")]
     public sealed class TypeAccessor : ITypeAccessor
     {
         private const BindingFlags DeclaredOnlyFlags =

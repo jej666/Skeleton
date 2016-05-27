@@ -4,9 +4,9 @@ namespace Skeleton.Core.Domain
 {
     public interface IAuditable
     {
-        string CreatedBy { get; }
-        DateTime CreatedDateTime { get; }
-        string LastModifiedBy { get; }
-        DateTime? LastModifiedDateTime { get; }
+        string CreatedBy { get; set; }
+        DateTime CreatedDateTime { get; set; }
+        string LastModifiedBy { get; set; }
+        DateTime? LastModifiedDateTime { get; set; }
     }
 }

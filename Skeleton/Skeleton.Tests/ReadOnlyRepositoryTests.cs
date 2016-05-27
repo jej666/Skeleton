@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Common.Extensions;
+using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
@@ -28,9 +29,12 @@ namespace Skeleton.Tests
             var results = _customerRepository
                 .Where(c => c.Name.Equals(customer.Name))
                 .OrderBy(c => c.CustomerId)
-                .Find();
+                .Find()
+                .ToList();
+            
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(Customer)); 
+            var firstResult = results.First();
+            Assert.IsInstanceOfType(firstResult, typeof(Customer));
         }
 
         [TestMethod]

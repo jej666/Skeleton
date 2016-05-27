@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Skeleton.Common;
 using Skeleton.Common.Extensions;
@@ -10,6 +11,7 @@ using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Data
 {
+    [DebuggerDisplay("DatabaseName = {Configuration.Name")]
     public sealed class DatabaseAsync : DatabaseContext, IDatabaseAsync
     {
         public DatabaseAsync(

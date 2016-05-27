@@ -19,9 +19,9 @@ namespace Skeleton.Core.Domain
             CreatedDateTime = DateTime.Now;
         }
 
-        public string CreatedBy { get; protected set; }
+        public string CreatedBy { get; set; }
 
-        public DateTime CreatedDateTime { get; protected set; }
+        public DateTime CreatedDateTime { get; set; }
 
         public TIdentity Id
         {
@@ -33,9 +33,9 @@ namespace Skeleton.Core.Domain
             get { return _idAccessor; }
         }
 
-        public string LastModifiedBy { get; protected set; }
+        public string LastModifiedBy { get; set; }
 
-        public DateTime? LastModifiedDateTime { get; protected set; }
+        public DateTime? LastModifiedDateTime { get; set; }
 
         public virtual int CompareTo(TEntity other)
         {

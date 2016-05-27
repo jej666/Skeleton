@@ -5,11 +5,13 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
-    public sealed class DependencyContainer : HideObjectMethods, IDependencyContainer
+    public sealed class DependencyResolver : 
+        HideObjectMethods, 
+        IDependencyResolver
     {
         private readonly IUnityContainer _unityContainer;
 
-        public DependencyContainer(IUnityContainer container)
+        public DependencyResolver(IUnityContainer container)
         {
             _unityContainer = container;
         }

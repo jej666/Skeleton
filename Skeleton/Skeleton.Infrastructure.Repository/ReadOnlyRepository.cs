@@ -47,7 +47,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> Find()
         {
-            return HandleBuilderInitialization(() =>
+            return HandleSqlBuilderInitialization(() =>
                 Database.Find<TEntity>(
                     Builder.Query,
                     Builder.Parameters));
@@ -55,7 +55,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual TEntity FirstOrDefault()
         {
-            return HandleBuilderInitialization(() =>
+            return HandleSqlBuilderInitialization(() =>
                 Database.FirstOrDefault<TEntity>(
                     Builder.Query,
                     Builder.Parameters));
@@ -65,7 +65,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             id.ThrowIfNull(() => id);
 
-            var instance = TypeAccessor.CreateInstance<TEntity>();
+            var instance = EntityTypeAccessor.CreateInstance<TEntity>();
 
             Builder.And();
             Builder.QueryByPrimaryKey<TEntity>(
@@ -77,7 +77,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return HandleBuilderInitialization(() =>
+            return HandleSqlBuilderInitialization(() =>
                 Database.Find<TEntity>(
                     Builder.Query,
                     Builder.Parameters));
@@ -85,7 +85,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
-            return HandleBuilderInitialization(() =>
+            return HandleSqlBuilderInitialization(() =>
                 Database.Find<TEntity>(
                     Builder.PagedQuery(pageSize, pageNumber),
                     Builder.Parameters));
@@ -278,7 +278,7 @@ namespace Skeleton.Infrastructure.Repository
 
         private TResult AggregateAs<TResult>()
         {
-            return HandleBuilderInitialization(() =>
+            return HandleSqlBuilderInitialization(() =>
                 Database.ExecuteScalar<TResult>(
                     Builder.Query,
                     Builder.Parameters));

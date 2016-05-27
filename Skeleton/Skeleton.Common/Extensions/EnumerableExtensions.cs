@@ -63,6 +63,14 @@ namespace Skeleton.Common.Extensions
                 action(value);
         }
 
+        public static void ForEachWhileTrue<T>(this IEnumerable<T> that, Func<T, bool> action)
+        {
+            foreach (var item in that)
+            {
+                if (!action(item)) break;
+            }
+        }
+
         public static IEnumerable<TSource> IgnoreNulls<TSource>(this IEnumerable<TSource> source)
         {
             if (ReferenceEquals(source, null))

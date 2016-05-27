@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Skeleton.Common
 {
-    public interface IDependencyContainer : IHideObjectMethods
+    public interface IDependencyResolver : IHideObjectMethods
     {
         object Resolve(Type serviceType);
 

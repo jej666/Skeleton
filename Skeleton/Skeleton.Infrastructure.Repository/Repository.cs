@@ -150,9 +150,9 @@ namespace Skeleton.Infrastructure.Repository
 
         private TIdentity AddCommand(TEntity entity)
         {
-            return HandleBuilderInitialization(() =>
+            return HandleSqlBuilderInitialization(() =>
             {
-                var columns = TypeAccessor.GetTableColumns();
+                var columns = EntityTypeAccessor.GetTableColumns();
                 Builder.SetInsertColumns<TEntity, TIdentity>(columns, entity);
 
                 var id = Database.ExecuteScalar<TIdentity>(
@@ -168,7 +168,7 @@ namespace Skeleton.Infrastructure.Repository
 
         private int DeleteCommand(TEntity entity)
         {
-            return HandleBuilderInitialization(() =>
+            return HandleSqlBuilderInitialization(() =>
             {
                 Builder.QueryByPrimaryKey<TEntity>(
                     entity.IdAccessor.Name,
@@ -182,14 +182,15 @@ namespace Skeleton.Infrastructure.Repository
 
         private int UpdateCommand(TEntity entity)
         {
-            return HandleBuilderInitialization(() =>
+            return HandleSqlBuilderInitialization(() =>
             {
-                var columns = TypeAccessor.GetTableColumns();
+                var columns = EntityTypeAccessor.GetTableColumns();
                 Builder.SetUpdateColumns<TEntity, TIdentity>(columns, entity);
-
                 Builder.QueryByPrimaryKey<TEntity>(
                     entity.IdAccessor.Name,
                     e => e.Id.Equals(entity.Id));
+
+                entity.LastModifiedDateTime = DateTime.Now;
 
                 return Database.Execute(
                     Builder.UpdateQuery,

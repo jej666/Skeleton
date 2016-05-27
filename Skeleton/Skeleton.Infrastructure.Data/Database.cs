@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading;
 using Skeleton.Common;
 using Skeleton.Common.Extensions;
@@ -10,6 +11,7 @@ using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Data
 {
+    [DebuggerDisplay("DatabaseName = {Configuration.Name")]
     public sealed class Database : DatabaseContext, IDatabase
     {
         public Database(

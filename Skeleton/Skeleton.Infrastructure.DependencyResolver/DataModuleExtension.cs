@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
                 .SetCommandTimeout(30)
                 .SetRetryPolicyCount(3)
                 .SetRetryPolicyInterval(1);
-            Context.Container.RegisterInstance(databaseConfiguration);
+            Container.RegisterInstance(databaseConfiguration);
             Container.RegisterType<IDatabaseFactory, DatabaseFactory>();
             Container.RegisterType<IDatabase, Database>();
             Container.RegisterType<IDatabaseAsync, DatabaseAsync>();

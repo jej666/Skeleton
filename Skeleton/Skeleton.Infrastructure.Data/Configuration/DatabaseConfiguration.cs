@@ -1,7 +1,9 @@
-﻿using Skeleton.Common;
+﻿using System.Diagnostics;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data.Configuration
 {
+    [DebuggerDisplay("DatabaseName = {Name")]
     public sealed class DatabaseConfiguration :
         HideObjectMethods,
         IDatabaseConfiguration

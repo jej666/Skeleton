@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity.cs" />
+    <Compile Include="EntityExtensions.cs" />
     <Compile Include="ValidationResult.cs" />
     <Compile Include="IAuditable.cs" />
     <Compile Include="IEntity.cs" />

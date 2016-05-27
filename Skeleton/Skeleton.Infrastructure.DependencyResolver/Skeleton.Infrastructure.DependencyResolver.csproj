@@ -70,11 +70,12 @@
     <Compile Include="LoggerExtension\CreationStackTrackerStrategy.cs" />
     <Compile Include="LoggerExtension\ICreationStackTrackerPolicy.cs" />
     <Compile Include="LoggerExtension\PeekableCollection.cs" />
-    <Compile Include="DependencyContainer.cs" />
+    <Compile Include="DependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ServiceModuleExtension.cs" />
     <Compile Include="RepositoryModuleExtension.cs" />
+    <Compile Include="ConventionRegistrationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Infrastructure.Bootstrapper.snk" />

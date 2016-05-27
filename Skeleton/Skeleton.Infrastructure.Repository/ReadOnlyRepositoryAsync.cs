@@ -59,7 +59,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
 
@@ -75,7 +75,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
 
@@ -90,7 +90,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
 
@@ -105,7 +105,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
 
@@ -122,7 +122,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
 
@@ -319,7 +319,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            var instance = TypeAccessor.CreateInstance<TEntity>();
+            var instance = EntityTypeAccessor.CreateInstance<TEntity>();
 
             Builder.And();
             Builder.QueryByPrimaryKey(instance.IdAccessor.Name, expression);
@@ -336,7 +336,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
 

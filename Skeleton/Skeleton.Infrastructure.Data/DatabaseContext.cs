@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Skeleton.Common;
 using Skeleton.Common.Extensions;
@@ -10,6 +11,7 @@ using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Data
 {
+    [DebuggerDisplay("DatabaseName = {Configuration.Name")]
     public abstract class DatabaseContext : DisposableBase
     {
         private readonly DataAdapter _adapter;

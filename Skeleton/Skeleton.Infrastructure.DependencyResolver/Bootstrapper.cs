@@ -9,13 +9,13 @@ namespace Skeleton.Infrastructure.DependencyResolver
         private static readonly Lazy<IUnityContainer> UnityContainer =
             new Lazy<IUnityContainer>(() => new UnityContainer());
 
-        private static readonly Lazy<IDependencyContainer> ContainerWrapper =
-            new Lazy<IDependencyContainer>(() => new DependencyContainer(UnityContainer.Value));
+        private static readonly Lazy<IDependencyResolver> ContainerWrapper =
+            new Lazy<IDependencyResolver>(() => new DependencyResolver(UnityContainer.Value));
 
         private static readonly Lazy<IDependencyRegistrar> RegistrarWrapper =
             new Lazy<IDependencyRegistrar>(() => new DependencyRegistrar(UnityContainer.Value));
 
-        public static IDependencyContainer Container
+        public static IDependencyResolver Container
         {
             get { return ContainerWrapper.Value; }
         }

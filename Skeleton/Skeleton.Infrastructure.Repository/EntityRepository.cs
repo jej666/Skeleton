@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Skeleton.Common;
 using Skeleton.Common.Extensions;
 using Skeleton.Common.Reflection;
@@ -8,6 +9,7 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
+    [DebuggerDisplay("EntityName = {EntityTypeAccessor.Type.Name}")]
     public abstract class EntityRepository<TEntity, TIdentity> :
         DisposableBase,
         IEntityRepository<TEntity,TIdentity>
@@ -20,22 +22,22 @@ namespace Skeleton.Infrastructure.Repository
             typeAccessorCache.ThrowIfNull(() => typeAccessorCache);
 
             _typeAccessor = new LazyRef<ITypeAccessor>(typeAccessorCache.Get<TEntity>);
-            InitializeBuilder();
+            InitializeSqlBuilder();
         }
 
-        public ITypeAccessor TypeAccessor
+        public ITypeAccessor EntityTypeAccessor
         {
             get { return _typeAccessor.Value; }
         }
 
         protected SqlBuilderManager Builder { get; private set; }
 
-        protected void InitializeBuilder()
+        protected void InitializeSqlBuilder()
         {
-            Builder = new SqlBuilderManager(typeof(TEntity));
+            Builder = new SqlBuilderManager(EntityTypeAccessor.Type);
         }
 
-        protected T HandleBuilderInitialization<T>(Func<T> func)
+        protected T HandleSqlBuilderInitialization<T>(Func<T> func)
         {
             try
             {
@@ -43,7 +45,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
     }

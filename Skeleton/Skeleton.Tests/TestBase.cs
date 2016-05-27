@@ -1,4 +1,5 @@
-﻿using Skeleton.Common;
+﻿using System.Reflection;
+using Skeleton.Common;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.DependencyResolver;
 using Skeleton.Tests.Infrastructure;
@@ -13,19 +14,19 @@ namespace Skeleton.Tests
            Register();
         }
 
-        protected static IDependencyContainer Container
+        protected static IDependencyResolver Container
         {
             get { return Bootstrapper.Container; }
         }
 
         private static void Register()
         {
-            Bootstrapper.Registrar
-            .RegisterType(typeof(IRepository<Customer,int>), typeof(CustomerRepository))
-            .RegisterType(typeof(IRepository<CustomerCategory,int>), typeof(CustomerCategoryRepository))
-            .RegisterType(typeof(ICachedRepository<Customer,int>), typeof(CachedCustomerRepository))
-            .RegisterType(typeof(IRepositoryAsync<Customer,int>), typeof(CustomerRepositoryAsync))
-            .RegisterType(typeof(ICachedRepositoryAsync<Customer,int>), typeof(CachedCustomerRepositoryAsync));
+            Bootstrapper.Registrar.RegisterTypes(new [] {Assembly.GetExecutingAssembly()});
+            //.RegisterType(typeof(IRepository<Customer,int>), typeof(CustomerRepository))
+            //.RegisterType(typeof(IRepository<CustomerCategory,int>), typeof(CustomerCategoryRepository))
+            //.RegisterType(typeof(ICachedRepository<Customer,int>), typeof(CachedCustomerRepository))
+            //.RegisterType(typeof(IRepositoryAsync<Customer,int>), typeof(CustomerRepositoryAsync))
+            //.RegisterType(typeof(ICachedRepositoryAsync<Customer,int>), typeof(CachedCustomerRepositoryAsync));
         }
     }
 }

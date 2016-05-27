@@ -157,7 +157,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                var columns = TypeAccessor.GetTableColumns();
+                var columns = EntityTypeAccessor.GetTableColumns();
                 Builder.SetInsertColumns<TEntity, TIdentity>(columns, entity);
 
                 var id = await Database.ExecuteScalarAsync<TIdentity>(
@@ -172,7 +172,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
 
@@ -191,7 +191,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
 
@@ -199,7 +199,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                var columns = TypeAccessor.GetTableColumns();
+                var columns = EntityTypeAccessor.GetTableColumns();
                 Builder.SetUpdateColumns<TEntity, TIdentity>(columns, entity);
 
                 Builder.QueryByPrimaryKey<TEntity>(
@@ -213,7 +213,7 @@ namespace Skeleton.Infrastructure.Repository
             }
             finally
             {
-                InitializeBuilder();
+                InitializeSqlBuilder();
             }
         }
     }
