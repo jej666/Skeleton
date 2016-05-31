@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Skeleton.Common.Extensions;
@@ -7,28 +6,19 @@ using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class RepositoryAsync<TEntity, TIdentity> :
+    public class RepositoryAsync<TEntity, TIdentity> :
         ReadOnlyRepositoryAsync<TEntity, TIdentity>,
         IRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        protected RepositoryAsync(
+        public RepositoryAsync(
             ITypeAccessorCache typeAccessorCache,
             IDatabaseAsync database) :
                 base(typeAccessorCache, database)
-        {
-        }
-
-        protected RepositoryAsync(
-            ITypeAccessorCache typeAccessorCache,
-            IDatabaseFactory databaseFactory,
-            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-                this(typeAccessorCache, databaseFactory.CreateDatabaseForAsyncOperations(configurator))
         {
         }
 

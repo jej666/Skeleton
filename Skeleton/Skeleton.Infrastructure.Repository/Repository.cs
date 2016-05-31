@@ -6,28 +6,19 @@ using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class Repository<TEntity, TIdentity> :
+    public class Repository<TEntity, TIdentity> :
         ReadOnlyRepository<TEntity, TIdentity>,
         IRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        protected Repository(
+        public Repository(
             ITypeAccessorCache typeAccessorCache,
             IDatabase database) :
                 base(typeAccessorCache, database)
-        {
-        }
-
-        protected Repository(
-            ITypeAccessorCache typeAccessorCache,
-            IDatabaseFactory databaseFactory,
-            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-                this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
         {
         }
 
@@ -198,25 +189,26 @@ namespace Skeleton.Infrastructure.Repository
             });
         }
 
-        //}
- //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
+        //    Builder.And();
+        //    Resolver.ResolveQuery(expression);
 
         //    return this;
-        //    Resolver.QueryByIsIn(expression, values);
-        //    Builder.And();
-        //{
-        //    IEnumerable<object> values)
-        //    Expression<Func<TEntity, object>> expression,
+        //}
 
         //public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
-        //}
+        //    Expression<Func<TEntity, object>> expression,
+        //    IEnumerable<object> values)
+        //{
+        //    Builder.And();
+        //    Resolver.QueryByIsIn(expression, values);
 
         //    return this;
-        //    Resolver.ResolveQuery(expression);
-        //    Builder.And();
+        //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
+
+        //}
         //{
 
-       
+
         //public IExecuteBuilder<TEntity, TIdentity> WhereNotIn(
         //    Expression<Func<TEntity, object>> expression,
         //    IEnumerable<object> values)

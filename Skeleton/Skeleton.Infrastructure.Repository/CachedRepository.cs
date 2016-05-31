@@ -6,11 +6,10 @@ using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class CachedRepository<TEntity, TIdentity> :
+    public class CachedRepository<TEntity, TIdentity> :
         ReadOnlyRepository<TEntity, TIdentity>,
         ICachedRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
@@ -20,7 +19,7 @@ namespace Skeleton.Infrastructure.Repository
         private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator =
             new CacheKeyGenerator<TEntity, TIdentity>();
 
-        protected CachedRepository(
+        public CachedRepository(
             ITypeAccessorCache accessorCache,
             ICacheProvider cacheProvider,
             IDatabase database)
@@ -31,21 +30,7 @@ namespace Skeleton.Infrastructure.Repository
             _cacheProvider = cacheProvider;
         }
 
-        protected CachedRepository(
-            ITypeAccessorCache typeAccessorCache,
-            ICacheProvider cacheProvider,
-            IDatabaseFactory databaseFactory,
-            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
-            : this(
-                typeAccessorCache,
-                cacheProvider,
-                databaseFactory.CreateDatabase(configurator))
-        {
-        }
-
         public Action<ICacheContext> CacheConfigurator { get; protected set; }
-
-        protected abstract void ConfigureCache(Action<ICacheContext> configurator);
 
         public ICacheProvider Cache
         {
@@ -54,7 +39,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public ICacheKeyGenerator<TEntity, TIdentity> CacheKeyGenerator
         {
-            get {return _keyGenerator;}
+            get { return _keyGenerator; }
         }
 
         public override IEnumerable<TEntity> Find()

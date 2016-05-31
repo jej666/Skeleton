@@ -5,8 +5,8 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
-    public sealed class DependencyResolver : 
-        HideObjectMethods, 
+    public sealed class DependencyResolver :
+        HideObjectMethods,
         IDependencyResolver
     {
         private readonly IUnityContainer _unityContainer;

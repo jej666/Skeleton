@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Common.Reflection;
 using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Data;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -14,7 +12,7 @@ namespace Skeleton.Tests
 
         public RepositoryAsyncTests()
         {
-            _repository = Container.Resolve<IRepositoryAsync<Customer,int>>();
+            _repository = Container.Resolve<IRepositoryAsync<Customer, int>>();
 
             Seeder.SeedCustomers();
         }

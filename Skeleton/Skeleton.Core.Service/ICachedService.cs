@@ -1,6 +1,4 @@
-﻿using System;
-using Skeleton.Common;
-using Skeleton.Core.Domain;
+﻿using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 
 namespace Skeleton.Core.Service

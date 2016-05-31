@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Skeleton.Common
 {
@@ -13,7 +11,5 @@ namespace Skeleton.Common
         IDependencyRegistrar RegisterType(Type from, Type to);
 
         IDependencyRegistrar RegisterType<TFrom, TTo>() where TTo : TFrom;
-
-        void RegisterTypes(IEnumerable<Assembly> assembliesToLoad);
     }
 }

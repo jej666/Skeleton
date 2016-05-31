@@ -7,11 +7,10 @@ using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class CachedRepositoryAsync<TEntity, TIdentity> :
+    public class CachedRepositoryAsync<TEntity, TIdentity> :
         ReadOnlyRepositoryAsync<TEntity, TIdentity>,
         ICachedRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
@@ -21,7 +20,7 @@ namespace Skeleton.Infrastructure.Repository
         private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator =
             new CacheKeyGenerator<TEntity, TIdentity>();
 
-        protected CachedRepositoryAsync(
+        public CachedRepositoryAsync(
             ITypeAccessorCache accessorCache,
             ICacheProvider cacheProvider,
             IDatabaseAsync database)
@@ -32,21 +31,7 @@ namespace Skeleton.Infrastructure.Repository
             _cacheProvider = cacheProvider;
         }
 
-        protected CachedRepositoryAsync(
-            ITypeAccessorCache typeAccessorCache,
-            ICacheProvider cacheProvider,
-            IDatabaseFactory databaseFactory,
-            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
-            : this(
-                typeAccessorCache,
-                cacheProvider,
-                databaseFactory.CreateDatabaseForAsyncOperations(configurator))
-        {
-        }
-
         public Action<ICacheContext> CacheConfigurator { get; protected set; }
-
-        protected abstract void ConfigureCache(Action<ICacheContext> configurator);
 
         public ICacheProvider Cache
         {

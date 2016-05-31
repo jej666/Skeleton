@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Skeleton.Common.Reflection;
 
 namespace Skeleton.Core.Domain

@@ -14,7 +14,6 @@ namespace Skeleton.Infrastructure.DependencyResolver
             Container.RegisterType(typeof(IReadOnlyRepositoryAsync<,>), typeof(ReadOnlyRepositoryAsync<,>));
             Container.RegisterType(typeof(IRepositoryAsync<,>), typeof(RepositoryAsync<,>));
             Container.RegisterType(typeof(ICachedRepositoryAsync<,>), typeof(CachedRepositoryAsync<,>));
-            Container.RegisterType(typeof(IRepositories), typeof(Repositories));
         }
     }
 }

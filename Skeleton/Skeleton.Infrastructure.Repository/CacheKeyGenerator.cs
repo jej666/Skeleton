@@ -4,8 +4,8 @@ using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class CacheKeyGenerator<TEntity, TIdentity> : 
-        ICacheKeyGenerator<TEntity, TIdentity> 
+    public sealed class CacheKeyGenerator<TEntity, TIdentity> :
+        ICacheKeyGenerator<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         public string ForFind(ISqlQuery query)

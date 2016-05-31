@@ -14,7 +14,7 @@ namespace Skeleton.Infrastructure.Service
         private readonly IReadOnlyRepository<TEntity, TIdentity> _readOnlyRepository;
 
         protected ReadOnlyService(
-            ILogger logger, 
+            ILogger logger,
             IReadOnlyRepository<TEntity, TIdentity> readOnlyRepository)
             : base(logger)
         {

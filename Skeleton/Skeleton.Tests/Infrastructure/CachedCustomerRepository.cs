@@ -14,10 +14,6 @@ namespace Skeleton.Tests.Infrastructure
             IDatabase database)
             : base(typeAccessorCache, cacheProvider, database)
         {
-        }
-
-        protected override void ConfigureCache(Action<ICacheContext> configurator)
-        {
             CacheConfigurator = config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
         }
     }

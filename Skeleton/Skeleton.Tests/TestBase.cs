@@ -1,32 +1,29 @@
-﻿using System.Reflection;
+﻿using System;
 using Skeleton.Common;
-using Skeleton.Core.Repository;
+using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.DependencyResolver;
-using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
 {
     public abstract class TestBase
     {
+        private static readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> Configurator =
+            builder => builder
+                .UsingConfigConnectionString("Default")
+                .UsingAdvancedSettings()
+                .SetCommandTimeout(30)
+                .SetRetryPolicyCount(3)
+                .SetRetryPolicyInterval(1);
+
         protected TestBase()
         {
-           Bootstrapper.Initialize();
-           Register();
+            Bootstrapper.Initialize();
+            Bootstrapper.UseDatabase(Configurator);
         }
 
         protected static IDependencyResolver Container
         {
-            get { return Bootstrapper.Container; }
-        }
-
-        private static void Register()
-        {
-            Bootstrapper.Registrar.RegisterTypes(new [] {Assembly.GetExecutingAssembly()});
-            //.RegisterType(typeof(IRepository<Customer,int>), typeof(CustomerRepository))
-            //.RegisterType(typeof(IRepository<CustomerCategory,int>), typeof(CustomerCategoryRepository))
-            //.RegisterType(typeof(ICachedRepository<Customer,int>), typeof(CachedCustomerRepository))
-            //.RegisterType(typeof(IRepositoryAsync<Customer,int>), typeof(CustomerRepositoryAsync))
-            //.RegisterType(typeof(ICachedRepositoryAsync<Customer,int>), typeof(CachedCustomerRepositoryAsync));
+            get { return Bootstrapper.Resolver; }
         }
     }
 }

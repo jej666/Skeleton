@@ -12,7 +12,7 @@ namespace Skeleton.Infrastructure.Repository
     [DebuggerDisplay("EntityName = {EntityTypeAccessor.Type.Name}")]
     public abstract class EntityRepository<TEntity, TIdentity> :
         DisposableBase,
-        IEntityRepository<TEntity,TIdentity>
+        IEntityRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly LazyRef<ITypeAccessor> _typeAccessor;
@@ -25,12 +25,12 @@ namespace Skeleton.Infrastructure.Repository
             InitializeSqlBuilder();
         }
 
+        protected SqlBuilderManager Builder { get; private set; }
+
         public ITypeAccessor EntityTypeAccessor
         {
             get { return _typeAccessor.Value; }
         }
-
-        protected SqlBuilderManager Builder { get; private set; }
 
         protected void InitializeSqlBuilder()
         {

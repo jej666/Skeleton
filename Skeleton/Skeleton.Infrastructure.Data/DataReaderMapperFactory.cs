@@ -5,8 +5,8 @@ namespace Skeleton.Infrastructure.Data
     internal static class DataReaderMapperFactory
     {
         internal static DataReaderMapper<TResult> CreateMapper<TResult>(
-           this ITypeAccessorCache accessorCache)
-           where TResult : class
+            this ITypeAccessorCache accessorCache)
+            where TResult : class
         {
             return new DataReaderMapper<TResult>(accessorCache);
         }

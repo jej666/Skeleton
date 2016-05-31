@@ -84,7 +84,7 @@ namespace Skeleton.Infrastructure.Data
                     .ExecuteReader(CommandBehavior.SingleRow);
 
                 return TypeAccessorCache.CreateMapper<TResult>()
-                        .MapSingle(reader);
+                    .MapSingle(reader);
             });
         }
 

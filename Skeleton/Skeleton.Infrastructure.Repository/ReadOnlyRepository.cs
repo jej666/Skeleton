@@ -6,33 +6,25 @@ using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class ReadOnlyRepository<TEntity, TIdentity> :
+    public class ReadOnlyRepository<TEntity, TIdentity> :
         EntityRepository<TEntity, TIdentity>,
         IReadOnlyRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabase _database;
 
-        protected ReadOnlyRepository(
+        public ReadOnlyRepository(
             ITypeAccessorCache typeAccessorCache,
-            IDatabase database) : base(typeAccessorCache)
+            IDatabase database)
+            : base(typeAccessorCache)
         {
             database.ThrowIfNull(() => database);
 
             _database = database;
-        }
-
-        protected ReadOnlyRepository(
-            ITypeAccessorCache typeAccessorCache,
-            IDatabaseFactory databaseFactory,
-            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-                this(typeAccessorCache, databaseFactory.CreateDatabase(configurator))
-        {
         }
 
         protected IDatabase Database

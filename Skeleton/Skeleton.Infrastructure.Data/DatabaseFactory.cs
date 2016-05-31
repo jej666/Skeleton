@@ -19,7 +19,8 @@ namespace Skeleton.Infrastructure.Data
             _logger = logger;
         }
 
-        public IDatabase CreateDatabase(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
+        public IDatabase CreateDatabase(
+            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
         {
             configurator.ThrowIfNull(() => configurator);
 

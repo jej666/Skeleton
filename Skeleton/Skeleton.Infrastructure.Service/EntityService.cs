@@ -7,9 +7,9 @@ using Skeleton.Core.Service;
 namespace Skeleton.Infrastructure.Service
 {
     public abstract class EntityService<TEntity, TIdentity> :
-       DisposableBase,
-       IEntityService<TEntity,TIdentity> 
-       where TEntity : class, IEntity<TEntity, TIdentity>
+        DisposableBase,
+        IEntityService<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly ILogger _logger;
 

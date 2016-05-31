@@ -71,7 +71,7 @@ namespace Skeleton.Tests
                     var list = repository.GetAll();
                 }, "Skeleton.Orm => Hot start (benefits of TypeCacheAccessor)");
 
-                //var databaseAsync = Container.Resolve<IDatabaseAsync>();
+                //var databaseAsync = Resolver.Resolve<IDatabaseAsync>();
                 //var repositoryAsync = new PostRepositoryAsync(accessorCache, databaseAsync);
 
                 //benchmarks.Add(() =>

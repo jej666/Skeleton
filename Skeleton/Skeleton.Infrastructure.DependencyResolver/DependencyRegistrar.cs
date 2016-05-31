@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.Practices.Unity;
 using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
-    public sealed class DependencyRegistrar : 
-        HideObjectMethods, 
+    public sealed class DependencyRegistrar :
+        HideObjectMethods,
         IDependencyRegistrar
     {
         private readonly IUnityContainer _unityContainer;
@@ -43,11 +41,6 @@ namespace Skeleton.Infrastructure.DependencyResolver
             _unityContainer.RegisterType<TFrom, TTo>();
 
             return this;
-        }
-
-        public void RegisterTypes(IEnumerable<Assembly> assembliesToLoad)
-        {
-            _unityContainer.RegisterByConvention(assembliesToLoad);
         }
     }
 }

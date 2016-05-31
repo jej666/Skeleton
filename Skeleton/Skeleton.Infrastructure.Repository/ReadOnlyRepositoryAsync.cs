@@ -7,19 +7,18 @@ using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class ReadOnlyRepositoryAsync<TEntity, TIdentity> :
+    public class ReadOnlyRepositoryAsync<TEntity, TIdentity> :
         EntityRepository<TEntity, TIdentity>,
         IReadOnlyRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabaseAsync _database;
 
-        protected ReadOnlyRepositoryAsync(
+        public ReadOnlyRepositoryAsync(
             ITypeAccessorCache typeAccessorCache,
             IDatabaseAsync database) :
                 base(typeAccessorCache)
@@ -27,15 +26,6 @@ namespace Skeleton.Infrastructure.Repository
             database.ThrowIfNull(() => database);
 
             _database = database;
-        }
-
-        protected ReadOnlyRepositoryAsync(
-            ITypeAccessorCache typeAccessorCache,
-            IDatabaseFactory databaseFactory,
-            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator) :
-                this(typeAccessorCache,
-                    databaseFactory.CreateDatabaseForAsyncOperations(configurator))
-        {
         }
 
         protected IDatabaseAsync Database

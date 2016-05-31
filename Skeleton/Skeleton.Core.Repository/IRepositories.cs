@@ -10,7 +10,7 @@ namespace Skeleton.Core.Repository
     {
         IEnumerable<IEntityRepository> ResolveAll();
 
-        IEntityRepository Resolve<TType>() where TType : class,IEntityRepository;
+        IEntityRepository Resolve<TType>() where TType : class, IEntityRepository;
         IEntityRepository Resolve(Type type);
 
         IRepositories Register<TType>(IEntityRepository repository) where TType : class, IEntityRepository;

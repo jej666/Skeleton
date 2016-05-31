@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
 using Skeleton.Common;
+using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
@@ -15,7 +16,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
         private static readonly Lazy<IDependencyRegistrar> RegistrarWrapper =
             new Lazy<IDependencyRegistrar>(() => new DependencyRegistrar(UnityContainer.Value));
 
-        public static IDependencyResolver Container
+        public static IDependencyResolver Resolver
         {
             get { return ContainerWrapper.Value; }
         }
@@ -27,13 +28,19 @@ namespace Skeleton.Infrastructure.DependencyResolver
 
         public static void Initialize()
         {
-            UnityContainer.Value.RegisterInstance(Container);
+            UnityContainer.Value.RegisterInstance(Resolver);
 
             UnityContainer.Value
                 .AddExtension(new CommonModuleExtension())
                 .AddExtension(new DataModuleExtension())
                 .AddExtension(new RepositoryModuleExtension())
                 .AddExtension(new ServiceModuleExtension());
+        }
+
+        public static void UseDatabase(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
+        {
+            var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
+            UnityContainer.Value.RegisterInstance(configurator.Invoke(builder));
         }
     }
 }

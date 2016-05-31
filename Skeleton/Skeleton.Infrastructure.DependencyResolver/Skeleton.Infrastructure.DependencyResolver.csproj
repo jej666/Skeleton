@@ -75,7 +75,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ServiceModuleExtension.cs" />
     <Compile Include="RepositoryModuleExtension.cs" />
-    <Compile Include="ConventionRegistrationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Infrastructure.Bootstrapper.snk" />

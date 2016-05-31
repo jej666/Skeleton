@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Common.Extensions;
-using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
@@ -31,7 +29,7 @@ namespace Skeleton.Tests
                 .OrderBy(c => c.CustomerId)
                 .Find()
                 .ToList();
-            
+
             Assert.IsNotNull(results);
             var firstResult = results.First();
             Assert.IsInstanceOfType(firstResult, typeof(Customer));
