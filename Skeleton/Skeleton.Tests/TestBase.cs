@@ -2,6 +2,7 @@
 using Skeleton.Common;
 using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.DependencyResolver;
+using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
 {
@@ -17,6 +18,7 @@ namespace Skeleton.Tests
 
         protected TestBase()
         {
+            SqlLocalDbHelper.CreateDatabaseIfNotExists();
             Bootstrapper.Initialize();
             Bootstrapper.UseDatabase(Configurator);
         }

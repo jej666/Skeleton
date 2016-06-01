@@ -9,5 +9,6 @@ namespace Skeleton.Core.Service
         IHideObjectMethods
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
+        ILogger Logger { get; }
     }
 }

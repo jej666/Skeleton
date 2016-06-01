@@ -7,6 +7,6 @@ namespace Skeleton.Core.Service
         IEntityService<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        ICachedRepository<TEntity, TIdentity> CachedRepository { get; }
+        ICachedRepository<TEntity, TIdentity> Repository { get; }
     }
 }

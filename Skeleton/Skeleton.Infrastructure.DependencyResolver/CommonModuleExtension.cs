@@ -2,6 +2,7 @@
 using Skeleton.Common;
 using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.DependencyResolver.LoggerExtension;
+using Skeleton.Infrastructure.Logging;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
@@ -9,10 +10,12 @@ namespace Skeleton.Infrastructure.DependencyResolver
     {
         protected override void Initialize()
         {
-            Container.AddExtension(new LoggerConstructorInjectionExtension());
-            Container.RegisterType<ICacheProvider, MemoryCacheProvider>();
-            Container.RegisterType<ITypeAccessorCache, TypeAccessorCache>();
-            Container.RegisterType<IConfigurationProvider, ConfigurationProvider>();
+            LoggerConfiguration.Configure();
+
+            Container.AddExtension(new LoggerConstructorInjectionExtension())
+                .RegisterType<ICacheProvider, MemoryCacheProvider>()
+                .RegisterType<ITypeAccessorCache, TypeAccessorCache>()
+                .RegisterType<IConfigurationProvider, ConfigurationProvider>();
         }
     }
 }

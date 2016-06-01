@@ -46,15 +46,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logger.cs" />
+    <Compile Include="LoggerConfiguration.cs" />
     <Compile Include="LoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Infrastructure.Logging.snk" />
-    <None Include="log4net.config" />
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

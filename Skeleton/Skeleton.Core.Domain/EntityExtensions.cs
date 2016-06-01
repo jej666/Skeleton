@@ -12,6 +12,7 @@ namespace Skeleton.Core.Domain
             where TEntity : Entity<TEntity, TIdentity>
         {
             var builder = new StringBuilder();
+
             foreach (var property in typeAccessor.GetDeclaredOnlyProperties())
                 builder.AppendLine("{0} : {1}".FormatWith(property.Name, property.GetValue(entity)));
 

@@ -13,7 +13,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Run()
         {
-            Seeder.SeedPosts();
+            SqlDbSeeder.SeedPosts();
 
             var benchmarks = new Benchmarks();
 

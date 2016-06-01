@@ -99,13 +99,17 @@ namespace Skeleton.Core.Domain
         public override string ToString()
         {
             var thisIsTransient = Equals(Id, null);
-            return thisIsTransient ? base.ToString() : Id.ToString();
+            return thisIsTransient 
+                ? base.ToString() 
+                : Id.ToString();
         }
 
         public override int GetHashCode()
         {
             var thisIsTransient = Equals(Id, null);
-            return thisIsTransient ? base.GetHashCode() : Id.GetHashCode();
+            return thisIsTransient 
+                ? base.GetHashCode() 
+                : Id.GetHashCode();
         }
     }
 }

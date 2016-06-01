@@ -6,14 +6,14 @@ using Skeleton.Core.Service;
 
 namespace Skeleton.Infrastructure.Service
 {
-    public abstract class ReadOnlyService<TEntity, TIdentity> :
+    public class ReadOnlyService<TEntity, TIdentity> :
         EntityService<TEntity, TIdentity>,
         IReadOnlyService<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IReadOnlyRepository<TEntity, TIdentity> _readOnlyRepository;
 
-        protected ReadOnlyService(
+        public ReadOnlyService(
             ILogger logger,
             IReadOnlyRepository<TEntity, TIdentity> readOnlyRepository)
             : base(logger)
@@ -23,7 +23,7 @@ namespace Skeleton.Infrastructure.Service
             _readOnlyRepository = readOnlyRepository;
         }
 
-        public IReadOnlyRepository<TEntity, TIdentity> ReadOnlyRepository
+        public IReadOnlyRepository<TEntity, TIdentity> Repository
         {
             get { return _readOnlyRepository; }
         }

@@ -20,6 +20,11 @@ namespace Skeleton.Infrastructure.Service
             _logger = logger;
         }
 
+        public ILogger Logger
+        {
+            get { return _logger; }
+        }
+
         protected T HandleException<T>(Func<T> handler)
         {
             try

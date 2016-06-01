@@ -57,29 +57,33 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CachedRepositoryAsyncTests.cs" />
+    <Compile Include="CachedServiceAsyncTests.cs" />
     <Compile Include="Infrastructure\Benchmark.cs" />
+    <Compile Include="Infrastructure\CachedCustomerService.cs" />
     <Compile Include="Infrastructure\CustomerCategory.cs" />
     <Compile Include="Infrastructure\Customer.cs" />
     <Compile Include="Infrastructure\CachedCustomerRepository.cs" />
     <Compile Include="Infrastructure\CachedCustomerRepositoryAsync.cs" />
     <Compile Include="Infrastructure\CustomerCategoryRepository.cs" />
+    <Compile Include="Infrastructure\CachedCustomerServiceAsync.cs" />
+    <Compile Include="Infrastructure\CustomerServiceAsync.cs" />
     <Compile Include="Infrastructure\CustomerService.cs" />
+    <Compile Include="Infrastructure\SqlLocalDbHelper.cs" />
     <Compile Include="Infrastructure\PostRepositoryAsync.cs" />
     <Compile Include="Infrastructure\SqlConnectionHelper.cs" />
     <Compile Include="Infrastructure\SqlDataReaderHelper.cs" />
     <Compile Include="Infrastructure\PostRepository.cs" />
     <Compile Include="Infrastructure\CustomerRepository.cs" />
     <Compile Include="Infrastructure\CustomerRepositoryAsync.cs" />
-    <Compile Include="Infrastructure\Seeder.cs" />
+    <Compile Include="Infrastructure\SqlDbSeeder.cs" />
     <Compile Include="Infrastructure\Post.cs" />
     <Compile Include="PerformanceTests.cs" />
-    <Compile Include="ReadOnlyRepositoryAsyncTests.cs" />
-    <Compile Include="RepositoryAsyncTests.cs" />
-    <Compile Include="CachedRepositoryTests.cs" />
-    <Compile Include="RepositoryTests.cs" />
+    <Compile Include="ReadOnlyServiceAsyncTests.cs" />
+    <Compile Include="ServiceAsyncTests.cs" />
+    <Compile Include="CachedServiceTests.cs" />
+    <Compile Include="ServiceTests.cs" />
     <Compile Include="TestBase.cs" />
-    <Compile Include="ReadOnlyRepositoryTests.cs" />
+    <Compile Include="ReadOnlyServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

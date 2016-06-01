@@ -48,7 +48,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICachedServiceAsync.cs" />
     <Compile Include="ICachedService.cs" />
+    <Compile Include="IReadOnlyServiceAsync.cs" />
+    <Compile Include="IServiceAsync.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="IReadOnlyService.cs" />
     <Compile Include="IEntityService.cs" />

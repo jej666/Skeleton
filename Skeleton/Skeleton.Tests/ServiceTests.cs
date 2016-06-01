@@ -2,29 +2,30 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
+using Skeleton.Core.Service;
 
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class RepositoryTests : TestBase
+    public class ServiceTests : TestBase
     {
-        private readonly IRepository<Customer, int> _customerRepository;
+        private readonly IService<Customer, int> _service;
 
-        public RepositoryTests()
+        public ServiceTests()
         {
-            _customerRepository = Container.Resolve<IRepository<Customer, int>>();
+            _service = Container.Resolve<IService<Customer, int>>();
 
-            Seeder.SeedCustomers();
+            SqlDbSeeder.SeedCustomers();
         }
 
         [TestMethod]
         public void Add()
         {
             var customer = new Customer {Name = "Customer"};
-            var successed = _customerRepository.Add(customer);
+            var successed = _service.Repository.Add(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id > 0);
-            var result = _customerRepository.FirstOrDefault(customer.Id);
+            var result = _service.Repository.FirstOrDefault(customer.Id);
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(Customer));
         }
@@ -32,45 +33,45 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Add_Multiple()
         {
-            var customers = Seeder.SeedCustomers(5);
-            var successed = _customerRepository.Add(customers);
+            var customers = SqlDbSeeder.SeedCustomers(5);
+            var successed = _service.Repository.Add(customers);
             Assert.IsTrue(successed);
         }
 
         [TestMethod]
         public void Delete()
         {
-            var customer = _customerRepository
+            var customer = _service.Repository
                 .SelectTop(1)
                 .FirstOrDefault();
-            var successed = _customerRepository.Delete(customer);
+            var successed = _service.Repository.Delete(customer);
             Assert.IsTrue(successed);
 
-            var result = _customerRepository.FirstOrDefault(customer.Id);
+            var result = _service.Repository.FirstOrDefault(customer.Id);
             Assert.IsNull(result);
         }
 
         [TestMethod]
         public void Delete_Multiple()
         {
-            var customers = _customerRepository
+            var customers = _service.Repository
                 .SelectTop(3)
                 .Find();
-            var successed = _customerRepository.Delete(customers);
+            var successed = _service.Repository.Delete(customers);
             Assert.IsTrue(successed);
         }
 
         [TestMethod]
         public void Update()
         {
-            var customer = _customerRepository
+            var customer = _service.Repository
                 .SelectTop(1)
                 .FirstOrDefault();
             customer.Name = "UpdatedName";
-            var successed = _customerRepository.Update(customer);
+            var successed = _service.Repository.Update(customer);
             Assert.IsTrue(successed);
 
-            var result = _customerRepository.FirstOrDefault(customer.Id);
+            var result = _service.Repository.FirstOrDefault(customer.Id);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Name.Equals("UpdatedName"));
         }
@@ -78,14 +79,14 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Update_Multiple()
         {
-            var customers = _customerRepository
+            var customers = _service.Repository
                 .SelectTop(5)
                 .Find()
                 .ToList();
             foreach (var cust in customers)
                 cust.Name = "Updated" + cust.Id;
 
-            var successed = _customerRepository.Update(customers);
+            var successed = _service.Repository.Update(customers);
             Assert.IsTrue(successed);
         }
     }

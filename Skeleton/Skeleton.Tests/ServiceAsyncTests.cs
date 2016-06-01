@@ -2,29 +2,30 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
+using Skeleton.Core.Service;
 
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class RepositoryAsyncTests : TestBase
+    public class ServiceAsyncTests : TestBase
     {
-        private readonly IRepositoryAsync<Customer, int> _repository;
+        private readonly IServiceAsync<Customer, int> _service;
 
-        public RepositoryAsyncTests()
+        public ServiceAsyncTests()
         {
-            _repository = Container.Resolve<IRepositoryAsync<Customer, int>>();
+            _service = Container.Resolve<IServiceAsync<Customer, int>>();
 
-            Seeder.SeedCustomers();
+            SqlDbSeeder.SeedCustomers();
         }
 
         [TestMethod]
         public async Task AddAsync()
         {
             var customer = new Customer {Name = "Foo"};
-            var successed = await _repository.AddAsync(customer);
+            var successed = await _service.Repository.AddAsync(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id > 0);
-            var result = await _repository.FirstOrDefaultAsync(customer.Id);
+            var result = await _service.Repository.FirstOrDefaultAsync(customer.Id);
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(Customer));
         }
@@ -32,45 +33,45 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task AddAsync_Multiple()
         {
-            var customers = Seeder.SeedCustomers(5);
-            var successed = await _repository.AddAsync(customers);
+            var customers = SqlDbSeeder.SeedCustomers(5);
+            var successed = await _service.Repository.AddAsync(customers);
             Assert.IsTrue(successed);
         }
 
         [TestMethod]
         public async Task DeleteAsync()
         {
-            var customer1 = await _repository
+            var customer1 = await _service.Repository
                 .SelectTop(1)
                 .FirstOrDefaultAsync();
-            var successed = await _repository.DeleteAsync(customer1);
+            var successed = await _service.Repository.DeleteAsync(customer1);
             Assert.IsTrue(successed);
 
-            var result2 = await _repository.FirstOrDefaultAsync(customer1.Id);
+            var result2 = await _service.Repository.FirstOrDefaultAsync(customer1.Id);
             Assert.IsNull(result2);
         }
 
         [TestMethod]
         public async Task DeleteAsync_Multiple()
         {
-            var customers = await _repository
+            var customers = await _service.Repository
                 .SelectTop(3)
                 .FindAsync();
-            var successed = await _repository.DeleteAsync(customers);
+            var successed = await _service.Repository.DeleteAsync(customers);
             Assert.IsTrue(successed);
         }
 
         [TestMethod]
         public async Task UpdateAsync()
         {
-            var customer1 = await _repository
+            var customer1 = await _service.Repository
                 .SelectTop(1)
                 .FirstOrDefaultAsync();
             customer1.Name = "UpdatedName";
-            var successed = await _repository.UpdateAsync(customer1);
+            var successed = await _service.Repository.UpdateAsync(customer1);
             Assert.IsTrue(successed);
 
-            var customer2 = await _repository.FirstOrDefaultAsync(customer1.Id);
+            var customer2 = await _service.Repository.FirstOrDefaultAsync(customer1.Id);
             Assert.IsNotNull(customer2);
             Assert.IsTrue(customer2.Name.Equals("UpdatedName"));
         }
@@ -78,10 +79,10 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task UpdateAsync_Multiple()
         {
-            var customers = await _repository
+            var customers = await _service.Repository
                 .SelectTop(3)
                 .FindAsync();
-            var successed = await _repository.UpdateAsync(customers);
+            var successed = await _service.Repository.UpdateAsync(customers);
             Assert.IsTrue(successed);
         }
     }

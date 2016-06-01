@@ -8,12 +8,12 @@ namespace Skeleton.Infrastructure.DependencyResolver
     {
         protected override void Initialize()
         {
-            Container.RegisterType(typeof(IReadOnlyRepository<,>), typeof(ReadOnlyRepository<,>));
-            Container.RegisterType(typeof(IRepository<,>), typeof(Repository<,>));
-            Container.RegisterType(typeof(ICachedRepository<,>), typeof(CachedRepository<,>));
-            Container.RegisterType(typeof(IReadOnlyRepositoryAsync<,>), typeof(ReadOnlyRepositoryAsync<,>));
-            Container.RegisterType(typeof(IRepositoryAsync<,>), typeof(RepositoryAsync<,>));
-            Container.RegisterType(typeof(ICachedRepositoryAsync<,>), typeof(CachedRepositoryAsync<,>));
+            Container.RegisterType(typeof(IReadOnlyRepository<,>), typeof(ReadOnlyRepository<,>))
+                     .RegisterType(typeof(IRepository<,>), typeof(Repository<,>))
+                     .RegisterType(typeof(ICachedRepository<,>), typeof(CachedRepository<,>))
+                     .RegisterType(typeof(IReadOnlyRepositoryAsync<,>), typeof(ReadOnlyRepositoryAsync<,>))
+                     .RegisterType(typeof(IRepositoryAsync<,>), typeof(RepositoryAsync<,>))
+                     .RegisterType(typeof(ICachedRepositoryAsync<,>), typeof(CachedRepositoryAsync<,>));
         }
     }
 }

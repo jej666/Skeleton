@@ -46,6 +46,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachedServiceAsync.cs" />
+    <Compile Include="CachedService.cs" />
+    <Compile Include="ReadOnlyServiceAsync.cs" />
+    <Compile Include="ServiceAsync.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="ReadOnlyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

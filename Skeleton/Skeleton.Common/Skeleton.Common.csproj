@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationProvider.cs" />
+    <Compile Include="DynamicDictionary.cs" />
+    <Compile Include="DynamicDictionaryValue.cs" />
     <Compile Include="ICacheContext.cs" />
     <Compile Include="ICacheProvider.cs" />
     <Compile Include="IConfigurationProvider.cs" />
@@ -59,15 +61,13 @@
     <Compile Include="DisposableBase.cs" />
     <Compile Include="Extensions\ConvertExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\DecimalExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EmitExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\GuardExtensions.cs" />
-    <Compile Include="Extensions\NullableExtensions.cs" />
-    <Compile Include="Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HideObjectMethods.cs" />
     <Compile Include="IHideObjectMethods.cs" />

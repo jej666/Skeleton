@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    internal static class Seeder
+    internal static class SqlDbSeeder
     {
         internal static IEnumerable<Customer> SeedCustomers(int iterations)
         {

@@ -27,7 +27,8 @@ namespace Skeleton.Common.Extensions
                 : source.ToList();
         }
 
-        public static IEnumerable<TSource> Distinct<TSource, TKey>(this IEnumerable<TSource> source,
+        public static IEnumerable<TSource> Distinct<TSource, TKey>(
+            this IEnumerable<TSource> source,
             Func<TSource, TKey> expression)
         {
             return source == null
@@ -90,7 +91,9 @@ namespace Skeleton.Common.Extensions
             return source == null || !source.FastAny();
         }
 
-        public static IEnumerable<TSource> Only<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> allowed)
+        public static IEnumerable<TSource> Only<TSource>(
+            this IEnumerable<TSource> source, 
+            IEnumerable<TSource> allowed)
         {
             foreach (var item in source)
             {
@@ -100,7 +103,8 @@ namespace Skeleton.Common.Extensions
             }
         }
 
-        public static IEnumerable<TSource> RemoveWhere<TSource>(this IEnumerable<TSource> source,
+        public static IEnumerable<TSource> RemoveWhere<TSource>(
+            this IEnumerable<TSource> source,
             Func<TSource, bool> predicate)
         {
             if (source == null)
@@ -110,7 +114,8 @@ namespace Skeleton.Common.Extensions
                 yield return t;
         }
 
-        public static IEnumerable<TSource> WhereNotNull<TSource>(this IEnumerable<TSource> source) where TSource : class
+        public static IEnumerable<TSource> WhereNotNull<TSource>(
+            this IEnumerable<TSource> source) where TSource : class
         {
             return source == null
                 ? Enumerable.Empty<TSource>()

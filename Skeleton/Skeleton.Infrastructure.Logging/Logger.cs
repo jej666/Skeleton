@@ -4,8 +4,6 @@ using log4net;
 using log4net.Config;
 using Skeleton.Common;
 
-[assembly: XmlConfigurator(ConfigFile = "log4Net.config", Watch = true)]
-
 namespace Skeleton.Infrastructure.Logging
 {
     public class Logger : HideObjectMethods, ILogger

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net.Config;
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 

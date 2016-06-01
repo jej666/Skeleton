@@ -6,14 +6,17 @@ using Skeleton.Core.Service;
 
 namespace Skeleton.Infrastructure.Service
 {
-    public abstract class Service<TEntity, TIdentity> :
+    public class Service<TEntity, TIdentity> :
         EntityService<TEntity, TIdentity>,
         IService<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IRepository<TEntity, TIdentity> _repository;
 
-        protected Service(ILogger logger, IRepository<TEntity, TIdentity> repository) : base(logger)
+        public Service(
+            ILogger logger, 
+            IRepository<TEntity, TIdentity> repository) 
+            : base(logger)
         {
             repository.ThrowIfNull(() => repository);
 
