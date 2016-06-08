@@ -29,11 +29,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Core", "02 - Core", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Infrastructure", "03 - Infrastructure", "{3836DA6A-25E1-4B49-B6D2-B43CD04470E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Tests", "04 - Tests", "{872ED20B-A2F4-45E6-8179-4E8CE0B3F183}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - Tests", "99 - Tests", "{872ED20B-A2F4-45E6-8179-4E8CE0B3F183}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - Web", "10 - Web", "{0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Owin", "Skeleton.Web.Owin\Skeleton.Web.Owin.csproj", "{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://jej666.visualstudio.com/
 		SccLocalPath0 = .
@@ -77,6 +81,10 @@ Global
 		SccProjectTopLevelParentUniqueName10 = Skeleton.sln
 		SccProjectName10 = Skeleton.Tests
 		SccLocalPath10 = Skeleton.Tests
+		SccProjectUniqueName11 = Skeleton.Web.Owin\\Skeleton.Web.Owin.csproj
+		SccProjectTopLevelParentUniqueName11 = Skeleton.sln
+		SccProjectName11 = Skeleton.Web.Owin
+		SccLocalPath11 = Skeleton.Web.Owin
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +131,10 @@ Global
 		{54063976-2135-4994-A69C-9EACE310589C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54063976-2135-4994-A69C-9EACE310589C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54063976-2135-4994-A69C-9EACE310589C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,5 +150,6 @@ Global
 		{6E2901D9-48AE-405B-8353-8E299C7693E5} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
 		{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{54063976-2135-4994-A69C-9EACE310589C} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
+		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0} = {0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}
 	EndGlobalSection
 EndGlobal
