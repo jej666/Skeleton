@@ -26,6 +26,11 @@ namespace Skeleton.Infrastructure.DependencyResolver
             get { return RegistrarWrapper.Value; }
         }
 
+        public static IUnityContainer Container
+        {
+            get { return UnityContainer.Value; }
+        }
+
         public static void Initialize()
         {
             UnityContainer.Value.RegisterInstance(Resolver);

@@ -58,25 +58,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CachedServiceAsyncTests.cs" />
-    <Compile Include="Infrastructure\Benchmark.cs" />
-    <Compile Include="Infrastructure\CachedCustomerService.cs" />
-    <Compile Include="Infrastructure\CustomerCategory.cs" />
-    <Compile Include="Infrastructure\Customer.cs" />
-    <Compile Include="Infrastructure\CachedCustomerRepository.cs" />
-    <Compile Include="Infrastructure\CachedCustomerRepositoryAsync.cs" />
-    <Compile Include="Infrastructure\CustomerCategoryRepository.cs" />
-    <Compile Include="Infrastructure\CachedCustomerServiceAsync.cs" />
-    <Compile Include="Infrastructure\CustomerServiceAsync.cs" />
-    <Compile Include="Infrastructure\CustomerService.cs" />
-    <Compile Include="Infrastructure\SqlLocalDbHelper.cs" />
-    <Compile Include="Infrastructure\PostRepositoryAsync.cs" />
-    <Compile Include="Infrastructure\SqlConnectionHelper.cs" />
-    <Compile Include="Infrastructure\SqlDataReaderHelper.cs" />
-    <Compile Include="Infrastructure\PostRepository.cs" />
-    <Compile Include="Infrastructure\CustomerRepository.cs" />
-    <Compile Include="Infrastructure\CustomerRepositoryAsync.cs" />
-    <Compile Include="Infrastructure\SqlDbSeeder.cs" />
-    <Compile Include="Infrastructure\Post.cs" />
     <Compile Include="PerformanceTests.cs" />
     <Compile Include="ReadOnlyServiceAsyncTests.cs" />
     <Compile Include="ServiceAsyncTests.cs" />
@@ -119,9 +100,15 @@
       <Project>{75ecbc4d-2aa1-44f4-8af9-49aca990962f}</Project>
       <Name>Skeleton.Infrastructure.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Tests.Infrastructure\Skeleton.Tests.Infrastructure.csproj">
+      <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>
+      <Name>Skeleton.Tests.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -3,15 +3,15 @@ using System.Data.SqlClient;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    internal static class SqlDbSeeder
+    public static class SqlDbSeeder
     {
-        internal static IEnumerable<Customer> SeedCustomers(int iterations)
+        public static IEnumerable<Customer> SeedCustomers(int iterations)
         {
             for (var i = 0; i < iterations; ++i)
                 yield return new Customer {Name = "Customer" + i};
         }
 
-        internal static void SeedCustomers()
+        public static void SeedCustomers()
         {
             var connection = new SqlConnectionHelper();
             using (var cnn = connection.OpenConnection())
@@ -58,7 +58,7 @@ namespace Skeleton.Tests.Infrastructure
             }
         }
 
-        internal static void SeedPosts()
+        public static void SeedPosts()
         {
             var connection = new SqlConnectionHelper();
             using (var cnn = connection.OpenConnection())

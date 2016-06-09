@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Repository", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Service", "Skeleton.Infrastructure.Service\Skeleton.Infrastructure.Service.csproj", "{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests", "Skeleton.Tests\Skeleton.Tests.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Services.Tests", "Skeleton.Tests\Skeleton.Services.Tests.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Common", "01 - Common", "{AD261700-E759-499D-88E8-46663BBD2319}"
 EndProject
@@ -33,11 +33,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - Tests", "99 - Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - Web", "10 - Web", "{0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Owin", "Skeleton.Web.Owin\Skeleton.Web.Owin.csproj", "{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Server", "Skeleton.Web.Owin\Skeleton.Web.Server.csproj", "{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Infrastructure", "Skeleton.Tests.Infrastructure\Skeleton.Tests.Infrastructure.csproj", "{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Tests", "Skeleton.Web.Tests\Skeleton.Web.Tests.csproj", "{42AFA67C-3644-438A-BCE3-181D3549481E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Client", "Skeleton.Web.Client\Skeleton.Web.Client.csproj", "{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 15
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://jej666.visualstudio.com/
 		SccLocalPath0 = .
@@ -77,14 +83,26 @@ Global
 		SccProjectTopLevelParentUniqueName9 = Skeleton.sln
 		SccProjectName9 = Skeleton.Infrastructure.Service
 		SccLocalPath9 = Skeleton.Infrastructure.Service
-		SccProjectUniqueName10 = Skeleton.Tests\\Skeleton.Tests.csproj
+		SccProjectUniqueName10 = Skeleton.Tests.Infrastructure\\Skeleton.Tests.Infrastructure.csproj
 		SccProjectTopLevelParentUniqueName10 = Skeleton.sln
-		SccProjectName10 = Skeleton.Tests
-		SccLocalPath10 = Skeleton.Tests
-		SccProjectUniqueName11 = Skeleton.Web.Owin\\Skeleton.Web.Owin.csproj
+		SccProjectName10 = Skeleton.Tests.Infrastructure
+		SccLocalPath10 = Skeleton.Tests.Infrastructure
+		SccProjectUniqueName11 = Skeleton.Tests\\Skeleton.Services.Tests.csproj
 		SccProjectTopLevelParentUniqueName11 = Skeleton.sln
-		SccProjectName11 = Skeleton.Web.Owin
-		SccLocalPath11 = Skeleton.Web.Owin
+		SccProjectName11 = Skeleton.Tests
+		SccLocalPath11 = Skeleton.Tests
+		SccProjectUniqueName12 = Skeleton.Web.Tests\\Skeleton.Web.Tests.csproj
+		SccProjectTopLevelParentUniqueName12 = Skeleton.sln
+		SccProjectName12 = Skeleton.Web.Tests
+		SccLocalPath12 = Skeleton.Web.Tests
+		SccProjectUniqueName13 = Skeleton.Web.Owin\\Skeleton.Web.Server.csproj
+		SccProjectTopLevelParentUniqueName13 = Skeleton.sln
+		SccProjectName13 = Skeleton.Web.Owin
+		SccLocalPath13 = Skeleton.Web.Owin
+		SccProjectUniqueName14 = Skeleton.Web.Client\\Skeleton.Web.Client.csproj
+		SccProjectTopLevelParentUniqueName14 = Skeleton.sln
+		SccProjectName14 = Skeleton.Web.Client
+		SccLocalPath14 = Skeleton.Web.Client
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +153,18 @@ Global
 		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42AFA67C-3644-438A-BCE3-181D3549481E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42AFA67C-3644-438A-BCE3-181D3549481E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42AFA67C-3644-438A-BCE3-181D3549481E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42AFA67C-3644-438A-BCE3-181D3549481E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,5 +181,8 @@ Global
 		{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{54063976-2135-4994-A69C-9EACE310589C} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0} = {0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}
+		{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
+		{42AFA67C-3644-438A-BCE3-181D3549481E} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
+		{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887} = {0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}
 	EndGlobalSection
 EndGlobal

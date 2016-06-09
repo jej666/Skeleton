@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    class SqlLocalDbHelper
+    public class SqlLocalDbHelper
     {
         private const string LocalDbPath = @"Microsoft\Microsoft SQL Server Local DB\Instances\v11.0";
 
-        internal static void CreateDatabaseIfNotExists()
+        public static void CreateDatabaseIfNotExists()
         {
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var fullPath = Path.Combine(appDataPath, LocalDbPath, "testDb.mdf");

@@ -3,9 +3,9 @@ using System.Data;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    internal static class SqlDataReaderHelper
+    public static class SqlDataReaderHelper
     {
-        internal static string GetNullableString(this IDataReader reader, int index)
+        public static string GetNullableString(this IDataReader reader, int index)
         {
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
@@ -15,7 +15,7 @@ namespace Skeleton.Tests.Infrastructure
             return null;
         }
 
-        internal static T? GetNullableValue<T>(this IDataReader reader, int index) where T : struct
+        public static T? GetNullableValue<T>(this IDataReader reader, int index) where T : struct
         {
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
