@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Skeleton.Common.Extensions;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -9,7 +8,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     {
         internal static Node ResolveQuery(ConstantExpression constantExpression)
         {
-            return new ValueNode {Value = constantExpression.Value};
+            return new ValueNode { Value = constantExpression.Value };
         }
 
         internal static Node ResolveQuery(UnaryExpression unaryExpression)
@@ -17,7 +16,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return new SingleOperationNode
             {
                 Operator = unaryExpression.NodeType,
-                Child = ResolveQuery((dynamic) unaryExpression.Operand)
+                Child = ResolveQuery((dynamic)unaryExpression.Operand)
             };
         }
 
@@ -25,9 +24,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             return new OperationNode
             {
-                Left = ResolveQuery((dynamic) binaryExpression.Left),
+                Left = ResolveQuery((dynamic)binaryExpression.Left),
                 Operator = binaryExpression.NodeType,
-                Right = ResolveQuery((dynamic) binaryExpression.Right)
+                Right = ResolveQuery((dynamic)binaryExpression.Right)
             };
         }
 
@@ -56,7 +55,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 };
             }
             var value = callExpression.InvokeMethodCall();
-            return new ValueNode {Value = value};
+            return new ValueNode { Value = value };
         }
 
         internal static Node ResolveQuery(MemberExpression memberExpression, MemberExpression rootExpression = null)
@@ -76,7 +75,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
                 case ExpressionType.Call:
                 case ExpressionType.Constant:
-                    return new ValueNode {Value = rootExpression.GetExpressionValue()};
+                    return new ValueNode { Value = rootExpression.GetExpressionValue() };
 
                 default:
                     throw new ArgumentException("Expected member expression");

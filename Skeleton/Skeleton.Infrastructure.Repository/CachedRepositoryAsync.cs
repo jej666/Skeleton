@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Skeleton.Common;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
-using Skeleton.Core.Domain;
+﻿using Skeleton.Abstraction;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Repository
 {

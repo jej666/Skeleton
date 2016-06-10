@@ -61,6 +61,8 @@
     <Compile Include="DataAdapter.cs" />
     <Compile Include="DatabaseFactory.cs" />
     <Compile Include="DatabaseTransaction.cs" />
+    <Compile Include="DataDisposableBase.cs" />
+    <Compile Include="DataHideObjectMethods.cs" />
     <Compile Include="DataReaderMapperAsync.cs" />
     <Compile Include="DataReaderMapperBase.cs" />
     <Compile Include="DataReaderMapper.cs" />
@@ -79,9 +81,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
-      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
-      <Name>Skeleton.Common</Name>
+    <ProjectReference Include="..\Skeleton.Common.Abstration\Skeleton.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Abstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Framework.Extensions\Skeleton.Extensions.csproj">
+      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
+      <Name>Skeleton.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

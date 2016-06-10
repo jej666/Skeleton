@@ -1,10 +1,9 @@
 ﻿//https://github.com/base33/lambda-sql-builder
 
+using Skeleton.Core.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Skeleton.Common.Extensions;
-using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -109,13 +108,13 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             string idColumnName,
             Expression<Func<T, bool>> whereExpression)
         {
-            var expressionTree = ExpressionResolver.ResolveQuery((dynamic) whereExpression.Body, idColumnName);
+            var expressionTree = ExpressionResolver.ResolveQuery((dynamic)whereExpression.Body, idColumnName);
             _builder.BuildSql(expressionTree);
         }
 
         internal void ResolveQuery<T>(Expression<Func<T, bool>> expression)
         {
-            var expressionTree = ExpressionResolver.ResolveQuery((dynamic) expression.Body);
+            var expressionTree = ExpressionResolver.ResolveQuery((dynamic)expression.Body);
             _builder.BuildSql(expressionTree);
         }
 
@@ -159,7 +158,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     if (newExpression != null)
                         foreach (var expr in newExpression.Arguments)
                         {
-                            var memberExp = (MemberExpression) expr;
+                            var memberExp = (MemberExpression)expr;
                             Select<T>(memberExp);
                         }
                     break;

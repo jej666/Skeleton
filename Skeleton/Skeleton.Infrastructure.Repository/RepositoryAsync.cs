@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
-using Skeleton.Core.Domain;
+﻿using Skeleton.Abstraction;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -18,7 +17,7 @@ namespace Skeleton.Infrastructure.Repository
         public RepositoryAsync(
             ITypeAccessorCache typeAccessorCache,
             IDatabaseAsync database) :
-                base(typeAccessorCache, database)
+            base(typeAccessorCache, database)
         {
         }
 

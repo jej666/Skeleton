@@ -72,17 +72,21 @@
     <Compile Include="SqlBuilder\TableInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Common.Abstration\Skeleton.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Abstraction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
       <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
       <Name>Skeleton.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
-      <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
-      <Name>Skeleton.Core.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Core.Repository\Skeleton.Core.Repository.csproj">
       <Project>{6e2901d9-48ae-405b-8353-8e299c7693e5}</Project>
       <Name>Skeleton.Core.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Framework.Extensions\Skeleton.Extensions.csproj">
+      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
+      <Name>Skeleton.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Infrastructure.Data\Skeleton.Infrastructure.Data.csproj">
       <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>

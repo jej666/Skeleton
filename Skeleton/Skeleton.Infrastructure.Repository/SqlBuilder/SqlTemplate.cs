@@ -1,4 +1,4 @@
-﻿using Skeleton.Common.Extensions;
+﻿using System;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -34,7 +34,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             int pageNumber)
         {
             return "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY".FormatWith(
-                selection, source, conditions, order, pageSize*(pageNumber - 1), pageSize);
+                selection, source, conditions, order, pageSize * (pageNumber - 1), pageSize);
         }
 
         internal static string Parameter(string parameterId)

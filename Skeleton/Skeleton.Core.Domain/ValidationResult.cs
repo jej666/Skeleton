@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Skeleton.Common.Extensions;
+using System;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Domain
 {

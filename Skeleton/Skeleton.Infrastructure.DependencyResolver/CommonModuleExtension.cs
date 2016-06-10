@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using Skeleton.Abstraction;
 using Skeleton.Common;
 using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.DependencyResolver.LoggerExtension;

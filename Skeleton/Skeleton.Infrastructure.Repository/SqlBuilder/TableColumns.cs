@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
-using Skeleton.Core.Domain;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {

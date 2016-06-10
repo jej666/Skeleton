@@ -1,6 +1,5 @@
 ﻿using System;
-using Skeleton.Common;
-using Skeleton.Core.Domain;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Service
 {

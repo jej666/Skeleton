@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Reflection.Emit;
-using Skeleton.Common.Extensions;
 
 namespace Skeleton.Common.Reflection
 {

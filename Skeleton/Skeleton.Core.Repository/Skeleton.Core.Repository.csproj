@@ -44,7 +44,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAggregateAsync.cs" />
@@ -64,21 +63,15 @@
     <Compile Include="IRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
-      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
-      <Name>Skeleton.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
-      <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
-      <Name>Skeleton.Core.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Core.Repository.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Common.Abstration\Skeleton.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Abstraction</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

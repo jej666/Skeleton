@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
 using Skeleton.Common;
-using Skeleton.Common.Extensions;
-using Skeleton.Core.Domain;
 using Skeleton.Core.Service;
+using System;
 
 namespace Skeleton.Infrastructure.Service
 {

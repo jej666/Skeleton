@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Data
 {

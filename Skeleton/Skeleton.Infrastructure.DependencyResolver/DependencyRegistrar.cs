@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
 using Skeleton.Common;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
@@ -25,6 +26,13 @@ namespace Skeleton.Infrastructure.DependencyResolver
         public IDependencyRegistrar RegisterInstance<TType>(TType instance)
         {
             _unityContainer.RegisterInstance(instance);
+
+            return this;
+        }
+
+        public IDependencyRegistrar RegisterType(Type type)
+        {
+            _unityContainer.RegisterType(type);
 
             return this;
         }

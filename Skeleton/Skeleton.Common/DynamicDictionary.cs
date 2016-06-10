@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +14,12 @@ namespace Skeleton.Common
     /// A dictionary that supports dynamic access.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay, nq}")]
-    public class DynamicDictionary : DynamicObject, IEquatable<DynamicDictionary>, IHideObjectMethods, IEnumerable<string>, IDictionary<string, object>
+    public class DynamicDictionary : 
+        DynamicObject, 
+        IEquatable<DynamicDictionary>, 
+        IHideObjectMethods, 
+        IEnumerable<string>, 
+        IDictionary<string, object>
     {
         private readonly IDictionary<string, dynamic> dictionary =
             new Dictionary<string, dynamic>();

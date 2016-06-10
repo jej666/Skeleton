@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Skeleton.Common;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Repository
 {

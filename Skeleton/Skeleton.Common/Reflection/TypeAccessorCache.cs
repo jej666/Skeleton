@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using Skeleton.Common.Extensions;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Common.Reflection
 {

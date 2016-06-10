@@ -1,5 +1,5 @@
 ﻿using System;
-using Skeleton.Common;
+using Skeleton.Abstraction;
 using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Data

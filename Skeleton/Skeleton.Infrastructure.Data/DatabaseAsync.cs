@@ -4,10 +4,8 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Skeleton.Common;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data.Configuration;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Data
 {

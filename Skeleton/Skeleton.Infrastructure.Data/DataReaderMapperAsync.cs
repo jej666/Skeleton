@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
-using Skeleton.Common.Reflection;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Data
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
+using System;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Domain
 {
@@ -9,7 +9,7 @@ namespace Skeleton.Core.Domain
         public static string Stringify<TEntity, TIdentity>(
             this IEntity<TEntity, TIdentity> entity,
             ITypeAccessor typeAccessor)
-            where TEntity : Entity<TEntity, TIdentity>
+            where TEntity : class, IEntity<TEntity, TIdentity>
         {
             var builder = new StringBuilder();
 

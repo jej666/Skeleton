@@ -1,8 +1,7 @@
-﻿using Skeleton.Common;
-using Skeleton.Common.Extensions;
-using Skeleton.Core.Domain;
+﻿using Skeleton.Abstraction;
 using Skeleton.Core.Repository;
 using Skeleton.Core.Service;
+using System;
 
 namespace Skeleton.Infrastructure.Service
 {
@@ -14,8 +13,8 @@ namespace Skeleton.Infrastructure.Service
         private readonly IRepository<TEntity, TIdentity> _repository;
 
         public Service(
-            ILogger logger, 
-            IRepository<TEntity, TIdentity> repository) 
+            ILogger logger,
+            IRepository<TEntity, TIdentity> repository)
             : base(logger)
         {
             repository.ThrowIfNull(() => repository);

@@ -9,15 +9,19 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using Skeleton.Common.Extensions;
 using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Common
 {
     /// <summary>
     /// A value that is stored inside a <see cref="DynamicDictionary"/> instance.
     /// </summary>
-    public class DynamicDictionaryValue : DynamicObject, IEquatable<DynamicDictionaryValue>, IHideObjectMethods, IConvertible
+    public class DynamicDictionaryValue : 
+        DynamicObject, 
+        IEquatable<DynamicDictionaryValue>, 
+        IHideObjectMethods, 
+        IConvertible
     {
         private readonly object value;
 

@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Data.Configuration;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {

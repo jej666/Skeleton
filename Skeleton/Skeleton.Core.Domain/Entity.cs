@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using System;
 using System.Linq.Expressions;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
+using System.Reflection;
 
 namespace Skeleton.Core.Domain
 {
@@ -9,29 +9,29 @@ namespace Skeleton.Core.Domain
         IEntity<TEntity, TIdentity>
         where TEntity : Entity<TEntity, TIdentity>
     {
-        private readonly IMemberAccessor _idAccessor;
+        private readonly PropertyInfo _idAccessor;
 
         protected Entity(Expression<Func<TEntity, object>> idExpression)
         {
             idExpression.ThrowIfNull(() => idExpression);
 
-            _idAccessor = PropertyAccessor.Create(idExpression.GetPropertyAccess());
+            _idAccessor = idExpression.GetPropertyAccess();
             CreatedDateTime = DateTime.Now;
         }
-
-        public string CreatedBy { get; set; }
-
-        public DateTime CreatedDateTime { get; set; }
 
         public TIdentity Id
         {
             get { return (TIdentity) _idAccessor.GetValue(this); }
         }
 
-        public IMemberAccessor IdAccessor
+        public PropertyInfo IdAccessor
         {
             get { return _idAccessor; }
         }
+
+        public string CreatedBy { get; set; }
+
+        public DateTime CreatedDateTime { get; set; }
 
         public string LastModifiedBy { get; set; }
 

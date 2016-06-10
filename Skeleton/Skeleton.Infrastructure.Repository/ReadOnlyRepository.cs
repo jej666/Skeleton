@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
-using Skeleton.Core.Domain;
+﻿using Skeleton.Abstraction;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Skeleton.Infrastructure.Repository
 {

@@ -1,7 +1,5 @@
 ﻿using System;
-using Skeleton.Common;
-using Skeleton.Common.Reflection;
-using Skeleton.Core.Domain;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Repository
 {

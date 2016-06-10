@@ -1,4 +1,4 @@
-using Skeleton.Core.Domain;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Repository
 {

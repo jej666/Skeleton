@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
 
-namespace Skeleton.Web.Owin
+namespace Skeleton.Web.Server
 {
     public class UnityResolver : IDependencyResolver
     {

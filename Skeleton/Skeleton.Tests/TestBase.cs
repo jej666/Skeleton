@@ -3,6 +3,7 @@ using Skeleton.Common;
 using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.DependencyResolver;
 using Skeleton.Tests.Infrastructure;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Skeleton.Tests
 {
@@ -16,7 +17,8 @@ namespace Skeleton.Tests
                 .SetRetryPolicyCount(3)
                 .SetRetryPolicyInterval(1);
 
-        protected TestBase()
+        [AssemblyInitialize]
+        public static void SetUp(TestContext context)
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
             Bootstrapper.Initialize();

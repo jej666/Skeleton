@@ -51,39 +51,17 @@
     <Compile Include="ConfigurationProvider.cs" />
     <Compile Include="DynamicDictionary.cs" />
     <Compile Include="DynamicDictionaryValue.cs" />
-    <Compile Include="ICacheContext.cs" />
-    <Compile Include="ICacheProvider.cs" />
-    <Compile Include="IConfigurationProvider.cs" />
-    <Compile Include="IDependencyRegistrar.cs" />
     <Compile Include="LazyAsync.cs" />
     <Compile Include="MemoryCacheContext.cs" />
     <Compile Include="MemoryCacheProvider.cs" />
     <Compile Include="DisposableBase.cs" />
-    <Compile Include="Extensions\ConvertExtensions.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Extensions\EmitExtensions.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Extensions\GuardExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="HideObjectMethods.cs" />
-    <Compile Include="IHideObjectMethods.cs" />
-    <Compile Include="IDependencyResolver.cs" />
-    <Compile Include="ILogger.cs" />
     <Compile Include="LazyRef.cs" />
-    <Compile Include="Multimap.cs" />
+    <Compile Include="LookupDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\DelegateFactory.cs" />
     <Compile Include="Reflection\Delegates.cs" />
     <Compile Include="Reflection\FieldAccessor.cs" />
-    <Compile Include="Reflection\IMemberAccessor.cs" />
-    <Compile Include="Reflection\IMemberInfo.cs" />
-    <Compile Include="Reflection\IMethodAccessor.cs" />
-    <Compile Include="Reflection\ITypeAccessor.cs" />
-    <Compile Include="Reflection\ITypeAccessorCache.cs" />
     <Compile Include="Reflection\MemberAccessorBase.cs" />
     <Compile Include="Reflection\MethodAccessor.cs" />
     <Compile Include="Reflection\PropertyAccessor.cs" />
@@ -92,6 +70,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Common.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Common.Abstration\Skeleton.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Abstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Framework.Extensions\Skeleton.Extensions.csproj">
+      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
+      <Name>Skeleton.Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

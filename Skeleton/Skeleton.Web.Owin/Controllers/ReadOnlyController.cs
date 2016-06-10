@@ -1,12 +1,13 @@
-﻿using Skeleton.Common.Extensions;
+﻿using Skeleton.Abstraction;
 using Skeleton.Core.Domain;
 using Skeleton.Core.Service;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System;
 
-namespace Skeleton.Web.Owin
+namespace Skeleton.Web.Server
 {
     public class ReadOnlyController<TEntity, TIdentity> :
         ApiController
@@ -27,11 +28,11 @@ namespace Skeleton.Web.Owin
             return _service.Repository.GetAll();
         }
 
-        [HttpGet]
-        public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
-        {
-            return _service.Repository.Page(pageSize, pageNumber);
-        }
+        //[HttpGet]
+        //public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
+        //{
+        //    return _service.Repository.Page(pageSize, pageNumber);
+        //}
 
         // GET api/<controller>/5
         public virtual TEntity Get(TIdentity id)

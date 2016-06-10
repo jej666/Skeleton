@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using System;
 
 namespace Skeleton.Common
 {

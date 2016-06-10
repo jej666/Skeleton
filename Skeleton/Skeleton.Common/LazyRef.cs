@@ -1,5 +1,4 @@
 ﻿using System;
-using Skeleton.Common.Extensions;
 
 namespace Skeleton.Common
 {

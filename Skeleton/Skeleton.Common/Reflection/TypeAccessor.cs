@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
-using Skeleton.Common.Extensions;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Common.Reflection
 {

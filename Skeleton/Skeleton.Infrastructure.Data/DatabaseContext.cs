@@ -4,15 +4,14 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Skeleton.Common;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data.Configuration;
+using Skeleton.Abstraction;
+using System.ComponentModel;
 
 namespace Skeleton.Infrastructure.Data
 {
     [DebuggerDisplay("DatabaseName = {Configuration.Name")]
-    public abstract class DatabaseContext : DisposableBase
+    public abstract class DatabaseContext : DataDisposableBase
     {
         private readonly DataAdapter _adapter;
         private readonly IDatabaseConfiguration _configuration;
@@ -135,7 +134,7 @@ namespace Skeleton.Infrastructure.Data
                     _connection = _adapter.CreateConnection();
 
                 if (_connection.State != ConnectionState.Open)
-                    await ((DbConnection) _connection).OpenAsync()
+                    await ((DbConnection)_connection).OpenAsync()
                         .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -145,29 +144,6 @@ namespace Skeleton.Infrastructure.Data
 
                 Logger.Error(ex.Message);
                 throw new DataAccessException(ex.Message, ex.InnerException);
-            }
-        }
-
-        protected override void DisposeManagedResources()
-        {
-            CloseConnection();
-
-            if (_connection != null)
-            {
-                _connection.Dispose();
-                _connection = null;
-            }
-
-            if (_command != null)
-            {
-                _command.Dispose();
-                _command = null;
-            }
-
-            if (_transaction != null)
-            {
-                _transaction.Dispose();
-                _transaction = null;
             }
         }
 
@@ -207,6 +183,29 @@ namespace Skeleton.Infrastructure.Data
                 AttachParameters(parameters);
 
             return _command;
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            CloseConnection();
+
+            if (_connection != null)
+            {
+                _connection.Dispose();
+                _connection = null;
+            }
+
+            if (_command != null)
+            {
+                _command.Dispose();
+                _command = null;
+            }
+
+            if (_transaction != null)
+            {
+                _transaction.Dispose();
+                _transaction = null;
+            }
         }
     }
 }

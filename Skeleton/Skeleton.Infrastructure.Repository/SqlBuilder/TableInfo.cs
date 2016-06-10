@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Skeleton.Common.Extensions;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {

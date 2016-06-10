@@ -1,11 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Skeleton.Abstraction;
 using Skeleton.Common;
-using Skeleton.Common.Extensions;
-using Skeleton.Common.Reflection;
-using Skeleton.Core.Domain;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using System;
+using System.Diagnostics;
 
 namespace Skeleton.Infrastructure.Repository
 {

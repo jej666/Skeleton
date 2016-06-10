@@ -1,11 +1,10 @@
 ﻿using System.Configuration;
-using Skeleton.Common;
-using Skeleton.Common.Extensions;
+using System;
 
 namespace Skeleton.Infrastructure.Data.Configuration
 {
     public sealed class DatabaseConfigurationBuilder :
-        HideObjectMethods,
+        DataHideObjectMethods,
         IDatabaseConfigurationBuilder,
         IDatabaseConfigurationProperties,
         IDatabaseConfigurationSettings,

@@ -1,4 +1,4 @@
-﻿using Skeleton.Common;
+﻿using Skeleton.Abstraction;
 using Skeleton.Core.Service;
 using System;
 

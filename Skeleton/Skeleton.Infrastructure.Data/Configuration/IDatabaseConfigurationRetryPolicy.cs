@@ -1,4 +1,4 @@
-﻿using Skeleton.Common;
+﻿using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Data.Configuration
 {
