@@ -15,6 +15,7 @@ namespace Skeleton.Web.Server
             {
                 throw new ArgumentNullException("container");
             }
+
             this.container = container;
         }
 

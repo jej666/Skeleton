@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skeleton.Abstraction;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.DependencyResolver;
@@ -60,8 +61,9 @@ namespace Skeleton.Web.Tests
             using (var client = new CustomerHttpClient())
             {
                 var results = client.GetAll();
+
                 Assert.IsNotNull(results);
-                Assert.IsInstanceOfType(results.First(), typeof(Customer));
+                Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
             }
         }
     }

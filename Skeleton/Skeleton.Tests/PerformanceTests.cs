@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Tests.Infrastructure;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Tests
 {

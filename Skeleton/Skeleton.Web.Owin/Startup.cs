@@ -16,12 +16,6 @@ namespace Skeleton.Web.Server
         {
             var config = new HttpConfiguration();
             WebApiConfig.Register(config);
-
-            config.Formatters.JsonFormatter.SupportedMediaTypes
-                .Add(new MediaTypeHeaderValue("text/html"));
-
-            config.DependencyResolver = new UnityResolver(Bootstrapper.Container);
-
             app.UseWebApi(config);
         }
 

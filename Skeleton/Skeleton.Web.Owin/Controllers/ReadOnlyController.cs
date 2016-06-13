@@ -9,23 +9,32 @@ using System;
 
 namespace Skeleton.Web.Server
 {
-    public class ReadOnlyController<TEntity, TIdentity> :
+    public class ReadOnlyController<TEntity, TIdentity, TDto> :
         ApiController
         where TEntity : class, IEntity<TEntity, TIdentity>
+        where TDto : class
     {
         private readonly IReadOnlyService<TEntity, TIdentity> _service;
+        private readonly IEntityMapper<TEntity, TIdentity> _mapper;
 
-        public ReadOnlyController(IReadOnlyService<TEntity, TIdentity> service)
+        public ReadOnlyController(
+            IReadOnlyService<TEntity, TIdentity> service, 
+            IEntityMapper<TEntity, TIdentity> mapper)
         {
             service.ThrowIfNull(() => service);
+            mapper.ThrowIfNull(() => mapper);
 
             _service = service;
+            _mapper = mapper;
         }
 
         // GET api/<controller>
-        public virtual IEnumerable<TEntity> Get()
+        public virtual IEnumerable<TDto> Get()
         {
-            return _service.Repository.GetAll();
+            return _service.Repository
+                           .GetAll()
+                           .Select(_mapper.Map<TDto>)
+                           .ToList();
         }
 
         //[HttpGet]

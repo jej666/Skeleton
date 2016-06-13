@@ -1,4 +1,5 @@
-﻿using Skeleton.Infrastructure.DependencyResolver;
+﻿using Newtonsoft.Json;
+using Skeleton.Infrastructure.DependencyResolver;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
@@ -13,6 +14,11 @@ namespace Skeleton.Web.Server
             ////DECLARE REGEX PATTERNS
             //string alphanumeric = @"^[a-zA-Z]+[a-zA-Z0-9_]*$";
             //string numeric = @"^\d+$";
+
+            config.Formatters.JsonFormatter.SupportedMediaTypes
+                .Add(new MediaTypeHeaderValue("text/html"));
+
+            config.DependencyResolver = new UnityResolver(Bootstrapper.Container);
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApiControllerId",

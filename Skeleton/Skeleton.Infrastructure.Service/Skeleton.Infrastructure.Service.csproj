@@ -48,8 +48,6 @@
   <ItemGroup>
     <Compile Include="CachedServiceAsync.cs" />
     <Compile Include="CachedService.cs" />
-    <Compile Include="CommandDispatcher.cs" />
-    <Compile Include="QueryDispatcher.cs" />
     <Compile Include="ReadOnlyServiceAsync.cs" />
     <Compile Include="ServiceAsync.cs" />
     <Compile Include="Service.cs" />

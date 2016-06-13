@@ -7,8 +7,8 @@
     <ProjectGuid>{F848F91F-11C7-4E9B-9701-110A467A0853}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skeleton.Common.Abstration</RootNamespace>
-    <AssemblyName>Skeleton.Common.Abstration</AssemblyName>
+    <RootNamespace>Skeleton.Abstration</RootNamespace>
+    <AssemblyName>Skeleton.Abstration</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -51,6 +51,7 @@
     <Compile Include="IDependencyRegistrar.cs" />
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="IEntityMapper.cs" />
     <Compile Include="IHideObjectMethods.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IMemberAccessor.cs" />

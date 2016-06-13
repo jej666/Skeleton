@@ -3,6 +3,7 @@ using Skeleton.Common;
 using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Tests.Infrastructure
 {

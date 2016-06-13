@@ -1,10 +1,12 @@
 ﻿using Skeleton.Abstraction;
 using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Skeleton.Core.Domain
 {
+    [DebuggerDisplay(" ID = {ToString}")]
     public abstract class Entity<TEntity, TIdentity> :
         IEntity<TEntity, TIdentity>
         where TEntity : Entity<TEntity, TIdentity>
@@ -21,7 +23,7 @@ namespace Skeleton.Core.Domain
 
         public TIdentity Id
         {
-            get { return (TIdentity) _idAccessor.GetValue(this); }
+            get { return (TIdentity)_idAccessor.GetValue(this); }
         }
 
         public PropertyInfo IdAccessor
@@ -67,7 +69,7 @@ namespace Skeleton.Core.Domain
         {
             validator.ThrowIfNull(() => validator);
 
-            return new ValidationResult(validator.BrokenRules((TEntity) this));
+            return new ValidationResult(validator.BrokenRules((TEntity)this));
         }
 
         public static bool operator !=(
@@ -99,16 +101,16 @@ namespace Skeleton.Core.Domain
         public override string ToString()
         {
             var thisIsTransient = Equals(Id, null);
-            return thisIsTransient 
-                ? base.ToString() 
+            return thisIsTransient
+                ? base.ToString()
                 : Id.ToString();
         }
 
         public override int GetHashCode()
         {
             var thisIsTransient = Equals(Id, null);
-            return thisIsTransient 
-                ? base.GetHashCode() 
+            return thisIsTransient
+                ? base.GetHashCode()
                 : Id.GetHashCode();
         }
     }

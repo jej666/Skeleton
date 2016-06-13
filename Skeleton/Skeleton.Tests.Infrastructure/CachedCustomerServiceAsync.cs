@@ -1,4 +1,5 @@
-﻿using Skeleton.Common;
+﻿using Skeleton.Abstraction;
+using Skeleton.Common;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Service;
 
