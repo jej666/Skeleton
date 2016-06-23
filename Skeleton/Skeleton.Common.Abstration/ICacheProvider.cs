@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Abstraction
 {
-    public interface ICacheProvider :
-        IHideObjectMethods
+    public interface ICacheProvider :  IHideObjectMethods
     {
         T GetOrAdd<T>(string key, Func<T> valueFactory, Action<ICacheContext> configurator);
 

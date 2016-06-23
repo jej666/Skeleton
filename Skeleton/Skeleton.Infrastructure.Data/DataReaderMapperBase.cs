@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
     internal abstract class DataReaderMapperBase<TResult> where TResult : class
     {
-        private readonly ITypeAccessor _accessor;
+        private readonly IMetadata _accessor;
 
         private readonly Func<IMemberAccessor, bool> _simplePropertiesCondition =
             x => x.MemberType.IsPrimitiveExtended();
 
         private readonly IList<IMemberAccessor> _tableColumns;
 
-        protected internal DataReaderMapperBase(ITypeAccessorCache accessorCache)
+        protected internal DataReaderMapperBase(IMetadataProvider accessorCache)
         {
-            _accessor = accessorCache.Get<TResult>();
+            _accessor = accessorCache.GetMetadata<TResult>();
             _tableColumns = _accessor.GetDeclaredOnlyProperties()
                 .Where(_simplePropertiesCondition)
                 .ToList();

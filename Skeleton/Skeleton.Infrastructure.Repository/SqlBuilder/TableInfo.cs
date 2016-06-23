@@ -15,6 +15,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             var member = expression.GetMemberExpression();
             var name = member.Member.Name;
+
             return name;
         }
 

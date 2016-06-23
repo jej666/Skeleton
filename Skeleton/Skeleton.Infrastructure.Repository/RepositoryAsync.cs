@@ -1,4 +1,5 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
@@ -15,9 +16,9 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         public RepositoryAsync(
-            ITypeAccessorCache typeAccessorCache,
-            IDatabaseAsync database) :
-            base(typeAccessorCache, database)
+            IMetadataProvider metadataProvider,
+            IDatabaseAsync database)
+            : base(metadataProvider, database)
         {
         }
 
@@ -146,8 +147,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                var columns = EntityTypeAccessor.GetTableColumns();
-                Builder.SetInsertColumns<TEntity, TIdentity>(columns, entity);
+                Builder.SetInsertColumns<TEntity, TIdentity>(entity);
 
                 var id = await Database.ExecuteScalarAsync<TIdentity>(
                     Builder.InsertQuery,
@@ -170,7 +170,7 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 Builder.QueryByPrimaryKey<TEntity>(
-                    entity.IdAccessor.Name,
+                    EntityIdName,
                     e => e.Id.Equals(entity.Id));
 
                 return await Database.ExecuteAsync(
@@ -188,11 +188,10 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                var columns = EntityTypeAccessor.GetTableColumns();
-                Builder.SetUpdateColumns<TEntity, TIdentity>(columns, entity);
+                Builder.SetUpdateColumns<TEntity, TIdentity>(entity);
 
                 Builder.QueryByPrimaryKey<TEntity>(
-                    entity.IdAccessor.Name,
+                    EntityIdName,
                     e => e.Id.Equals(entity.Id));
 
                 return await Database.ExecuteAsync(

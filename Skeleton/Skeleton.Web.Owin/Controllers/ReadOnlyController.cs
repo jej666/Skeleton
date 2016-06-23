@@ -1,11 +1,13 @@
 ﻿using Skeleton.Abstraction;
-using Skeleton.Core.Domain;
 using Skeleton.Core.Service;
+using Skeleton.Web.Server;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System;
+using System.Web.Http.Description;
+using System.Web.Http.Routing;
 
 namespace Skeleton.Web.Server
 {
@@ -18,7 +20,7 @@ namespace Skeleton.Web.Server
         private readonly IEntityMapper<TEntity, TIdentity> _mapper;
 
         public ReadOnlyController(
-            IReadOnlyService<TEntity, TIdentity> service, 
+            IReadOnlyService<TEntity, TIdentity> service,
             IEntityMapper<TEntity, TIdentity> mapper)
         {
             service.ThrowIfNull(() => service);
@@ -28,32 +30,46 @@ namespace Skeleton.Web.Server
             _mapper = mapper;
         }
 
-        // GET api/<controller>
-        public virtual IEnumerable<TDto> Get()
-        {
-            return _service.Repository
-                           .GetAll()
-                           .Select(_mapper.Map<TDto>)
-                           .ToList();
-        }
-
-        //[HttpGet]
-        //public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
-        //{
-        //    return _service.Repository.Page(pageSize, pageNumber);
-        //}
-
         // GET api/<controller>/5
-        public virtual TEntity Get(TIdentity id)
+        public virtual IHttpActionResult Get(TIdentity id)
         {
-            return _service.Repository.FirstOrDefault(id);
+            var result = _service.Repository.FirstOrDefault(id);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<TDto>(result));
         }
 
-        protected IEnumerable GetModelErrors()
+        // GET api/<controller>/
+        // GET api/<controller>/?pageSize=20&pageNumber=1
+        public virtual IHttpActionResult Get(int? pageSize = null, int? pageNumber = null)
         {
-            return this.ModelState.SelectMany(
-                x => x.Value.Errors.Select(
-                    error => error.ErrorMessage));
+            if (!pageSize.HasValue && !pageNumber.HasValue)
+            {
+                var allData = _service.Repository
+                                     .GetAll()
+                                     .Select(_mapper.Map<TDto>)
+                                     .ToList();
+                return Ok(allData);
+            }
+
+            var totalCount = _service.Repository.Count();
+            var pagedData = _service.Repository
+                                    .Page(pageSize.Value, pageNumber.Value)
+                                    .Select(_mapper.Map<TDto>)
+                                    .ToList();
+            var pagedResult = Request.SetPagedResult(totalCount, pageNumber.Value, pageSize.Value, pagedData);
+
+            return Ok(pagedResult);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                _service.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

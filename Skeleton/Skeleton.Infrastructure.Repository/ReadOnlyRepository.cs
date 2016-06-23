@@ -1,4 +1,5 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
@@ -16,9 +17,9 @@ namespace Skeleton.Infrastructure.Repository
         private readonly IDatabase _database;
 
         public ReadOnlyRepository(
-            ITypeAccessorCache typeAccessorCache,
+            IMetadataProvider metadataProvider, 
             IDatabase database)
-            : base(typeAccessorCache)
+            : base(metadataProvider)
         {
             database.ThrowIfNull(() => database);
 
@@ -55,11 +56,9 @@ namespace Skeleton.Infrastructure.Repository
         {
             id.ThrowIfNull(() => id);
 
-            var instance = EntityTypeAccessor.CreateInstance<TEntity>();
-
             Builder.And();
             Builder.QueryByPrimaryKey<TEntity>(
-                instance.IdAccessor.Name,
+                EntityIdName,
                 e => e.Id.Equals(id));
 
             return FirstOrDefault();
@@ -75,6 +74,8 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
+            Builder.OrderBy<TEntity>(EntityIdName);
+
             return HandleSqlBuilderInitialization(() =>
                 Database.Find<TEntity>(
                     Builder.PagedQuery(pageSize, pageNumber),
@@ -232,6 +233,13 @@ namespace Skeleton.Infrastructure.Repository
             Builder.SelectWithFunction(expression, SelectFunction.Avg);
 
             return AggregateAs<TResult>();
+        }
+
+        public int Count()
+        {
+            Builder.SelectCount();
+
+            return AggregateAs<int>();
         }
 
         public TResult Count<TResult>(Expression<Func<TEntity, TResult>> expression)

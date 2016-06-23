@@ -1,29 +1,17 @@
-﻿using System;
-using Skeleton.Common;
-using Skeleton.Infrastructure.Data.Configuration;
+﻿using Skeleton.Abstraction;
 using Skeleton.Infrastructure.DependencyResolver;
 using Skeleton.Tests.Infrastructure;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Abstraction;
 
 namespace Skeleton.Tests
 {
     public abstract class TestBase
     {
-        private static readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> Configurator =
-            builder => builder
-                .UsingConfigConnectionString("Default")
-                .UsingAdvancedSettings()
-                .SetCommandTimeout(30)
-                .SetRetryPolicyCount(3)
-                .SetRetryPolicyInterval(1);
-
-        [AssemblyInitialize]
-        public static void SetUp(TestContext context)
+        public TestBase()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
             Bootstrapper.Initialize();
-            Bootstrapper.UseDatabase(Configurator);
+            Bootstrapper.UseDatabase(builder => 
+                builder.UsingConfigConnectionString("Default").Build());
         }
 
         protected static IDependencyResolver Container

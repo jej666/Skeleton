@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Abstraction.Reflection
 {
-    public interface IMethodAccessor
+    public interface IMethodAccessor : IHideObjectMethods
     {
         MethodInfo MethodInfo { get; }
 

@@ -10,6 +10,8 @@ namespace Skeleton.Core.Repository
     {
         Task<TResult> AverageAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
 
+        Task<int> CountAsync();
+
         Task<TResult> CountAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
 
         Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression);

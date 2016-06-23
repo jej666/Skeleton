@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
@@ -16,7 +17,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
 
             Container.AddExtension(new LoggerConstructorInjectionExtension())
                 .RegisterType<ICacheProvider, MemoryCacheProvider>()
-                .RegisterType<ITypeAccessorCache, TypeAccessorCache>()
+                .RegisterType<IMetadataProvider, MetadataProvider>()
                 .RegisterType<IConfigurationProvider, ConfigurationProvider>()
                 .RegisterType(typeof(IEntityMapper<,>),typeof(EntityMapper<,>));
         }

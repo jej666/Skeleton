@@ -115,8 +115,8 @@ namespace System.Linq.Expressions
                 }
 
                 propertyInfos.Insert(0, propertyInfo);
-
                 propertyAccessExpression = memberExpression.Expression;
+
             } while (memberExpression.Expression.RemoveConvert() != parameterExpression);
 
             return propertyInfos.ToArray();

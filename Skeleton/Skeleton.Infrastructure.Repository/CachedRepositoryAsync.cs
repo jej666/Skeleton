@@ -1,4 +1,5 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using System;
@@ -13,22 +14,21 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly ICacheProvider _cacheProvider;
-
-        private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator =
-            new CacheKeyGenerator<TEntity, TIdentity>();
+        private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator;
 
         public CachedRepositoryAsync(
-            ITypeAccessorCache accessorCache,
-            ICacheProvider cacheProvider,
-            IDatabaseAsync database)
-            : base(accessorCache, database)
+            IMetadataProvider metadataProvider,
+            IDatabaseAsync database,
+            ICacheProvider cacheProvider)
+            : base(metadataProvider, database)
         {
             cacheProvider.ThrowIfNull(() => cacheProvider);
 
             _cacheProvider = cacheProvider;
+            _keyGenerator = new CacheKeyGenerator<TEntity, TIdentity>();
         }
 
-        public Action<ICacheContext> CacheConfigurator { get; protected set; }
+        public Action<ICacheContext> CacheConfigurator { get; set; }
 
         public ICacheProvider Cache
         {

@@ -2,7 +2,7 @@
 
 namespace Skeleton.Abstraction
 {
-    public interface IValidator<in TEntity, TIdentity> 
+    public interface IEntityValidator<TEntity, TIdentity> : IHideObjectMethods
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         IEnumerable<string> BrokenRules(TEntity entity);

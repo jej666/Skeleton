@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading;
 using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -14,9 +15,9 @@ namespace Skeleton.Infrastructure.Data
     {
         public Database(
             IDatabaseConfiguration configuration,
-            ITypeAccessorCache typeAccessorCache,
+            IMetadataProvider metadataProvider,
             ILogger logger)
-            : base(configuration, typeAccessorCache, logger)
+            : base(configuration, metadataProvider, logger)
         {
             OpenConnection();
         }
@@ -66,7 +67,7 @@ namespace Skeleton.Infrastructure.Data
                 var reader = CreateTextCommand(query, parameters)
                     .ExecuteReader();
 
-                return TypeAccessorCache.CreateMapper<TResult>()
+                return MetadataProvider.CreateMapper<TResult>()
                     .MapQuery(reader);
             });
         }
@@ -81,7 +82,7 @@ namespace Skeleton.Infrastructure.Data
                 var reader = CreateTextCommand(query, parameters)
                     .ExecuteReader(CommandBehavior.SingleRow);
 
-                return TypeAccessorCache.CreateMapper<TResult>()
+                return MetadataProvider.CreateMapper<TResult>()
                     .MapSingle(reader);
             });
         }

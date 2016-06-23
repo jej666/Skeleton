@@ -1,4 +1,6 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Common.Reflection;
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
@@ -6,18 +8,22 @@ using System.Reflection;
 
 namespace Skeleton.Core.Domain
 {
-    [DebuggerDisplay(" ID = {ToString}")]
+    [DebuggerDisplay(" Id = {ToString()}")]
     public abstract class Entity<TEntity, TIdentity> :
         IEntity<TEntity, TIdentity>
-        where TEntity : Entity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly PropertyInfo _idAccessor;
+        private readonly IMemberAccessor _idAccessor;
+        private readonly IMetadata _typeAccessor;
+        private const int HashMultiplier = 31;
+        private int? _cachedHashcode;
 
         protected Entity(Expression<Func<TEntity, object>> idExpression)
         {
             idExpression.ThrowIfNull(() => idExpression);
 
-            _idAccessor = idExpression.GetPropertyAccess();
+            _typeAccessor = typeof(TEntity).GetMetadata();
+            _idAccessor = _typeAccessor.GetProperty(idExpression);
             CreatedDateTime = DateTime.Now;
         }
 
@@ -26,9 +32,19 @@ namespace Skeleton.Core.Domain
             get { return (TIdentity)_idAccessor.GetValue(this); }
         }
 
-        public PropertyInfo IdAccessor
+        public string IdName
+        {
+            get { return _idAccessor.Name; }
+        }
+
+        public IMemberAccessor IdAccessor
         {
             get { return _idAccessor; }
+        }
+
+        public IMetadata TypeAccessor
+        {
+            get { return _typeAccessor; }
         }
 
         public string CreatedBy { get; set; }
@@ -55,9 +71,8 @@ namespace Skeleton.Core.Domain
             }
 
             var otherIsTransient = Equals(other.Id, null);
-            var currentIsTransient = Equals(Id, null);
 
-            if (otherIsTransient || currentIsTransient)
+            if (otherIsTransient || IsTransient())
             {
                 return ReferenceEquals(other, this);
             }
@@ -65,12 +80,17 @@ namespace Skeleton.Core.Domain
             return other.Id.Equals(Id);
         }
 
-        public IValidationResult Validate(IValidator<TEntity, TIdentity> validator)
+        public virtual bool IsTransient()
         {
-            validator.ThrowIfNull(() => validator);
-
-            return new ValidationResult(validator.BrokenRules((TEntity)this));
+            return Id == null || this.Id.Equals(default(TIdentity));
         }
+
+        //public IValidationResult Validate(IEntityValidator<TEntity, TIdentity> validator)
+        //{
+        //    validator.ThrowIfNull(() => validator);
+
+        //    return new ValidationResult(validator.BrokenRules((TEntity)this));
+        //}
 
         public static bool operator !=(
             Entity<TEntity, TIdentity> entity1,
@@ -94,24 +114,36 @@ namespace Skeleton.Core.Domain
         public override bool Equals(object obj)
         {
             var entity = obj as TEntity;
+
             return entity != null
                    && Equals(entity);
         }
 
         public override string ToString()
         {
-            var thisIsTransient = Equals(Id, null);
-            return thisIsTransient
+            return IsTransient()
                 ? base.ToString()
                 : Id.ToString();
         }
 
         public override int GetHashCode()
         {
-            var thisIsTransient = Equals(Id, null);
-            return thisIsTransient
-                ? base.GetHashCode()
-                : Id.GetHashCode();
+            if (_cachedHashcode.HasValue)
+                return _cachedHashcode.Value;
+
+            if (IsTransient())
+            {
+                _cachedHashcode = base.GetHashCode();
+            }
+            else
+            {
+                unchecked
+                {
+                    var hashCode = GetType().GetHashCode();
+                    _cachedHashcode = (hashCode * HashMultiplier) ^ Id.GetHashCode();
+                }
+            }
+            return _cachedHashcode.Value;
         }
     }
 }

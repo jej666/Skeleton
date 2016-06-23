@@ -2,14 +2,15 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Common.Reflection
 {
     [DebuggerDisplay("Type = {Type}")]
-    public sealed class TypeAccessor : ITypeAccessor
+    public sealed class Metadata : HideObjectMethods, IMetadata
     {
         private const BindingFlags DeclaredOnlyFlags =
             BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance;
@@ -31,7 +32,7 @@ namespace Skeleton.Common.Reflection
 
         private ConstructorDelegate _constructor;
 
-        public TypeAccessor(Type type)
+        public Metadata(Type type)
         {
             type.ThrowIfNull(() => type);
 
@@ -97,7 +98,7 @@ namespace Skeleton.Common.Reflection
 
             var fieldInfo = Type.GetField(name);
 
-            return fieldInfo == null ? null : FieldAccessor.Create(fieldInfo);
+            return fieldInfo == null ? null : MemberAccessorFactory.Create(fieldInfo);
         }
 
         public IEnumerable<IMemberAccessor> GetFields()
@@ -112,10 +113,10 @@ namespace Skeleton.Common.Reflection
 
         public IMethodAccessor GetMethod(string name, Type[] parameterTypes)
         {
-            var key = MethodAccessor.GetKey(name, parameterTypes);
+            var key = GetMethodKey(name, parameterTypes);
 
             return _methodCache.Value.GetOrAdd(
-                key, MethodAccessor.Create(Type, name, parameterTypes));
+                key, MemberAccessorFactory.Create(Type, name, parameterTypes));
         }
 
         public IEnumerable<IMemberAccessor> GetProperties()
@@ -133,7 +134,7 @@ namespace Skeleton.Common.Reflection
 
             var propertyInfo = Type.GetProperty(name);
 
-            return propertyInfo == null ? null : PropertyAccessor.Create(propertyInfo);
+            return propertyInfo == null ? null : MemberAccessorFactory.Create(propertyInfo);
         }
 
         public IMemberAccessor GetProperty<T>(Expression<Func<T, object>> expression)
@@ -148,11 +149,8 @@ namespace Skeleton.Common.Reflection
             IMemberAccessor accessor;
             if (_propertyCache.Value.TryGetValue(propertyInfo.Name, out accessor))
                 return accessor;
-
-            accessor = PropertyAccessor.Create(propertyInfo);
-            _propertyCache.Value.TryAdd(accessor.Name, accessor);
-
-            return accessor;
+            
+            return MemberAccessorFactory.Create(propertyInfo);
         }
 
         private void CreateConstructorDelegate(Type[] parameterTypes)
@@ -169,7 +167,7 @@ namespace Skeleton.Common.Reflection
         {
             if (FieldsCount == 0)
                 Type.GetFields(bindingAttr).ForEach(f =>
-                    _fieldCache.Value.TryAdd(f.Name, FieldAccessor.Create(f)));
+                    _fieldCache.Value.TryAdd(f.Name, MemberAccessorFactory.Create(f)));
 
             return _fieldCache.Value.Values;
         }
@@ -178,9 +176,21 @@ namespace Skeleton.Common.Reflection
         {
             if (PropertiesCount == 0)
                 Type.GetProperties(bindingAttr).ForEach(p =>
-                    _propertyCache.Value.TryAdd(p.Name, PropertyAccessor.Create(p)));
+                    _propertyCache.Value.TryAdd(p.Name, MemberAccessorFactory.Create(p)));
 
             return _propertyCache.Value.Values;
+        }
+
+        private static int GetMethodKey(string name, IEnumerable<Type> parameterTypes)
+        {
+            unchecked
+            {
+                var result = name != null ? name.GetHashCode() : 0;
+                result = parameterTypes.Aggregate(result,
+                    (r, p) => (r * 397) ^ (p != null ? p.GetHashCode() : 0));
+
+                return result;
+            }
         }
     }
 }

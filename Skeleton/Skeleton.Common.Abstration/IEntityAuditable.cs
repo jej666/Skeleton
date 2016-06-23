@@ -2,7 +2,7 @@
 
 namespace Skeleton.Abstraction
 {
-    public interface IAuditable
+    public interface IEntityAuditable
     {
         string CreatedBy { get; set; }
         DateTime CreatedDateTime { get; set; }

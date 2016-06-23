@@ -1,6 +1,6 @@
 ﻿namespace Skeleton.Abstraction
 {
-    public interface IConfigurationProvider
+    public interface IConfigurationProvider : IHideObjectMethods
     {
         T GetConfigurationValue<T>(string key);
         string GetConfigurationValue(string key);

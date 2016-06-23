@@ -15,12 +15,16 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     internal sealed class SqlQueryBuilder
     {
         private const string ParameterPrefix = "P";
-        private readonly LazyRef<List<string>> _columns = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _conditions = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _groupingList = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _havingConditions = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _insertValues = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _joinExpressions = new LazyRef<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _columns = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _conditions = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _groupingList = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _havingConditions = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _insertValues = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _joinExpressions = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _selectionList = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _sortList = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _tableNames = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _updateColumnValues = new LazyLoading<List<string>>(() => new List<string>());
 
         private readonly Dictionary<ExpressionType, string> _operationDictionary =
             new Dictionary<ExpressionType, string>
@@ -34,11 +38,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             };
 
         private readonly string _primaryTableName;
-        private readonly LazyRef<List<string>> _selectionList = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _sortList = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _tableNames = new LazyRef<List<string>>(() => new List<string>());
-        private readonly LazyRef<List<string>> _updateColumnValues = new LazyRef<List<string>>(() => new List<string>());
-
         private int _paramIndex;
         private string _top;
 
@@ -445,6 +444,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 SqlTemplate.Field(tableName, fieldName));
 
             _selectionList.Value.Add(selectionString);
+        }
+
+        internal void SelectCount()
+        {
+            _selectionList.Value.Add("Count(*)");
         }
 
         internal void SelectTop(int take)

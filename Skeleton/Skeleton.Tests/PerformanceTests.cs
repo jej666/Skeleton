@@ -5,6 +5,7 @@ using Skeleton.Common.Reflection;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Tests.Infrastructure;
 using Skeleton.Abstraction;
+using Skeleton.Core.Repository;
 
 namespace Skeleton.Tests
 {
@@ -58,9 +59,7 @@ namespace Skeleton.Tests
                 }, "HandCoded");
 
                 // With Skeleton.ORM
-                var accessorCache = Container.Resolve<ITypeAccessorCache>();
-                var database = Container.Resolve<IDatabase>();
-                var repository = new PostRepository(accessorCache, database);
+                var repository = Container.Resolve<IRepository<Post,int>>();
 
                 benchmarks.Add(() =>
                 {
@@ -72,13 +71,12 @@ namespace Skeleton.Tests
                     var list = repository.GetAll();
                 }, "Skeleton.Orm => Hot start (benefits of TypeCacheAccessor)");
 
-                //var databaseAsync = Resolver.Resolve<IDatabaseAsync>();
-                //var repositoryAsync = new PostRepositoryAsync(accessorCache, databaseAsync);
+                var repositoryAsync = Container.Resolve<IRepositoryAsync<Post, int>>(); ;
 
-                //benchmarks.Add(() =>
-                //{
-                //    var list = repositoryAsync.GetAllAsync().Result;
-                //}, "Skeleton.Orm.Async => Hot start");
+                benchmarks.Add(() =>
+                {
+                    var list = repositoryAsync.GetAllAsync().Result;
+                }, "Skeleton.Orm.Async => Hot start");
 
                 benchmarks.Run();
             }

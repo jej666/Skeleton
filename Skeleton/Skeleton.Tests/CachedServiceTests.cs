@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 using Skeleton.Core.Service;
+using System;
 
 namespace Skeleton.Tests
 {
@@ -14,14 +15,14 @@ namespace Skeleton.Tests
         public CachedServiceTests()
         {
             _service = Container.Resolve<ICachedService<Customer, int>>();
-
+            _service.Repository.CacheConfigurator = config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
             SqlDbSeeder.SeedCustomers();
         }
 
         [TestMethod]
         public void Find_ByExpression()
         {
-            var sql = _service.Repository.Where(c => c.Name.Equals("Foo")).SqlQuery;
+            var sql = _service.Repository.Where(c => c.Name.StartsWith("Customer")).SqlQuery;
             var results = _service.Repository.Find();
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));

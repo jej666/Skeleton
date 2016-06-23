@@ -1,4 +1,5 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
@@ -17,9 +18,9 @@ namespace Skeleton.Infrastructure.Repository
         private readonly IDatabaseAsync _database;
 
         public ReadOnlyRepositoryAsync(
-            ITypeAccessorCache typeAccessorCache,
-            IDatabaseAsync database) :
-            base(typeAccessorCache)
+            IMetadataProvider metadataProvider,
+            IDatabaseAsync database)
+            : base(metadataProvider)
         {
             database.ThrowIfNull(() => database);
 
@@ -267,6 +268,13 @@ namespace Skeleton.Infrastructure.Repository
             return await AggregateAsAsync<TResult>();
         }
 
+        public async Task<int> CountAsync()
+        {
+            Builder.SelectCount();
+
+            return await AggregateAsAsync<int>();
+        }
+
         public async Task<TResult> CountAsync<TResult>(
             Expression<Func<TEntity, TResult>> expression)
         {
@@ -307,10 +315,9 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            var instance = EntityTypeAccessor.CreateInstance<TEntity>();
 
             Builder.And();
-            Builder.QueryByPrimaryKey(instance.IdAccessor.Name, expression);
+            Builder.QueryByPrimaryKey(EntityIdName, expression);
         }
 
         private async Task<TResult> AggregateAsAsync<TResult>()

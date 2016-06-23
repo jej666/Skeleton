@@ -1,11 +1,16 @@
-﻿
+﻿using Skeleton.Abstraction.Reflection;
+
 namespace Skeleton.Abstraction
 {
-    public interface IEntityMapper<TEntity, TIdentity>
-            where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface IEntityMapper<TEntity, TIdentity> : IHideObjectMethods
+        where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        ITypeAccessor TypeAccessor {get;}
+        IMetadata TypeAccessor { get; }
 
-        Dto Map<Dto>(TEntity entity) where Dto : class;
+        TDto Map<TDto>(TEntity entity) where TDto : class;
+
+        TEntity Reverse<TDto>(TDto dto) where TDto : class;
+
+        TEntity Reverse<TDto>(int id, TDto dto) where TDto : class;
     }
 }

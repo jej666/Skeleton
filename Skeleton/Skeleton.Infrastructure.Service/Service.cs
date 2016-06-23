@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Service
         public Service(
             ILogger logger,
             IRepository<TEntity, TIdentity> repository)
-            : base(logger)
+            :base(logger)
         {
             repository.ThrowIfNull(() => repository);
 

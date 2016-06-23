@@ -1,6 +1,7 @@
 ﻿using System;
 using Skeleton.Abstraction;
 using Skeleton.Infrastructure.Data.Configuration;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -8,9 +9,9 @@ namespace Skeleton.Infrastructure.Data
     {
         private readonly IDatabaseConfigurationBuilder _configurationBuilder;
         private readonly ILogger _logger;
-        private readonly ITypeAccessorCache _typeAccessorCache;
+        private readonly IMetadataProvider _typeAccessorCache;
 
-        public DatabaseFactory(ITypeAccessorCache typeAccessorCache, ILogger logger)
+        public DatabaseFactory(IMetadataProvider typeAccessorCache, ILogger logger)
         {
             _configurationBuilder = new DatabaseConfigurationBuilder();
             _typeAccessorCache = typeAccessorCache;

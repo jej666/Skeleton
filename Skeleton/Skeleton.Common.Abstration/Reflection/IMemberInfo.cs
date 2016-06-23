@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Abstraction.Reflection
 {
-    public interface IMemberInfo
+    public interface IMemberInfo : IHideObjectMethods
     {
         bool HasGetter { get; }
         bool HasSetter { get; }

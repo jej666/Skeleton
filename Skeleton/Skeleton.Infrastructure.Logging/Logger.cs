@@ -1,13 +1,12 @@
-﻿using System;
-using System.Globalization;
-using log4net;
-using log4net.Config;
+﻿using log4net;
 using Skeleton.Abstraction;
-using Skeleton.Common;
+using System;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace Skeleton.Infrastructure.Logging
 {
-    public class Logger : HideObjectMethods, ILogger
+    public class Logger : ILogger
     {
         private readonly ILog _log;
 
@@ -89,6 +88,30 @@ namespace Skeleton.Infrastructure.Logging
         public void WarnFormat(string format, params object[] args)
         {
             _log.WarnFormat(CultureInfo.CurrentCulture, format, args);
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new Type GetType()
+        {
+            return base.GetType();
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }

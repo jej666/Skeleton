@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -8,7 +9,7 @@ namespace Skeleton.Infrastructure.Data
         DataReaderMapperBase<TResult>
         where TResult : class
     {
-        internal DataReaderMapper(ITypeAccessorCache accessorCache)
+        internal DataReaderMapper(IMetadataProvider accessorCache)
             : base(accessorCache)
         {
         }

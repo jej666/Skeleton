@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -14,9 +15,9 @@ namespace Skeleton.Infrastructure.Data
     {
         public DatabaseAsync(
             IDatabaseConfiguration configuration,
-            ITypeAccessorCache typeAccessorCache,
+            IMetadataProvider metadataProvider,
             ILogger logger)
-            : base(configuration, typeAccessorCache, logger)
+            : base(configuration, metadataProvider, logger)
         {
         }
 
@@ -95,7 +96,7 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await TypeAccessorCache.CreateMapperAsync<TResult>()
+                return await MetadataProvider.CreateMapperAsync<TResult>()
                     .MapQueryAsync(reader);
             }
             catch (SqlException e)
@@ -117,7 +118,7 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await TypeAccessorCache.CreateMapperAsync<TResult>()
+                return await MetadataProvider.CreateMapperAsync<TResult>()
                     .MapSingleAsync(reader);
             }
             catch (SqlException e)

@@ -20,7 +20,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_ByExpression()
         {
-            var sql = _service.Repository.Where(c => c.Name.Equals("Foo")).SqlQuery;
+            var sql = _service.Repository.Where(c => c.Name.StartsWith("Customer")).SqlQuery;
             var results = await _service.Repository.FindAsync();
 
             Assert.IsNotNull(results);

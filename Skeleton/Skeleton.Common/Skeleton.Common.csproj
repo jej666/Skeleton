@@ -15,6 +15,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,10 +64,12 @@
     <Compile Include="Reflection\Delegates.cs" />
     <Compile Include="Reflection\FieldAccessor.cs" />
     <Compile Include="Reflection\MemberAccessorBase.cs" />
+    <Compile Include="Reflection\MemberAccessorFactory.cs" />
+    <Compile Include="Reflection\MetadataProviderExtension.cs" />
     <Compile Include="Reflection\MethodAccessor.cs" />
     <Compile Include="Reflection\PropertyAccessor.cs" />
-    <Compile Include="Reflection\TypeAccessor.cs" />
-    <Compile Include="Reflection\TypeAccessorCache.cs" />
+    <Compile Include="Reflection\Metadata.cs" />
+    <Compile Include="Reflection\MetadataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Common.snk" />

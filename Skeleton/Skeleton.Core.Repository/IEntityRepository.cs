@@ -7,7 +7,6 @@ namespace Skeleton.Core.Repository
         IEntityRepository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        ITypeAccessor EntityTypeAccessor { get; }
     }
 
     public interface IEntityRepository :

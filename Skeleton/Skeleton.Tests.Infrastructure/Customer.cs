@@ -4,11 +4,11 @@ using System.Runtime.Serialization;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class Customer : Entity<Customer, int>
+    public class Customer : Entity<Customer,int>
     {
         // Need an empty ctor
         public Customer()
-            : base(pk => pk.CustomerId)
+            : base(e => e.CustomerId)
         {
         }
 

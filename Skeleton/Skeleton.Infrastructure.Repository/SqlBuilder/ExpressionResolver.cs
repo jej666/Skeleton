@@ -6,36 +6,36 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal static class ExpressionResolver
     {
-        internal static Node ResolveQuery(ConstantExpression constantExpression)
+        internal static Node Resolve(ConstantExpression constantExpression)
         {
             return new ValueNode { Value = constantExpression.Value };
         }
 
-        internal static Node ResolveQuery(UnaryExpression unaryExpression)
+        internal static Node Resolve(UnaryExpression unaryExpression)
         {
             return new SingleOperationNode
             {
                 Operator = unaryExpression.NodeType,
-                Child = ResolveQuery((dynamic)unaryExpression.Operand)
+                Child = Resolve((dynamic)unaryExpression.Operand)
             };
         }
 
-        internal static Node ResolveQuery(BinaryExpression binaryExpression)
+        internal static Node Resolve(BinaryExpression binaryExpression)
         {
             return new OperationNode
             {
-                Left = ResolveQuery((dynamic)binaryExpression.Left),
+                Left = Resolve((dynamic)binaryExpression.Left),
                 Operator = binaryExpression.NodeType,
-                Right = ResolveQuery((dynamic)binaryExpression.Right)
+                Right = Resolve((dynamic)binaryExpression.Right)
             };
         }
 
-        internal static Node ResolveQuery(MethodCallExpression callExpression)
+        internal static Node Resolve(MethodCallExpression callExpression)
         {
-            return ResolveQuery(callExpression, TableInfo.GetColumnName(callExpression.Object));
+            return Resolve(callExpression, TableInfo.GetColumnName(callExpression.Object));
         }
 
-        internal static Node ResolveQuery(MethodCallExpression callExpression, string columnName)
+        internal static Node Resolve(MethodCallExpression callExpression, string columnName)
         {
             LikeMethod callFunction;
             if (Enum.TryParse(callExpression.Method.Name, true, out callFunction))
@@ -58,7 +58,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return new ValueNode { Value = value };
         }
 
-        internal static Node ResolveQuery(MemberExpression memberExpression, MemberExpression rootExpression = null)
+        internal static Node Resolve(MemberExpression memberExpression, MemberExpression rootExpression = null)
         {
             rootExpression = rootExpression ?? memberExpression;
             switch (memberExpression.Expression.NodeType)
@@ -71,7 +71,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     };
 
                 case ExpressionType.MemberAccess:
-                    return ResolveQuery(memberExpression.Expression as MemberExpression, rootExpression);
+                    return Resolve(memberExpression.Expression as MemberExpression, rootExpression);
 
                 case ExpressionType.Call:
                 case ExpressionType.Constant:
@@ -82,7 +82,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        private static void ResolveQuery(Expression expression)
+        private static void Resolve(Expression expression)
         {
             throw new ArgumentException(
                 "The provided expression '{0}' is currently not supported"

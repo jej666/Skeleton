@@ -73,7 +73,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CrudHttpClientTests.cs" />
-    <Compile Include="TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

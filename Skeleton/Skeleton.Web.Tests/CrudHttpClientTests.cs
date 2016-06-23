@@ -1,40 +1,26 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Abstraction;
-using Skeleton.Common;
-using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Infrastructure.DependencyResolver;
 using Skeleton.Tests.Infrastructure;
-using Skeleton.Web.Client;
 using Skeleton.Web.Server;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skeleton.Web.Tests
 {
     [TestClass]
-    public class CrudHttpClientTests : TestBase
+    public class CrudHttpClientTests
     {
-        private static readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> Configurator =
-            builder => builder
-                .UsingConfigConnectionString("Default")
-                .UsingAdvancedSettings()
-                .SetCommandTimeout(30)
-                .SetRetryPolicyCount(3)
-                .SetRetryPolicyInterval(1);
-
         private static IDisposable _owinServer;
 
         [AssemblyInitialize]
-        public static void SetUp(TestContext context)
+        public static void AssemblyInit(TestContext context)
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
 
             Bootstrapper.Initialize();
-            Bootstrapper.UseDatabase(Configurator);
-            Bootstrapper.Registrar.RegisterType(typeof(CustomerController));
+            Bootstrapper.UseDatabase(
+                builder => builder.UsingConfigConnectionString("Default").Build());
+            Bootstrapper.Registrar.RegisterType(typeof(CustomersController));
 
             _owinServer = Startup.StartServer("http://localhost:8081/");
         }
@@ -45,12 +31,7 @@ namespace Skeleton.Web.Tests
             _owinServer.Dispose();
         }
 
-        protected static IDependencyResolver Container
-        {
-            get { return Bootstrapper.Resolver; }
-        }
-
-        public CrudHttpClientTests()
+        public CrudHttpClientTests():base()
         {
             SqlDbSeeder.SeedCustomers();
         }
@@ -58,12 +39,77 @@ namespace Skeleton.Web.Tests
         [TestMethod]
         public void GetAll()
         {
-            using (var client = new CustomerHttpClient())
+            using (var client = new CustomersHttpClient())
             {
                 var results = client.GetAll();
 
                 Assert.IsNotNull(results);
                 Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
+            }
+        }
+
+        [TestMethod]
+        public void FirstOrDefault_ById()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var result = client.Get(15);
+
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            }
+        }
+
+        [TestMethod]
+        public void Page()
+        {
+            const int pageSize = 50;
+            const int numberOfPages = 5;
+
+            using (var client = new CustomersHttpClient())
+            {
+                for (var page = 1; page < numberOfPages; ++page)
+                {
+                    var response = client.Page(pageSize, page);
+                    Assert.AreEqual(pageSize, response.Results.Count());
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Update()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var customer = new CustomerDto { Name = "Customer" };
+                var result = client.Put(15, customer);
+
+                Assert.IsTrue(result);
+            }
+        }
+
+        [TestMethod]
+        public void Add()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var customer = new CustomerDto { Name = "Customer" };
+                var result = client.Post(customer);
+
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            }
+        }
+
+        [TestMethod]
+        public void Delete()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var data = client.GetAll().FirstOrDefault();
+                var result = client.Delete(data.CustomerId);
+
+                Assert.IsTrue(result);
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Common.Reflection
 {
@@ -15,7 +16,7 @@ namespace Skeleton.Common.Reflection
         private readonly string _name;
         private readonly LazyRef<SetterDelegate> _setDelegate;
 
-        private FieldAccessor(FieldInfo fieldInfo)
+        public FieldAccessor(FieldInfo fieldInfo)
         {
             fieldInfo.ThrowIfNull(() => fieldInfo);
 
@@ -53,11 +54,6 @@ namespace Skeleton.Common.Reflection
         public override string Name
         {
             get { return _name; }
-        }
-
-        public static IMemberAccessor Create(FieldInfo fieldInfo)
-        {
-            return fieldInfo == null ? null : new FieldAccessor(fieldInfo);
         }
 
         public override object GetValue(object instance)

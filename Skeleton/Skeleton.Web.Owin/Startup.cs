@@ -5,6 +5,7 @@ using Skeleton.Infrastructure.DependencyResolver;
 using System;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using Swashbuckle.Application;
 
 [assembly: OwinStartup(typeof(Skeleton.Web.Server.Startup))]
 
@@ -15,14 +16,16 @@ namespace Skeleton.Web.Server
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
+            
             WebApiConfig.Register(config);
             app.UseWebApi(config);
+            
+            config.EnableSwagger(c => c.SingleApiVersion("v1", "Skeleton"))
+                  .EnableSwaggerUi();   
         }
 
-        public static void StartConsoleServer()
+        public static void StartConsoleServer(string baseAddress)
         {
-            string baseAddress = "http://localhost:8081/";
-
             using(WebApp.Start<Startup>(baseAddress))
             {
                 Console.WriteLine("Started...");

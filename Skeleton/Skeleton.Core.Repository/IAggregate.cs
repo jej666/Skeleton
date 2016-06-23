@@ -9,6 +9,8 @@ namespace Skeleton.Core.Repository
     {
         TResult Average<TResult>(Expression<Func<TEntity, TResult>> expression);
 
+        int Count();
+
         TResult Count<TResult>(Expression<Func<TEntity, TResult>> expression);
 
         TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression);

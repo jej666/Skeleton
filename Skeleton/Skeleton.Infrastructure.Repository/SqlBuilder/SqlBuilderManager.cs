@@ -1,5 +1,6 @@
 ﻿//https://github.com/base33/lambda-sql-builder
 
+using Skeleton.Abstraction;
 using Skeleton.Core.Repository;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             GroupBy<T>(expression.Body.GetMemberExpression());
         }
 
+        internal void OrderBy<T>(string IdColumnName)
+        {
+            _builder.OrderBy(TableInfo.GetTableName<T>(), IdColumnName);
+        }
+
         internal void OrderBy<T>(Expression<Func<T, object>> expression)
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
@@ -76,6 +82,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             _builder.OrderByDescending(TableInfo.GetTableName<T>(), fieldName);
+        }
+
+        internal void OrderByDescending<T>(string IdColumnName)
+        {
+            _builder.OrderByDescending(TableInfo.GetTableName<T>(), IdColumnName);
         }
 
         internal void QueryByIsIn<T>(Expression<Func<T, object>> expression, ISqlQuery sqlQuery)
@@ -105,16 +116,16 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         }
 
         internal void QueryByPrimaryKey<T>(
-            string idColumnName,
+            string IdColumnName,
             Expression<Func<T, bool>> whereExpression)
         {
-            var expressionTree = ExpressionResolver.ResolveQuery((dynamic)whereExpression.Body, idColumnName);
+            var expressionTree = ExpressionResolver.Resolve((dynamic)whereExpression.Body, IdColumnName);
             _builder.BuildSql(expressionTree);
         }
 
         internal void ResolveQuery<T>(Expression<Func<T, bool>> expression)
         {
-            var expressionTree = ExpressionResolver.ResolveQuery((dynamic)expression.Body);
+            var expressionTree = ExpressionResolver.Resolve((dynamic)expression.Body);
             _builder.BuildSql(expressionTree);
         }
 
@@ -128,7 +139,13 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             _builder.SelectTop(take);
         }
 
-        internal void SelectWithFunction<T, TResult>(Expression<Func<T, TResult>> expression,
+        internal void SelectCount()
+        {
+            _builder.SelectCount();
+        }
+
+        internal void SelectWithFunction<T, TResult>(
+            Expression<Func<T, TResult>> expression,
             SelectFunction selectFunction)
         {
             SelectWithFunction<T>(expression.Body, selectFunction);
@@ -174,6 +191,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 _builder.Select(TableInfo.GetTableName(expression.Type));
             else
                 _builder.Select(TableInfo.GetTableName<T>(), TableInfo.GetColumnName(expression));
+        }
+
+        private void SelectCount<T>()
+        {
+            _builder.Select(TableInfo.GetTableName<T>(), "*", SelectFunction.Count);
         }
 
         private void SelectWithFunction<T>(Expression expression, SelectFunction selectFunction)

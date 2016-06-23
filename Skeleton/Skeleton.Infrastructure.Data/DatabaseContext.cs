@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Infrastructure.Data.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Skeleton.Infrastructure.Data.Configuration;
-using Skeleton.Abstraction;
-using System.ComponentModel;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -16,18 +16,18 @@ namespace Skeleton.Infrastructure.Data
         private readonly DataAdapter _adapter;
         private readonly IDatabaseConfiguration _configuration;
         private readonly ILogger _logger;
-        private readonly ITypeAccessorCache _typeAccessorCache;
+        private readonly IMetadataProvider _metadataProvider;
         private IDbCommand _command;
         private IDbConnection _connection;
         private IDbTransaction _transaction;
 
         protected DatabaseContext(
             IDatabaseConfiguration configuration,
-            ITypeAccessorCache typeAccessorCache,
+            IMetadataProvider metadataProvider,
             ILogger logger)
         {
             _configuration = configuration;
-            _typeAccessorCache = typeAccessorCache;
+            _metadataProvider = metadataProvider;
             _logger = logger;
             _adapter = new DataAdapter(configuration);
         }
@@ -47,9 +47,9 @@ namespace Skeleton.Infrastructure.Data
             get { return _logger; }
         }
 
-        internal ITypeAccessorCache TypeAccessorCache
+        internal IMetadataProvider MetadataProvider
         {
-            get { return _typeAccessorCache; }
+            get { return _metadataProvider; }
         }
 
         internal void BeginTransaction(IsolationLevel? isolationLevel)

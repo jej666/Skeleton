@@ -11,6 +11,6 @@ namespace Skeleton.Core.Repository
 
         ICacheKeyGenerator<TEntity, TIdentity> CacheKeyGenerator { get; }
 
-        Action<ICacheContext> CacheConfigurator { get; }
+        Action<ICacheContext> CacheConfigurator { get; set; }
     }
 }

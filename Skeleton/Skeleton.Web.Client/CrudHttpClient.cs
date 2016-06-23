@@ -1,53 +1,74 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
-    public class CrudHttpClient<TEntity, TIdentity> :
-        HttpClientBase<TEntity, TIdentity> where TEntity : class
+    public class CrudHttpClient<TDto, TId> :
+        HttpClientBase<TDto, TId> where TDto : class
     {
         public CrudHttpClient(string serviceBaseAddress, string addressSuffix)
             : base(serviceBaseAddress, addressSuffix)
         {
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IEnumerable<TDto> GetAll()
         {
             var responseMessage = JsonHttpClient.GetAsync(AddressSuffix).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content
-                                  .ReadAsAsync<IEnumerable<TEntity>>()
+                                  .ReadAsAsync<IEnumerable<TDto>>()
                                   .Result;
         }
 
-        public TEntity Get(TIdentity id)
+        public PagedResult<TDto> Page(int pageSize, int pageNumber)
+        {
+            var requestUri = AddressSuffix  + 
+                string.Format("?pageSize={0}&pageNumber={1}", pageSize,pageNumber);
+            var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
+
+            responseMessage.EnsureSuccessStatusCode();
+
+            var content = responseMessage.Content
+                                        .ReadAsStringAsync()
+                                        .Result;
+            var data = JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
+
+            return data;
+        }
+
+        public TDto Get(TId id)
         {
             var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + id.ToString()).Result;
             responseMessage.EnsureSuccessStatusCode();
 
-            return responseMessage.Content.ReadAsAsync<TEntity>().Result;
+            return responseMessage.Content.ReadAsAsync<TDto>().Result;
         }
 
-        public TEntity Post(TEntity model)
+        public TDto Post(TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
             var responseMessage = JsonHttpClient.PostAsync(AddressSuffix, objectContent).Result;
 
-            return responseMessage.Content.ReadAsAsync<TEntity>().Result;
+            return responseMessage.Content.ReadAsAsync<TDto>().Result;
         }
 
-        public void Put(TIdentity id, TEntity model)
+        public bool Put(TId id, TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
             var responseMessage = JsonHttpClient.PutAsync(AddressSuffix + id.ToString(), objectContent).Result;
+
+            return responseMessage.IsSuccessStatusCode;
         }
 
-        public void Delete(TIdentity id)
+        public bool Delete(TId id)
         {
             var responseMessage = JsonHttpClient.DeleteAsync(AddressSuffix + id.ToString()).Result;
+
+            return responseMessage.IsSuccessStatusCode;
         }
     }
 }

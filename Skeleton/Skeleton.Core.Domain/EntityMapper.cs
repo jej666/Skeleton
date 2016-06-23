@@ -1,40 +1,64 @@
 ﻿using Skeleton.Abstraction;
-using System.Text;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
+using Skeleton.Common.Reflection;
 using System;
 
 namespace Skeleton.Core.Domain
 {
-    public class EntityMapper<TEntity, TIdentity> :
+    public sealed class EntityMapper<TEntity, TIdentity> :
+        HideObjectMethods,
         IEntityMapper<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly ITypeAccessorCache _typeAccessorCache;
-        private readonly ITypeAccessor _typeAccessor;
+        private readonly IMetadata _typeAccessor;
 
-        public EntityMapper(ITypeAccessorCache typeAccessorCache)
+        public EntityMapper()
         {
-            _typeAccessorCache = typeAccessorCache;
-            _typeAccessor = typeAccessorCache.Get<TEntity>();
+            _typeAccessor = typeof(TEntity).GetMetadata();
         }
 
-        public ITypeAccessor TypeAccessor
+        public IMetadata TypeAccessor
         {
             get { return _typeAccessor; }
         }
 
-        public Dto Map<Dto>(TEntity entity) where Dto : class
+        public TDto Map<TDto>(TEntity entity) where TDto : class
         {
-            var accessorDto = _typeAccessorCache.Get<Dto>();
-            var instanceDto = accessorDto.CreateInstance<Dto>();
+            var accessorDto = typeof(TDto).GetMetadata();
+            var instanceDto = accessorDto.CreateInstance<TDto>();
 
-            foreach (var entityProp in _typeAccessor.GetDeclaredOnlyProperties())
-                foreach (var dtoProp in accessorDto.GetDeclaredOnlyProperties())
+            foreach (var entityProperty in _typeAccessor.GetDeclaredOnlyProperties())
+                foreach (var dtoProperty in accessorDto.GetDeclaredOnlyProperties())
                 {
-                    if (entityProp.Name.EquivalentTo(dtoProp.Name))
-                        dtoProp.SetValue(instanceDto, entityProp.GetValue(entity));
+                    if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
+                        dtoProperty.SetValue(instanceDto, entityProperty.GetValue(entity));
                 }
 
             return instanceDto;
+        }
+
+        public TEntity Reverse<TDto>(int id, TDto dto) where TDto : class
+        {
+            var accessorDto = typeof(TDto).GetMetadata();
+            var instanceEntity = _typeAccessor.CreateInstance<TEntity>();
+
+            foreach (var dtoProperty in accessorDto.GetDeclaredOnlyProperties())
+                foreach (var entityProperty in _typeAccessor.GetDeclaredOnlyProperties())
+                {
+                    if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
+                        if (id > 0)
+                            instanceEntity.IdAccessor.SetValue(instanceEntity, id);
+                        else
+                            entityProperty.SetValue(instanceEntity, dtoProperty.GetValue(dto));
+                }
+
+            return instanceEntity;
+        }
+
+        public TEntity Reverse<TDto>(TDto dto) where TDto : class
+        {
+            return Reverse<TDto>(0, dto);
         }
 
         //[DebuggerTypeProxy]

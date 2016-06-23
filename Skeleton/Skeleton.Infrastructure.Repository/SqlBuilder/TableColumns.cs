@@ -1,32 +1,29 @@
 ﻿using Skeleton.Abstraction;
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal static class TableColumns
     {
-        private static readonly Func<IMemberAccessor, bool> SimplePropertiesCondition =
-            x => x.MemberType.IsPrimitive ||
-                 x.MemberType == typeof(decimal) ||
-                 x.MemberType == typeof(string);
-
-        internal static IEnumerable<IMemberAccessor> GetTableColumns(
-            this ITypeAccessor typeAccessor)
+        private static IEnumerable<IMemberAccessor> GetTableColumns<TEntity, TIdentity>(
+            this TEntity entity)
+            where TEntity : class, IEntity<TEntity, TIdentity>
         {
-            return typeAccessor.GetDeclaredOnlyProperties()
-                .Where(SimplePropertiesCondition)
+            return entity.TypeAccessor.GetDeclaredOnlyProperties()
+                .Where(x => x.MemberType.IsPrimitiveExtended())
                 .ToArray();
         }
 
         internal static void SetInsertColumns<TEntity, TIdentity>(
             this SqlBuilderManager builder,
-            IEnumerable<IMemberAccessor> columns,
             TEntity entity)
             where TEntity : class, IEntity<TEntity, TIdentity>
         {
-            foreach (var column in columns)
+            foreach (var column in entity.GetTableColumns<TEntity,TIdentity>())
             {
                 if (entity.IdAccessor.Name.IsNullOrEmpty() ||
                     entity.IdAccessor.Name == column.Name)
@@ -38,11 +35,10 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal static void SetUpdateColumns<TEntity, TIdentity>(
             this SqlBuilderManager builder,
-            IEnumerable<IMemberAccessor> columns,
             TEntity entity)
             where TEntity : class, IEntity<TEntity, TIdentity>
         {
-            foreach (var column in columns)
+            foreach (var column in entity.GetTableColumns<TEntity, TIdentity>())
             {
                 if (entity.IdAccessor.Name.IsNullOrEmpty() ||
                     entity.IdAccessor.Name == column.Name)

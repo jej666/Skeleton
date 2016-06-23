@@ -17,7 +17,7 @@ namespace Skeleton.Common.Reflection
         private readonly Type _propertyType;
         private readonly LazyRef<SetterDelegate> _setDelegate;
 
-        private PropertyAccessor(PropertyInfo propertyInfo)
+        public PropertyAccessor(PropertyInfo propertyInfo)
         {
             propertyInfo.ThrowIfNull(() => propertyInfo);
 
@@ -57,13 +57,6 @@ namespace Skeleton.Common.Reflection
         public override string Name
         {
             get { return _name; }
-        }
-
-        public static IMemberAccessor Create(PropertyInfo propertyInfo)
-        {
-            return propertyInfo == null
-                ? null
-                : new PropertyAccessor(propertyInfo);
         }
 
         public override object GetValue(object instance)

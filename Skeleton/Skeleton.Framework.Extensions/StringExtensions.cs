@@ -11,6 +11,11 @@ namespace System
             return string.Concat(value, string.Concat(values));
         }
 
+        public static bool IsNullOrEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
+
         public static bool Contains(this string value, string toCheck, StringComparison comp)
         {
             value.ThrowIfNullOrEmpty(() => value);

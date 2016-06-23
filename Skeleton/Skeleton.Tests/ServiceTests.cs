@@ -25,6 +25,7 @@ namespace Skeleton.Tests
             var successed = _service.Repository.Add(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id > 0);
+
             var result = _service.Repository.FirstOrDefault(customer.Id);
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(Customer));

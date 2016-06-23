@@ -11,7 +11,6 @@ namespace Skeleton.Web.Server
     {
         public static void Register(HttpConfiguration config)
         {
-            ////DECLARE REGEX PATTERNS
             //string alphanumeric = @"^[a-zA-Z]+[a-zA-Z0-9_]*$";
             //string numeric = @"^\d+$";
 
@@ -21,9 +20,27 @@ namespace Skeleton.Web.Server
             config.DependencyResolver = new UnityResolver(Bootstrapper.Container);
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApiControllerId",
+                name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+                defaults: new { id = RouteParameter.Optional }
+                );
+
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApiControllerActionName",
+            //    routeTemplate: "api/{controller}/{id}/{id2}",
+            //    defaults: null
+            //    );
+
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApiControllerPage",
+            //    routeTemplate: "api/{controller}/{action}/{pageSize}/{pageNumber}",
+            //    defaults: null,
+            //    constraints: new { 
+            //        httpMethod = new HttpMethodConstraint(HttpMethod.Get), 
+            //        pageSize = numeric,
+            //        pageNumber = numeric
+            //    }
+            //);
 
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApiControllerActionId",
