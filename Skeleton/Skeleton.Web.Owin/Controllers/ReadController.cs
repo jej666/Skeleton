@@ -11,16 +11,16 @@ using System.Web.Http.Routing;
 
 namespace Skeleton.Web.Server
 {
-    public class ReadOnlyController<TEntity, TIdentity, TDto> :
+    public class ReadController<TEntity, TIdentity, TDto> :
         ApiController
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly IReadOnlyService<TEntity, TIdentity> _service;
+        private readonly IReadService<TEntity, TIdentity> _service;
         private readonly IEntityMapper<TEntity, TIdentity> _mapper;
 
-        public ReadOnlyController(
-            IReadOnlyService<TEntity, TIdentity> service,
+        public ReadController(
+            IReadService<TEntity, TIdentity> service,
             IEntityMapper<TEntity, TIdentity> mapper)
         {
             service.ThrowIfNull(() => service);

@@ -3,8 +3,8 @@ using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Repository
 {
-    public interface IRepository<TEntity, TIdentity> :
-        IReadOnlyRepository<TEntity, TIdentity>
+    public interface ICrudRepository<TEntity, TIdentity> :
+        IReadRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         ISqlExecute SqlExecute { get; }

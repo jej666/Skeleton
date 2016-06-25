@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace Skeleton.Infrastructure.Repository
 {
     public class CachedRepository<TEntity, TIdentity> :
-        ReadOnlyRepository<TEntity, TIdentity>,
+        ReadRepository<TEntity, TIdentity>,
         ICachedRepository<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {

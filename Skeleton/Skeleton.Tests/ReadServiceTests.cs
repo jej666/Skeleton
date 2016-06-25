@@ -8,13 +8,13 @@ using Skeleton.Core.Domain;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class ReadOnlyServiceTests : TestBase
+    public class ReadServiceTests : TestBase
     {
-        private readonly IService<Customer, int> _service;
+        private readonly ICrudService<Customer, int> _service;
 
-        public ReadOnlyServiceTests()
+        public ReadServiceTests()
         {
-            _service = Container.Resolve<IService<Customer, int>>();
+            _service = Container.Resolve<ICrudService<Customer, int>>();
 
             SqlDbSeeder.SeedCustomers();
         }

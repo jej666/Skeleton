@@ -102,6 +102,19 @@ namespace Skeleton.Web.Tests
         }
 
         [TestMethod]
+        public void Add_Multiple()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
+                var results = client.Post(customers);
+
+                Assert.IsNotNull(results);
+                Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
+            }
+        }
+
+        [TestMethod]
         public void Delete()
         {
             using (var client = new CustomersHttpClient())

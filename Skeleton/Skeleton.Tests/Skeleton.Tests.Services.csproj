@@ -60,12 +60,12 @@
   <ItemGroup>
     <Compile Include="CachedServiceAsyncTests.cs" />
     <Compile Include="PerformanceTests.cs" />
-    <Compile Include="ReadOnlyServiceAsyncTests.cs" />
-    <Compile Include="ServiceAsyncTests.cs" />
+    <Compile Include="ReadServiceAsyncTests.cs" />
+    <Compile Include="CrudServiceAsyncTests.cs" />
     <Compile Include="CachedServiceTests.cs" />
-    <Compile Include="ServiceTests.cs" />
+    <Compile Include="CrudServiceTests.cs" />
     <Compile Include="TestBase.cs" />
-    <Compile Include="ReadOnlyServiceTests.cs" />
+    <Compile Include="ReadServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

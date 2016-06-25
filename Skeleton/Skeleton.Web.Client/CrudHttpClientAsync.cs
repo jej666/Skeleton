@@ -5,45 +5,45 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
-    public class ReadOnlyHttpClientAsync<TEntity, TIdentity> :
-        HttpClientBase<TEntity, TIdentity> where TEntity : class
+    public class ReadOnlyHttpClientAsync<TDto, TId> :
+        HttpClientBase<TDto, TId> where TDto : class
     {
         public ReadOnlyHttpClientAsync(string serviceBaseAddress, string addressSuffix)
             : base(serviceBaseAddress, addressSuffix)
         {
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TDto>> GetAllAsync()
         {
             var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix);
             responseMessage.EnsureSuccessStatusCode();
 
-            return await responseMessage.Content.ReadAsAsync<IEnumerable<TEntity>>();
+            return await responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>();
         }
 
-        public async Task<TEntity> GetAsync(TIdentity id)
+        public async Task<TDto> GetAsync(TId id)
         {
             var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + id.ToString());
             responseMessage.EnsureSuccessStatusCode();
 
-            return await responseMessage.Content.ReadAsAsync<TEntity>();
+            return await responseMessage.Content.ReadAsAsync<TDto>();
         }
 
-        public async Task<TEntity> PostAsync(TEntity model)
+        public async Task<TDto> PostAsync(TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
             var responseMessage = await JsonHttpClient.PostAsync(AddressSuffix, objectContent);
 
-            return await responseMessage.Content.ReadAsAsync<TEntity>();
+            return await responseMessage.Content.ReadAsAsync<TDto>();
         }
 
-        public async Task PutAsync(TIdentity id, TEntity model)
+        public async Task PutAsync(TId id, TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
             await JsonHttpClient.PutAsync(AddressSuffix + id.ToString(), objectContent);
         }
 
-        public async Task DeleteAsync(TIdentity id)
+        public async Task DeleteAsync(TId id)
         {
             await JsonHttpClient.DeleteAsync(AddressSuffix + id.ToString());
         }

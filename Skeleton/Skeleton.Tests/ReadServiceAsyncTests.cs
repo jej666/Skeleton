@@ -8,13 +8,13 @@ using Skeleton.Core.Service;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class ReadOnlyServiceAsyncTests : TestBase
+    public class ReadServiceAsyncTests : TestBase
     {
-        private readonly IServiceAsync<Customer, int> _service;
+        private readonly ICrudServiceAsync<Customer, int> _service;
 
-        public ReadOnlyServiceAsyncTests()
+        public ReadServiceAsyncTests()
         {
-            _service = Container.Resolve<IServiceAsync<Customer, int>>();
+            _service = Container.Resolve<ICrudServiceAsync<Customer, int>>();
 
             SqlDbSeeder.SeedCustomers();
         }

@@ -4,8 +4,8 @@ using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Repository
 {
-    public interface IRepositoryAsync<TEntity, TIdentity> :
-        IReadOnlyRepositoryAsync<TEntity, TIdentity>
+    public interface ICrudRepositoryAsync<TEntity, TIdentity> :
+        IReadRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         ISqlExecute SqlExecute { get; }

@@ -50,13 +50,12 @@
   <ItemGroup>
     <Compile Include="ICachedServiceAsync.cs" />
     <Compile Include="ICachedService.cs" />
-    <Compile Include="IReadOnlyServiceAsync.cs" />
-    <Compile Include="IServiceAsync.cs" />
-    <Compile Include="IService.cs" />
-    <Compile Include="IReadOnlyService.cs" />
+    <Compile Include="IReadServiceAsync.cs" />
+    <Compile Include="ICrudServiceAsync.cs" />
+    <Compile Include="ICrudService.cs" />
+    <Compile Include="IReadService.cs" />
     <Compile Include="IEntityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IAggregateService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.Service.snk" />

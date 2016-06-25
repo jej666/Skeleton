@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class ReadOnlyRepositoryAsync<TEntity, TIdentity> :
+    public class ReadRepositoryAsync<TEntity, TIdentity> :
         EntityRepository<TEntity, TIdentity>,
-        IReadOnlyRepositoryAsync<TEntity, TIdentity>
+        IReadRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabaseAsync _database;
 
-        public ReadOnlyRepositoryAsync(
+        public ReadRepositoryAsync(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
             : base(metadataProvider)
@@ -115,7 +115,7 @@ namespace Skeleton.Infrastructure.Repository
             }
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> GroupBy(
+        public IReadRepositoryAsync<TEntity, TIdentity> GroupBy(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -124,7 +124,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> LeftJoin<TEntity2>(
+        public IReadRepositoryAsync<TEntity, TIdentity> LeftJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
@@ -134,7 +134,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> RightJoin<TEntity2>(
+        public IReadRepositoryAsync<TEntity, TIdentity> RightJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
@@ -144,7 +144,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> InnerJoin<TEntity2>(
+        public IReadRepositoryAsync<TEntity, TIdentity> InnerJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
@@ -154,7 +154,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> CrossJoin<TEntity2>(
+        public IReadRepositoryAsync<TEntity, TIdentity> CrossJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
@@ -164,7 +164,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> OrderBy(
+        public IReadRepositoryAsync<TEntity, TIdentity> OrderBy(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -173,7 +173,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> OrderByDescending(
+        public IReadRepositoryAsync<TEntity, TIdentity> OrderByDescending(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -182,7 +182,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> Select(
+        public IReadRepositoryAsync<TEntity, TIdentity> Select(
             params Expression<Func<TEntity, object>>[] expressions)
         {
             expressions.ThrowIfNull(() => expressions);
@@ -193,7 +193,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> SelectDistinct(
+        public IReadRepositoryAsync<TEntity, TIdentity> SelectDistinct(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -202,21 +202,21 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> SelectTop(int take)
+        public IReadRepositoryAsync<TEntity, TIdentity> SelectTop(int take)
         {
             Builder.SelectTop(take);
 
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> Where(
+        public IReadRepositoryAsync<TEntity, TIdentity> Where(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
             return And(expression);
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> WhereIsIn(
+        public IReadRepositoryAsync<TEntity, TIdentity> WhereIsIn(
             Expression<Func<TEntity, object>> expression, ISqlQuery sqlQuery)
         {
             expression.ThrowIfNull(() => expression);
@@ -226,7 +226,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> WhereIsIn(
+        public IReadRepositoryAsync<TEntity, TIdentity> WhereIsIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
@@ -237,7 +237,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> WhereNotIn(
+        public IReadRepositoryAsync<TEntity, TIdentity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
             ISqlQuery sqlQuery)
         {
@@ -248,7 +248,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IReadOnlyRepositoryAsync<TEntity, TIdentity> WhereNotIn(
+        public IReadRepositoryAsync<TEntity, TIdentity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
@@ -335,7 +335,7 @@ namespace Skeleton.Infrastructure.Repository
             }
         }
 
-        private IReadOnlyRepositoryAsync<TEntity, TIdentity> And(
+        private IReadRepositoryAsync<TEntity, TIdentity> And(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);

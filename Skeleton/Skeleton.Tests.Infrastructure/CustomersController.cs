@@ -5,10 +5,10 @@ using System.Web.Http;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class CustomersController : Controller<Customer, int, CustomerDto>
+    public class CustomersController : CrudController<Customer, int, CustomerDto>
     {
         public CustomersController(
-            IService<Customer, int> service,
+            ICrudService<Customer, int> service,
             IEntityMapper<Customer, int> mapper)
             : base(service, mapper)
         {

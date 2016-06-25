@@ -3,10 +3,10 @@ using Skeleton.Core.Repository;
 
 namespace Skeleton.Core.Service
 {
-    public interface IServiceAsync<TEntity, TIdentity> :
+    public interface ICrudServiceAsync<TEntity, TIdentity> :
         IEntityService<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        IRepositoryAsync<TEntity, TIdentity> Repository { get; }
+        ICrudRepositoryAsync<TEntity, TIdentity> Repository { get; }
     }
 }

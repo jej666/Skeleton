@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 
 namespace Skeleton.Web.Client
 {
-    public abstract class HttpClientBase<TEntity, TIdentity> :
-        IDisposable where TEntity : class
+    public abstract class HttpClientBase<TDto, TId> :
+        IDisposable where TDto : class
     {
         private bool disposed = false;
         private HttpClient _httpClient;
@@ -52,10 +53,16 @@ namespace Skeleton.Web.Client
             return client;
         }
 
-        protected virtual ObjectContent CreateJsonObjectContent(TEntity model)
+        protected virtual ObjectContent CreateJsonObjectContent(TDto dto)
         {
             var jsonFormatter = new JsonMediaTypeFormatter();
-            return new ObjectContent<TEntity>(model, jsonFormatter);
+            return new ObjectContent<TDto>(dto, jsonFormatter);
+        }
+
+        protected virtual ObjectContent CreateJsonObjectContent(IEnumerable<TDto> dtos)
+        {
+            var jsonFormatter = new JsonMediaTypeFormatter();
+            return new ObjectContent<IEnumerable<TDto>>(dtos, jsonFormatter);
         }
 
         public void Dispose()

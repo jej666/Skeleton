@@ -4,7 +4,7 @@ using Skeleton.Abstraction;
 namespace Skeleton.Core.Repository
 {
     public interface ICachedRepositoryAsync<TEntity, TIdentity> :
-        IReadOnlyRepositoryAsync<TEntity, TIdentity>
+        IReadRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         ICacheProvider Cache { get; }

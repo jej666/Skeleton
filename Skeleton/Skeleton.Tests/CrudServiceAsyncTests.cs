@@ -7,13 +7,13 @@ using Skeleton.Core.Service;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class ServiceAsyncTests : TestBase
+    public class CrudServiceAsyncTests : TestBase
     {
-        private readonly IServiceAsync<Customer, int> _service;
+        private readonly ICrudServiceAsync<Customer, int> _service;
 
-        public ServiceAsyncTests()
+        public CrudServiceAsyncTests()
         {
-            _service = Container.Resolve<IServiceAsync<Customer, int>>();
+            _service = Container.Resolve<ICrudServiceAsync<Customer, int>>();
 
             SqlDbSeeder.SeedCustomers();
         }
@@ -33,7 +33,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task AddAsync_Multiple()
         {
-            var customers = SqlDbSeeder.SeedCustomers(5);
+            var customers = MemorySeeder.SeedCustomers(5);
             var successed = await _service.Repository.AddAsync(customers);
             Assert.IsTrue(successed);
         }

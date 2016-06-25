@@ -1,21 +1,22 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Core.Service;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
 namespace Skeleton.Web.Server
 {
-    public class Controller<TEntity, TIdentity, TDto> :
+    public class CrudController<TEntity, TIdentity, TDto> :
         ApiController
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly IService<TEntity, TIdentity> _service; 
+        private readonly ICrudService<TEntity, TIdentity> _service; 
         private readonly IEntityMapper<TEntity, TIdentity> _mapper;
 
-        public Controller(
-            IService<TEntity, TIdentity> service,
+        public CrudController(
+            ICrudService<TEntity, TIdentity> service,
             IEntityMapper<TEntity, TIdentity> mapper)
         {
             service.ThrowIfNull(() => service);
@@ -72,6 +73,24 @@ namespace Skeleton.Web.Server
 
             return NotFound();
         }
+
+        //public IHttpActionResult Post(IEnumerable<TDto> dtos)
+        //{
+        //    dtos.ThrowIfNullOrEmpty(() => dtos);
+
+        //    var enumerable= dtos.AsList();
+        //    foreach (var dto in enumerable)
+        //        if (!ModelState.IsValid)
+        //            return BadRequest(ModelState);
+
+        //    var entities = enumerable.Select(_mapper.Reverse);
+        //    var result = _service.Repository.Add(entities);
+
+        //    if (result)
+        //        return Ok(entities.Select(_mapper.Map<TDto>));
+
+        //    return NotFound();
+        //}
 
         public IHttpActionResult Post(TDto dto)
         {

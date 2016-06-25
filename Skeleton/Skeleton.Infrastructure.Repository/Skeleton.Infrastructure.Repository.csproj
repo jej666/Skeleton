@@ -53,10 +53,10 @@
     <Compile Include="CachedRepository.cs" />
     <Compile Include="CacheKeyGenerator.cs" />
     <Compile Include="EntityRepository.cs" />
-    <Compile Include="ReadOnlyRepositoryAsync.cs" />
-    <Compile Include="ReadOnlyRepository.cs" />
-    <Compile Include="RepositoryAsync.cs" />
-    <Compile Include="Repository.cs" />
+    <Compile Include="ReadRepositoryAsync.cs" />
+    <Compile Include="ReadRepository.cs" />
+    <Compile Include="CrudRepositoryAsync.cs" />
+    <Compile Include="CrudRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlBuilder\JoinType.cs" />
     <Compile Include="SqlBuilder\LazyLoading.cs" />

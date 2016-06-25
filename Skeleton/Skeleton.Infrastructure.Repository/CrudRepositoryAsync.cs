@@ -6,17 +6,18 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class Repository<TEntity, TIdentity> :
-        ReadOnlyRepository<TEntity, TIdentity>,
-        IRepository<TEntity, TIdentity>
+    public class CrudRepositoryAsync<TEntity, TIdentity> :
+        ReadRepositoryAsync<TEntity, TIdentity>,
+        ICrudRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        public Repository(
-            IMetadataProvider metadataProvider, 
-            IDatabase database) 
+        public CrudRepositoryAsync(
+            IMetadataProvider metadataProvider,
+            IDatabaseAsync database)
             : base(metadataProvider, database)
         {
         }
@@ -26,14 +27,14 @@ namespace Skeleton.Infrastructure.Repository
             get { return Builder; }
         }
 
-        public virtual bool Add(TEntity entity)
+        public virtual async Task<bool> AddAsync(TEntity entity)
         {
             entity.ThrowIfNull(() => entity);
 
-            return AddCommand(entity) != null;
+            return await AddCommand(entity) != null;
         }
 
-        public virtual bool Add(IEnumerable<TEntity> entities)
+        public virtual async Task<bool> AddAsync(IEnumerable<TEntity> entities)
         {
             var enumerable = entities as IList<TEntity> ?? entities.ToList();
             enumerable.ThrowIfNullOrEmpty(() => enumerable);
@@ -43,11 +44,11 @@ namespace Skeleton.Infrastructure.Repository
             {
                 transaction.Begin();
 
-                enumerable.ForEach(entity =>
+                foreach (var entity in enumerable)
                 {
-                    AddCommand(entity);
+                    await AddCommand(entity);
                     ++count;
-                });
+                }
 
                 if (count > 0)
                     transaction.Commit();
@@ -55,14 +56,14 @@ namespace Skeleton.Infrastructure.Repository
             return count > 0;
         }
 
-        public virtual bool Delete(TEntity entity)
+        public virtual async Task<bool> DeleteAsync(TEntity entity)
         {
             entity.ThrowIfNull(() => entity);
 
-            return DeleteCommand(entity) > 0;
+            return await DeleteCommand(entity) > 0;
         }
 
-        public virtual bool Delete(IEnumerable<TEntity> entities)
+        public virtual async Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
         {
             var enumerable = entities as IList<TEntity> ?? entities.ToList();
             enumerable.ThrowIfNullOrEmpty(() => enumerable);
@@ -72,11 +73,11 @@ namespace Skeleton.Infrastructure.Repository
             {
                 transaction.Begin();
 
-                enumerable.ForEach(entity =>
+                foreach (var entity in enumerable)
                 {
-                    result += DeleteCommand(entity);
+                    result += await DeleteCommand(entity);
                     ++count;
-                });
+                }
 
                 if (result == count)
                     transaction.Commit();
@@ -84,14 +85,15 @@ namespace Skeleton.Infrastructure.Repository
             return result == count;
         }
 
-        public virtual bool Save(TEntity entity)
+        public virtual async Task<bool> SaveAsync(TEntity entity)
         {
-            return entity.Id.IsZeroOrEmpty()
-                ? Add(entity)
-                : Update(entity);
+            if (entity.Id.IsZeroOrEmpty())
+                return await AddAsync(entity);
+
+            return await UpdateAsync(entity);
         }
 
-        public virtual bool Save(IEnumerable<TEntity> entities)
+        public virtual async Task<bool> SaveAsync(IEnumerable<TEntity> entities)
         {
             var enumerable = entities as IList<TEntity> ?? entities.ToList();
             enumerable.ThrowIfNullOrEmpty(() => enumerable);
@@ -101,7 +103,10 @@ namespace Skeleton.Infrastructure.Repository
             {
                 transaction.Begin();
 
-                enumerable.ForEach(entity => { result = Save(entity); });
+                foreach (var entity in enumerable)
+                {
+                    result = await SaveAsync(entity);
+                }
 
                 if (result)
                     transaction.Commit();
@@ -109,14 +114,14 @@ namespace Skeleton.Infrastructure.Repository
             return result;
         }
 
-        public virtual bool Update(TEntity entity)
+        public virtual async Task<bool> UpdateAsync(TEntity entity)
         {
             entity.ThrowIfNull(() => entity);
 
-            return UpdateCommand(entity) > 0;
+            return await UpdateCommand(entity) > 0;
         }
 
-        public virtual bool Update(IEnumerable<TEntity> entities)
+        public virtual async Task<bool> UpdateAsync(IEnumerable<TEntity> entities)
         {
             var enumerable = entities as IList<TEntity> ?? entities.ToList();
             enumerable.ThrowIfNullOrEmpty(() => enumerable);
@@ -126,11 +131,11 @@ namespace Skeleton.Infrastructure.Repository
             {
                 transaction.Begin();
 
-                enumerable.ForEach(entity =>
+                foreach (var entity in enumerable)
                 {
-                    result += UpdateCommand(entity);
+                    result += await UpdateCommand(entity);
                     ++count;
-                });
+                }
 
                 if (result == count)
                     transaction.Commit();
@@ -138,89 +143,66 @@ namespace Skeleton.Infrastructure.Repository
             return result == count;
         }
 
-        private TIdentity AddCommand(TEntity entity)
+        private async Task<TIdentity> AddCommand(TEntity entity)
         {
-            return HandleSqlBuilderInitialization(() =>
+            try
             {
                 Builder.SetInsertColumns<TEntity, TIdentity>(entity);
 
-                var id = Database.ExecuteScalar<TIdentity>(
+                var id = await Database.ExecuteScalarAsync<TIdentity>(
                     Builder.InsertQuery,
-                    Builder.Parameters);
+                    Builder.Parameters)
+                    .ConfigureAwait(false);
 
                 if (id != null)
                     entity.IdAccessor.SetValue(entity, id);
 
                 return id;
-            });
+            }
+            finally
+            {
+                InitializeSqlBuilder();
+            }
         }
 
-        private int DeleteCommand(TEntity entity)
+        private async Task<int> DeleteCommand(TEntity entity)
         {
-            return HandleSqlBuilderInitialization(() =>
+            try
             {
                 Builder.QueryByPrimaryKey<TEntity>(
                     EntityIdName,
                     e => e.Id.Equals(entity.Id));
 
-                return Database.Execute(
+                return await Database.ExecuteAsync(
                     Builder.DeleteQuery,
-                    Builder.Parameters);
-            });
+                    Builder.Parameters)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                InitializeSqlBuilder();
+            }
         }
 
-        private int UpdateCommand(TEntity entity)
+        private async Task<int> UpdateCommand(TEntity entity)
         {
-            return HandleSqlBuilderInitialization(() =>
+            try
             {
                 Builder.SetUpdateColumns<TEntity, TIdentity>(entity);
+
                 Builder.QueryByPrimaryKey<TEntity>(
                     EntityIdName,
                     e => e.Id.Equals(entity.Id));
 
-                entity.LastModifiedDateTime = DateTime.Now;
-
-                return Database.Execute(
+                return await Database.ExecuteAsync(
                     Builder.UpdateQuery,
-                    Builder.Parameters);
-            });
+                    Builder.Parameters)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                InitializeSqlBuilder();
+            }
         }
-
-        //    Builder.And();
-        //    Resolver.ResolveQuery(expression);
-
-        //    return this;
-        //}
-
-        //public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
-        //    Expression<Func<TEntity, object>> expression,
-        //    IEnumerable<object> values)
-        //{
-        //    Builder.And();
-        //    Resolver.QueryByIsIn(expression, values);
-
-        //    return this;
-        //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
-
-        //}
-        //{
-        //public IExecuteBuilder<TEntity, TIdentity> WhereNotIn(
-        //    Expression<Func<TEntity, object>> expression,
-        //    IEnumerable<object> values)
-        //{
-        //    Builder.And();
-        //    Resolver.QueryByNotIn(expression, values);
-
-        //    return this;
-        //}
-
-        //public IExecuteBuilder<TEntity, TIdentity> WherePrimaryKey(
-        //    Expression<Func<TEntity, bool>> whereExpression)
-        //{
-        //    Builder.And();
-        //    Resolver.QueryByPrimaryKey(_entity.IdAccessor.Name, whereExpression);
-
-        //    return this;
-        //}
     }
 }

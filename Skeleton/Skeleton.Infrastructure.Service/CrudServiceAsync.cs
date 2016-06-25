@@ -5,16 +5,16 @@ using System;
 
 namespace Skeleton.Infrastructure.Service
 {
-    public class ServiceAsync<TEntity, TIdentity> :
+    public class CrudServiceAsync<TEntity, TIdentity> :
         EntityService<TEntity, TIdentity>,
-        IServiceAsync<TEntity, TIdentity>
+        ICrudServiceAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly IRepositoryAsync<TEntity, TIdentity> _repositoryAsync;
+        private readonly ICrudRepositoryAsync<TEntity, TIdentity> _repositoryAsync;
 
-        public ServiceAsync(
+        public CrudServiceAsync(
             ILogger logger,
-            IRepositoryAsync<TEntity, TIdentity> repositoryAsync)
+            ICrudRepositoryAsync<TEntity, TIdentity> repositoryAsync)
             : base(logger)
         {
             repositoryAsync.ThrowIfNull(() => repositoryAsync);
@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Service
             _repositoryAsync = repositoryAsync;
         }
 
-        public IRepositoryAsync<TEntity, TIdentity> Repository
+        public ICrudRepositoryAsync<TEntity, TIdentity> Repository
         {
             get { return _repositoryAsync; }
         }

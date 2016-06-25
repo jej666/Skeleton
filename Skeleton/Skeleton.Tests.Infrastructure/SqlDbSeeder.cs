@@ -5,12 +5,6 @@ namespace Skeleton.Tests.Infrastructure
 {
     public static class SqlDbSeeder
     {
-        public static IEnumerable<Customer> SeedCustomers(int iterations)
-        {
-            for (var i = 0; i < iterations; ++i)
-                yield return new Customer {Name = "Customer" + i};
-        }
-
         public static void SeedCustomers()
         {
             var connection = new SqlConnectionHelper();

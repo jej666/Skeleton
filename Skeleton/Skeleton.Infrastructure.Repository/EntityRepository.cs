@@ -43,7 +43,7 @@ namespace Skeleton.Infrastructure.Repository
             } 
         }
 
-        protected Type EntityType 
+        public Type EntityType 
         { 
             get { return typeof(TEntity); } 
         }

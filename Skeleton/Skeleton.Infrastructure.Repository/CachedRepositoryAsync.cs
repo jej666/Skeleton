@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Skeleton.Infrastructure.Repository
 {
     public class CachedRepositoryAsync<TEntity, TIdentity> :
-        ReadOnlyRepositoryAsync<TEntity, TIdentity>,
+        ReadRepositoryAsync<TEntity, TIdentity>,
         ICachedRepositoryAsync<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {

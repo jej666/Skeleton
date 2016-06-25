@@ -7,13 +7,13 @@ using Skeleton.Core.Service;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class ServiceTests : TestBase
+    public class CrudServiceTests : TestBase
     {
-        private readonly IService<Customer, int> _service;
+        private readonly ICrudService<Customer, int> _service;
 
-        public ServiceTests()
+        public CrudServiceTests()
         {
-            _service = Container.Resolve<IService<Customer, int>>();
+            _service = Container.Resolve<ICrudService<Customer, int>>();
 
             SqlDbSeeder.SeedCustomers();
         }
@@ -34,7 +34,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Add_Multiple()
         {
-            var customers = SqlDbSeeder.SeedCustomers(5);
+            var customers = MemorySeeder.SeedCustomers(5);
             var successed = _service.Repository.Add(customers);
             Assert.IsTrue(successed);
         }

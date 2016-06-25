@@ -53,7 +53,18 @@ namespace Skeleton.Web.Client
             var objectContent = CreateJsonObjectContent(model);
             var responseMessage = JsonHttpClient.PostAsync(AddressSuffix, objectContent).Result;
 
+            responseMessage.EnsureSuccessStatusCode();
+
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
+        }
+
+        public IEnumerable<TDto> Post(IEnumerable<TDto> dtos)
+        {
+            var responseMessage = JsonHttpClient.PostAsJsonAsync<IEnumerable<TDto>>(AddressSuffix, dtos).Result;
+
+            responseMessage.EnsureSuccessStatusCode();
+
+            return responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
         }
 
         public bool Put(TId id, TDto model)
