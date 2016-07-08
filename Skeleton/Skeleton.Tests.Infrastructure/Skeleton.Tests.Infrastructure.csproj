@@ -91,7 +91,7 @@
       <Project>{0c6fcf97-446e-4ff0-89ae-2b52aa6ba887}</Project>
       <Name>Skeleton.Web.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Web.Owin\Skeleton.Web.Server.csproj">
+    <ProjectReference Include="..\Skeleton.Web.Server\Skeleton.Web.Server.csproj">
       <Project>{baed475c-271c-48af-81c3-b7e4d27bafd0}</Project>
       <Name>Skeleton.Web.Server</Name>
     </ProjectReference>
