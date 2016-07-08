@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Shared.Abstraction
 {
     public interface ICacheProvider : IHideObjectMethods
     {

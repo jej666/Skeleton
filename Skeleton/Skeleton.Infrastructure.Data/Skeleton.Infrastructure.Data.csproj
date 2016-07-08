@@ -82,19 +82,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Common.Abstration\Skeleton.Abstraction.csproj">
-      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Abstraction</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Framework.Extensions\Skeleton.Extensions.csproj">
-      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
-      <Name>Skeleton.Extensions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Infrastructure.Data.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Shared.Abstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj">
+      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
+      <Name>Skeleton.Shared.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

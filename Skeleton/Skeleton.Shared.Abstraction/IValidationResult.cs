@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Shared.Abstraction
 {
     public interface IValidationResult : IHideObjectMethods
     {

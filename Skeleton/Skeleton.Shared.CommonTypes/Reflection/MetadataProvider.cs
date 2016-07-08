@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using Skeleton.Abstraction.Reflection;
+using Skeleton.Shared.Abstraction.Reflection;
 
-namespace Skeleton.Common.Reflection
+namespace Skeleton.Shared.CommonTypes.Reflection
 {
     public sealed class MetadataProvider : HideObjectMethods, IMetadataProvider
     {

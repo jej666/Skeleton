@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using Skeleton.Abstraction;
+using Skeleton.Shared.Abstraction;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     public class ConfigurationProvider : IConfigurationProvider
     {

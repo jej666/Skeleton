@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Skeleton.Abstraction;
+using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Core.Repository
 {
@@ -25,18 +25,18 @@ namespace Skeleton.Core.Repository
 
         bool Update(IEnumerable<TEntity> entities);
 
-        //IExecuteProcessor<TEntity, TIdentity> WherePrimaryKey(
-        //    IEnumerable<object> values);
-        //    Expression<Func<TEntity, object>> expression,
-
-        //IExecuteProcessor<TEntity, TIdentity> WhereNotIn(
-        //    IEnumerable<object> values);
-        //    Expression<Func<TEntity, object>> expression,
-
-        //IExecuteProcessor<TEntity, TIdentity> WhereIsIn(
+        //IExecuteProcessor<TEntity, TIdentity> Where(
         //    Expression<Func<TEntity, bool>> expression);
 
-        //IExecuteProcessor<TEntity, TIdentity> Where(
+        //IExecuteProcessor<TEntity, TIdentity> WhereIsIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    IEnumerable<object> values);
+
+        //IExecuteProcessor<TEntity, TIdentity> WhereNotIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    IEnumerable<object> values);
+
+        //IExecuteProcessor<TEntity, TIdentity> WherePrimaryKey(
         //    Expression<Func<TEntity, bool>> whereExpression);
     }
 }

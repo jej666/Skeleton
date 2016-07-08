@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using Skeleton.Shared.Abstraction;
+using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository
 {

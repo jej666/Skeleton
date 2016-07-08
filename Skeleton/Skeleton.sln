@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Repository", "Skeleton.Infrastructure.Repository\Skeleton.Infrastructure.Repository.csproj", "{D246546E-E1E1-431A-9E3F-116128D3AFD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Common", "Skeleton.Common\Skeleton.Common.csproj", "{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Logging", "Skeleton.Infrastructure.Logging\Skeleton.Infrastructure.Logging.csproj", "{DB2464DA-A301-44A0-8EEB-E5B8C16BD7F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.DependencyResolver", "Skeleton.Infrastructure.DependencyResolver\Skeleton.Infrastructure.DependencyResolver.csproj", "{97FA52F3-1D4E-4A5D-870C-03E8CA4AFD58}"
@@ -39,15 +37,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Web", "Skele
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Client", "Skeleton.Web.Client\Skeleton.Web.Client.csproj", "{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Abstraction", "Skeleton.Abstraction\Skeleton.Abstraction.csproj", "{F848F91F-11C7-4E9B-9701-110A467A0853}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01- Shared", "01- Shared", "{E7580B2A-61D7-4DD1-9F14-3511431608C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Extensions", "Skeleton.Extensions\Skeleton.Extensions.csproj", "{F8C95965-61B3-44D8-9DCD-0BE773898F77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Shared.Abstraction", "Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj", "{F848F91F-11C7-4E9B-9701-110A467A0853}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Shared.CommonTypes", "Skeleton.Shared.CommonTypes\Skeleton.Shared.CommonTypes.csproj", "{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Shared.Extensions", "Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj", "{F8C95965-61B3-44D8-9DCD-0BE773898F77}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 17
+		SccNumberOfProjects = 18
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://jej666.visualstudio.com/
 		SccLocalPath0 = .
@@ -87,34 +87,38 @@ Global
 		SccProjectTopLevelParentUniqueName9 = Skeleton.sln
 		SccProjectName9 = Skeleton.Tests.Infrastructure
 		SccLocalPath9 = Skeleton.Tests.Infrastructure
-		SccProjectUniqueName10 = Skeleton.Web.Owin\\Skeleton.Web.Server.csproj
+		SccProjectUniqueName10 = Skeleton.Web.Client\\Skeleton.Web.Client.csproj
 		SccProjectTopLevelParentUniqueName10 = Skeleton.sln
-		SccProjectName10 = Skeleton.Web.Owin
-		SccLocalPath10 = Skeleton.Web.Owin
-		SccProjectUniqueName11 = Skeleton.Web.Client\\Skeleton.Web.Client.csproj
+		SccProjectName10 = Skeleton.Web.Client
+		SccLocalPath10 = Skeleton.Web.Client
+		SccProjectUniqueName11 = Skeleton.Web.Tests\\Skeleton.Tests.Web.csproj
 		SccProjectTopLevelParentUniqueName11 = Skeleton.sln
-		SccProjectName11 = Skeleton.Web.Client
-		SccLocalPath11 = Skeleton.Web.Client
-		SccProjectUniqueName12 = Skeleton.Tests\\Skeleton.Tests.Services.csproj
+		SccProjectName11 = Skeleton.Web.Tests
+		SccLocalPath11 = Skeleton.Web.Tests
+		SccProjectUniqueName12 = Skeleton.Web.Server\\Skeleton.Web.Server.csproj
 		SccProjectTopLevelParentUniqueName12 = Skeleton.sln
-		SccProjectName12 = Skeleton.Tests
-		SccLocalPath12 = Skeleton.Tests
-		SccProjectUniqueName13 = Skeleton.Web.Tests\\Skeleton.Tests.Web.csproj
+		SccProjectName12 = Skeleton.Web.Server
+		SccLocalPath12 = Skeleton.Web.Server
+		SccProjectUniqueName13 = Skeleton.Tests.Services\\Skeleton.Tests.Services.csproj
 		SccProjectTopLevelParentUniqueName13 = Skeleton.sln
-		SccProjectName13 = Skeleton.Web.Tests
-		SccLocalPath13 = Skeleton.Web.Tests
-		SccProjectUniqueName14 = Skeleton.Framework.Extensions\\Skeleton.Extensions.csproj
+		SccProjectName13 = Skeleton.Tests.Services
+		SccLocalPath13 = Skeleton.Tests.Services
+		SccProjectUniqueName14 = Skeleton.Tests.Web\\Skeleton.Tests.Web.csproj
 		SccProjectTopLevelParentUniqueName14 = Skeleton.sln
-		SccProjectName14 = Skeleton.Framework.Extensions
-		SccLocalPath14 = Skeleton.Framework.Extensions
-		SccProjectUniqueName15 = Skeleton.Common.Abstration\\Skeleton.Abstraction.csproj
+		SccProjectName14 = Skeleton.Tests.Web
+		SccLocalPath14 = Skeleton.Tests.Web
+		SccProjectUniqueName15 = Skeleton.Shared.Abstraction\\Skeleton.Shared.Abstraction.csproj
 		SccProjectTopLevelParentUniqueName15 = Skeleton.sln
-		SccProjectName15 = Skeleton.Common.Abstration
-		SccLocalPath15 = Skeleton.Common.Abstration
-		SccProjectUniqueName16 = Skeleton.Common\\Skeleton.Common.csproj
+		SccProjectName15 = Skeleton.Shared.Abstraction
+		SccLocalPath15 = Skeleton.Shared.Abstraction
+		SccProjectUniqueName16 = Skeleton.Shared.CommonTypes\\Skeleton.Shared.CommonTypes.csproj
 		SccProjectTopLevelParentUniqueName16 = Skeleton.sln
-		SccProjectName16 = Skeleton.Common
-		SccLocalPath16 = Skeleton.Common
+		SccProjectName16 = Skeleton.Shared.CommonTypes
+		SccLocalPath16 = Skeleton.Shared.CommonTypes
+		SccProjectUniqueName17 = Skeleton.Shared.Extensions\\Skeleton.Shared.Extensions.csproj
+		SccProjectTopLevelParentUniqueName17 = Skeleton.sln
+		SccProjectName17 = Skeleton.Shared.Extensions
+		SccLocalPath17 = Skeleton.Shared.Extensions
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,10 +137,6 @@ Global
 		{D246546E-E1E1-431A-9E3F-116128D3AFD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D246546E-E1E1-431A-9E3F-116128D3AFD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D246546E-E1E1-431A-9E3F-116128D3AFD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DB2464DA-A301-44A0-8EEB-E5B8C16BD7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB2464DA-A301-44A0-8EEB-E5B8C16BD7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2464DA-A301-44A0-8EEB-E5B8C16BD7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -181,6 +181,10 @@ Global
 		{F848F91F-11C7-4E9B-9701-110A467A0853}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F848F91F-11C7-4E9B-9701-110A467A0853}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F848F91F-11C7-4E9B-9701-110A467A0853}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8C95965-61B3-44D8-9DCD-0BE773898F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F8C95965-61B3-44D8-9DCD-0BE773898F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8C95965-61B3-44D8-9DCD-0BE773898F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -193,7 +197,6 @@ Global
 		{B06DEE96-287F-421B-9171-7C2A276ED5CC} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
 		{07953EE3-E1F8-48E6-BCFC-C938AF4B5F27} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{D246546E-E1E1-431A-9E3F-116128D3AFD9} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
-		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67} = {E7580B2A-61D7-4DD1-9F14-3511431608C1}
 		{DB2464DA-A301-44A0-8EEB-E5B8C16BD7F8} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{97FA52F3-1D4E-4A5D-870C-03E8CA4AFD58} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{3E857F30-96F5-4A3D-B10F-CCF89BF4D467} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
@@ -205,6 +208,7 @@ Global
 		{42AFA67C-3644-438A-BCE3-181D3549481E} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 		{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887} = {0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}
 		{F848F91F-11C7-4E9B-9701-110A467A0853} = {E7580B2A-61D7-4DD1-9F14-3511431608C1}
+		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67} = {E7580B2A-61D7-4DD1-9F14-3511431608C1}
 		{F8C95965-61B3-44D8-9DCD-0BE773898F77} = {E7580B2A-61D7-4DD1-9F14-3511431608C1}
 	EndGlobalSection
 EndGlobal

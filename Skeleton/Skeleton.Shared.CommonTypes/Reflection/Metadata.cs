@@ -5,9 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Skeleton.Abstraction.Reflection;
+using Skeleton.Shared.Abstraction.Reflection;
 
-namespace Skeleton.Common.Reflection
+namespace Skeleton.Shared.CommonTypes.Reflection
 {
     [DebuggerDisplay("Type = {Type}")]
     public sealed class Metadata : HideObjectMethods, IMetadata

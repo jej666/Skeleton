@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Shared.Abstraction
 {
     public interface IHideObjectMethods
     {

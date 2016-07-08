@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
-using Skeleton.Abstraction;
+using Skeleton.Shared.Abstraction;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     public class MemoryCacheProvider :
         HideObjectMethods,

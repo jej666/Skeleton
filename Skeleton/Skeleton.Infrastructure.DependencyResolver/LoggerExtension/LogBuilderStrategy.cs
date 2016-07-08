@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.ObjectBuilder2;
-using Skeleton.Abstraction;
 using Skeleton.Infrastructure.Logging;
+using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
 {

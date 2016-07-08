@@ -5,9 +5,9 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
-using Skeleton.Abstraction;
+using Skeleton.Shared.Abstraction;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     /// <summary>
     ///     A dictionary that supports dynamic access.

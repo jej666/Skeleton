@@ -1,7 +1,7 @@
 ﻿using System;
-using Skeleton.Abstraction.Reflection;
+using Skeleton.Shared.Abstraction.Reflection;
 
-namespace Skeleton.Common.Reflection
+namespace Skeleton.Shared.CommonTypes.Reflection
 {
     public static class MetadataProviderExtension
     {

@@ -1,5 +1,5 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Infrastructure.DependencyResolver;
+﻿using Skeleton.Infrastructure.DependencyResolver;
+using Skeleton.Shared.Abstraction;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests

@@ -2,7 +2,7 @@
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class Customer : Entity<Customer,int>
+    public class Customer : Entity<Customer, int>
     {
         // Need an empty ctor
         public Customer()
@@ -11,14 +11,14 @@ namespace Skeleton.Tests.Infrastructure
         }
 
         public int CustomerId { get; set; }
-       
+
         public int CustomerCategoryId { get; set; }
-       
+
         public string Name { get; set; }
     }
 
     public class CustomerDto
-    { 
+    {
         public int CustomerId { get; set; }
 
         public int CustomerCategoryId { get; set; }

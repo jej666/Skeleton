@@ -61,13 +61,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Common.Abstration\Skeleton.Abstraction.csproj">
-      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Abstraction</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Core.Repository\Skeleton.Core.Repository.csproj">
       <Project>{6e2901d9-48ae-405b-8353-8e299c7693e5}</Project>
       <Name>Skeleton.Core.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Shared.Abstraction</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

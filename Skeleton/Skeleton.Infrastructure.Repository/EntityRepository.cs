@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using Skeleton.Shared.Abstraction;
+using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository
 {

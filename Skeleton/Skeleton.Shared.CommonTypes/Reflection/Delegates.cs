@@ -1,4 +1,4 @@
-﻿namespace Skeleton.Common.Reflection
+﻿namespace Skeleton.Shared.CommonTypes.Reflection
 {
     internal delegate object ConstructorDelegate(object[] parameters);
 

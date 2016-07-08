@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F8C95965-61B3-44D8-9DCD-0BE773898F77}</ProjectGuid>
+    <ProjectGuid>{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skeleton.Framework.Extensions</RootNamespace>
-    <AssemblyName>Skeleton.Framework.Extensions</AssemblyName>
+    <RootNamespace>Skeleton.Shared.CommonTypes</RootNamespace>
+    <AssemblyName>Skeleton.Shared.CommonTypes</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,28 +39,50 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Extensions.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Common.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Caching" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConvertExtensions.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="EmitExtensions.cs" />
-    <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="EnumExtensions.cs" />
-    <Compile Include="ExpressionExtensions.cs" />
-    <Compile Include="GuardExtensions.cs" />
+    <Compile Include="ConfigurationProvider.cs" />
+    <Compile Include="DynamicDictionary.cs" />
+    <Compile Include="DynamicDictionaryValue.cs" />
+    <Compile Include="LazyAsync.cs" />
+    <Compile Include="MemoryCacheContext.cs" />
+    <Compile Include="MemoryCacheProvider.cs" />
+    <Compile Include="DisposableBase.cs" />
+    <Compile Include="HideObjectMethods.cs" />
+    <Compile Include="LazyRef.cs" />
+    <Compile Include="LookupDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringExtensions.cs" />
-    <Compile Include="TypeExtensions.cs" />
+    <Compile Include="Reflection\DelegateFactory.cs" />
+    <Compile Include="Reflection\Delegates.cs" />
+    <Compile Include="Reflection\FieldAccessor.cs" />
+    <Compile Include="Reflection\MemberAccessorBase.cs" />
+    <Compile Include="Reflection\MemberAccessorFactory.cs" />
+    <Compile Include="Reflection\MetadataProviderExtension.cs" />
+    <Compile Include="Reflection\MethodAccessor.cs" />
+    <Compile Include="Reflection\PropertyAccessor.cs" />
+    <Compile Include="Reflection\Metadata.cs" />
+    <Compile Include="Reflection\MetadataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Extensions.snk" />
+    <None Include="Common.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Shared.Abstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj">
+      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
+      <Name>Skeleton.Shared.Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

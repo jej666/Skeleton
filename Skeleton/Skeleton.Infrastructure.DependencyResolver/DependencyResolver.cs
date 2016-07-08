@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Practices.Unity;
-using Skeleton.Abstraction;
-using Skeleton.Common;
+using Skeleton.Shared.Abstraction;
+using Skeleton.Shared.CommonTypes;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {

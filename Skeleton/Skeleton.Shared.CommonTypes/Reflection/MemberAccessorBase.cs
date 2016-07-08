@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using Skeleton.Abstraction.Reflection;
+using Skeleton.Shared.Abstraction.Reflection;
 
-namespace Skeleton.Common.Reflection
+namespace Skeleton.Shared.CommonTypes.Reflection
 {
     [DebuggerDisplay("Name: {Name}")]
     public abstract class MemberAccessorBase :

@@ -1,8 +1,8 @@
-﻿using Skeleton.Abstraction;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Skeleton.Abstraction.Reflection;
+using System;
+using Skeleton.Shared.Abstraction;
+using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             TEntity entity)
             where TEntity : class, IEntity<TEntity, TIdentity>
         {
-            foreach (var column in entity.GetTableColumns<TEntity,TIdentity>())
+            foreach (var column in entity.GetTableColumns<TEntity, TIdentity>())
             {
                 if (entity.IdAccessor.Name.IsNullOrEmpty() ||
                     entity.IdAccessor.Name == column.Name)

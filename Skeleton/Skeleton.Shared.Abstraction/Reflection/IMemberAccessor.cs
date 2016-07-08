@@ -1,4 +1,4 @@
-﻿namespace Skeleton.Abstraction.Reflection
+﻿namespace Skeleton.Shared.Abstraction.Reflection
 {
     public interface IMemberAccessor : IMemberInfo
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Skeleton.Abstraction;
+using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Core.Repository
 {

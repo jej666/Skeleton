@@ -1,6 +1,6 @@
-﻿using Skeleton.Abstraction.Reflection;
+﻿using Skeleton.Shared.Abstraction.Reflection;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Shared.Abstraction
 {
     public interface IEntityMapper<TEntity, TIdentity> : IHideObjectMethods
         where TEntity : class, IEntity<TEntity, TIdentity>

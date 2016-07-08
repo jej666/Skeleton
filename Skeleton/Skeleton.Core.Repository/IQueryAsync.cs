@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Skeleton.Abstraction;
+using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Core.Repository
 {

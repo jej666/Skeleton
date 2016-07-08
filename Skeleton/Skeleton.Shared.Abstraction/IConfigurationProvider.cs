@@ -1,4 +1,4 @@
-﻿namespace Skeleton.Abstraction
+﻿namespace Skeleton.Shared.Abstraction
 {
     public interface IConfigurationProvider : IHideObjectMethods
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.Practices.Unity;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
-using Skeleton.Common.Reflection;
 using Skeleton.Core.Domain;
 using Skeleton.Infrastructure.DependencyResolver.LoggerExtension;
 using Skeleton.Infrastructure.Logging;
+using Skeleton.Shared.Abstraction;
+using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Shared.CommonTypes;
+using Skeleton.Shared.CommonTypes.Reflection;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {

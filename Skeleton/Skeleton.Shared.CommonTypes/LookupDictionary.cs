@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     [Serializable]
     public class LookupDictionery<TKey, TValue>

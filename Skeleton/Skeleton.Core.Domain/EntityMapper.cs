@@ -1,8 +1,8 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
-using Skeleton.Common.Reflection;
-using System;
+﻿using System;
+using Skeleton.Shared.Abstraction;
+using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Shared.CommonTypes;
+using Skeleton.Shared.CommonTypes.Reflection;
 
 namespace Skeleton.Core.Domain
 {
@@ -67,6 +67,7 @@ namespace Skeleton.Core.Domain
         //    var builder = new StringBuilder();
 
         //    foreach (var property in _typeAccessor.GetDeclaredOnlyProperties())
+
         //        builder.AppendLine("{0} : {1}".FormatWith(
         //            property.Name, property.GetValue(entity)));
 

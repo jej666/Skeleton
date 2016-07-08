@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Skeleton.Common.Reflection
+namespace Skeleton.Shared.CommonTypes.Reflection
 {
     [DebuggerDisplay("Name: {Name}")]
     public class FieldAccessor : MemberAccessorBase

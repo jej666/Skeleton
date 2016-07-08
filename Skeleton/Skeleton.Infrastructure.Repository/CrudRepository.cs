@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using Skeleton.Shared.Abstraction;
+using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -190,25 +190,25 @@ namespace Skeleton.Infrastructure.Repository
             });
         }
 
-        //{
-
-        //}
-        //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
-
-        //    return this;
-        //    Resolver.QueryByIsIn(expression, values);
         //    Builder.And();
-        //{
-        //    IEnumerable<object> values)
-        //    Expression<Func<TEntity, object>> expression,
-
-        //public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
-        //}
-
-        //    return this;
         //    Resolver.ResolveQuery(expression);
 
+        //    return this;
+        //}
+
+        //public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
+        //    Expression<Func<TEntity, object>> expression,
+        //    IEnumerable<object> values)
+        //{
         //    Builder.And();
+        //    Resolver.QueryByIsIn(expression, values);
+
+        //    return this;
+        //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
+
+        //}
+
+        //{
         //public IExecuteBuilder<TEntity, TIdentity> WhereNotIn(
         //    Expression<Func<TEntity, object>> expression,
         //    IEnumerable<object> values)

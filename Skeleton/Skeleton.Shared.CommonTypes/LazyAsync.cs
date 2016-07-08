@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     public class LazyAsync<T> : Lazy<Task<T>>
     {

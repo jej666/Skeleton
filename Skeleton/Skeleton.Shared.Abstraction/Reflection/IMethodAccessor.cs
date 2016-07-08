@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Skeleton.Abstraction.Reflection
+namespace Skeleton.Shared.Abstraction.Reflection
 {
     public interface IMethodAccessor : IHideObjectMethods
     {

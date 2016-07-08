@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Tests.Infrastructure;
 using Skeleton.Core.Service;
+using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
 {

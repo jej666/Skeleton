@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
-using Skeleton.Common.Reflection;
+using Skeleton.Shared.Abstraction;
+using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Shared.CommonTypes.Reflection;
 
 namespace Skeleton.Core.Domain
 {

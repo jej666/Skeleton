@@ -1,7 +1,7 @@
 ﻿using System;
-using Skeleton.Abstraction;
+using Skeleton.Shared.Abstraction;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     public class MemoryCacheContext : HideObjectMethods, ICacheContext
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     public sealed class LazyRef<T> : HideObjectMethods
     {

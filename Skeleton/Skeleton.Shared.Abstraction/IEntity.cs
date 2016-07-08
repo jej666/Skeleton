@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Shared.Abstraction
 {
     public interface IEntity<TEntity, out TIdentity> :
         IComparable<TEntity>,

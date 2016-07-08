@@ -1,5 +1,4 @@
-﻿
-namespace Skeleton.Tests.Infrastructure
+﻿namespace Skeleton.Tests.Infrastructure
 {
     public static class SqlDbSeeder
     {

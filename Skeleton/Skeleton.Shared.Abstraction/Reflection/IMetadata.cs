@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skeleton.Abstraction.Reflection
+namespace Skeleton.Shared.Abstraction.Reflection
 {
     public interface IMetadata :
         IInstanceCreator,

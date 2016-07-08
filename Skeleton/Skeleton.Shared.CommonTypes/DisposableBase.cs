@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     [Serializable]
     public abstract class DisposableBase :

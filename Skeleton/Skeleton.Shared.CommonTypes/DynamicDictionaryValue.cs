@@ -5,10 +5,10 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.CSharp.RuntimeBinder;
-using Skeleton.Abstraction;
+using Skeleton.Shared.Abstraction;
 using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
 
-namespace Skeleton.Common
+namespace Skeleton.Shared.CommonTypes
 {
     /// <summary>
     ///     A value that is stored inside a <see cref="DynamicDictionary" /> instance.

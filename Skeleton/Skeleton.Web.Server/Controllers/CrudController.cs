@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
-using Skeleton.Abstraction;
 using Skeleton.Core.Service;
+using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Web.Server
 {

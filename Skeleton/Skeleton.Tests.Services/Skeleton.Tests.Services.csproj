@@ -68,10 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Common.Abstration\Skeleton.Abstraction.csproj">
-      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Abstraction</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
@@ -84,10 +80,6 @@
       <Project>{b06dee96-287f-421b-9171-7c2a276ed5cc}</Project>
       <Name>Skeleton.Core.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Framework.Extensions\Skeleton.Extensions.csproj">
-      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
-      <Name>Skeleton.Extensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Infrastructure.DependencyResolver\Skeleton.Infrastructure.DependencyResolver.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
       <Name>Skeleton.Infrastructure.DependencyResolver</Name>
@@ -95,6 +87,14 @@
     <ProjectReference Include="..\Skeleton.Infrastructure.Data\Skeleton.Infrastructure.Data.csproj">
       <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>
       <Name>Skeleton.Infrastructure.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Shared.Abstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj">
+      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
+      <Name>Skeleton.Shared.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Tests.Infrastructure\Skeleton.Tests.Infrastructure.csproj">
       <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>
