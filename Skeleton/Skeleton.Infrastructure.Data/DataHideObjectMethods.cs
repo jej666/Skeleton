@@ -1,10 +1,10 @@
-﻿using Skeleton.Abstraction;
-using System;
+﻿using System;
 using System.ComponentModel;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Data
 {
-    public class DataHideObjectMethods: IHideObjectMethods
+    public class DataHideObjectMethods : IHideObjectMethods
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)

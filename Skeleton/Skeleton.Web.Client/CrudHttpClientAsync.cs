@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
     public class ReadOnlyHttpClientAsync<TDto, TId> :
-        HttpClientBase<TDto, TId> where TDto : class
+        HttpClientBase<TDto> where TDto : class
     {
         public ReadOnlyHttpClientAsync(string serviceBaseAddress, string addressSuffix)
             : base(serviceBaseAddress, addressSuffix)
@@ -23,7 +22,7 @@ namespace Skeleton.Web.Client
 
         public async Task<TDto> GetAsync(TId id)
         {
-            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + id.ToString());
+            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + id);
             responseMessage.EnsureSuccessStatusCode();
 
             return await responseMessage.Content.ReadAsAsync<TDto>();
@@ -40,12 +39,12 @@ namespace Skeleton.Web.Client
         public async Task PutAsync(TId id, TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
-            await JsonHttpClient.PutAsync(AddressSuffix + id.ToString(), objectContent);
+            await JsonHttpClient.PutAsync(AddressSuffix + id, objectContent);
         }
 
         public async Task DeleteAsync(TId id)
         {
-            await JsonHttpClient.DeleteAsync(AddressSuffix + id.ToString());
+            await JsonHttpClient.DeleteAsync(AddressSuffix + id);
         }
     }
 }

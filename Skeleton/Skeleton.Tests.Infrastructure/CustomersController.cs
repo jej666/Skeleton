@@ -1,7 +1,6 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Core.Service;
 using Skeleton.Web.Server;
-using System.Web.Http;
 
 namespace Skeleton.Tests.Infrastructure
 {

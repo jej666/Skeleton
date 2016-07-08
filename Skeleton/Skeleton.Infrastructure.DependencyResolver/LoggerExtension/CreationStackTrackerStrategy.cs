@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.ObjectBuilder2;
-using System;
+﻿using System;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
 {

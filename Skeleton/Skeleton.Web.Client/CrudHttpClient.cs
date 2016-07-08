@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
     public class CrudHttpClient<TDto, TId> :
-        HttpClientBase<TDto, TId> where TDto : class
+        HttpClientBase<TDto> where TDto : class
     {
         public CrudHttpClient(string serviceBaseAddress, string addressSuffix)
             : base(serviceBaseAddress, addressSuffix)
@@ -42,7 +40,7 @@ namespace Skeleton.Web.Client
 
         public TDto Get(TId id)
         {
-            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + id.ToString()).Result;
+            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + id).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
@@ -60,7 +58,7 @@ namespace Skeleton.Web.Client
 
         public IEnumerable<TDto> Post(IEnumerable<TDto> dtos)
         {
-            var responseMessage = JsonHttpClient.PostAsJsonAsync<IEnumerable<TDto>>(AddressSuffix, dtos).Result;
+            var responseMessage = JsonHttpClient.PostAsJsonAsync(AddressSuffix, dtos).Result;
 
             responseMessage.EnsureSuccessStatusCode();
 
@@ -70,14 +68,14 @@ namespace Skeleton.Web.Client
         public bool Put(TId id, TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
-            var responseMessage = JsonHttpClient.PutAsync(AddressSuffix + id.ToString(), objectContent).Result;
+            var responseMessage = JsonHttpClient.PutAsync(AddressSuffix + id, objectContent).Result;
 
             return responseMessage.IsSuccessStatusCode;
         }
 
         public bool Delete(TId id)
         {
-            var responseMessage = JsonHttpClient.DeleteAsync(AddressSuffix + id.ToString()).Result;
+            var responseMessage = JsonHttpClient.DeleteAsync(AddressSuffix + id).Result;
 
             return responseMessage.IsSuccessStatusCode;
         }

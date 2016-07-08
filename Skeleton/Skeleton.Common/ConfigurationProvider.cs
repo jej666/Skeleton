@@ -1,7 +1,7 @@
-﻿using Skeleton.Abstraction;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Common
 {

@@ -4,9 +4,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading;
-using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Reflection;
+using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Data
 {

@@ -1,6 +1,6 @@
-﻿using Skeleton.Abstraction;
+﻿using System;
+using Skeleton.Abstraction;
 using Skeleton.Core.Repository;
-using System;
 
 namespace Skeleton.Infrastructure.Repository
 {

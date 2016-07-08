@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using Skeleton.Abstraction;
 using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Common.Reflection
@@ -44,6 +40,6 @@ namespace Skeleton.Common.Reflection
             return _methodDelegate.Value == null
                 ? null
                 : _methodDelegate.Value(instance, arguments);
-        }      
+        }
     }
 }

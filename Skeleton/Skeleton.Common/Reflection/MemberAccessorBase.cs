@@ -1,8 +1,7 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Common.Reflection
 {
@@ -11,6 +10,15 @@ namespace Skeleton.Common.Reflection
         IMemberAccessor,
         IEquatable<IMemberAccessor>
     {
+        public bool Equals(IMemberAccessor other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+
+            return ReferenceEquals(this, other) ||
+                   Equals(other.MemberInfo, MemberInfo);
+        }
+
         public abstract bool HasGetter { get; }
         public abstract bool HasSetter { get; }
         public abstract MemberInfo MemberInfo { get; }
@@ -35,15 +43,6 @@ namespace Skeleton.Common.Reflection
         public override int GetHashCode()
         {
             return MemberInfo.GetHashCode();
-        }
-        
-        public bool Equals(IMemberAccessor other)
-        {
-            if (ReferenceEquals(null, other))
-                return false;
-
-            return ReferenceEquals(this, other) ||
-                   Equals(other.MemberInfo, MemberInfo);
         }
     }
 }

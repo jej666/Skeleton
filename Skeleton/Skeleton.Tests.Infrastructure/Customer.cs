@@ -1,6 +1,4 @@
 ﻿using Skeleton.Core.Domain;
-using System;
-using System.Runtime.Serialization;
 
 namespace Skeleton.Tests.Infrastructure
 {

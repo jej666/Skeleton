@@ -1,7 +1,7 @@
-﻿using Skeleton.Abstraction;
+﻿using System;
+using Skeleton.Abstraction;
 using Skeleton.Core.Repository;
 using Skeleton.Core.Service;
-using System;
 
 namespace Skeleton.Infrastructure.Service
 {
@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Service
         public CrudService(
             ILogger logger,
             ICrudRepository<TEntity, TIdentity> crudRepository)
-            :base(logger)
+            : base(logger)
         {
             crudRepository.ThrowIfNull(() => crudRepository);
 

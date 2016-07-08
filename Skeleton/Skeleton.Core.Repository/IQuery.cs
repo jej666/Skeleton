@@ -3,7 +3,7 @@ using Skeleton.Abstraction;
 
 namespace Skeleton.Core.Repository
 {
-    public interface IQuery<TEntity, in TIdentity>
+    public interface IQuery<out TEntity, in TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         TEntity FirstOrDefault();

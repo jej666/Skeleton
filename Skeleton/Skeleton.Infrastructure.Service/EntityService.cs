@@ -1,7 +1,7 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Core.Service;
-using System;
+﻿using System;
 using System.ComponentModel;
+using Skeleton.Abstraction;
+using Skeleton.Core.Service;
 
 namespace Skeleton.Infrastructure.Service
 {
@@ -24,43 +24,10 @@ namespace Skeleton.Infrastructure.Service
             get { return _logger; }
         }
 
-        protected T HandleException<T>(Func<T> handler)
-        {
-            try
-            {
-                return handler();
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e.Message);
-                throw;
-            }
-        }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        ~EntityService()
-        {
-            Dispose(false);
-        }
-
-        protected virtual void DisposeManagedResources()
-        {
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            if (disposing)
-                DisposeManagedResources();
-
-            _disposed = true;
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -85,6 +52,39 @@ namespace Skeleton.Infrastructure.Service
         public override string ToString()
         {
             return base.ToString();
+        }
+
+        protected T HandleException<T>(Func<T> handler)
+        {
+            try
+            {
+                return handler();
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
+                throw;
+            }
+        }
+
+        ~EntityService()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void DisposeManagedResources()
+        {
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+                DisposeManagedResources();
+
+            _disposed = true;
         }
     }
 }

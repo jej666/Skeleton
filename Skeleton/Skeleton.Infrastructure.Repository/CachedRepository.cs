@@ -1,9 +1,9 @@
-﻿using Skeleton.Abstraction;
+﻿using System;
+using System.Collections.Generic;
+using Skeleton.Abstraction;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
 
 namespace Skeleton.Infrastructure.Repository
 {

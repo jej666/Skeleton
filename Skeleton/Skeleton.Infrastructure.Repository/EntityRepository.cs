@@ -1,10 +1,10 @@
-﻿using Skeleton.Abstraction;
+﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using Skeleton.Abstraction;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -28,8 +28,8 @@ namespace Skeleton.Infrastructure.Repository
         protected SqlBuilderManager Builder { get; private set; }
 
         protected string EntityIdName
-        { 
-            get 
+        {
+            get
             {
                 if (_cacheIdName.IsNullOrEmpty())
                 {
@@ -39,56 +39,19 @@ namespace Skeleton.Infrastructure.Repository
 
                     _cacheIdName = instance.IdAccessor.Name;
                 }
-                return _cacheIdName; 
-            } 
-        }
-
-        public Type EntityType 
-        { 
-            get { return typeof(TEntity); } 
-        }
-
-        protected void InitializeSqlBuilder()
-        {
-            Builder = new SqlBuilderManager(EntityType);
-        }
-
-        protected T HandleSqlBuilderInitialization<T>(Func<T> func)
-        {
-            try
-            {
-                return func();
+                return _cacheIdName;
             }
-            finally
-            {
-                InitializeSqlBuilder();
-            }
+        }
+
+        public Type EntityType
+        {
+            get { return typeof(TEntity); }
         }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        ~EntityRepository()
-        {
-            Dispose(false);
-        }
-
-        protected virtual void DisposeManagedResources()
-        {
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            if (disposing)
-                DisposeManagedResources();
-
-            _disposed = true;
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -113,6 +76,43 @@ namespace Skeleton.Infrastructure.Repository
         public override string ToString()
         {
             return base.ToString();
+        }
+
+        protected void InitializeSqlBuilder()
+        {
+            Builder = new SqlBuilderManager(EntityType);
+        }
+
+        protected T HandleSqlBuilderInitialization<T>(Func<T> func)
+        {
+            try
+            {
+                return func();
+            }
+            finally
+            {
+                InitializeSqlBuilder();
+            }
+        }
+
+        ~EntityRepository()
+        {
+            Dispose(false);
+        }
+
+        protected virtual void DisposeManagedResources()
+        {
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+                DisposeManagedResources();
+
+            _disposed = true;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
                 .RegisterType<ICacheProvider, MemoryCacheProvider>()
                 .RegisterType<IMetadataProvider, MetadataProvider>()
                 .RegisterType<IConfigurationProvider, ConfigurationProvider>()
-                .RegisterType(typeof(IEntityMapper<,>),typeof(EntityMapper<,>));
+                .RegisterType(typeof(IEntityMapper<,>), typeof(EntityMapper<,>));
         }
     }
 }

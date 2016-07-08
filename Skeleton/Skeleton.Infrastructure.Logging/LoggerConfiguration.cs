@@ -1,6 +1,6 @@
-﻿using log4net.Config;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
+using log4net.Config;
 
 namespace Skeleton.Infrastructure.Logging
 {
@@ -12,7 +12,7 @@ namespace Skeleton.Infrastructure.Logging
                 new FileInfo(
                     Path.GetDirectoryName(
                         Assembly.GetAssembly(typeof(LoggerConfiguration)).Location)
-                                + @"\" + "log4net.config"));
+                    + @"\" + "log4net.config"));
         }
     }
 }

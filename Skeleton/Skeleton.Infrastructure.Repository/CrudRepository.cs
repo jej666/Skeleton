@@ -1,10 +1,10 @@
-﻿using Skeleton.Abstraction;
+﻿using System;
+using System.Collections.Generic;
+using Skeleton.Abstraction;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
-using System;
-using System.Collections.Generic;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -14,12 +14,12 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabase _database;
-        
+
         public CrudRepository(
-            IMetadataProvider metadataProvider, 
-            IDatabase database) 
+            IMetadataProvider metadataProvider,
+            IDatabase database)
             : base(metadataProvider, database)
-        { 
+        {
             database.ThrowIfNull(() => database);
 
             _database = database;
@@ -190,24 +190,25 @@ namespace Skeleton.Infrastructure.Repository
             });
         }
 
-        //    Builder.And();
-        //    Resolver.ResolveQuery(expression);
-
-        //    return this;
-        //}
-
-        //public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
-        //    Expression<Func<TEntity, object>> expression,
-        //    IEnumerable<object> values)
         //{
-        //    Builder.And();
-        //    Resolver.QueryByIsIn(expression, values);
 
-        //    return this;
+        //}
         //public IExecuteBuilder<TEntity, TIdentity> Where(Expression<Func<TEntity, bool>> expression)
 
-        //}
+        //    return this;
+        //    Resolver.QueryByIsIn(expression, values);
+        //    Builder.And();
         //{
+        //    IEnumerable<object> values)
+        //    Expression<Func<TEntity, object>> expression,
+
+        //public IExecuteBuilder<TEntity, TIdentity> WhereIsIn(
+        //}
+
+        //    return this;
+        //    Resolver.ResolveQuery(expression);
+
+        //    Builder.And();
         //public IExecuteBuilder<TEntity, TIdentity> WhereNotIn(
         //    Expression<Func<TEntity, object>> expression,
         //    IEnumerable<object> values)

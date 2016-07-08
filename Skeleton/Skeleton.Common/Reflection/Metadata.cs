@@ -149,7 +149,7 @@ namespace Skeleton.Common.Reflection
             IMemberAccessor accessor;
             if (_propertyCache.Value.TryGetValue(propertyInfo.Name, out accessor))
                 return accessor;
-            
+
             return MemberAccessorFactory.Create(propertyInfo);
         }
 
@@ -187,7 +187,7 @@ namespace Skeleton.Common.Reflection
             {
                 var result = name != null ? name.GetHashCode() : 0;
                 result = parameterTypes.Aggregate(result,
-                    (r, p) => (r * 397) ^ (p != null ? p.GetHashCode() : 0));
+                    (r, p) => (r*397) ^ (p != null ? p.GetHashCode() : 0));
 
                 return result;
             }

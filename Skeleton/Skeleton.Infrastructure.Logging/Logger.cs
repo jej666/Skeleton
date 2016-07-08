@@ -1,8 +1,8 @@
-﻿using log4net;
-using Skeleton.Abstraction;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Globalization;
+using log4net;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Logging
 {

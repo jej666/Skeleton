@@ -1,10 +1,9 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
-using Skeleton.Common.Reflection;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using System.Reflection;
+using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Common.Reflection;
 
 namespace Skeleton.Core.Domain
 {
@@ -13,9 +12,9 @@ namespace Skeleton.Core.Domain
         IEntity<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
+        private const int HashMultiplier = 31;
         private readonly IMemberAccessor _idAccessor;
         private readonly IMetadata _typeAccessor;
-        private const int HashMultiplier = 31;
         private int? _cachedHashcode;
 
         protected Entity(Expression<Func<TEntity, object>> idExpression)
@@ -29,7 +28,7 @@ namespace Skeleton.Core.Domain
 
         public TIdentity Id
         {
-            get { return (TIdentity)_idAccessor.GetValue(this); }
+            get { return (TIdentity) _idAccessor.GetValue(this); }
         }
 
         public string IdName
@@ -82,7 +81,7 @@ namespace Skeleton.Core.Domain
 
         public virtual bool IsTransient()
         {
-            return Id == null || this.Id.Equals(default(TIdentity));
+            return Id == null || Id.Equals(default(TIdentity));
         }
 
         //public IValidationResult Validate(IEntityValidator<TEntity, TIdentity> validator)
@@ -128,7 +127,7 @@ namespace Skeleton.Core.Domain
 
         public override int GetHashCode()
         {
-            if (_cachedHashcode.HasValue)
+            if (_cachedHashcode != null)
                 return _cachedHashcode.Value;
 
             if (IsTransient())
@@ -140,7 +139,7 @@ namespace Skeleton.Core.Domain
                 unchecked
                 {
                     var hashCode = GetType().GetHashCode();
-                    _cachedHashcode = (hashCode * HashMultiplier) ^ Id.GetHashCode();
+                    _cachedHashcode = (hashCode*HashMultiplier) ^ Id.GetHashCode();
                 }
             }
             return _cachedHashcode.Value;

@@ -8,7 +8,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     {
         internal static Node Resolve(ConstantExpression constantExpression)
         {
-            return new ValueNode { Value = constantExpression.Value };
+            return new ValueNode {Value = constantExpression.Value};
         }
 
         internal static Node Resolve(UnaryExpression unaryExpression)
@@ -16,7 +16,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return new SingleOperationNode
             {
                 Operator = unaryExpression.NodeType,
-                Child = Resolve((dynamic)unaryExpression.Operand)
+                Child = Resolve((dynamic) unaryExpression.Operand)
             };
         }
 
@@ -24,9 +24,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             return new OperationNode
             {
-                Left = Resolve((dynamic)binaryExpression.Left),
+                Left = Resolve((dynamic) binaryExpression.Left),
                 Operator = binaryExpression.NodeType,
-                Right = Resolve((dynamic)binaryExpression.Right)
+                Right = Resolve((dynamic) binaryExpression.Right)
             };
         }
 
@@ -55,7 +55,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 };
             }
             var value = callExpression.InvokeMethodCall();
-            return new ValueNode { Value = value };
+            return new ValueNode {Value = value};
         }
 
         internal static Node Resolve(MemberExpression memberExpression, MemberExpression rootExpression = null)
@@ -75,7 +75,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
                 case ExpressionType.Call:
                 case ExpressionType.Constant:
-                    return new ValueNode { Value = rootExpression.GetExpressionValue() };
+                    return new ValueNode {Value = rootExpression.GetExpressionValue()};
 
                 default:
                     throw new ArgumentException("Expected member expression");

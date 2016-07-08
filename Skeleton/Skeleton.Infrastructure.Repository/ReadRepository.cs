@@ -1,11 +1,11 @@
-﻿using Skeleton.Abstraction;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Skeleton.Abstraction;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -17,7 +17,7 @@ namespace Skeleton.Infrastructure.Repository
         private readonly IDatabase _database;
 
         public ReadRepository(
-            IMetadataProvider metadataProvider, 
+            IMetadataProvider metadataProvider,
             IDatabase database)
             : base(metadataProvider)
         {

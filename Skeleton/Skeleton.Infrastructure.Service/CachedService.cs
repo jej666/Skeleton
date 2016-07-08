@@ -1,7 +1,7 @@
-﻿using Skeleton.Abstraction;
+﻿using System;
+using Skeleton.Abstraction;
 using Skeleton.Core.Repository;
 using Skeleton.Core.Service;
-using System;
 
 namespace Skeleton.Infrastructure.Service
 {

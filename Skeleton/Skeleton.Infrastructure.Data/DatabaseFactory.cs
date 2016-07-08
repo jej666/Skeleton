@@ -1,7 +1,7 @@
 ﻿using System;
 using Skeleton.Abstraction;
-using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Abstraction.Reflection;
+using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Data
 {

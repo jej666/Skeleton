@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Infrastructure
 {
@@ -24,7 +20,7 @@ namespace Skeleton.Tests.Infrastructure
             {
                 connection.Open();
 
-                string sql = string.Format(@"
+                var sql = string.Format(@"
                     CREATE DATABASE
                         [TestDb]
                     ON PRIMARY (
@@ -32,7 +28,7 @@ namespace Skeleton.Tests.Infrastructure
                        FILENAME = '{0}'
                     )", fullPath);
 
-                SqlCommand command = new SqlCommand(sql, connection);
+                var command = new SqlCommand(sql, connection);
                 command.ExecuteNonQuery();
             }
         }

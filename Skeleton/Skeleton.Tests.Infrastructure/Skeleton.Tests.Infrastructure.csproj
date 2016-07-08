@@ -46,9 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
@@ -81,37 +79,13 @@
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
-      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
-      <Name>Skeleton.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core.Repository\Skeleton.Core.Repository.csproj">
-      <Project>{6e2901d9-48ae-405b-8353-8e299c7693e5}</Project>
-      <Name>Skeleton.Core.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Core.Service\Skeleton.Core.Service.csproj">
       <Project>{b06dee96-287f-421b-9171-7c2a276ed5cc}</Project>
       <Name>Skeleton.Core.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Infrastructure.Data\Skeleton.Infrastructure.Data.csproj">
-      <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>
-      <Name>Skeleton.Infrastructure.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Infrastructure.DependencyResolver\Skeleton.Infrastructure.DependencyResolver.csproj">
-      <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
-      <Name>Skeleton.Infrastructure.DependencyResolver</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Infrastructure.Repository\Skeleton.Infrastructure.Repository.csproj">
-      <Project>{d246546e-e1e1-431a-9e3f-116128d3afd9}</Project>
-      <Name>Skeleton.Infrastructure.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Infrastructure.Service\Skeleton.Infrastructure.Service.csproj">
-      <Project>{75ecbc4d-2aa1-44f4-8af9-49aca990962f}</Project>
-      <Name>Skeleton.Infrastructure.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Web.Client\Skeleton.Web.Client.csproj">
       <Project>{0c6fcf97-446e-4ff0-89ae-2b52aa6ba887}</Project>

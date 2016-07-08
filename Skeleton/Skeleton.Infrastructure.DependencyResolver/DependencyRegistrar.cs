@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
-using Skeleton.Common;
 using Skeleton.Abstraction;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Skeleton.Common
+namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    public sealed class LazyLoading<T> 
+    public sealed class LazyLoading<T>
     {
         private Func<T> _initializer;
         private T _value;

@@ -1,5 +1,5 @@
-﻿using Skeleton.Abstraction.Reflection;
-using System;
+﻿using System;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Common.Reflection
 {

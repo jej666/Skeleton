@@ -58,7 +58,7 @@ namespace Skeleton.Core.Domain
 
         public TEntity Reverse<TDto>(TDto dto) where TDto : class
         {
-            return Reverse<TDto>(0, dto);
+            return Reverse(0, dto);
         }
 
         //[DebuggerTypeProxy]

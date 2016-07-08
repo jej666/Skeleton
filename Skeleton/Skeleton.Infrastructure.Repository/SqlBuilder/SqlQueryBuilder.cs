@@ -1,7 +1,5 @@
 ﻿//https://github.com/base33/lambda-sql-builder
 
-using Skeleton.Common;
-using Skeleton.Core.Repository;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -9,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -17,14 +16,18 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private const string ParameterPrefix = "P";
         private readonly LazyLoading<List<string>> _columns = new LazyLoading<List<string>>(() => new List<string>());
         private readonly LazyLoading<List<string>> _conditions = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _groupingList = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _havingConditions = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _insertValues = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _joinExpressions = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _selectionList = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _sortList = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _tableNames = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _updateColumnValues = new LazyLoading<List<string>>(() => new List<string>());
+
+        private readonly LazyLoading<List<string>> _groupingList =
+            new LazyLoading<List<string>>(() => new List<string>());
+
+        private readonly LazyLoading<List<string>> _havingConditions =
+            new LazyLoading<List<string>>(() => new List<string>());
+
+        private readonly LazyLoading<List<string>> _insertValues =
+            new LazyLoading<List<string>>(() => new List<string>());
+
+        private readonly LazyLoading<List<string>> _joinExpressions =
+            new LazyLoading<List<string>>(() => new List<string>());
 
         private readonly Dictionary<ExpressionType, string> _operationDictionary =
             new Dictionary<ExpressionType, string>
@@ -38,6 +41,16 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             };
 
         private readonly string _primaryTableName;
+
+        private readonly LazyLoading<List<string>> _selectionList =
+            new LazyLoading<List<string>>(() => new List<string>());
+
+        private readonly LazyLoading<List<string>> _sortList = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _tableNames = new LazyLoading<List<string>>(() => new List<string>());
+
+        private readonly LazyLoading<List<string>> _updateColumnValues =
+            new LazyLoading<List<string>>(() => new List<string>());
+
         private int _paramIndex;
         private string _top;
 
@@ -178,7 +191,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal void BuildSql(Node node)
         {
-            BuildSql((dynamic)node);
+            BuildSql((dynamic) node);
         }
 
         internal void BuildSql(LikeNode node)
@@ -213,7 +226,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal void BuildSql(OperationNode node)
         {
-            BuildSql((dynamic)node.Left, (dynamic)node.Right, node.Operator);
+            BuildSql((dynamic) node.Left, (dynamic) node.Right, node.Operator);
         }
 
         internal void BuildSql(MemberNode memberNode)
@@ -268,7 +281,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             if (leftMember.Operator == ExpressionType.Not)
                 BuildSql(leftMember as Node, rightMember, op);
             else
-                BuildSql((dynamic)leftMember.Child, (dynamic)rightMember, op);
+                BuildSql((dynamic) leftMember.Child, (dynamic) rightMember, op);
         }
 
         private void BuildSql(Node leftMember, SingleOperationNode rightMember, ExpressionType op)
@@ -279,9 +292,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private void BuildSql(Node leftNode, Node rightNode, ExpressionType op)
         {
             BeginExpression();
-            BuildSql((dynamic)leftNode);
+            BuildSql((dynamic) leftNode);
             ResolveOperation(op);
-            BuildSql((dynamic)rightNode);
+            BuildSql((dynamic) rightNode);
             EndExpression();
         }
 

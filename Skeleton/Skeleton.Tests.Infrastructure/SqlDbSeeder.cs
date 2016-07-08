@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-
+﻿
 namespace Skeleton.Tests.Infrastructure
 {
     public static class SqlDbSeeder

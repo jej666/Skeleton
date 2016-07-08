@@ -1,12 +1,12 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
-using Skeleton.Infrastructure.Data.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -134,7 +134,7 @@ namespace Skeleton.Infrastructure.Data
                     _connection = _adapter.CreateConnection();
 
                 if (_connection.State != ConnectionState.Open)
-                    await ((DbConnection)_connection).OpenAsync()
+                    await ((DbConnection) _connection).OpenAsync()
                         .ConfigureAwait(false);
             }
             catch (Exception ex)

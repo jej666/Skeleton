@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Repository", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Service", "Skeleton.Infrastructure.Service\Skeleton.Infrastructure.Service.csproj", "{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Services", "Skeleton.Tests\Skeleton.Tests.Services.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Services", "Skeleton.Tests.Services\Skeleton.Tests.Services.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Core", "02 - Core", "{4ECC01D5-6996-4DB4-ACB8-4952D96D1982}"
 EndProject
@@ -31,19 +31,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - Tests", "99 - Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - Web", "10 - Web", "{0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Server", "Skeleton.Web.Owin\Skeleton.Web.Server.csproj", "{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Server", "Skeleton.Web.Server\Skeleton.Web.Server.csproj", "{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Infrastructure", "Skeleton.Tests.Infrastructure\Skeleton.Tests.Infrastructure.csproj", "{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Web", "Skeleton.Web.Tests\Skeleton.Tests.Web.csproj", "{42AFA67C-3644-438A-BCE3-181D3549481E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Web", "Skeleton.Tests.Web\Skeleton.Tests.Web.csproj", "{42AFA67C-3644-438A-BCE3-181D3549481E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Client", "Skeleton.Web.Client\Skeleton.Web.Client.csproj", "{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Abstraction", "Skeleton.Common.Abstration\Skeleton.Abstraction.csproj", "{F848F91F-11C7-4E9B-9701-110A467A0853}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Abstraction", "Skeleton.Abstraction\Skeleton.Abstraction.csproj", "{F848F91F-11C7-4E9B-9701-110A467A0853}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01- Shared", "01- Shared", "{E7580B2A-61D7-4DD1-9F14-3511431608C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Extensions", "Skeleton.Framework.Extensions\Skeleton.Extensions.csproj", "{F8C95965-61B3-44D8-9DCD-0BE773898F77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Extensions", "Skeleton.Extensions\Skeleton.Extensions.csproj", "{F8C95965-61B3-44D8-9DCD-0BE773898F77}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution

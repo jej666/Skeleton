@@ -1,12 +1,10 @@
-﻿using Skeleton.Abstraction;
-using System;
-using System.ComponentModel;
+﻿using System;
 
 namespace Skeleton.Infrastructure.Data
 {
     [Serializable]
-    public abstract class DataDisposableBase : 
-        DataHideObjectMethods, 
+    public abstract class DataDisposableBase :
+        DataHideObjectMethods,
         IDisposable
     {
         private bool _disposed;
@@ -38,4 +36,3 @@ namespace Skeleton.Infrastructure.Data
         }
     }
 }
-
