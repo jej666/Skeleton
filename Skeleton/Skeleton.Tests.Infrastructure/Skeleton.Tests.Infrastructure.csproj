@@ -55,8 +55,11 @@
   <ItemGroup>
     <Compile Include="Benchmark.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="CustomerDto.cs" />
+    <Compile Include="CachedCustomersController.cs" />
     <Compile Include="CustomersController.cs" />
     <Compile Include="CustomerCategory.cs" />
+    <Compile Include="CachedCustomersHttpClient.cs" />
     <Compile Include="CustomersHttpClient.cs" />
     <Compile Include="MemorySeeder.cs" />
     <Compile Include="Post.cs" />

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Skeleton.Core.Service;
 using Skeleton.Shared.Abstraction;
 using Skeleton.Shared.Abstraction.Reflection;
@@ -24,6 +27,13 @@ namespace Skeleton.Infrastructure.Service
             _entityMetadata = metadataProvider.GetMetadata<TEntity>();
         }
 
+        public IEnumerable<TDto> Map(IEnumerable<TEntity> entities)
+        {
+            entities.ThrowIfNullOrEmpty(() => entities);
+
+            return entities.Select(Map).AsList();
+        }
+
         public TDto Map(TEntity entity)
         {
             return HandleException(() =>
@@ -39,6 +49,13 @@ namespace Skeleton.Infrastructure.Service
 
                 return instanceDto;
             });
+        }
+
+        public IEnumerable<TEntity> Map(IEnumerable<TDto> dtos)
+        {
+            dtos.ThrowIfNullOrEmpty(() => dtos);
+
+            return dtos.Select(Map).AsList();
         }
 
         public TEntity Map(TIdentity id, TDto dto)

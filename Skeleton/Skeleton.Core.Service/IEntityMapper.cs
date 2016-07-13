@@ -1,4 +1,5 @@
-﻿using Skeleton.Shared.Abstraction;
+﻿using System.Collections.Generic;
+using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Core.Service
 {
@@ -12,5 +13,9 @@ namespace Skeleton.Core.Service
         TEntity Map(TDto dto);
 
         TEntity Map(TIdentity id, TDto dto);
+
+        IEnumerable<TDto> Map(IEnumerable<TEntity> entities);
+
+        IEnumerable<TEntity> Map(IEnumerable<TDto> dtos);
     }
 }

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using Skeleton.Core.Service;
 using Skeleton.Shared.Abstraction;
 
-namespace Skeleton.Web.Server
+namespace Skeleton.Web.Server.Controllers
 {
     public class CrudController<TEntity, TIdentity, TDto> :
         ReadController<TEntity, TIdentity, TDto>
@@ -14,7 +12,8 @@ namespace Skeleton.Web.Server
     {
         private readonly ICrudService<TEntity, TIdentity, TDto> _service;
 
-        public CrudController(ICrudService<TEntity, TIdentity, TDto> service)
+        public CrudController(
+            ICrudService<TEntity, TIdentity, TDto> service)
             : base(service)
         {
             _service = service;
@@ -22,9 +21,6 @@ namespace Skeleton.Web.Server
 
         public IHttpActionResult Put(TIdentity id, TDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var entity = _service.Mapper.Map(id, dto);
             var result = _service.Store.Update(entity);
 
@@ -35,32 +31,19 @@ namespace Skeleton.Web.Server
         }
 
         [HttpPost]
-        public IHttpActionResult AddMany(IEnumerable<TDto> dtos)
+        public IHttpActionResult UpdateMany(IEnumerable<TDto> dtos)
         {
-            dtos.ThrowIfNullOrEmpty(() => dtos);
-
-            var enumerable = dtos.AsList();
-            if (enumerable.Any(dto => !ModelState.IsValid))
-            {
-                return BadRequest(ModelState);
-            }
-
-            var entities = enumerable
-                .Select(_service.Mapper.Map)
-                .AsList();
-            var result = _service.Store.Add(entities);
+            var entities = _service.Mapper.Map(dtos);
+            var result = _service.Store.Update(entities);
 
             if (result)
-                return Ok(entities.Select(_service.Mapper.Map));
+                return Ok();
 
             return NotFound();
         }
 
         public IHttpActionResult Post(TDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var entity = _service.Mapper.Map(dto);
             var result = _service.Store.Add(entity);
 
@@ -68,7 +51,23 @@ namespace Skeleton.Web.Server
                 return NotFound();
 
             var newDto = _service.Mapper.Map(entity);
-            return CreatedAtRoute("DefaultApiWithId", new { id = entity.Id }, newDto);
+
+            return CreatedAtRoute(
+                "DefaultApiWithId", 
+                new { id = entity.Id }, 
+                newDto);
+        }
+
+        [HttpPost]
+        public IHttpActionResult AddMany(IEnumerable<TDto> dtos)
+        {
+            var entities = _service.Mapper.Map(dtos);
+            var result = _service.Store.Add(entities);
+
+            if (result)
+                return Ok(_service.Mapper.Map(entities));
+
+            return NotFound();
         }
 
         public IHttpActionResult Delete(TIdentity id)
@@ -79,6 +78,18 @@ namespace Skeleton.Web.Server
                 return NotFound();
 
             var result = _service.Store.Delete(entity);
+
+            if (result)
+                return Ok();
+
+            return BadRequest();
+        }
+
+        [HttpPost]
+        public IHttpActionResult DeleteMany(IEnumerable<TDto> dtos)
+        {
+            var entities = _service.Mapper.Map(dtos);
+            var result = _service.Store.Delete(entities);
 
             if (result)
                 return Ok();

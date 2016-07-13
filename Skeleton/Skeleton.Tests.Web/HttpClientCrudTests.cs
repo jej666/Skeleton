@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Remoting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Infrastructure.DependencyResolver;
 using Skeleton.Tests.Infrastructure;
@@ -8,11 +9,11 @@ using Skeleton.Web.Server;
 namespace Skeleton.Web.Tests
 {
     [TestClass]
-    public class CrudHttpClientTests
+    public class HttpClientCrudTests
     {
         private static IDisposable _owinServer;
 
-        public CrudHttpClientTests()
+        public HttpClientCrudTests()
         {
             SqlDbSeeder.SeedCustomers();
         }
@@ -100,6 +101,22 @@ namespace Skeleton.Web.Tests
             }
         }
 
+         [TestMethod]
+        public void Update_Multiple()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var customers = client.Get(5,1).Results;
+                Assert.IsNotNull(customers);
+
+                foreach (var customer in customers)
+                    customer.Name = "Updated" + customer.CustomerId;
+
+                var result = client.Update(customers);
+                Assert.IsTrue(result);
+            }
+        }
+        
         [TestMethod]
         public void Add()
         {
@@ -135,6 +152,19 @@ namespace Skeleton.Web.Tests
                 var result = data != null && client.Delete(data.CustomerId);
 
                 Assert.IsTrue(result);
+            }
+        }
+
+        [TestMethod]
+        public void Delete_Multiple()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var customers = client.Get(5,1).Results;
+                Assert.IsNotNull(customers);
+
+                var result = client.Delete(customers);
+                Assert.IsTrue(result);  
             }
         }
     }

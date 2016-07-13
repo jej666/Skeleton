@@ -5,14 +5,15 @@ using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Web.Server.Controllers
 {
-    public class ReadController<TEntity, TIdentity, TDto> :
+    public class CachedReadController<TEntity, TIdentity, TDto> :
         ApiController
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly IReadService<TEntity, TIdentity, TDto> _service;
+        private readonly ICachedReadService<TEntity, TIdentity, TDto> _service;
 
-        public ReadController(IReadService<TEntity, TIdentity, TDto> service)
+        public CachedReadController(
+            ICachedReadService<TEntity, TIdentity, TDto> service)
         {
             _service = service;
         }
@@ -20,7 +21,7 @@ namespace Skeleton.Web.Server.Controllers
         // GET api/<controller>/5
         public virtual IHttpActionResult Get(TIdentity id)
         {
-           var result = _service.Query.FirstOrDefault(id);
+            var result = _service.Query.FirstOrDefault(id);
 
             if (result == null)
                 return NotFound();

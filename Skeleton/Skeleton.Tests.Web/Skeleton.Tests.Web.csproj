@@ -88,7 +88,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CrudHttpClientTests.cs" />
+    <Compile Include="HttpClientCachedReadTests.cs" />
+    <Compile Include="HttpClientCrudTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

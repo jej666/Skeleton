@@ -32,10 +32,9 @@ namespace Skeleton.Web.Client
 
         public PagedResult<TDto> Get(int pageSize, int pageNumber)
         {
-            var requestUri = AddressSuffix  +
-                string.Format("Page/?pageSize={0}&pageNumber={1}", pageSize,pageNumber);
+            var requestUri = AddressSuffix +
+                string.Format("Page/?pageSize={0}&pageNumber={1}", pageSize, pageNumber);
             var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
-
             responseMessage.EnsureSuccessStatusCode();
 
             var content = responseMessage.Content
@@ -50,7 +49,6 @@ namespace Skeleton.Web.Client
         {
             var objectContent = CreateJsonObjectContent(model);
             var responseMessage = JsonHttpClient.PostAsync(AddressSuffix, objectContent).Result;
-
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
@@ -59,7 +57,6 @@ namespace Skeleton.Web.Client
         public IEnumerable<TDto> Add(IEnumerable<TDto> dtos)
         {
             var responseMessage = JsonHttpClient.PostAsJsonAsync(AddressSuffix + "AddMany", dtos).Result;
-
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
@@ -69,13 +66,33 @@ namespace Skeleton.Web.Client
         {
             var objectContent = CreateJsonObjectContent(model);
             var responseMessage = JsonHttpClient.PutAsync(AddressSuffix + id, objectContent).Result;
+            responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.IsSuccessStatusCode;
+        }
+
+        public bool Update(IEnumerable<TDto> dtos)
+        {
+            return Post(dtos, "UpdateMany");
         }
 
         public bool Delete(TId id)
         {
             var responseMessage = JsonHttpClient.DeleteAsync(AddressSuffix + id).Result;
+            responseMessage.EnsureSuccessStatusCode();
+
+            return responseMessage.IsSuccessStatusCode;
+        }
+
+        public bool Delete(IEnumerable<TDto> dtos)
+        {
+            return Post(dtos, "DeleteMany");
+        }
+
+        private bool Post(IEnumerable<TDto> dtos, string action)
+        {
+            var responseMessage = JsonHttpClient.PostAsJsonAsync(AddressSuffix + action, dtos).Result;
+            responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.IsSuccessStatusCode;
         }
