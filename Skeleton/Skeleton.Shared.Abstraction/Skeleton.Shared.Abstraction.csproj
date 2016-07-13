@@ -52,7 +52,6 @@
     <Compile Include="IDependencyRegistrar.cs" />
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="IEntity.cs" />
-    <Compile Include="IEntityMapper.cs" />
     <Compile Include="IHideObjectMethods.cs" />
     <Compile Include="Reflection\IFieldMetadata.cs" />
     <Compile Include="Reflection\IInstanceCreator.cs" />

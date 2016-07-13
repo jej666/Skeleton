@@ -18,8 +18,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
             Container.AddExtension(new LoggerConstructorInjectionExtension())
                 .RegisterType<ICacheProvider, MemoryCacheProvider>()
                 .RegisterType<IMetadataProvider, MetadataProvider>()
-                .RegisterType<IConfigurationProvider, ConfigurationProvider>()
-                .RegisterType(typeof(IEntityMapper<,>), typeof(EntityMapper<,>));
+                .RegisterType<IConfigurationProvider, ConfigurationProvider>();
         }
     }
 }

@@ -11,54 +11,48 @@ namespace Skeleton.Web.Server
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly IEntityMapper<TEntity, TIdentity> _mapper;
-        private readonly IReadService<TEntity, TIdentity> _service;
+        private readonly IReadService<TEntity, TIdentity, TDto> _service;
 
-        public ReadController(
-            IReadService<TEntity, TIdentity> service,
-            IEntityMapper<TEntity, TIdentity> mapper)
+        public ReadController(IReadService<TEntity, TIdentity, TDto> service)
         {
-            service.ThrowIfNull(() => service);
-            mapper.ThrowIfNull(() => mapper);
-
             _service = service;
-            _mapper = mapper;
         }
 
         // GET api/<controller>/5
         public virtual IHttpActionResult Get(TIdentity id)
         {
-            var result = _service.Repository.FirstOrDefault(id);
+            var result = _service.Query.FirstOrDefault(id);
 
             if (result == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<TDto>(result));
+            return Ok(_service.Mapper.Map(result));
         }
 
-        // GET api/<controller>/
-        // GET api/<controller>/?pageSize=20&pageNumber=1
-        public virtual IHttpActionResult Get(int? pageSize = null, int? pageNumber = null)
+        public virtual IHttpActionResult Get()
         {
-            if (!pageSize.HasValue && !pageNumber.HasValue)
-            {
-                var allData = _service.Repository
-                    .GetAll()
-                    .Select(_mapper.Map<TDto>)
-                    .ToList();
-                return Ok(allData);
-            }
-
-            var totalCount = _service.Repository.Count();
-            var pagedData = _service.Repository
-                .Page(pageSize.Value, pageNumber.Value)
-                .Select(_mapper.Map<TDto>)
+            var allData = _service.Query
+                .GetAll()
+                .Select(_service.Mapper.Map)
                 .ToList();
-            var pagedResult = Request.SetPagedResult(totalCount, pageNumber.Value, pageSize.Value, pagedData);
+
+            return Ok(allData);
+        }
+
+        // GET api/<controller>/?pageSize=20&pageNumber=1
+        [HttpGet]
+        public virtual IHttpActionResult Page(int pageSize, int pageNumber)
+        {
+            var totalCount = _service.Query.Count();
+            var pagedData = _service.Query
+                .Page(pageSize, pageNumber)
+                .Select(_service.Mapper.Map)
+                .ToList();
+            var pagedResult = Request.SetPagedResult(
+                totalCount, pageNumber, pageSize, pagedData);
 
             return Ok(pagedResult);
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

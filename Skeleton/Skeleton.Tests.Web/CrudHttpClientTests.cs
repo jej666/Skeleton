@@ -41,7 +41,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var results = client.GetAll();
+                var results = client.Get();
 
                 Assert.IsNotNull(results);
                 Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
@@ -53,7 +53,11 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var result = client.Get(15);
+                var data = client.Get().FirstOrDefault();
+
+                Assert.IsNotNull(data);
+
+                var result = client.Get(data.CustomerId);
 
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(CustomerDto));
@@ -70,7 +74,7 @@ namespace Skeleton.Web.Tests
             {
                 for (var page = 1; page < numberOfPages; ++page)
                 {
-                    var response = client.Page(pageSize, page);
+                    var response = client.Get(pageSize, page);
                     Assert.AreEqual(pageSize, response.Results.Count());
                 }
             }
@@ -81,8 +85,16 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var customer = new CustomerDto {Name = "Customer"};
-                var result = client.Put(15, customer);
+                var data = client.Get().FirstOrDefault();
+
+                Assert.IsNotNull(data);
+
+                var customer = new CustomerDto
+                {
+                    Name = "CustomerUpdated" + data.CustomerId,
+                    CustomerCategoryId = data.CustomerCategoryId
+                };
+                var result = client.Update(data.CustomerId, customer);
 
                 Assert.IsTrue(result);
             }
@@ -94,7 +106,7 @@ namespace Skeleton.Web.Tests
             using (var client = new CustomersHttpClient())
             {
                 var customer = new CustomerDto {Name = "Customer"};
-                var result = client.Post(customer);
+                var result = client.Add(customer);
 
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(CustomerDto));
@@ -107,7 +119,7 @@ namespace Skeleton.Web.Tests
             using (var client = new CustomersHttpClient())
             {
                 var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
-                var results = client.Post(customers);
+                var results = client.Add(customers);
 
                 Assert.IsNotNull(results);
                 Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
@@ -119,7 +131,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var data = client.GetAll().FirstOrDefault();
+                var data = client.Get().FirstOrDefault();
                 var result = data != null && client.Delete(data.CustomerId);
 
                 Assert.IsTrue(result);

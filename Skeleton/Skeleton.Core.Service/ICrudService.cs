@@ -3,10 +3,11 @@ using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Core.Service
 {
-    public interface ICrudService<TEntity, TIdentity> :
-        IEntityService<TEntity, TIdentity>
+    public interface ICrudService<TEntity, TIdentity, TDto> :
+        IReadService<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
+        where TDto : class
     {
-        ICrudRepository<TEntity, TIdentity> Repository { get; }
+        IEntityPersitor<TEntity, TIdentity> Store { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Skeleton.Core.Service;
@@ -7,65 +8,25 @@ using Skeleton.Shared.Abstraction;
 namespace Skeleton.Web.Server
 {
     public class CrudController<TEntity, TIdentity, TDto> :
-        ApiController
+        ReadController<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly IEntityMapper<TEntity, TIdentity> _mapper;
-        private readonly ICrudService<TEntity, TIdentity> _service;
+        private readonly ICrudService<TEntity, TIdentity, TDto> _service;
 
-        public CrudController(
-            ICrudService<TEntity, TIdentity> service,
-            IEntityMapper<TEntity, TIdentity> mapper)
+        public CrudController(ICrudService<TEntity, TIdentity, TDto> service)
+            : base(service)
         {
-            service.ThrowIfNull(() => service);
-            mapper.ThrowIfNull(() => mapper);
-
             _service = service;
-            _mapper = mapper;
         }
 
-        // GET api/<controller>/5
-        public virtual IHttpActionResult Get(TIdentity id)
-        {
-            var result = _service.Repository.FirstOrDefault(id);
-
-            if (result == null)
-                return NotFound();
-
-            return Ok(_mapper.Map<TDto>(result));
-        }
-
-        // GET api/<controller>/
-        // GET api/<controller>/?pageSize=20&pageNumber=1
-        public virtual IHttpActionResult Get(int? pageSize = null, int? pageNumber = null)
-        {
-            if (!pageSize.HasValue && !pageNumber.HasValue)
-            {
-                var allData = _service.Repository
-                    .GetAll()
-                    .Select(_mapper.Map<TDto>)
-                    .ToList();
-                return Ok(allData);
-            }
-
-            var totalCount = _service.Repository.Count();
-            var pagedData = _service.Repository
-                .Page(pageSize.Value, pageNumber.Value)
-                .Select(_mapper.Map<TDto>)
-                .ToList();
-            var pagedResult = Request.SetPagedResult(totalCount, pageNumber.Value, pageSize.Value, pagedData);
-
-            return Ok(pagedResult);
-        }
-
-        public IHttpActionResult Put(int id, TDto dto)
+        public IHttpActionResult Put(TIdentity id, TDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var entity = _mapper.Reverse(id, dto);
-            var result = _service.Repository.Update(entity);
+            var entity = _service.Mapper.Map(id, dto);
+            var result = _service.Store.Update(entity);
 
             if (result)
                 return Ok();
@@ -73,49 +34,51 @@ namespace Skeleton.Web.Server
             return NotFound();
         }
 
-        //public IHttpActionResult Post(IEnumerable<TDto> dtos)
-        //{
-        //    dtos.ThrowIfNullOrEmpty(() => dtos);
+        [HttpPost]
+        public IHttpActionResult AddMany(IEnumerable<TDto> dtos)
+        {
+            dtos.ThrowIfNullOrEmpty(() => dtos);
 
-        //    var enumerable= dtos.AsList();
-        //    foreach (var dto in enumerable)
-        //        if (!ModelState.IsValid)
-        //            return BadRequest(ModelState);
+            var enumerable = dtos.AsList();
+            if (enumerable.Any(dto => !ModelState.IsValid))
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    var entities = enumerable.Select(_mapper.Reverse);
-        //    var result = _service.Repository.Add(entities);
+            var entities = enumerable
+                .Select(_service.Mapper.Map)
+                .AsList();
+            var result = _service.Store.Add(entities);
 
-        //    if (result)
-        //        return Ok(entities.Select(_mapper.Map<TDto>));
+            if (result)
+                return Ok(entities.Select(_service.Mapper.Map));
 
-        //    return NotFound();
-        //}
+            return NotFound();
+        }
 
         public IHttpActionResult Post(TDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var entity = _mapper.Reverse(dto);
-            var result = _service.Repository.Add(entity);
+            var entity = _service.Mapper.Map(dto);
+            var result = _service.Store.Add(entity);
 
-            if (result)
-            {
-                var newDto = _mapper.Map<TDto>(entity);
-                return CreatedAtRoute("DefaultApi", new {id = entity.Id}, newDto);
-            }
+            if (!result) 
+                return NotFound();
 
-            return NotFound();
+            var newDto = _service.Mapper.Map(entity);
+            return CreatedAtRoute("DefaultApiWithId", new { id = entity.Id }, newDto);
         }
 
         public IHttpActionResult Delete(TIdentity id)
         {
-            var entity = _service.Repository.FirstOrDefault(id);
+            var entity = _service.Query.FirstOrDefault(id);
 
             if (entity == null)
                 return NotFound();
 
-            var result = _service.Repository.Delete(entity);
+            var result = _service.Store.Delete(entity);
 
             if (result)
                 return Ok();

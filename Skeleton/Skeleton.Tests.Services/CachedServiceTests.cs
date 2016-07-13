@@ -9,60 +9,66 @@ namespace Skeleton.Tests
     [TestClass]
     public class CachedServiceTests : TestBase
     {
-        private readonly ICachedService<Customer, int> _service;
+        private readonly ICachedReadService<Customer, int, CustomerDto> _service;
 
         public CachedServiceTests()
         {
-            _service = Container.Resolve<ICachedService<Customer, int>>();
-            _service.Repository.CacheConfigurator = config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
+            _service = Container.Resolve<ICachedReadService<Customer, int, CustomerDto>>();
+            _service.Query.CacheConfigurator = config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
             SqlDbSeeder.SeedCustomers();
         }
 
         [TestMethod]
-        public void Find_ByExpression()
+        public void Cached_Find_ByExpression()
         {
-            var sql = _service.Repository.Where(c => c.Name.StartsWith("Customer")).SqlQuery;
-            var results = _service.Repository.Find();
+            var results = _service.Query
+                .Where(c => c.Name.StartsWith("Customer"))
+                .Find();
+            
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_service.Repository.Cache.Contains<Customer>(
-                _service.Repository.CacheKeyGenerator.ForFind(sql)));
+            Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
+               _service.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
-        public void FirstOrDefault_ByExpression()
+        public void Cached_FirstOrDefault_ByExpression()
         {
-            var customer1 = _service.Repository.SelectTop(1).FirstOrDefault();
-            var sql = _service.Repository.Where(c => c.Name.Equals(customer1.Name)).SqlQuery;
-            var customer2 = _service.Repository.FirstOrDefault();
+            var customer1 = _service.Query
+                .SelectTop(1)
+                .FirstOrDefault();
+            var customer2 = _service.Query
+                .Where(c => c.Name.Equals(customer1.Name))
+                .FirstOrDefault();
 
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_service.Repository.Cache.Contains<Customer>(
-                _service.Repository.CacheKeyGenerator.ForFirstOrDefault(sql)));
+            Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
+                _service.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
-        public void FirstOrDefault_ById()
+        public void Cached_FirstOrDefault_ById()
         {
-            var customer1 = _service.Repository.SelectTop(1).FirstOrDefault();
-            var customer2 = _service.Repository.FirstOrDefault(customer1.Id);
+            var customer1 = _service.Query.SelectTop(1).FirstOrDefault();
+            var customer2 = _service.Query.FirstOrDefault(customer1.Id);
+
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_service.Repository.Cache.Contains<Customer>(
-                _service.Repository.CacheKeyGenerator.ForFirstOrDefault(customer1.Id)));
+            Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
+                _service.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
-        public void GetAll()
+        public void Cached_GetAll()
         {
-            var results = _service.Repository.GetAll();
+            var results = _service.Query.GetAll();
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_service.Repository.Cache.Contains<Customer>(
-                _service.Repository.CacheKeyGenerator.ForGetAll()));
+            Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
+                _service.Query.LastGeneratedCacheKey));
         }
     }
 }

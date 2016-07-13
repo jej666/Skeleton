@@ -16,18 +16,26 @@ namespace Skeleton.Shared.CommonTypes
 
         public T GetOrAdd<T>(string key, Func<T> valueFactory, Action<ICacheContext> configurator)
         {
-            if (Cache.Contains(key))
-                return (T) Cache[key];
+            try
+            {
+                if (Cache.Contains(key))
+                    return (T) Cache[key];
 
-            if (configurator == null)
-                configurator = _defaultCacheContext;
+                if (configurator == null)
+                    configurator = _defaultCacheContext;
 
-            var policy = new CachePolicyFactory().Create(configurator);
-            var value = valueFactory();
+                var policy = new CachePolicyFactory().Create(configurator);
+                var value = valueFactory();
 
-            Cache.Add(key, value, policy);
+                Cache.Add(key, value, policy);
 
-            return value;
+                return value;
+            }
+            catch (Exception)
+            {
+                Cache.Remove(key);
+                throw;
+            }
         }
 
         public async Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> valueFactory, Action<ICacheContext> configurator)
@@ -36,9 +44,8 @@ namespace Skeleton.Shared.CommonTypes
                 configurator = _defaultCacheContext;
 
             var policy = new CachePolicyFactory().Create(configurator);
-
             var asyncLazyValue = new LazyAsync<T>(valueFactory);
-            var existingValue = (LazyAsync<T>) Cache.AddOrGetExisting(key, asyncLazyValue, policy);
+            var existingValue = (LazyAsync<T>)Cache.AddOrGetExisting(key, asyncLazyValue, policy);
 
             if (existingValue != null)
             {
@@ -75,7 +82,7 @@ namespace Skeleton.Shared.CommonTypes
         private class CachePolicyFactory
         {
             private readonly MemoryCacheContext _cacheContext =
-                new MemoryCacheContext {CreationTime = DateTimeOffset.UtcNow};
+                new MemoryCacheContext { CreationTime = DateTimeOffset.UtcNow };
 
             internal CacheItemPolicy Create(Action<ICacheContext> configurator)
             {

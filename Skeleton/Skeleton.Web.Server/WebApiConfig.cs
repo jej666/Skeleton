@@ -1,5 +1,7 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Routing;
 using Skeleton.Infrastructure.DependencyResolver;
 
 namespace Skeleton.Web.Server
@@ -16,77 +18,14 @@ namespace Skeleton.Web.Server
 
             config.DependencyResolver = new UnityResolver(Bootstrapper.Container);
 
-            config.Routes.MapHttpRoute(
-                "DefaultApi",
-                "api/{controller}/{id}",
-                new {id = RouteParameter.Optional}
-                );
+            config.Routes.MapHttpRoute("DefaultApiWithId", "api/{controller}/{id}", new { id = RouteParameter.Optional }, new { id = @"\d+" });
+            config.Routes.MapHttpRoute("DefaultApiWithAction", "api/{controller}/{action}");
+            config.Routes.MapHttpRoute("DefaultApiGet", "api/{controller}", new { action = "Get" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Get) });
+            config.Routes.MapHttpRoute("DefaultApiPost", "api/{controller}", new { action = "Post" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Post) });
+            config.Routes.MapHttpRoute("DefaultApiPut", "api/{controller}", new { action = "Put" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Put) });
+            config.Routes.MapHttpRoute("DefaultApiDelete", "api/{controller}", new { action = "Delete" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Delete) });
 
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerActionName",
-            //    routeTemplate: "api/{controller}/{id}/{id2}",
-            //    defaults: null
-            //    );
 
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerPage",
-            //    routeTemplate: "api/{controller}/{action}/{pageSize}/{pageNumber}",
-            //    defaults: null,
-            //    constraints: new { 
-            //        httpMethod = new HttpMethodConstraint(HttpMethod.Get), 
-            //        pageSize = numeric,
-            //        pageNumber = numeric
-            //    }
-            //);
-
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerActionId",
-            //    routeTemplate: "api/{controller}/{action}/{id}",
-            //    defaults: null,
-            //    constraints: new { action = alphanumeric, id = numeric } // action must start with character
-            //);
-
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerActionName",
-            //    routeTemplate: "api/{controller}/{action}/{name}",
-            //    defaults: null,
-            //    constraints: new { action = alphanumeric, name = alphanumeric } // action and name must start with character
-            //);
-
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerAction",
-            //    routeTemplate: "api/{controller}/{action}",
-            //    defaults: null,
-            //    constraints: new { action = alphanumeric } // action must start with character
-            //);
-
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerGet",
-            //    routeTemplate: "api/{controller}",
-            //    defaults: new { action = "Get" },
-            //    constraints: new { httpMethod = new HttpMethodConstraint(HttpMethod.Get) }
-            //);
-
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerPost",
-            //    routeTemplate: "api/{controller}",
-            //    defaults: new { action = "Post" },
-            //    constraints: new { httpMethod = new HttpMethodConstraint(HttpMethod.Post) }
-            //);
-
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerPut",
-            //    routeTemplate: "api/{controller}",
-            //    defaults: new { action = "Put" },
-            //    constraints: new { httpMethod = new HttpMethodConstraint(HttpMethod.Put) }
-            //);
-
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApiControllerDelete",
-            //    routeTemplate: "api/{controller}",
-            //    defaults: new { action = "Delete" },
-            //    constraints: new { httpMethod = new HttpMethodConstraint(HttpMethod.Delete) }
-            //);
         }
     }
 }

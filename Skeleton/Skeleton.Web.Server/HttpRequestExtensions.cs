@@ -16,9 +16,9 @@ namespace Skeleton.Web.Server
         {
             var totalPages = (int) Math.Ceiling((double) totalCount/pageSize);
             var urlHelper = new UrlHelper(request);
-            var prevLink = pageNumber > 0 ? urlHelper.Link("DefaultApi", new {page = pageNumber - 1, pageSize}) : "";
+            var prevLink = pageNumber > 0 ? urlHelper.Link("DefaultApiWithId", new { page = pageNumber - 1, pageSize }) : "";
             var nextLink = pageNumber < totalPages - 1
-                ? urlHelper.Link("DefaultApi", new {page = pageNumber + 1, pageSize})
+                ? urlHelper.Link("DefaultApiWithId", new { page = pageNumber + 1, pageSize })
                 : "";
 
             return new

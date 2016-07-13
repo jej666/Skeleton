@@ -9,59 +9,68 @@ namespace Skeleton.Tests
     [TestClass]
     public class CachedServiceAsyncTests : TestBase
     {
-        private readonly ICachedServiceAsync<Customer, int> _service;
+        private readonly IAsyncCachedReadService<Customer, int,CustomerDto> _readService;
 
         public CachedServiceAsyncTests()
         {
-            _service = Container.Resolve<ICachedServiceAsync<Customer, int>>();
+            _readService = Container.Resolve<IAsyncCachedReadService<Customer, int, CustomerDto>>();
         }
 
         [TestMethod]
-        public async Task FindAsync_ByExpression()
+        public async Task Cached_FindAsync_ByExpression()
         {
-            var sql = _service.Repository.Where(c => c.Name.StartsWith("Customer")).SqlQuery;
-            var results = await _service.Repository.FindAsync();
+            var results = await _readService.Query
+                .Where(c => c.Name.StartsWith("Customer"))
+                .FindAsync();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_service.Repository.Cache.Contains<Customer>(
-                _service.Repository.CacheKeyGenerator.ForFind(sql)));
+            Assert.IsTrue(_readService.Query.Cache.Contains<Customer>(
+                _readService.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
-        public async Task FirstOrDefaultAsync_ByExpression()
+        public async Task Cached_FirstOrDefaultAsync_ByExpression()
         {
-            var customer1 = await _service.Repository.SelectTop(1).FirstOrDefaultAsync();
-            var sql = _service.Repository.Where(c => c.Name.Equals(customer1.Name)).SqlQuery;
-            var customer2 = await _service.Repository.FirstOrDefaultAsync();
+            var customer1 = await _readService.Query
+                .SelectTop(1)
+                .FirstOrDefaultAsync();
+            var customer2 = await _readService.Query
+                .Where(c => c.Name.Equals(customer1.Name))
+                .FirstOrDefaultAsync();
 
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_service.Repository.Cache.Contains<Customer>(
-                _service.Repository.CacheKeyGenerator.ForFirstOrDefault(sql)));
+            Assert.IsTrue(_readService.Query.Cache.Contains<Customer>(
+                _readService.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
-        public async Task FirstOrDefaultAsync_ById()
+        public async Task Cached_FirstOrDefaultAsync_ById()
         {
-            var customer1 = await _service.Repository.SelectTop(1).FirstOrDefaultAsync();
-            var customer2 = await _service.Repository.FirstOrDefaultAsync(customer1.Id);
+            var customer1 = await _readService.Query
+                .SelectTop(1)
+                .FirstOrDefaultAsync();
+            var customer2 = await _readService.Query
+                .FirstOrDefaultAsync(customer1.Id);
+
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_service.Repository.Cache.Contains<Customer>(
-                _service.Repository.CacheKeyGenerator.ForFirstOrDefault(customer1.Id)));
+            Assert.IsTrue(_readService.Query.Cache.Contains<Customer>(
+                _readService.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
-        public async Task GetAllAsync()
+        public async Task Cached_GetAllAsync()
         {
-            var results = await _service.Repository.GetAllAsync();
+            var results = await _readService.Query.GetAllAsync();
+
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_service.Repository.Cache.Contains<Customer>(
-                _service.Repository.CacheKeyGenerator.ForGetAll()));
+            Assert.IsTrue(_readService.Query.Cache.Contains<Customer>(
+                _readService.Query.LastGeneratedCacheKey));
         }
     }
 }

@@ -1,35 +1,41 @@
-﻿using System;
-using Skeleton.Core.Repository;
+﻿using Skeleton.Core.Repository;
 using Skeleton.Core.Service;
 using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Infrastructure.Service
 {
-    public class ReadService<TEntity, TIdentity> :
-        EntityService<TEntity, TIdentity>,
-        IReadService<TEntity, TIdentity>
+    public class ReadService<TEntity, TIdentity, TDto> :
+        ServiceBase,
+        IReadService<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
+        where TDto : class
     {
-        private readonly IReadRepository<TEntity, TIdentity> _readRepository;
+        private readonly IEntityReader<TEntity, TIdentity> _reader;
+        private readonly IEntityMapper<TEntity, TIdentity, TDto> _mapper;
 
         public ReadService(
             ILogger logger,
-            IReadRepository<TEntity, TIdentity> readRepository)
+            IEntityMapper<TEntity, TIdentity, TDto> mapper,
+            IEntityReader<TEntity, TIdentity> reader)
             : base(logger)
         {
-            readRepository.ThrowIfNull(() => readRepository);
-
-            _readRepository = readRepository;
+            _mapper = mapper;
+            _reader = reader;
         }
 
-        public IReadRepository<TEntity, TIdentity> Repository
+        public IEntityReader<TEntity, TIdentity> Query
         {
-            get { return _readRepository; }
+            get { return _reader; }
+        }
+
+        public IEntityMapper<TEntity, TIdentity, TDto> Mapper
+        {
+            get { return _mapper; }
         }
 
         protected override void DisposeManagedResources()
         {
-            _readRepository.Dispose();
+            _reader.Dispose();
         }
     }
 }

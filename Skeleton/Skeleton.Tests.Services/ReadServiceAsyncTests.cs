@@ -9,11 +9,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class ReadServiceAsyncTests : TestBase
     {
-        private readonly ICrudServiceAsync<Customer, int> _service;
+        private readonly IAsyncCrudService<Customer, int, CustomerDto> _service;
 
         public ReadServiceAsyncTests()
         {
-            _service = Container.Resolve<ICrudServiceAsync<Customer, int>>();
+            _service = Container.Resolve<IAsyncCrudService<Customer, int, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }
@@ -21,7 +21,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_ByExpression()
         {
-            var results = await _service.Repository
+            var results = await _service.Query
                 .Where(c => c.Name.StartsWith("Customer"))
                 .FindAsync();
 
@@ -32,10 +32,10 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FirstOrDefaultAsync_ByExpression()
         {
-            var customer = await _service.Repository
+            var customer = await _service.Query
                 .SelectTop(1)
                 .FirstOrDefaultAsync();
-            var result = await _service.Repository
+            var result = await _service.Query
                 .Where(c => c.Name.Equals(customer.Name))
                 .FirstOrDefaultAsync();
 
@@ -46,10 +46,10 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FirstOrDefaultAsync_ById()
         {
-            var customer1 = await _service.Repository
+            var customer1 = await _service.Query
                 .SelectTop(1)
                 .FirstOrDefaultAsync();
-            var customer2 = await _service.Repository
+            var customer2 = await _service.Query
                 .FirstOrDefaultAsync(customer1.Id);
 
             Assert.IsNotNull(customer2);
@@ -60,7 +60,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task GetAllAsync()
         {
-            var results = await _service.Repository.GetAllAsync();
+            var results = await _service.Query.GetAllAsync();
             Assert.IsNotNull(results);
             Assert.IsTrue(results.All(r => r.GetType() == typeof(Customer)));
         }

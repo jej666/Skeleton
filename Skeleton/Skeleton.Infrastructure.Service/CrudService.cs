@@ -1,35 +1,35 @@
-﻿using System;
-using Skeleton.Core.Repository;
+﻿using Skeleton.Core.Repository;
 using Skeleton.Core.Service;
 using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Infrastructure.Service
 {
-    public class CrudService<TEntity, TIdentity> :
-        EntityService<TEntity, TIdentity>,
-        ICrudService<TEntity, TIdentity>
+    public class CrudService<TEntity, TIdentity, TDto> :
+        ReadService<TEntity, TIdentity, TDto>,
+        ICrudService<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
+        where TDto : class
     {
-        private readonly ICrudRepository<TEntity, TIdentity> _crudRepository;
+        private readonly IEntityPersitor<TEntity, TIdentity> _persistor;
 
         public CrudService(
             ILogger logger,
-            ICrudRepository<TEntity, TIdentity> crudRepository)
-            : base(logger)
+            IEntityMapper<TEntity, TIdentity, TDto> mapper,
+            IEntityReader<TEntity, TIdentity> reader,
+            IEntityPersitor<TEntity, TIdentity> persistor)
+            : base(logger, mapper, reader)
         {
-            crudRepository.ThrowIfNull(() => crudRepository);
-
-            _crudRepository = crudRepository;
+            _persistor = persistor;
         }
 
-        public ICrudRepository<TEntity, TIdentity> Repository
+        public IEntityPersitor<TEntity, TIdentity> Store
         {
-            get { return _crudRepository; }
+            get { return _persistor; }
         }
 
         protected override void DisposeManagedResources()
         {
-            _crudRepository.Dispose();
+            _persistor.Dispose();
         }
     }
 }

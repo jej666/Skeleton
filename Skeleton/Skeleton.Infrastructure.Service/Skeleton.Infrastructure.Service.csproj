@@ -46,14 +46,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedServiceAsync.cs" />
-    <Compile Include="CachedService.cs" />
-    <Compile Include="ReadServiceAsync.cs" />
-    <Compile Include="CrudServiceAsync.cs" />
+    <Compile Include="AsyncCachedReadService.cs" />
+    <Compile Include="CachedReadService.cs" />
+    <Compile Include="ServiceBase.cs" />
+    <Compile Include="HideObjectMethods.cs" />
+    <Compile Include="AsyncReadService.cs" />
+    <Compile Include="AsyncCrudService.cs" />
     <Compile Include="CrudService.cs" />
     <Compile Include="ReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EntityService.cs" />
+    <Compile Include="EntityMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Infrastructure.Service.snk" />

@@ -46,20 +46,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAggregateAsync.cs" />
-    <Compile Include="ICachedRepositoryAsync.cs" />
-    <Compile Include="ICachedRepository.cs" />
-    <Compile Include="ICacheKeyGenerator.cs" />
-    <Compile Include="IEntityRepository.cs" />
-    <Compile Include="IQueryAsync.cs" />
-    <Compile Include="IQuery.cs" />
-    <Compile Include="IReadRepositoryAsync.cs" />
-    <Compile Include="IReadRepository.cs" />
-    <Compile Include="ICrudRepositoryAsync.cs" />
-    <Compile Include="ICrudRepository.cs" />
-    <Compile Include="IAggregate.cs" />
-    <Compile Include="ISqlExecute.cs" />
-    <Compile Include="ISqlQuery.cs" />
+    <Compile Include="IAsyncEntityAggregateResult.cs" />
+    <Compile Include="IAsyncCachedEntityReader.cs" />
+    <Compile Include="ICachedEntityReader.cs" />
+    <Compile Include="IAsyncEntityQueryResult.cs" />
+    <Compile Include="IEntityQueryResult.cs" />
+    <Compile Include="IAsyncEntityReader.cs" />
+    <Compile Include="IEntityReader.cs" />
+    <Compile Include="IAsyncEntityPersistor.cs" />
+    <Compile Include="IEntityPersitor.cs" />
+    <Compile Include="IEntityAggregateResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

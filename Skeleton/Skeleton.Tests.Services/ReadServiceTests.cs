@@ -9,11 +9,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class ReadServiceTests : TestBase
     {
-        private readonly ICrudService<Customer, int> _service;
+        private readonly ICrudService<Customer, int, CustomerDto> _service;
 
         public ReadServiceTests()
         {
-            _service = Container.Resolve<ICrudService<Customer, int>>();
+            _service = Container.Resolve<ICrudService<Customer, int, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }
@@ -21,10 +21,10 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Find_ByExpression()
         {
-            var customer = _service.Repository
+            var customer = _service.Query
                 .SelectTop(1)
                 .FirstOrDefault();
-            var results = _service.Repository
+            var results = _service.Query
                 .Where(c => c.Name.Equals(customer.Name))
                 .OrderBy(c => c.CustomerId)
                 .Find()
@@ -38,7 +38,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void FirstOrDefault_ByExpression()
         {
-            var result = _service.Repository
+            var result = _service.Query
                 .Where(c => c.Name.StartsWith("Customer"))
                 .FirstOrDefault();
             Assert.IsNotNull(result);
@@ -48,10 +48,10 @@ namespace Skeleton.Tests
         [TestMethod]
         public void FirstOrDefault_ById()
         {
-            var customer1 = _service.Repository
+            var customer1 = _service.Query
                 .SelectTop(1)
                 .FirstOrDefault();
-            var customer2 = _service.Repository
+            var customer2 = _service.Query
                 .FirstOrDefault(customer1.Id);
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
@@ -61,7 +61,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void GetAll()
         {
-            var results = _service.Repository.GetAll();
+            var results = _service.Query.GetAll();
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
         }
@@ -69,7 +69,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectTop()
         {
-            var customers = _service.Repository
+            var customers = _service.Query
                 .SelectTop(5)
                 .Find()
                 .ToList();
@@ -81,7 +81,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectCount()
         {
-            var count = _service.Repository.Count(c => c.CustomerId);
+            var count = _service.Query.Count(c => c.CustomerId);
             Assert.IsNotNull(count);
             Assert.IsTrue(count > 0);
         }
@@ -89,11 +89,11 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectMin()
         {
-            var minCustomer = _service.Repository
+            var minCustomer = _service.Query
                 .OrderBy(c => c.CustomerId)
                 .SelectTop(1)
                 .FirstOrDefault();
-            var min = _service.Repository
+            var min = _service.Query
                 .Min(c => c.CustomerId);
             Assert.IsNotNull(min);
             Assert.IsTrue(min == minCustomer.CustomerId);
@@ -102,11 +102,11 @@ namespace Skeleton.Tests
         [TestMethod]
         public void SelectMax()
         {
-            var maxCustomer = _service.Repository
+            var maxCustomer = _service.Query
                 .OrderByDescending(c => c.CustomerId)
                 .SelectTop(1)
                 .FirstOrDefault();
-            var max = _service.Repository
+            var max = _service.Query
                 .Max(c => c.CustomerId);
             Assert.IsNotNull(max);
             Assert.IsTrue(max == maxCustomer.CustomerId);
@@ -115,7 +115,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void LeftJoin()
         {
-            var results = _service.Repository.LeftJoin<CustomerCategory>(
+            var results = _service.Query.LeftJoin<CustomerCategory>(
                 (customer, category) =>
                     customer.CustomerCategoryId == category.CustomerCategoryId)
                 .Find();
@@ -129,7 +129,7 @@ namespace Skeleton.Tests
         {
             var customerIds = new object[] {5, 15, 25};
 
-            var results = _service.Repository
+            var results = _service.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
                 .Find()
                 .ToList();
@@ -143,7 +143,7 @@ namespace Skeleton.Tests
         {
             var customerIds = new object[] {5, 15, 25};
 
-            var results = _service.Repository
+            var results = _service.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
                 .Find()
                 .ToList();
@@ -160,7 +160,7 @@ namespace Skeleton.Tests
 
             for (var page = 1; page < numberOfPages; ++page)
             {
-                var results = _service.Repository
+                var results = _service.Query
                     .OrderBy(c => c.CustomerCategoryId)
                     .Page(pageSize, page)
                     .ToList();

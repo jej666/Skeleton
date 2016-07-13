@@ -47,13 +47,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICachedServiceAsync.cs" />
-    <Compile Include="ICachedService.cs" />
-    <Compile Include="IReadServiceAsync.cs" />
-    <Compile Include="ICrudServiceAsync.cs" />
+    <Compile Include="IAsyncCachedReadService.cs" />
+    <Compile Include="ICachedReadService.cs" />
+    <Compile Include="IAsyncReadService.cs" />
+    <Compile Include="IAsyncCrudService.cs" />
     <Compile Include="ICrudService.cs" />
     <Compile Include="IReadService.cs" />
-    <Compile Include="IEntityService.cs" />
+    <Compile Include="IEntityMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

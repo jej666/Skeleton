@@ -12,7 +12,7 @@ namespace Skeleton.Web.Client
         {
         }
 
-        public IEnumerable<TDto> GetAll()
+        public IEnumerable<TDto> Get()
         {
             var responseMessage = JsonHttpClient.GetAsync(AddressSuffix).Result;
             responseMessage.EnsureSuccessStatusCode();
@@ -22,10 +22,18 @@ namespace Skeleton.Web.Client
                                   .Result;
         }
 
-        public PagedResult<TDto> Page(int pageSize, int pageNumber)
+        public TDto Get(TId id)
         {
-            var requestUri = AddressSuffix  + 
-                string.Format("?pageSize={0}&pageNumber={1}", pageSize,pageNumber);
+            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + id).Result;
+            responseMessage.EnsureSuccessStatusCode();
+
+            return responseMessage.Content.ReadAsAsync<TDto>().Result;
+        }
+
+        public PagedResult<TDto> Get(int pageSize, int pageNumber)
+        {
+            var requestUri = AddressSuffix  +
+                string.Format("Page/?pageSize={0}&pageNumber={1}", pageSize,pageNumber);
             var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
 
             responseMessage.EnsureSuccessStatusCode();
@@ -38,15 +46,7 @@ namespace Skeleton.Web.Client
             return data;
         }
 
-        public TDto Get(TId id)
-        {
-            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + id).Result;
-            responseMessage.EnsureSuccessStatusCode();
-
-            return responseMessage.Content.ReadAsAsync<TDto>().Result;
-        }
-
-        public TDto Post(TDto model)
+        public TDto Add(TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
             var responseMessage = JsonHttpClient.PostAsync(AddressSuffix, objectContent).Result;
@@ -56,16 +56,16 @@ namespace Skeleton.Web.Client
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
         }
 
-        public IEnumerable<TDto> Post(IEnumerable<TDto> dtos)
+        public IEnumerable<TDto> Add(IEnumerable<TDto> dtos)
         {
-            var responseMessage = JsonHttpClient.PostAsJsonAsync(AddressSuffix, dtos).Result;
+            var responseMessage = JsonHttpClient.PostAsJsonAsync(AddressSuffix + "AddMany", dtos).Result;
 
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
         }
 
-        public bool Put(TId id, TDto model)
+        public bool Update(TId id, TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
             var responseMessage = JsonHttpClient.PutAsync(AddressSuffix + id, objectContent).Result;

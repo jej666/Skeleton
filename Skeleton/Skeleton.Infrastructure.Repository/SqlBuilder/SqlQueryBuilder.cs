@@ -6,16 +6,17 @@ using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text.RegularExpressions;
-using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal sealed class SqlQueryBuilder
     {
         private const string ParameterPrefix = "P";
-        private readonly LazyLoading<List<string>> _columns = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _conditions = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _columns = 
+            new LazyLoading<List<string>>(() => new List<string>());
+
+        private readonly LazyLoading<List<string>> _conditions = 
+            new LazyLoading<List<string>>(() => new List<string>());
 
         private readonly LazyLoading<List<string>> _groupingList =
             new LazyLoading<List<string>>(() => new List<string>());
@@ -45,8 +46,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private readonly LazyLoading<List<string>> _selectionList =
             new LazyLoading<List<string>>(() => new List<string>());
 
-        private readonly LazyLoading<List<string>> _sortList = new LazyLoading<List<string>>(() => new List<string>());
-        private readonly LazyLoading<List<string>> _tableNames = new LazyLoading<List<string>>(() => new List<string>());
+        private readonly LazyLoading<List<string>> _sortList = 
+            new LazyLoading<List<string>>(() => new List<string>());
+
+        private readonly LazyLoading<List<string>> _tableNames = 
+            new LazyLoading<List<string>>(() => new List<string>());
 
         private readonly LazyLoading<List<string>> _updateColumnValues =
             new LazyLoading<List<string>>(() => new List<string>());
@@ -404,23 +408,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             _conditions.Value.Add("{0} IS NULL"
                 .FormatWith(
                     SqlTemplate.Field(tableName, fieldName)));
-        }
-
-        internal void QueryByIsIn(string tableName, string fieldName, ISqlQuery sqlQuery)
-        {
-            var innerQuery = sqlQuery.Query;
-            foreach (var param in sqlQuery.Parameters)
-            {
-                var innerParamKey = "Inner" + param.Key;
-                innerQuery = Regex.Replace(innerQuery, param.Key, innerParamKey);
-                AddParameter(innerParamKey, param.Value);
-            }
-
-            var newCondition = "{0} IN ({1})".FormatWith(
-                SqlTemplate.Field(tableName, fieldName),
-                innerQuery);
-
-            _conditions.Value.Add(newCondition);
         }
 
         internal void QueryByIsIn(string tableName, string fieldName, IEnumerable<object> values)
