@@ -16,14 +16,14 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabaseAsync _database;
-        private readonly EntitySqlBuilder<TEntity, TIdentity> _builder;
+        private readonly QueryBuilder<TEntity, TIdentity> _builder;
 
         public AsyncEntityReader(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
         {
             _database = database;
-            _builder = new EntitySqlBuilder<TEntity, TIdentity>(metadataProvider);
+            _builder = new QueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
 
         protected IDatabaseAsync Database
@@ -31,7 +31,7 @@ namespace Skeleton.Infrastructure.Repository
             get { return _database; }
         }
 
-        internal EntitySqlBuilder<TEntity, TIdentity> Builder
+        internal QueryBuilder<TEntity, TIdentity> Builder
         {
             get { return _builder; }
         }
@@ -41,7 +41,7 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FindAsync<TEntity>(
-                    Builder.Query,
+                    Builder.SelectQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }
@@ -57,7 +57,7 @@ namespace Skeleton.Infrastructure.Repository
             {
                 id.ThrowIfNull(() => id);
 
-                Builder.QueryByPrimaryKey<TEntity>(
+                Builder.QueryByPrimaryKey(
                     e => e.Id.Equals(id));
 
                 return await FirstOrDefaultAsync();
@@ -73,7 +73,7 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FirstOrDefaultAsync<TEntity>(
-                    Builder.Query,
+                    Builder.SelectQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }
@@ -88,7 +88,7 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FindAsync<TEntity>(
-                    Builder.Query,
+                    Builder.SelectQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }
@@ -221,7 +221,6 @@ namespace Skeleton.Infrastructure.Repository
             IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.And();
             Builder.QueryByIsIn(expression, values);
 
             return this;
@@ -232,7 +231,6 @@ namespace Skeleton.Infrastructure.Repository
             IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.And();
             Builder.QueryByNotIn(expression, values);
 
             return this;
@@ -242,7 +240,6 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.And();
             Builder.ResolveQuery(expression);
 
             return this;
@@ -305,7 +302,7 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.ExecuteScalarAsync<TResult>(
-                    Builder.Query,
+                    Builder.SelectQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }

@@ -42,7 +42,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var results = client.Get();
+                var results = client.GetAll();
 
                 Assert.IsNotNull(results);
                 Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
@@ -54,11 +54,11 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var data = client.Get().FirstOrDefault();
+                var data = client.GetAll().FirstOrDefault();
 
                 Assert.IsNotNull(data);
 
-                var result = client.Get(data.CustomerId);
+                var result = client.FirstOrDefault(data.CustomerId);
 
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(CustomerDto));
@@ -75,7 +75,7 @@ namespace Skeleton.Web.Tests
             {
                 for (var page = 1; page < numberOfPages; ++page)
                 {
-                    var response = client.Get(pageSize, page);
+                    var response = client.Page(pageSize, page);
                     Assert.AreEqual(pageSize, response.Results.Count());
                 }
             }
@@ -86,7 +86,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var data = client.Get().FirstOrDefault();
+                var data = client.GetAll().FirstOrDefault();
 
                 Assert.IsNotNull(data);
 
@@ -101,12 +101,12 @@ namespace Skeleton.Web.Tests
             }
         }
 
-         [TestMethod]
+        [TestMethod]
         public void Update_Multiple()
         {
             using (var client = new CustomersHttpClient())
             {
-                var customers = client.Get(5,1).Results;
+                var customers = client.Page(5, 1).Results;
                 Assert.IsNotNull(customers);
 
                 foreach (var customer in customers)
@@ -116,13 +116,13 @@ namespace Skeleton.Web.Tests
                 Assert.IsTrue(result);
             }
         }
-        
+
         [TestMethod]
         public void Add()
         {
             using (var client = new CustomersHttpClient())
             {
-                var customer = new CustomerDto {Name = "Customer"};
+                var customer = new CustomerDto { Name = "Customer" };
                 var result = client.Add(customer);
 
                 Assert.IsNotNull(result);
@@ -148,7 +148,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var data = client.Get().FirstOrDefault();
+                var data = client.GetAll().FirstOrDefault();
                 var result = data != null && client.Delete(data.CustomerId);
 
                 Assert.IsTrue(result);
@@ -160,11 +160,11 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var customers = client.Get(5,1).Results;
+                var customers = client.Page(5, 1).Results;
                 Assert.IsNotNull(customers);
 
                 var result = client.Delete(customers);
-                Assert.IsTrue(result);  
+                Assert.IsTrue(result);
             }
         }
     }

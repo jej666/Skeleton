@@ -15,14 +15,14 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabase _database;
-        private readonly EntitySqlBuilder<TEntity, TIdentity> _builder;
+        private readonly QueryBuilder<TEntity, TIdentity> _builder;
 
         public EntityReader(
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
             _database = database;
-            _builder = new EntitySqlBuilder<TEntity, TIdentity>(metadataProvider);
+            _builder = new QueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
 
         protected IDatabase Database
@@ -30,7 +30,7 @@ namespace Skeleton.Infrastructure.Repository
             get { return _database; }
         }
 
-        internal EntitySqlBuilder<TEntity, TIdentity> Builder
+        internal QueryBuilder<TEntity, TIdentity> Builder
         {
             get { return _builder; }
         }
@@ -39,7 +39,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             return _builder.Initialize(() =>
                 Database.Find<TEntity>(
-                    _builder.Query,
+                    _builder.SelectQuery,
                     _builder.Parameters));
         }
 
@@ -47,7 +47,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             return _builder.Initialize(() =>
                 Database.FirstOrDefault<TEntity>(
-                    _builder.Query,
+                    _builder.SelectQuery,
                     _builder.Parameters));
         }
 
@@ -55,8 +55,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             id.ThrowIfNull(() => id);
 
-            _builder.And();
-            _builder.QueryByPrimaryKey<TEntity>(
+            _builder.QueryByPrimaryKey(
                 e => e.Id.Equals(id));
 
             return FirstOrDefault();
@@ -66,14 +65,12 @@ namespace Skeleton.Infrastructure.Repository
         {
             return _builder.Initialize(() =>
                 Database.Find<TEntity>(
-                    _builder.Query,
+                    _builder.SelectQuery,
                     _builder.Parameters));
         }
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
-            _builder.OrderBy<TEntity>(_builder.EntityIdName);
-
             return _builder.Initialize(() =>
                 Database.Find<TEntity>(
                     _builder.PagedQuery(pageSize, pageNumber),
@@ -185,8 +182,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
-            expression.ThrowIfNull(() => expression);
-            _builder.And();
+            expression.ThrowIfNull(() => expression); 
             _builder.QueryByIsIn(expression, values);
 
             return this;
@@ -197,7 +193,6 @@ namespace Skeleton.Infrastructure.Repository
             IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.And();
             _builder.QueryByNotIn(expression, values);
 
             return this;
@@ -207,7 +202,6 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.And();
             _builder.ResolveQuery(expression);
 
             return this;
@@ -264,7 +258,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             return _builder.Initialize(() =>
                 Database.ExecuteScalar<TResult>(
-                    _builder.Query,
+                    _builder.SelectQuery,
                     _builder.Parameters));
         }
 

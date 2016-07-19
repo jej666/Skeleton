@@ -17,7 +17,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CachedCustomersHttpClient())
             {
-                var results = client.Get();
+                var results = client.GetAll();
 
                 Assert.IsNotNull(results);
                 Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));

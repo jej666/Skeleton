@@ -6,8 +6,8 @@ using System.Net.Http.Headers;
 
 namespace Skeleton.Web.Client
 {
-    public abstract class HttpClientBase<TDto> :
-        IDisposable where TDto : class
+    public abstract class HttpClientBase :
+        IDisposable 
     {
         private readonly string _addressSuffix;
         private readonly string _jsonMediaType = "application/json";
@@ -57,16 +57,14 @@ namespace Skeleton.Web.Client
             return client;
         }
 
-        protected virtual ObjectContent CreateJsonObjectContent(TDto dto)
+        protected virtual ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
         {
-            var jsonFormatter = new JsonMediaTypeFormatter();
-            return new ObjectContent<TDto>(dto, jsonFormatter);
+            return new ObjectContent<TDto>(dto, new JsonMediaTypeFormatter());
         }
 
-        protected virtual ObjectContent CreateJsonObjectContent(IEnumerable<TDto> dtos)
+        protected virtual ObjectContent CreateJsonObjectContent<TDto>(IEnumerable<TDto> dtos) where TDto : class
         {
-            var jsonFormatter = new JsonMediaTypeFormatter();
-            return new ObjectContent<IEnumerable<TDto>>(dtos, jsonFormatter);
+            return new ObjectContent<IEnumerable<TDto>>(dtos, new JsonMediaTypeFormatter());
         }
 
         private void Dispose(bool disposing)

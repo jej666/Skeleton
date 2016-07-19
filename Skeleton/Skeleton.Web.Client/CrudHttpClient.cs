@@ -5,14 +5,14 @@ using System.Net.Http;
 namespace Skeleton.Web.Client
 {
     public class CrudHttpClient<TDto, TId> :
-        HttpClientBase<TDto> where TDto : class
+        HttpClientBase where TDto : class
     {
         public CrudHttpClient(string serviceBaseAddress, string addressSuffix)
             : base(serviceBaseAddress, addressSuffix)
         {
         }
 
-        public IEnumerable<TDto> Get()
+        public IEnumerable<TDto> GetAll()
         {
             var responseMessage = JsonHttpClient.GetAsync(AddressSuffix).Result;
             responseMessage.EnsureSuccessStatusCode();
@@ -22,7 +22,7 @@ namespace Skeleton.Web.Client
                                   .Result;
         }
 
-        public TDto Get(TId id)
+        public TDto FirstOrDefault(TId id)
         {
             var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + id).Result;
             responseMessage.EnsureSuccessStatusCode();
@@ -30,7 +30,7 @@ namespace Skeleton.Web.Client
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
         }
 
-        public PagedResult<TDto> Get(int pageSize, int pageNumber)
+        public PagedResult<TDto> Page(int pageSize, int pageNumber)
         {
             var requestUri = AddressSuffix +
                 string.Format("Page/?pageSize={0}&pageNumber={1}", pageSize, pageNumber);

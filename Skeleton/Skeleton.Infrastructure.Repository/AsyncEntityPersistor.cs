@@ -6,6 +6,7 @@ using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Shared.Abstraction;
 using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -14,7 +15,7 @@ namespace Skeleton.Infrastructure.Repository
         IAsyncEntityPersistor<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly EntitySqlBuilder<TEntity, TIdentity> _builder;
+        private readonly QueryBuilder<TEntity, TIdentity> _builder;
         private readonly IDatabaseAsync _database;
 
         public AsyncEntityPersistor(
@@ -22,7 +23,7 @@ namespace Skeleton.Infrastructure.Repository
             IDatabaseAsync database)
         {
             _database = database;
-            _builder = new EntitySqlBuilder<TEntity, TIdentity>(metadataProvider);
+            _builder = new QueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
 
         protected IDatabaseAsync Database
@@ -30,7 +31,7 @@ namespace Skeleton.Infrastructure.Repository
             get { return _database; }
         }
 
-        internal EntitySqlBuilder<TEntity, TIdentity> Builder
+        internal QueryBuilder<TEntity, TIdentity> Builder
         {
             get { return _builder; }
         }
@@ -177,7 +178,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                Builder.QueryByPrimaryKey<TEntity>(
+                Builder.QueryByPrimaryKey(
                     e => e.Id.Equals(entity.Id));
 
                 return await Database.ExecuteAsync(
@@ -196,8 +197,8 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 Builder.SetUpdateColumns(entity);
-                Builder.QueryByPrimaryKey<TEntity>(
-                    e => e.Id.Equals(entity.Id));
+                Builder.QueryByPrimaryKey(
+                   e => e.Id.Equals(entity.Id));
 
                 return await Database.ExecuteAsync(
                     Builder.UpdateQuery,

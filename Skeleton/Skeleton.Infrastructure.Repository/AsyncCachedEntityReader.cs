@@ -37,7 +37,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public override async Task<IEnumerable<TEntity>> FindAsync()
         {
-            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.Query);
+            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SelectQuery);
 
             return await Cache.GetOrAddAsync(
                 LastGeneratedCacheKey,
@@ -61,7 +61,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public override async Task<TEntity> FirstOrDefaultAsync()
         {
-            LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.Query);
+            LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.SelectQuery);
 
             return await Cache.GetOrAddAsync(
                 LastGeneratedCacheKey,

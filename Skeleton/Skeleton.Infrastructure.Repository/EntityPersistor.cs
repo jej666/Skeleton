@@ -4,6 +4,7 @@ using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Data;
 using Skeleton.Shared.Abstraction;
 using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -12,7 +13,7 @@ namespace Skeleton.Infrastructure.Repository
         IEntityPersitor<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly EntitySqlBuilder<TEntity, TIdentity> _builder;
+        private readonly QueryBuilder<TEntity, TIdentity> _builder;
         private readonly IDatabase _database;
 
         public EntityPersistor(
@@ -20,7 +21,7 @@ namespace Skeleton.Infrastructure.Repository
             IDatabase database)
         {
             _database = database;
-            _builder = new EntitySqlBuilder<TEntity, TIdentity>(metadataProvider);
+            _builder = new QueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
 
         protected IDatabase Database
@@ -167,7 +168,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             return _builder.Initialize(() =>
             {
-                _builder.QueryByPrimaryKey<TEntity>(
+                _builder.QueryByPrimaryKey(
                     e => e.Id.Equals(entity.Id));
 
                 return _database.Execute(
@@ -181,7 +182,7 @@ namespace Skeleton.Infrastructure.Repository
             return _builder.Initialize(() =>
             {
                 _builder.SetUpdateColumns(entity);
-                _builder.QueryByPrimaryKey<TEntity>(
+                _builder.QueryByPrimaryKey(
                     e => e.Id.Equals(entity.Id));
 
                 entity.LastModifiedDateTime = DateTime.Now;

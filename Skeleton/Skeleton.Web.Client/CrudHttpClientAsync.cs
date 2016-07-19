@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Skeleton.Web.Client
 {
     public class ReadOnlyHttpClientAsync<TDto, TId> :
-        HttpClientBase<TDto> where TDto : class
+        HttpClientBase where TDto : class
     {
         public ReadOnlyHttpClientAsync(string serviceBaseAddress, string addressSuffix)
             : base(serviceBaseAddress, addressSuffix)

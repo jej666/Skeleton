@@ -38,7 +38,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public override IEnumerable<TEntity> Find()
         {
-            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.Query);
+            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SelectQuery);
 
             return Cache.GetOrAdd(
                 LastGeneratedCacheKey,
@@ -60,7 +60,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public override TEntity FirstOrDefault()
         {
-            LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.Query);
+            LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.SelectQuery);
 
             return Cache.GetOrAdd(
                 LastGeneratedCacheKey,
