@@ -40,10 +40,10 @@ namespace Skeleton.Core.Repository
         IEntityReader<TEntity, TIdentity> Select(
             params Expression<Func<TEntity, object>>[] expressions);
 
-        IEntityReader<TEntity, TIdentity> SelectDistinct(
+        IEntityReader<TEntity, TIdentity> Distinct(
             Expression<Func<TEntity, object>> expression);
 
-        IEntityReader<TEntity, TIdentity> SelectTop(int take);
+        IEntityReader<TEntity, TIdentity> Top(int take);
 
         IEntityReader<TEntity, TIdentity> Where(
             Expression<Func<TEntity, bool>> expression);

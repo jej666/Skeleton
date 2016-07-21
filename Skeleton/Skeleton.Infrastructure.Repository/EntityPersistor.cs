@@ -13,7 +13,7 @@ namespace Skeleton.Infrastructure.Repository
         IEntityPersitor<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly QueryBuilder<TEntity, TIdentity> _builder;
+        private readonly IMetadataProvider _metadataProvider;
         private readonly IDatabase _database;
 
         public EntityPersistor(
@@ -21,7 +21,7 @@ namespace Skeleton.Infrastructure.Repository
             IDatabase database)
         {
             _database = database;
-            _builder = new QueryBuilder<TEntity, TIdentity>(metadataProvider);
+            _metadataProvider = metadataProvider;
         }
 
         protected IDatabase Database
@@ -109,7 +109,8 @@ namespace Skeleton.Infrastructure.Repository
             {
                 transaction.Begin();
 
-                enumerable.ForEach(entity => { result = Save(entity); });
+                enumerable.ForEach(entity =>
+                    { result = Save(entity); });
 
                 if (result)
                     transaction.Commit();
@@ -149,48 +150,39 @@ namespace Skeleton.Infrastructure.Repository
 
         private TIdentity AddCommand(TEntity entity)
         {
-            return _builder.Initialize(() =>
-            {
-                _builder.SetInsertColumns(entity);
+            var builder = new InsertCommandBuilder<TEntity, TIdentity>(
+                _metadataProvider, entity);
 
-                var id = _database.ExecuteScalar<TIdentity>(
-                    _builder.InsertQuery,
-                    _builder.Parameters);
+            var id = Database.ExecuteScalar<TIdentity>(
+                builder.SqlQuery,
+                builder.Parameters);
 
-                if (id != null)
-                    entity.IdAccessor.SetValue(entity, id);
+            if (id != null)
+                entity.IdAccessor.SetValue(entity, id);
 
-                return id;
-            });
+            return id;
         }
 
         private int DeleteCommand(TEntity entity)
         {
-            return _builder.Initialize(() =>
-            {
-                _builder.QueryByPrimaryKey(
-                    e => e.Id.Equals(entity.Id));
+            var builder = new DeleteCommandBuilder<TEntity, TIdentity>(
+                    _metadataProvider, entity);
 
-                return _database.Execute(
-                    _builder.DeleteQuery,
-                    _builder.Parameters);
-            });
+            return Database.Execute(
+                builder.SqlQuery,
+                builder.Parameters);
         }
 
         private int UpdateCommand(TEntity entity)
         {
-            return _builder.Initialize(() =>
-            {
-                _builder.SetUpdateColumns(entity);
-                _builder.QueryByPrimaryKey(
-                    e => e.Id.Equals(entity.Id));
+            var builder = new UpdateCommandBuilder<TEntity, TIdentity>(
+                     _metadataProvider, entity);
 
-                entity.LastModifiedDateTime = DateTime.Now;
+            entity.LastModifiedDateTime = DateTime.Now;
 
-                return _database.Execute(
-                    _builder.UpdateQuery,
-                    _builder.Parameters);
-            });
+            return _database.Execute(
+                builder.SqlQuery,
+                builder.Parameters);
         }
 
         protected override void DisposeManagedResources()

@@ -20,32 +20,30 @@ namespace System.Linq.Expressions
         {
             expression.ThrowIfNull(() => expression);
 
-            switch (expression.NodeType)
+            var constantExpression = expression as ConstantExpression;
+
+            if (constantExpression != null)
+                return constantExpression.Value;
+
+            var methodCallExpression = expression as MethodCallExpression;
+            if (methodCallExpression != null)
+                return methodCallExpression.InvokeMethodCall();
+
+            var memberExpression = expression as MemberExpression;
+            if (memberExpression != null)
             {
-                case ExpressionType.Constant:
-                    var constantExpression = expression as ConstantExpression;
-                    return  constantExpression != null
-                        ? constantExpression.Value
-                        :null ;
-                case ExpressionType.Call:
-                    return (expression as MethodCallExpression).InvokeMethodCall();
-
-                case ExpressionType.MemberAccess:
-                    var memberExpr = expression as MemberExpression;
-                    if (memberExpr != null)
-                    {
-                        var obj = GetExpressionValue(memberExpr.Expression);
-                        return ((dynamic) memberExpr.Member).GetValue(obj);
-                    }
-                    return null;
-                case ExpressionType.Convert:
-                    var member = GetMemberExpression(expression);
-                    var instance = GetExpressionValue(member.Expression);
-                    return ((dynamic) member.Member).GetValue(instance);
-
-                default:
-                    throw new ArgumentException("Expected constant expression");
+                var obj = GetExpressionValue(memberExpression.Expression);
+                return ((dynamic)memberExpression.Member).GetValue(obj);
             }
+
+            if (expression.NodeType == ExpressionType.Convert)
+            {
+                var member = GetMemberExpression(expression);
+                var instance = GetExpressionValue(member.Expression);
+
+                return ((dynamic)member.Member).GetValue(instance);
+            }
+            return new object();
         }
 
         public static MemberExpression GetMemberExpression(this Expression expression)
@@ -144,7 +142,7 @@ namespace System.Linq.Expressions
                    && (expression.NodeType == ExpressionType.Convert
                        || expression.NodeType == ExpressionType.ConvertChecked))
             {
-                expression = RemoveConvert(((UnaryExpression) expression).Operand);
+                expression = RemoveConvert(((UnaryExpression)expression).Operand);
             }
 
             return expression;

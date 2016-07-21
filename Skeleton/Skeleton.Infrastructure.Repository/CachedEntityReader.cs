@@ -24,7 +24,7 @@ namespace Skeleton.Infrastructure.Repository
             cacheProvider.ThrowIfNull(() => cacheProvider);
 
             _cacheProvider = cacheProvider;
-            _keyGenerator = new CacheKeyGenerator<TEntity, TIdentity>(isAsync: false);
+            _keyGenerator = new CacheKeyGenerator<TEntity, TIdentity>();
         }
 
         public Action<ICacheContext> CacheConfigurator { get; set; }
@@ -38,7 +38,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public override IEnumerable<TEntity> Find()
         {
-            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SelectQuery);
+            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SqlQuery);
 
             return Cache.GetOrAdd(
                 LastGeneratedCacheKey,
@@ -60,7 +60,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public override TEntity FirstOrDefault()
         {
-            LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.SelectQuery);
+            LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.SqlQuery);
 
             return Cache.GetOrAdd(
                 LastGeneratedCacheKey,

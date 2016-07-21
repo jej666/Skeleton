@@ -57,8 +57,15 @@
     <Compile Include="EntityPersistor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExpressionTree\JoinType.cs" />
+    <Compile Include="SqlBuilder\CommandContext.cs" />
+    <Compile Include="SqlBuilder\ContextBase.cs" />
+    <Compile Include="SqlBuilder\LazyLoading.cs" />
+    <Compile Include="SqlBuilder\SqlBuilderBase.cs" />
     <Compile Include="SqlBuilder\QueryContext.cs" />
-    <Compile Include="SqlBuilder\QueryBuilder.cs" />
+    <Compile Include="SqlBuilder\DeleteCommandBuilder.cs" />
+    <Compile Include="SqlBuilder\InsertCommandBuilder.cs" />
+    <Compile Include="SqlBuilder\UpdateCommandBuilder.cs" />
+    <Compile Include="SqlBuilder\SelectQueryBuilder.cs" />
     <Compile Include="SqlBuilder\ExpressionResolver.cs" />
     <Compile Include="ExpressionTree\LikeMethod.cs" />
     <Compile Include="ExpressionTree\LikeNode.cs" />

@@ -3,20 +3,20 @@ using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class CacheKeyGenerator<TEntity, TIdentity>
+    public class CacheKeyGenerator<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly string _prefix;
+        protected string Prefix { get; set; }
 
-        public CacheKeyGenerator(bool isAsync)
+        public CacheKeyGenerator()
         {
-            _prefix = isAsync ? "async_" : string.Empty;
+            Prefix = string.Empty;
         }
 
         public string ForFind(string query)
         {
             return "{0}{1}[Find]-{2}".FormatWith(
-                _prefix,
+                Prefix,
                 typeof(TEntity).FullName,
                 query);
         }
@@ -24,7 +24,7 @@ namespace Skeleton.Infrastructure.Repository
         public string ForFirstOrDefault(TIdentity id)
         {
             return "{0}{1}[FirstOrDefault]-{2}".FormatWith(
-                _prefix,
+                Prefix,
                 typeof(TEntity).FullName,
                 id.ToString());
         }
@@ -32,7 +32,7 @@ namespace Skeleton.Infrastructure.Repository
         public string ForFirstOrDefault(string query)
         {
             return "{0}{1}[FirstOrDefault]-{2}".FormatWith(
-                _prefix,
+                Prefix,
                 typeof(TEntity).FullName,
                 query);
         }
@@ -40,17 +40,28 @@ namespace Skeleton.Infrastructure.Repository
         public string ForGetAll()
         {
             return "{0}{1}[GetAll]".FormatWith(
-                _prefix,
+                Prefix,
                 typeof(TEntity).FullName);
         }
 
         public string ForPage(int pageSize, int pageNumber)
         {
             return "{0}{1}[Page]-Size{2}-Page{3}".FormatWith(
-                _prefix,
+                Prefix,
                 typeof(TEntity).FullName,
                 pageSize,
                 pageNumber);
+        }
+    }
+
+    public class AsyncCacheKeyGenerator<TEntity, TIdentity> :
+        CacheKeyGenerator<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity, TIdentity>
+    {
+        public AsyncCacheKeyGenerator()
+            :base()
+        {
+            Prefix = "async_";
         }
     }
 }

@@ -16,14 +16,14 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabaseAsync _database;
-        private readonly QueryBuilder<TEntity, TIdentity> _builder;
+        private readonly SelectQueryBuilder<TEntity, TIdentity> _builder;
 
         public AsyncEntityReader(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
         {
             _database = database;
-            _builder = new QueryBuilder<TEntity, TIdentity>(metadataProvider);
+            _builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
 
         protected IDatabaseAsync Database
@@ -31,7 +31,7 @@ namespace Skeleton.Infrastructure.Repository
             get { return _database; }
         }
 
-        internal QueryBuilder<TEntity, TIdentity> Builder
+        internal SelectQueryBuilder<TEntity, TIdentity> Builder
         {
             get { return _builder; }
         }
@@ -41,14 +41,11 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FindAsync<TEntity>(
-                    Builder.SelectQuery,
+                    Builder.SqlQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally
-            {
-               Builder.Initialize();
-            }
+            finally { Builder.OnNextQuery(); }
         }
 
         public virtual async Task<TEntity> FirstOrDefaultAsync(TIdentity id)
@@ -62,10 +59,7 @@ namespace Skeleton.Infrastructure.Repository
 
                 return await FirstOrDefaultAsync();
             }
-            finally
-            {
-                Builder.Initialize();
-            }
+            finally { Builder.OnNextQuery(); }
         }
 
         public virtual async Task<TEntity> FirstOrDefaultAsync()
@@ -73,14 +67,11 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FirstOrDefaultAsync<TEntity>(
-                    Builder.SelectQuery,
+                    Builder.SqlQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally
-            {
-                Builder.Initialize();
-            }
+            finally { Builder.OnNextQuery(); }
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -88,14 +79,11 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FindAsync<TEntity>(
-                    Builder.SelectQuery,
+                    Builder.SqlQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally
-            {
-                Builder.Initialize();
-            }
+            finally { Builder.OnNextQuery(); }
         }
 
         public virtual async Task<IEnumerable<TEntity>> PageAsync(
@@ -105,14 +93,11 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FindAsync<TEntity>(
-                    Builder.PagedQuery(pageSize, pageNumber),
+                    Builder.SqlPagedQuery(pageSize, pageNumber),
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally
-            {
-                Builder.Initialize();
-            }
+            finally { Builder.OnNextQuery(); }
         }
 
         public IAsyncEntityReader<TEntity, TIdentity> GroupBy(
@@ -193,18 +178,18 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IAsyncEntityReader<TEntity, TIdentity> SelectDistinct(
+        public IAsyncEntityReader<TEntity, TIdentity> Distinct(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.SelectWithFunction(expression, SelectFunction.Distinct);
+            Builder.Aggregate(expression, SelectFunction.Distinct);
 
             return this;
         }
 
-        public IAsyncEntityReader<TEntity, TIdentity> SelectTop(int take)
+        public IAsyncEntityReader<TEntity, TIdentity> Top(int take)
         {
-            Builder.SelectTop(take);
+            Builder.Top(take);
 
             return this;
         }
@@ -221,7 +206,7 @@ namespace Skeleton.Infrastructure.Repository
             IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.QueryByIsIn(expression, values);
+            Builder.WhereIsIn(expression, values);
 
             return this;
         }
@@ -231,7 +216,7 @@ namespace Skeleton.Infrastructure.Repository
             IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.QueryByNotIn(expression, values);
+            Builder.WhereNotIn(expression, values);
 
             return this;
         }
@@ -249,14 +234,14 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.SelectWithFunction(expression, SelectFunction.Avg);
+            Builder.Aggregate(expression, SelectFunction.Avg);
 
             return await AggregateAsAsync<TResult>();
         }
 
         public async Task<int> CountAsync()
         {
-            Builder.SelectCount();
+            Builder.Count();
 
             return await AggregateAsAsync<int>();
         }
@@ -265,7 +250,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.SelectWithFunction(expression, SelectFunction.Count);
+            Builder.Aggregate(expression, SelectFunction.Count);
 
             return await AggregateAsAsync<TResult>();
         }
@@ -274,7 +259,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.SelectWithFunction(expression, SelectFunction.Max);
+            Builder.Aggregate(expression, SelectFunction.Max);
 
             return await AggregateAsAsync<TResult>();
         }
@@ -283,7 +268,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.SelectWithFunction(expression, SelectFunction.Min);
+            Builder.Aggregate(expression, SelectFunction.Min);
 
             return await AggregateAsAsync<TResult>();
         }
@@ -292,7 +277,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            Builder.SelectWithFunction(expression, SelectFunction.Sum);
+            Builder.Aggregate(expression, SelectFunction.Sum);
 
             return await AggregateAsAsync<TResult>();
         }
@@ -302,14 +287,11 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.ExecuteScalarAsync<TResult>(
-                    Builder.SelectQuery,
+                    Builder.SqlQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally
-            {
-                Builder.Initialize();
-            }
+            finally { Builder.OnNextQuery(); }
         }
 
         protected override void DisposeManagedResources()

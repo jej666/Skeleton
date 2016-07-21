@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Repository
         IAsyncEntityPersistor<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly QueryBuilder<TEntity, TIdentity> _builder;
+        private readonly IMetadataProvider _metadataProvider;
         private readonly IDatabaseAsync _database;
 
         public AsyncEntityPersistor(
@@ -23,17 +23,12 @@ namespace Skeleton.Infrastructure.Repository
             IDatabaseAsync database)
         {
             _database = database;
-            _builder = new QueryBuilder<TEntity, TIdentity>(metadataProvider);
+            _metadataProvider = metadataProvider;
         }
 
         protected IDatabaseAsync Database
         {
             get { return _database; }
-        }
-
-        internal QueryBuilder<TEntity, TIdentity> Builder
-        {
-            get { return _builder; }
         }
 
         public virtual async Task<bool> AddAsync(TEntity entity)
@@ -154,61 +149,40 @@ namespace Skeleton.Infrastructure.Repository
 
         private async Task<TIdentity> AddCommand(TEntity entity)
         {
-            try
-            {
-                Builder.SetInsertColumns(entity);
+            var builder = new InsertCommandBuilder<TEntity, TIdentity>(
+                _metadataProvider, entity);
 
-                var id = await Database.ExecuteScalarAsync<TIdentity>(
-                    Builder.InsertQuery,
-                    Builder.Parameters)
+            var id = await Database.ExecuteScalarAsync<TIdentity>(
+                    builder.SqlQuery,
+                    builder.Parameters)
                     .ConfigureAwait(false);
 
-                if (id != null)
-                    entity.IdAccessor.SetValue(entity, id);
+            if (id != null)
+                entity.IdAccessor.SetValue(entity, id);
 
-                return id;
-            }
-            finally
-            {
-                Builder.Initialize();
-            }
+            return id;
         }
 
         private async Task<int> DeleteCommand(TEntity entity)
         {
-            try
-            {
-                Builder.QueryByPrimaryKey(
-                    e => e.Id.Equals(entity.Id));
+            var builder = new DeleteCommandBuilder<TEntity, TIdentity>(
+               _metadataProvider, entity);
 
-                return await Database.ExecuteAsync(
-                    Builder.DeleteQuery,
-                    Builder.Parameters)
+            return await Database.ExecuteAsync(
+                    builder.SqlQuery,
+                    builder.Parameters)
                     .ConfigureAwait(false);
-            }
-            finally
-            {
-                Builder.Initialize();
-            }
         }
 
         private async Task<int> UpdateCommand(TEntity entity)
         {
-            try
-            {
-                Builder.SetUpdateColumns(entity);
-                Builder.QueryByPrimaryKey(
-                   e => e.Id.Equals(entity.Id));
+            var builder = new UpdateCommandBuilder<TEntity, TIdentity>(
+              _metadataProvider, entity);
 
-                return await Database.ExecuteAsync(
-                    Builder.UpdateQuery,
-                    Builder.Parameters)
-                    .ConfigureAwait(false);
-            }
-            finally
-            {
-                Builder.Initialize();
-            }
+            return await Database.ExecuteAsync(
+                builder.SqlQuery,
+                builder.Parameters)
+                .ConfigureAwait(false);
         }
 
         protected override void DisposeManagedResources()

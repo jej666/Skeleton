@@ -22,7 +22,7 @@ namespace Skeleton.Tests
         public void Find_ByExpression()
         {
             var customer = _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefault();
             var results = _service.Query
                 .Where(c => c.Name.Equals(customer.Name))
@@ -49,7 +49,7 @@ namespace Skeleton.Tests
         public void FirstOrDefault_ById()
         {
             var customer1 = _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefault();
             var customer2 = _service.Query
                 .FirstOrDefault(customer1.Id);
@@ -70,7 +70,7 @@ namespace Skeleton.Tests
         public void SelectTop()
         {
             var customers = _service.Query
-                .SelectTop(5)
+                .Top(5)
                 .Find()
                 .ToList();
             Assert.IsNotNull(customers);
@@ -91,7 +91,7 @@ namespace Skeleton.Tests
         {
             var minCustomer = _service.Query
                 .OrderBy(c => c.CustomerId)
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefault();
             var min = _service.Query
                 .Min(c => c.CustomerId);
@@ -104,7 +104,7 @@ namespace Skeleton.Tests
         {
             var maxCustomer = _service.Query
                 .OrderByDescending(c => c.CustomerId)
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefault();
             var max = _service.Query
                 .Max(c => c.CustomerId);

@@ -33,7 +33,7 @@ namespace Skeleton.Tests
         public async Task Cached_FirstOrDefaultAsync_ByExpression()
         {
             var customer1 = await _readService.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefaultAsync();
             var customer2 = await _readService.Query
                 .Where(c => c.Name.Equals(customer1.Name))
@@ -50,7 +50,7 @@ namespace Skeleton.Tests
         public async Task Cached_FirstOrDefaultAsync_ById()
         {
             var customer1 = await _readService.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefaultAsync();
             var customer2 = await _readService.Query
                 .FirstOrDefaultAsync(customer1.Id);

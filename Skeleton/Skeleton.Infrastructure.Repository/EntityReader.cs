@@ -15,14 +15,14 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IDatabase _database;
-        private readonly QueryBuilder<TEntity, TIdentity> _builder;
+        private readonly SelectQueryBuilder<TEntity, TIdentity> _builder;
 
         public EntityReader(
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
             _database = database;
-            _builder = new QueryBuilder<TEntity, TIdentity>(metadataProvider);
+            _builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
 
         protected IDatabase Database
@@ -30,58 +30,57 @@ namespace Skeleton.Infrastructure.Repository
             get { return _database; }
         }
 
-        internal QueryBuilder<TEntity, TIdentity> Builder
+        internal SelectQueryBuilder<TEntity, TIdentity> Builder
         {
             get { return _builder; }
         }
 
         public virtual IEnumerable<TEntity> Find()
         {
-            return _builder.Initialize(() =>
+            return Builder.OnNextQuery(() =>
                 Database.Find<TEntity>(
-                    _builder.SelectQuery,
-                    _builder.Parameters));
+                          Builder.SqlQuery,
+                          Builder.Parameters));
         }
 
         public virtual TEntity FirstOrDefault()
         {
-            return _builder.Initialize(() =>
+            return Builder.OnNextQuery(() =>
                 Database.FirstOrDefault<TEntity>(
-                    _builder.SelectQuery,
-                    _builder.Parameters));
+                        Builder.SqlQuery,
+                        Builder.Parameters));
         }
 
         public virtual TEntity FirstOrDefault(TIdentity id)
         {
             id.ThrowIfNull(() => id);
 
-            _builder.QueryByPrimaryKey(
-                e => e.Id.Equals(id));
+            Builder.QueryByPrimaryKey(e => e.Id.Equals(id));
 
             return FirstOrDefault();
         }
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return _builder.Initialize(() =>
+            return Builder.OnNextQuery(() =>
                 Database.Find<TEntity>(
-                    _builder.SelectQuery,
-                    _builder.Parameters));
+                        Builder.SqlQuery,
+                        Builder.Parameters));
         }
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
-            return _builder.Initialize(() =>
-                Database.Find<TEntity>(
-                    _builder.PagedQuery(pageSize, pageNumber),
-                    _builder.Parameters));
+            return Builder.OnNextQuery(() =>
+                 Database.Find<TEntity>(
+                    Builder.SqlPagedQuery(pageSize, pageNumber),
+                    Builder.Parameters));
         }
 
         public IEntityReader<TEntity, TIdentity> GroupBy(
            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.GroupBy(expression);
+            Builder.GroupBy(expression);
 
             return this;
         }
@@ -91,7 +90,7 @@ namespace Skeleton.Infrastructure.Repository
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
             expression.ThrowIfNull(() => expression);
-            _builder.Join(expression, JoinType.Left);
+            Builder.Join(expression, JoinType.Left);
 
             return this;
         }
@@ -101,7 +100,7 @@ namespace Skeleton.Infrastructure.Repository
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
             expression.ThrowIfNull(() => expression);
-            _builder.Join(expression, JoinType.Right);
+            Builder.Join(expression, JoinType.Right);
 
             return this;
         }
@@ -111,7 +110,7 @@ namespace Skeleton.Infrastructure.Repository
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
             expression.ThrowIfNull(() => expression);
-            _builder.Join(expression, JoinType.Inner);
+            Builder.Join(expression, JoinType.Inner);
 
             return this;
         }
@@ -121,7 +120,7 @@ namespace Skeleton.Infrastructure.Repository
             where TEntity2 : class, IEntity<TEntity2, TIdentity>
         {
             expression.ThrowIfNull(() => expression);
-            _builder.Join(expression, JoinType.Cross);
+            Builder.Join(expression, JoinType.Cross);
 
             return this;
         }
@@ -130,7 +129,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.OrderBy(expression);
+            Builder.OrderBy(expression);
 
             return this;
         }
@@ -139,7 +138,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.OrderByDescending(expression);
+            Builder.OrderByDescending(expression);
 
             return this;
         }
@@ -150,23 +149,23 @@ namespace Skeleton.Infrastructure.Repository
             expressions.ThrowIfNull(() => expressions);
 
             foreach (var expression in expressions)
-                _builder.Select(expression);
+                Builder.Select(expression);
 
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> SelectDistinct(
+        public IEntityReader<TEntity, TIdentity> Distinct(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.SelectWithFunction(expression, SelectFunction.Distinct);
+            Builder.Aggregate(expression, SelectFunction.Distinct);
 
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> SelectTop(int take)
+        public IEntityReader<TEntity, TIdentity> Top(int take)
         {
-            _builder.SelectTop(take);
+            Builder.Top(take);
 
             return this;
         }
@@ -182,8 +181,8 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
-            expression.ThrowIfNull(() => expression); 
-            _builder.QueryByIsIn(expression, values);
+            expression.ThrowIfNull(() => expression);
+            Builder.WhereIsIn(expression, values);
 
             return this;
         }
@@ -193,7 +192,7 @@ namespace Skeleton.Infrastructure.Repository
             IEnumerable<object> values)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.QueryByNotIn(expression, values);
+            Builder.WhereNotIn(expression, values);
 
             return this;
         }
@@ -202,7 +201,7 @@ namespace Skeleton.Infrastructure.Repository
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.ResolveQuery(expression);
+            Builder.ResolveQuery(expression);
 
             return this;
         }
@@ -210,14 +209,14 @@ namespace Skeleton.Infrastructure.Repository
         public TResult Average<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.SelectWithFunction(expression, SelectFunction.Avg);
+            Builder.Aggregate(expression, SelectFunction.Avg);
 
             return AggregateAs<TResult>();
         }
 
         public int Count()
         {
-            _builder.SelectCount();
+            Builder.Count();
 
             return AggregateAs<int>();
         }
@@ -225,7 +224,7 @@ namespace Skeleton.Infrastructure.Repository
         public TResult Count<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.SelectWithFunction(expression, SelectFunction.Count);
+            Builder.Aggregate(expression, SelectFunction.Count);
 
             return AggregateAs<TResult>();
         }
@@ -233,7 +232,7 @@ namespace Skeleton.Infrastructure.Repository
         public TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.SelectWithFunction(expression, SelectFunction.Max);
+            Builder.Aggregate(expression, SelectFunction.Max);
 
             return AggregateAs<TResult>();
         }
@@ -241,7 +240,7 @@ namespace Skeleton.Infrastructure.Repository
         public TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.SelectWithFunction(expression, SelectFunction.Min);
+            Builder.Aggregate(expression, SelectFunction.Min);
 
             return AggregateAs<TResult>();
         }
@@ -249,17 +248,17 @@ namespace Skeleton.Infrastructure.Repository
         public TResult Sum<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             expression.ThrowIfNull(() => expression);
-            _builder.SelectWithFunction(expression, SelectFunction.Sum);
+            Builder.Aggregate(expression, SelectFunction.Sum);
 
             return AggregateAs<TResult>();
         }
 
         private TResult AggregateAs<TResult>()
         {
-            return _builder.Initialize(() =>
-                Database.ExecuteScalar<TResult>(
-                    _builder.SelectQuery,
-                    _builder.Parameters));
+            return Builder.OnNextQuery(() =>
+                 Database.ExecuteScalar<TResult>(
+                         Builder.SqlQuery, 
+                         Builder.Parameters));
         }
 
         protected override void DisposeManagedResources()

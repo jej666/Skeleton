@@ -42,7 +42,7 @@ namespace Skeleton.Tests
         public void Delete()
         {
             var customer = _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefault();
             var successed = _service.Store.Delete(customer);
             Assert.IsTrue(successed);
@@ -55,7 +55,7 @@ namespace Skeleton.Tests
         public void Delete_Multiple()
         {
             var customers = _service.Query
-                .SelectTop(3)
+                .Top(3)
                 .Find();
             var successed = _service.Store.Delete(customers);
             Assert.IsTrue(successed);
@@ -65,7 +65,7 @@ namespace Skeleton.Tests
         public void Update()
         {
             var customer = _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefault();
             customer.Name = "UpdatedName";
             var successed = _service.Store.Update(customer);
@@ -80,7 +80,7 @@ namespace Skeleton.Tests
         public void Update_Multiple()
         {
             var customers = _service.Query
-                .SelectTop(5)
+                .Top(5)
                 .Find()
                 .ToList();
             foreach (var cust in customers)

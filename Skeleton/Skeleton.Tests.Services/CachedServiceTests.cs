@@ -35,7 +35,7 @@ namespace Skeleton.Tests
         public void Cached_FirstOrDefault_ByExpression()
         {
             var customer1 = _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefault();
             var customer2 = _service.Query
                 .Where(c => c.Name.Equals(customer1.Name))
@@ -51,7 +51,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Cached_FirstOrDefault_ById()
         {
-            var customer1 = _service.Query.SelectTop(1).FirstOrDefault();
+            var customer1 = _service.Query.Top(1).FirstOrDefault();
             var customer2 = _service.Query.FirstOrDefault(customer1.Id);
 
             Assert.IsNotNull(customer2);

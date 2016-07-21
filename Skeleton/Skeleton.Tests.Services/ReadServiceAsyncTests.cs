@@ -33,7 +33,7 @@ namespace Skeleton.Tests
         public async Task FirstOrDefaultAsync_ByExpression()
         {
             var customer = await _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefaultAsync();
             var result = await _service.Query
                 .Where(c => c.Name.Equals(customer.Name))
@@ -47,7 +47,7 @@ namespace Skeleton.Tests
         public async Task FirstOrDefaultAsync_ById()
         {
             var customer1 = await _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefaultAsync();
             var customer2 = await _service.Query
                 .FirstOrDefaultAsync(customer1.Id);

@@ -40,10 +40,10 @@ namespace Skeleton.Core.Repository
         IAsyncEntityReader<TEntity, TIdentity> Select(
             params Expression<Func<TEntity, object>>[] expressions);
 
-        IAsyncEntityReader<TEntity, TIdentity> SelectDistinct(
+        IAsyncEntityReader<TEntity, TIdentity> Distinct(
             Expression<Func<TEntity, object>> expression);
 
-        IAsyncEntityReader<TEntity, TIdentity> SelectTop(int take);
+        IAsyncEntityReader<TEntity, TIdentity> Top(int take);
 
         IAsyncEntityReader<TEntity, TIdentity> Where(
             Expression<Func<TEntity, bool>> expression);

@@ -14,7 +14,7 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly ICacheProvider _cacheProvider;
-        private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator;
+        private readonly AsyncCacheKeyGenerator<TEntity, TIdentity> _keyGenerator;
 
         public AsyncCachedEntityReader(
             IMetadataProvider metadataProvider,
@@ -23,7 +23,7 @@ namespace Skeleton.Infrastructure.Repository
             : base(metadataProvider, database)
         {
             _cacheProvider = cacheProvider;
-            _keyGenerator = new CacheKeyGenerator<TEntity, TIdentity>(isAsync:true);
+            _keyGenerator = new AsyncCacheKeyGenerator<TEntity, TIdentity>();
         }
 
         public Action<ICacheContext> CacheConfigurator { get; set; }
@@ -37,7 +37,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public override async Task<IEnumerable<TEntity>> FindAsync()
         {
-            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SelectQuery);
+            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SqlQuery);
 
             return await Cache.GetOrAddAsync(
                 LastGeneratedCacheKey,
@@ -61,7 +61,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public override async Task<TEntity> FirstOrDefaultAsync()
         {
-            LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.SelectQuery);
+            LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.SqlQuery);
 
             return await Cache.GetOrAddAsync(
                 LastGeneratedCacheKey,

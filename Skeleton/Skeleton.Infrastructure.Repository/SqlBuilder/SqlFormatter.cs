@@ -26,32 +26,50 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal static string ColumnValue(string tableName, string columnName, object value)
         {
-            return "[{0}].[{1}] = {2} ".FormatWith(tableName, columnName, GetFormattedValue(value));
+            return "[{0}].[{1}] = {2} ".FormatWith(tableName, columnName, FormattedValue(value));
         }
 
-        internal static string DeleteQuery
-        {
-            get { return "DELETE FROM {0} {1}"; }
-        }
-
-        internal static string InsertQuery
-        {
-            get { return "INSERT INTO {0} ({1}) VALUES ({2}); SELECT scope_identity() AS [SCOPE_IDENTITY]"; }
-        }
 
         internal static string SelectQuery
         {
             get { return "SELECT {0} {1} FROM {2} {3} {4} {5} {6}"; }
         }
 
-        internal static string UpdateQuery
+        
+
+        internal static string Top(int take)
         {
-            get { return "UPDATE {0} SET {1} {2}"; }
+           return "Top({0})".FormatWith(take);
         }
 
-        internal static string PagedQuery
+        internal static string CountAny
         {
-            get { return "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY"; }
+           get { return "Count(*)"; }
+        }
+
+        internal static string BeginExpression
+        {
+            get { return "("; }
+        }
+
+        internal static string EndExpression
+        {
+            get { return ")"; }
+        }
+
+        internal static string AndExpression
+        {
+            get { return " AND "; }
+        }
+
+        internal static string NotExpression
+        {
+            get { return " NOT "; }
+        }
+
+        internal static string OrExpression
+        {
+            get { return " OR "; }
         }
 
         internal static string Field(string tableName, string fieldName)
@@ -83,10 +101,14 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return string.Join(FieldDelimiter, fields);
         }
 
+        internal static string OrderByDescending(MemberNode node)
+        {
+            return  "{0} DESC".FormatWith(Field(node));
+        }
+
         internal static string Source(IEnumerable<string> source, string tableName)
         {
-            var joinExpression = string.Join(" ", source);
-            return "{0} {1}".FormatWith(tableName, joinExpression);
+            return "{0} {1}".FormatWith(tableName, string.Join(" ", source));
         }
 
         internal static string Conditions(IEnumerable<string> where)
@@ -97,7 +119,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return "WHERE {0}".FormatWith(string.Join("", where));
         }
 
-        internal static string Grouping(IEnumerable<string> grouping)
+        internal static string GroupBy(IEnumerable<string> grouping)
         {
             if (grouping.IsNullOrEmpty())
                 return string.Empty;
@@ -113,7 +135,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return "HAVING {0}".FormatWith(string.Join(" ", having));
         }
 
-        internal static string Ordering(IEnumerable<string> ordering)
+        internal static string OrderBy(IEnumerable<string> ordering)
         {
             if (ordering.IsNullOrEmpty())
                 return string.Empty;
@@ -121,10 +143,15 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return "ORDER BY {0}".FormatWith(Fields(ordering));
         }
 
-        internal static string Selection(IEnumerable<string> selection,  string tableName)
+        internal static string SelectAll(string tableName)
+        {
+            return "{0}.*".FormatWith(Table(tableName));
+        }
+
+        internal static string SelectedColumns(IEnumerable<string> selection,  string tableName)
         {
             if (selection.IsNullOrEmpty())
-                return "{0}.*".FormatWith(tableName);
+                return SelectAll(tableName);
 
             return Fields(selection);
         }
@@ -178,14 +205,32 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return "{0}({1})".FormatWith(selectFunction, Field(node));
         }
 
-        internal static string QueryIsIn(MemberNode node, IEnumerable<string> parameterIds)
+        internal static string WhereIsIn(MemberNode node, IEnumerable<string> parameterIds)
         {
             return "{0} IN ({1})".FormatWith(
                  Field(node),
                  Fields(parameterIds));
         }
 
-        internal static string GetFormattedValue(object value)
+        internal static string LikeCondition(string value, LikeMethod method)
+        {
+            switch (method)
+            {
+                case LikeMethod.StartsWith:
+                   return value + "%";
+
+                case LikeMethod.EndsWith:
+                    return "%" + value;
+                
+                case LikeMethod.Contains:
+                    return "%" + value + "%";
+
+                default:
+                    return string.Empty;
+            }
+        }
+
+        internal static string FormattedValue(object value)
         {
             if (value is string)
                 return "'{0}'".FormatWith(value.ToString().Replace("'", "''"));

@@ -41,7 +41,7 @@ namespace Skeleton.Tests
         public async Task DeleteAsync()
         {
             var customer1 = await _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefaultAsync();
             var successed = await _service.Store.DeleteAsync(customer1);
             Assert.IsTrue(successed);
@@ -54,7 +54,7 @@ namespace Skeleton.Tests
         public async Task DeleteAsync_Multiple()
         {
             var customers = await _service.Query
-                .SelectTop(3)
+                .Top(3)
                 .FindAsync();
             var successed = await _service.Store.DeleteAsync(customers);
             Assert.IsTrue(successed);
@@ -64,7 +64,7 @@ namespace Skeleton.Tests
         public async Task UpdateAsync()
         {
             var customer1 = await _service.Query
-                .SelectTop(1)
+                .Top(1)
                 .FirstOrDefaultAsync();
             customer1.Name = "UpdatedName";
             var successed = await _service.Store.UpdateAsync(customer1);
@@ -79,7 +79,7 @@ namespace Skeleton.Tests
         public async Task UpdateAsync_Multiple()
         {
             var customers = await _service.Query
-                .SelectTop(3)
+                .Top(3)
                 .FindAsync();
             var successed = await _service.Store.UpdateAsync(customers);
             Assert.IsTrue(successed);
