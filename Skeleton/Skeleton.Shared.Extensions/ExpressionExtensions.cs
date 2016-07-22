@@ -21,7 +21,6 @@ namespace System.Linq.Expressions
             expression.ThrowIfNull(() => expression);
 
             var constantExpression = expression as ConstantExpression;
-
             if (constantExpression != null)
                 return constantExpression.Value;
 
@@ -32,8 +31,8 @@ namespace System.Linq.Expressions
             var memberExpression = expression as MemberExpression;
             if (memberExpression != null)
             {
-                var obj = GetExpressionValue(memberExpression.Expression);
-                return ((dynamic)memberExpression.Member).GetValue(obj);
+                var memberValue = memberExpression.Expression.GetExpressionValue();
+                return memberExpression.GetValue(memberValue);
             }
 
             if (expression.NodeType == ExpressionType.Convert)
@@ -41,9 +40,23 @@ namespace System.Linq.Expressions
                 var member = GetMemberExpression(expression);
                 var instance = GetExpressionValue(member.Expression);
 
-                return ((dynamic)member.Member).GetValue(instance);
+                return member.GetValue(instance);
             }
-            return new object();
+            return null;
+        }
+
+        private static object GetValue(this MemberExpression expression, object instance)
+        {
+            var memberInfo = expression.Member;
+            var propertyInfo = memberInfo as PropertyInfo;
+            if (propertyInfo != null)
+                return propertyInfo.GetValue(instance);
+
+            var fieldInfo = memberInfo as FieldInfo;
+            if (fieldInfo != null)
+                return fieldInfo.GetValue(instance);
+
+            return null;
         }
 
         public static MemberExpression GetMemberExpression(this Expression expression)

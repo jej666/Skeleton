@@ -6,11 +6,11 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class CrudServiceAsyncTests : TestBase
+    public class AsyncCrudServiceTests : TestBase
     {
         private readonly IAsyncCrudService<Customer, int, CustomerDto> _service;
 
-        public CrudServiceAsyncTests()
+        public AsyncCrudServiceTests()
         {
             _service = Container.Resolve<IAsyncCrudService<Customer, int, CustomerDto>>();
 

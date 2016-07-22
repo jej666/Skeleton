@@ -1,4 +1,5 @@
-﻿using Skeleton.Shared.Abstraction;
+﻿using Skeleton.Infrastructure.Repository.ExpressionTree;
+using Skeleton.Shared.Abstraction;
 using Skeleton.Shared.Abstraction.Reflection;
 using System;
 using System.Collections.Generic;
@@ -111,7 +112,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
-    
             var selectionString = SqlFormatter.SelectAggregate(memberNode, selectFunction.ToString());
 
             Context.Selection.Add(selectionString);

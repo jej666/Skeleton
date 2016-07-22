@@ -110,7 +110,7 @@ namespace Skeleton.Web.Tests
                 Assert.IsNotNull(customers);
 
                 foreach (var customer in customers)
-                    customer.Name = "Updated" + customer.CustomerId;
+                    customer.Name = "CustomerUpdated" + customer.CustomerId;
 
                 var result = client.Update(customers);
                 Assert.IsTrue(result);

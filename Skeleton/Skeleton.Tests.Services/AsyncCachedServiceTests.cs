@@ -7,11 +7,11 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class CachedServiceAsyncTests : TestBase
+    public class AsyncCachedServiceTests : TestBase
     {
         private readonly IAsyncCachedReadService<Customer, int,CustomerDto> _readService;
 
-        public CachedServiceAsyncTests()
+        public AsyncCachedServiceTests()
         {
             _readService = Container.Resolve<IAsyncCachedReadService<Customer, int, CustomerDto>>();
         }

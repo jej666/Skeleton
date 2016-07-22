@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Skeleton.Infrastructure.Repository.SqlBuilder
+namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
     internal static class TableInfo
     {

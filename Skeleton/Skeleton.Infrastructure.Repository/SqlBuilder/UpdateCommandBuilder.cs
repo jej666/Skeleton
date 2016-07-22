@@ -30,6 +30,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
                 _context.ColumnValues.Add(columnValue);
             }
+
+            QueryByPrimaryKey(e => e.Id.Equals(entity.Id));
         }
 
         private string GetUpdateColumnValue(IMemberAccessor column, object value)

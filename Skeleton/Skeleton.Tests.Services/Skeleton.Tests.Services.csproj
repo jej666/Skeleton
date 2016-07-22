@@ -57,10 +57,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CachedServiceAsyncTests.cs" />
+    <Compile Include="AsyncCachedServiceTests.cs" />
     <Compile Include="PerformanceTests.cs" />
-    <Compile Include="ReadServiceAsyncTests.cs" />
-    <Compile Include="CrudServiceAsyncTests.cs" />
+    <Compile Include="AsyncReadServiceTests.cs" />
+    <Compile Include="AsyncCrudServiceTests.cs" />
     <Compile Include="CachedServiceTests.cs" />
     <Compile Include="CrudServiceTests.cs" />
     <Compile Include="TestBase.cs" />

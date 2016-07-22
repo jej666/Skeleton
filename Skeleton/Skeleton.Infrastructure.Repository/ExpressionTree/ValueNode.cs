@@ -1,4 +1,4 @@
-﻿namespace Skeleton.Infrastructure.Repository.SqlBuilder
+﻿namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
     internal class ValueNode : Node
     {

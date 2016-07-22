@@ -18,17 +18,22 @@ namespace Skeleton.Tests
             SqlDbSeeder.SeedCustomers();
         }
 
-        [TestMethod]
-        public void Find_ByExpression()
+        private Customer GetFirstCustomer()
         {
-            var customer = _service.Query
+            return _service.Query
                 .Top(1)
                 .FirstOrDefault();
+        }
+
+        [TestMethod]
+        [TestCategory("Where")]
+        public void Find_EqualsMethod()
+        {
+            var customer = GetFirstCustomer();
             var results = _service.Query
                 .Where(c => c.Name.Equals(customer.Name))
                 .OrderBy(c => c.CustomerId)
-                .Find()
-                .ToList();
+                .Find();
 
             Assert.IsNotNull(results);
             var firstResult = results.First();
@@ -36,11 +41,12 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void FirstOrDefault_ByExpression()
+        public void FirstOrDefault_StartWith()
         {
             var result = _service.Query
                 .Where(c => c.Name.StartsWith("Customer"))
                 .FirstOrDefault();
+
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(Customer));
         }
@@ -48,11 +54,10 @@ namespace Skeleton.Tests
         [TestMethod]
         public void FirstOrDefault_ById()
         {
-            var customer1 = _service.Query
-                .Top(1)
-                .FirstOrDefault();
+            var customer1 = GetFirstCustomer();
             var customer2 = _service.Query
                 .FirstOrDefault(customer1.Id);
+
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
@@ -62,32 +67,54 @@ namespace Skeleton.Tests
         public void GetAll()
         {
             var results = _service.Query.GetAll();
+
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
         }
 
         [TestMethod]
-        public void SelectTop()
+        public void Find_SelectedColumns()
         {
-            var customers = _service.Query
-                .Top(5)
-                .Find()
-                .ToList();
-            Assert.IsNotNull(customers);
-            Assert.IsInstanceOfType(customers.First(), typeof(Customer));
-            Assert.IsTrue(customers.Count == 5);
+            var customer = GetFirstCustomer();
+            var results = _service.Query
+                .Where(c=> c.CustomerId == customer.CustomerId)
+                .Select(c => c.CustomerId).Find();
+
+            Assert.IsNotNull(results);
+            Assert.IsInstanceOfType(results.First(), typeof(Customer));
+            Assert.AreEqual(1, results.Count());
         }
 
         [TestMethod]
-        public void SelectCount()
+        public void Find_Top()
+        {
+            var customers = _service.Query.Top(5).Find();
+
+            Assert.IsNotNull(customers);
+            Assert.IsInstanceOfType(customers.First(), typeof(Customer));
+            Assert.IsTrue(customers.Count() == 5);
+        }
+
+        [TestMethod]
+        public void Count()
         {
             var count = _service.Query.Count(c => c.CustomerId);
+
             Assert.IsNotNull(count);
             Assert.IsTrue(count > 0);
         }
 
         [TestMethod]
-        public void SelectMin()
+        public void CountAll()
+        {
+            var count = _service.Query.Count();
+
+            Assert.IsNotNull(count);
+            Assert.IsTrue(count > 0);
+        }
+
+        [TestMethod]
+        public void Min()
         {
             var minCustomer = _service.Query
                 .OrderBy(c => c.CustomerId)
@@ -95,12 +122,13 @@ namespace Skeleton.Tests
                 .FirstOrDefault();
             var min = _service.Query
                 .Min(c => c.CustomerId);
+
             Assert.IsNotNull(min);
             Assert.IsTrue(min == minCustomer.CustomerId);
         }
 
         [TestMethod]
-        public void SelectMax()
+        public void Max()
         {
             var maxCustomer = _service.Query
                 .OrderByDescending(c => c.CustomerId)
@@ -108,12 +136,13 @@ namespace Skeleton.Tests
                 .FirstOrDefault();
             var max = _service.Query
                 .Max(c => c.CustomerId);
+
             Assert.IsNotNull(max);
             Assert.IsTrue(max == maxCustomer.CustomerId);
         }
 
         [TestMethod]
-        public void LeftJoin()
+        public void Find_LeftJoin()
         {
             var results = _service.Query.LeftJoin<CustomerCategory>(
                 (customer, category) =>
@@ -125,28 +154,26 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void WhereIsIn()
+        [TestCategory("Where")]
+        public void Find_WhereIsIn()
         {
             var customerIds = new object[] {5, 15, 25};
-
             var results = _service.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
-                .Find()
-                .ToList();
+                .Find();
 
             Assert.IsNotNull(results);
             Assert.IsTrue(results.All(c => customerIds.Contains(c.CustomerId)));
         }
 
         [TestMethod]
-        public void WhereNotIn()
+        [TestCategory("Where")]
+        public void Find_WhereNotIn()
         {
             var customerIds = new object[] {5, 15, 25};
-
             var results = _service.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
-                .Find()
-                .ToList();
+                .Find();
 
             Assert.IsNotNull(results);
             Assert.IsTrue(results.All(c => !customerIds.Contains(c.CustomerId)));
@@ -162,11 +189,57 @@ namespace Skeleton.Tests
             {
                 var results = _service.Query
                     .OrderBy(c => c.CustomerCategoryId)
-                    .Page(pageSize, page)
-                    .ToList();
+                    .Page(pageSize, page);
 
-                Assert.AreEqual(pageSize, results.Count);
+                Assert.AreEqual(pageSize, results.Count());
             }
+        }
+
+        [TestMethod]
+        [TestCategory("Where")]
+        public void Find_WhereIsNull()
+        {
+            var results = _service.Query
+                .Where(c => c.Name == null)
+                .Find();
+
+            Assert.IsNotNull(results);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        [TestCategory("Where")]
+        public void Find_WhereIsNotNull()
+        {
+            var results = _service.Query
+                .Where(c => c.Name != null)
+                .Find();
+
+            Assert.IsNotNull(results);
+        }
+
+        [TestMethod]
+        [TestCategory("Where")]
+        public void Find_ComplexWhere()
+        {
+            var results = _service.Query
+                .Where(c => c.CustomerId >= 1 
+                        && c.Name.Contains("Customer"))
+                .Find();
+
+            Assert.IsNotNull(results);
+        }
+
+        [TestMethod]
+        [TestCategory("Where")]
+        public void Find_EqualsOperator()
+        {
+            var customer = GetFirstCustomer();
+            var results = _service.Query
+                .Where(c => c.CustomerId == customer.Id)
+                .Find();
+
+            Assert.IsNotNull(results);
         }
     }
 }

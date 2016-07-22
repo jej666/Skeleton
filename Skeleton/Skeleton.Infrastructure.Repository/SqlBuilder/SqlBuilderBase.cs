@@ -1,4 +1,5 @@
-﻿using Skeleton.Shared.Abstraction;
+﻿using Skeleton.Infrastructure.Repository.ExpressionTree;
+using Skeleton.Shared.Abstraction;
 using Skeleton.Shared.Abstraction.Reflection;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     {
         private readonly IMetadata _metadata;
         private string _cacheIdName;
-
+      
         internal SqlBuilderBase(IMetadataProvider metadataProvider)
         {
             metadataProvider.ThrowIfNull(() => metadataProvider);
@@ -76,104 +77,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 .Where(x => x.MemberType.IsPrimitiveExtended())
                 .ToArray();
         }
-
-        internal void Build(Node node)
-        {
-            Build((dynamic)node);
-        }
-
-        internal void Build(LikeNode node)
-        {
-            if (node.Method == LikeMethod.Equals)
-            {
-                QueryFieldCondition(node.MemberNode,
-                    SqlFormatter.Operations[ExpressionType.Equal],
-                    node.Value);
-            }
-            else
-            {
-                var value = SqlFormatter.LikeCondition(node.Value, node.Method);
-                var paramId = ContextBase.NextParamId();
-                var newCondition = SqlFormatter.FieldLike(node.MemberNode, paramId);
-
-                ContextBase.Conditions.Add(newCondition);
-                ContextBase.AddParameter(paramId, value);
-            }
-        }
-
-        internal void Build(OperationNode node)
-        {
-            Build((dynamic)node.Left, (dynamic)node.Right, node.Operator);
-        }
-
-        internal void Build(MemberNode memberNode)
-        {
-            QueryFieldCondition(
-                memberNode,
-                SqlFormatter.Operations[ExpressionType.Equal],
-                true);
-        }
-
-        internal void Build(SingleOperationNode node)
-        {
-            if (node.Operator == ExpressionType.Not)
-                Not();
-
-            Build(node.Child);
-        }
-
-        private void Build(MemberNode memberNode, ValueNode valueNode, ExpressionType op)
-        {
-            if (valueNode.Value == null)
-            {
-                ResolveNullValue(memberNode, op);
-            }
-            else
-            {
-                QueryFieldCondition(
-                    memberNode,
-                    SqlFormatter.Operations[op],
-                    valueNode.Value);
-            }
-        }
-
-        private void Build(ValueNode valueNode, MemberNode memberNode, ExpressionType op)
-        {
-            Build(memberNode, valueNode, op);
-        }
-
-        private void Build(MemberNode leftNode, MemberNode rightNode, ExpressionType op)
-        {
-            var newCondition = SqlFormatter.FieldComparison(
-                leftNode,
-                SqlFormatter.Operations[op],
-                rightNode);
-
-            ContextBase.Conditions.Add(newCondition);
-        }
-
-        private void Build(SingleOperationNode leftMember, Node rightMember, ExpressionType op)
-        {
-            if (leftMember.Operator == ExpressionType.Not)
-                Build(leftMember as Node, rightMember, op);
-            else
-                Build((dynamic)leftMember.Child, (dynamic)rightMember, op);
-        }
-
-        private void Build(Node leftMember, SingleOperationNode rightMember, ExpressionType op)
-        {
-            Build(rightMember, leftMember, op);
-        }
-
-        private void Build(Node leftNode, Node rightNode, ExpressionType op)
-        {
-            BeginExpression();
-            Build((dynamic)leftNode);
-            ResolveOperation(op);
-            Build((dynamic)rightNode);
-            EndExpression();
-        }
-
+        
         internal void WhereIsIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
         {
             var fieldName = TableInfo.GetColumnName(expression);
@@ -233,16 +137,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 ContextBase.Conditions.Add(SqlFormatter.AndExpression);
         }
 
-        protected internal void BeginExpression()
-        {
-            ContextBase.Conditions.Add(SqlFormatter.BeginExpression);
-        }
-
-        protected internal void EndExpression()
-        {
-            ContextBase.Conditions.Add(SqlFormatter.EndExpression);
-        }
-
         protected internal void Not()
         {
             ContextBase.Conditions.Add(SqlFormatter.NotExpression);
@@ -254,7 +148,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 ContextBase.Conditions.Add(SqlFormatter.OrExpression);
         }
 
-        protected internal void ResolveNullValue(MemberNode node, ExpressionType op)
+        private void ResolveNullValue(MemberNode node, ExpressionType op)
         {
             switch (op)
             {
@@ -268,7 +162,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        protected internal void ResolveOperation(ExpressionType op)
+        private void ResolveOperation(ExpressionType op)
         {
             switch (op)
             {
@@ -286,6 +180,106 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     throw new ArgumentException(
                         "Unrecognized binary expression operation '{0}'"
                             .FormatWith(op.ToString()));
+            }
+        }
+
+        private void Build(OperationNode node)
+        {
+            Build((dynamic)node.Left, (dynamic)node.Right, node.Operator);
+        }
+
+        private void Build(MemberNode memberNode)
+        {
+            QueryFieldCondition(
+                memberNode,
+                SqlFormatter.Operations[ExpressionType.Equal],
+                true);
+        }
+
+        private void Build(SingleOperationNode node)
+        {
+            if (node.Operator == ExpressionType.Not)
+                Not();
+
+            Build(node.Child);
+        }
+
+        private void Build(MemberNode memberNode, ValueNode valueNode, ExpressionType op)
+        {
+            if (valueNode.Value == null)
+            {
+                ResolveNullValue(memberNode, op);
+            }
+            else
+            {
+                QueryFieldCondition(
+                    memberNode,
+                    SqlFormatter.Operations[op],
+                    valueNode.Value);
+            }
+        }
+
+        private void Build(ValueNode valueNode, MemberNode memberNode, ExpressionType op)
+        {
+            Build(memberNode, valueNode, op);
+        }
+
+
+        private void Build(SingleOperationNode leftMember, Node rightMember, ExpressionType op)
+        {
+            if (leftMember.Operator == ExpressionType.Not)
+                Build(leftMember as Node, rightMember, op);
+            else
+                Build((dynamic)leftMember.Child, (dynamic)rightMember, op);
+        }
+
+        private void Build(Node leftMember, SingleOperationNode rightMember, ExpressionType op)
+        {
+            Build(rightMember, leftMember, op);
+        }
+
+        private void Build(Node leftNode, Node rightNode, ExpressionType op)
+        {
+            ContextBase.Conditions.Add(SqlFormatter.BeginExpression);
+            Build((dynamic)leftNode);
+            ResolveOperation(op);
+            Build((dynamic)rightNode);
+            ContextBase.Conditions.Add(SqlFormatter.EndExpression);
+        }
+
+
+        private void Build(MemberNode leftNode, MemberNode rightNode, ExpressionType op)
+        {
+            var newCondition = SqlFormatter.FieldComparison(
+                leftNode,
+                SqlFormatter.Operations[op],
+                rightNode);
+
+            ContextBase.Conditions.Add(newCondition);
+        }
+
+
+        private void Build(Node node)
+        {
+            Build((dynamic)node);
+        }
+
+        private void Build(LikeNode node)
+        {
+            if (node.Method == LikeMethod.Equals)
+            {
+                QueryFieldCondition(node.MemberNode,
+                    SqlFormatter.Operations[ExpressionType.Equal],
+                    node.Value);
+            }
+            else
+            {
+                var value = SqlFormatter.LikeCondition(node.Value, node.Method);
+                var paramId = ContextBase.NextParamId();
+                var newCondition = SqlFormatter.FieldLike(node.MemberNode, paramId);
+
+                ContextBase.Conditions.Add(newCondition);
+                ContextBase.AddParameter(paramId, value);
             }
         }
     }

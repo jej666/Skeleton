@@ -67,13 +67,13 @@ namespace Skeleton.Tests
             var customer = _service.Query
                 .Top(1)
                 .FirstOrDefault();
-            customer.Name = "UpdatedName";
+            customer.Name = "CustomerUpdated";
             var successed = _service.Store.Update(customer);
             Assert.IsTrue(successed);
 
             var result = _service.Query.FirstOrDefault(customer.Id);
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Name.Equals("UpdatedName"));
+            Assert.IsTrue(result.Name.Equals("CustomerUpdated"));
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace Skeleton.Tests
                 .Find()
                 .ToList();
             foreach (var cust in customers)
-                cust.Name = "Updated" + cust.Id;
+                cust.Name = "CustomerUpdated" + cust.Id;
 
             var successed = _service.Store.Update(customers);
             Assert.IsTrue(successed);

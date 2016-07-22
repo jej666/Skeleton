@@ -56,7 +56,7 @@
     <Compile Include="AsyncEntityPersistor.cs" />
     <Compile Include="EntityPersistor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExpressionTree\JoinType.cs" />
+    <Compile Include="SqlBuilder\JoinType.cs" />
     <Compile Include="SqlBuilder\CommandContext.cs" />
     <Compile Include="SqlBuilder\ContextBase.cs" />
     <Compile Include="SqlBuilder\LazyLoading.cs" />
@@ -66,7 +66,7 @@
     <Compile Include="SqlBuilder\InsertCommandBuilder.cs" />
     <Compile Include="SqlBuilder\UpdateCommandBuilder.cs" />
     <Compile Include="SqlBuilder\SelectQueryBuilder.cs" />
-    <Compile Include="SqlBuilder\ExpressionResolver.cs" />
+    <Compile Include="ExpressionTree\ExpressionResolver.cs" />
     <Compile Include="ExpressionTree\LikeMethod.cs" />
     <Compile Include="ExpressionTree\LikeNode.cs" />
     <Compile Include="ExpressionTree\MemberNode.cs" />
@@ -74,9 +74,9 @@
     <Compile Include="ExpressionTree\OperationNode.cs" />
     <Compile Include="ExpressionTree\SingleOperationNode.cs" />
     <Compile Include="ExpressionTree\ValueNode.cs" />
-    <Compile Include="ExpressionTree\SelectFunction.cs" />
+    <Compile Include="SqlBuilder\SelectFunction.cs" />
     <Compile Include="SqlBuilder\SqlFormatter.cs" />
-    <Compile Include="SqlBuilder\TableInfo.cs" />
+    <Compile Include="ExpressionTree\TableInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Core.Repository\Skeleton.Core.Repository.csproj">

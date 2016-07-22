@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Skeleton.Infrastructure.Repository.SqlBuilder
+namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
     internal static class ExpressionResolver
     {
@@ -41,19 +41,23 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             if (Enum.TryParse(callExpression.Method.Name, true, out callFunction))
             {
                 var member = callExpression.Object as MemberExpression;
-                var fieldValue = callExpression.Arguments.First().GetExpressionValue().ToString();
+                var fieldValue = callExpression.Arguments.First().GetExpressionValue();
 
-                return new LikeNode
+                if (fieldValue != null)
                 {
-                    MemberNode = new MemberNode
+                    return new LikeNode
                     {
-                        TableName = TableInfo.GetTableName(member),
-                        FieldName = columnName
-                    },
-                    Method = callFunction,
-                    Value = fieldValue
-                };
+                        MemberNode = new MemberNode
+                        {
+                            TableName = TableInfo.GetTableName(member),
+                            FieldName = columnName
+                        },
+                        Method = callFunction,
+                        Value = fieldValue.ToString()
+                    };
+                }
             }
+
             var value = callExpression.InvokeMethodCall();
             return new ValueNode {Value = value};
         }
@@ -87,6 +91,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             throw new ArgumentException(
                 "The provided expression '{0}' is currently not supported"
                     .FormatWith(expression.NodeType));
-        }
+        }           
     }
 }
