@@ -57,37 +57,50 @@ namespace Skeleton.Infrastructure.Data
                     .ExecuteNonQuery());
         }
 
-        public IEnumerable<TResult> Find<TResult>(
+        public IEnumerable<dynamic> Fetch(
             string query,
             IDictionary<string, object> parameters)
-            where TResult : class
+        {
+            return WrapRetryPolicy(() =>
+            {
+                var reader = CreateTextCommand(query, parameters)
+                     .ExecuteReader();
+
+                return reader.Map();
+            });
+        }
+
+        public IEnumerable<TPoco> Find<TPoco>(
+            string query,
+            IDictionary<string, object> parameters)
+            where TPoco : class
         {
             return WrapRetryPolicy(() =>
             {
                 var reader = CreateTextCommand(query, parameters)
                     .ExecuteReader();
 
-                return MetadataProvider.CreateMapper<TResult>()
+                return MetadataProvider.CreateMapper<TPoco>()
                     .MapQuery(reader);
             });
         }
 
-        public TResult FirstOrDefault<TResult>(
+        public TPoco FirstOrDefault<TPoco>(
             string query,
             IDictionary<string, object> parameters)
-            where TResult : class
+            where TPoco : class
         {
             return WrapRetryPolicy(() =>
             {
                 var reader = CreateTextCommand(query, parameters)
                     .ExecuteReader(CommandBehavior.SingleRow);
 
-                return MetadataProvider.CreateMapper<TResult>()
+                return MetadataProvider.CreateMapper<TPoco>()
                     .MapSingle(reader);
             });
         }
 
-        private TResult WrapRetryPolicy<TResult>(Func<TResult> func)
+        private T WrapRetryPolicy<T>(Func<T> func)
         {
             var retryCount = Configuration.RetryPolicyCount;
             var retryInterval = Configuration.RetryPolicyInterval;

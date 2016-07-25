@@ -117,9 +117,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.Selection.Add(selectionString);
         }
 
-        internal void GroupBy(Expression expression)
+        internal void GroupBy(Expression<Func<TEntity, object>> expression)
         {
-            var fieldName = TableInfo.GetColumnName(expression.GetMemberExpression());
+            var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
 
             Context.GroupBy.Add(SqlFormatter.Field(memberNode));

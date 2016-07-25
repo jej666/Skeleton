@@ -70,5 +70,23 @@ namespace Skeleton.Tests
             Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
                 _service.Query.LastGeneratedCacheKey));
         }
+
+        [TestMethod]
+        public void Cached_Page()
+        {
+            const int pageSize = 50;
+            const int numberOfPages = 5;
+
+            for (var page = 1; page < numberOfPages; ++page)
+            {
+                var results = _service.Query
+                    .OrderBy(c => c.CustomerCategoryId)
+                    .Page(pageSize, page);
+
+                Assert.AreEqual(pageSize, results.Count());
+                Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
+                _service.Query.LastGeneratedCacheKey));
+            }
+        }
     }
 }

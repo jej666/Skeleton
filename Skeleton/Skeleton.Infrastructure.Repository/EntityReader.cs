@@ -206,57 +206,65 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public TResult Average<TResult>(Expression<Func<TEntity, TResult>> expression)
+        public IEnumerable<dynamic> Average(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Avg);
 
-            return AggregateAs<TResult>();
+            return AggregateAs();
         }
 
         public int Count()
         {
             Builder.Count();
 
-            return AggregateAs<int>();
+            return Builder.OnNextQuery(() =>
+                 Database.Execute(
+                         Builder.SqlQuery,
+                         Builder.Parameters)); ;
         }
 
-        public TResult Count<TResult>(Expression<Func<TEntity, TResult>> expression)
+        public IEnumerable<dynamic> Count(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Count);
 
-            return AggregateAs<TResult>();
+            return AggregateAs();
         }
 
-        public TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
+        public IEnumerable<dynamic> Max(
+            Expression<Func<TEntity, object>> expression) 
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Max);
 
-            return AggregateAs<TResult>();
+            return AggregateAs();
         }
 
-        public TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
+        public IEnumerable<dynamic> Min(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Min);
 
-            return AggregateAs<TResult>();
+            return AggregateAs();
         }
 
-        public TResult Sum<TResult>(Expression<Func<TEntity, TResult>> expression)
+        public IEnumerable<dynamic> Sum(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Sum);
 
-            return AggregateAs<TResult>();
+            return AggregateAs();
         }
 
-        private TResult AggregateAs<TResult>()
+        private IEnumerable<dynamic> AggregateAs() 
         {
             return Builder.OnNextQuery(() =>
-                 Database.ExecuteScalar<TResult>(
+                 Database.Fetch(
                          Builder.SqlQuery, 
                          Builder.Parameters));
         }

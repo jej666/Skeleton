@@ -6,7 +6,7 @@ using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
-    internal abstract class DataReaderMapperBase<TResult> where TResult : class
+    internal abstract class DataReaderMapperBase<TPoco> where TPoco : class
     {
         private readonly IMetadata _accessor;
 
@@ -17,17 +17,17 @@ namespace Skeleton.Infrastructure.Data
 
         protected internal DataReaderMapperBase(IMetadataProvider accessorCache)
         {
-            _accessor = accessorCache.GetMetadata<TResult>();
+            _accessor = accessorCache.GetMetadata<TPoco>();
             _tableColumns = _accessor.GetDeclaredOnlyProperties()
                 .Where(_simplePropertiesCondition)
                 .ToList();
         }
 
-        protected internal TResult SetMatchingValues(
+        protected internal TPoco SetMatchingValues(
             IDataRecord record,
             object[] values)
         {
-            var instance = _accessor.CreateInstance<TResult>();
+            var instance = _accessor.CreateInstance<TPoco>();
 
             _tableColumns.ForEach(column =>
             {

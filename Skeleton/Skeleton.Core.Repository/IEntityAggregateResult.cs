@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Skeleton.Shared.Abstraction;
+using System.Collections.Generic;
 
 namespace Skeleton.Core.Repository
 {
@@ -9,14 +10,14 @@ namespace Skeleton.Core.Repository
     {
         int Count();
 
-        TResult Average<TResult>(Expression<Func<TEntity, TResult>> expression);
+        IEnumerable<dynamic> Average(Expression<Func<TEntity, object>> expression);
 
-        TResult Count<TResult>(Expression<Func<TEntity, TResult>> expression);
+        IEnumerable<dynamic> Count(Expression<Func<TEntity, object>> expression);
 
-        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression);
+        IEnumerable<dynamic> Max(Expression<Func<TEntity, object>> expression);
 
-        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression);
+        IEnumerable<dynamic> Min(Expression<Func<TEntity, object>> expression);
 
-        TResult Sum<TResult>(Expression<Func<TEntity, TResult>> expression);
+        IEnumerable<dynamic> Sum(Expression<Func<TEntity, object>> expression);
     }
 }

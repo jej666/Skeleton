@@ -42,6 +42,7 @@
     <AssemblyOriginatorKeyFile>Infrastructure.Data.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -64,9 +65,10 @@
     <Compile Include="DatabaseTransaction.cs" />
     <Compile Include="DataDisposableBase.cs" />
     <Compile Include="DataHideObjectMethods.cs" />
+    <Compile Include="DataReaderMapper.cs" />
     <Compile Include="DataReaderMapperAsync.cs" />
     <Compile Include="DataReaderMapperBase.cs" />
-    <Compile Include="DataReaderMapper.cs" />
+    <Compile Include="DataReaderDynamicMapper.cs" />
     <Compile Include="DataProviderType.cs" />
     <Compile Include="DataReaderMapperFactory.cs" />
     <Compile Include="DbTypeMapper.cs" />

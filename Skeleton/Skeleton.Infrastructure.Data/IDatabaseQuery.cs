@@ -4,14 +4,18 @@ namespace Skeleton.Infrastructure.Data
 {
     public interface IDatabaseQuery
     {
-        IEnumerable<TResult> Find<TResult>(
+        IEnumerable<dynamic> Fetch(
             string query,
-            IDictionary<string, object> parameters)
-            where TResult : class;
+            IDictionary<string, object> parameters);
 
-        TResult FirstOrDefault<TResult>(
+        IEnumerable<TPoco> Find<TPoco>(
             string query,
             IDictionary<string, object> parameters)
-            where TResult : class;
+            where TPoco : class;
+
+        TPoco FirstOrDefault<TPoco>(
+            string query,
+            IDictionary<string, object> parameters)
+            where TPoco : class;
     }
 }

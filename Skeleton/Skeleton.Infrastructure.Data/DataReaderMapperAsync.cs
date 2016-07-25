@@ -5,20 +5,20 @@ using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
-    internal sealed class DataReaderMapperAsync<TResult> :
-        DataReaderMapperBase<TResult>
-        where TResult : class
+    internal sealed class DataReaderMapperAsync<TPoco> :
+        DataReaderMapperBase<TPoco>
+        where TPoco : class
     {
         internal DataReaderMapperAsync(IMetadataProvider accessorCache)
             : base(accessorCache)
         {
         }
 
-        internal async Task<IEnumerable<TResult>> MapQueryAsync(DbDataReader dataReader)
+        internal async Task<IEnumerable<TPoco>> MapQueryAsync(DbDataReader dataReader)
         {
             try
             {
-                var list = new List<TResult>();
+                var list = new List<TPoco>();
 
                 if (dataReader == null || dataReader.FieldCount == 0)
                     return list;
@@ -46,15 +46,15 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        internal async Task<TResult> MapSingleAsync(DbDataReader dataReader)
+        internal async Task<TPoco> MapSingleAsync(DbDataReader dataReader)
         {
             try
             {
                 if (dataReader == null || dataReader.FieldCount == 0)
-                    return default(TResult);
+                    return default(TPoco);
 
                 if (!await dataReader.ReadAsync().ConfigureAwait(false))
-                    return default(TResult);
+                    return default(TPoco);
 
                 var values = new object[dataReader.FieldCount];
                 dataReader.GetValues(values);

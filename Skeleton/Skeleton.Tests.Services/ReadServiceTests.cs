@@ -77,8 +77,9 @@ namespace Skeleton.Tests
         {
             var customer = GetFirstCustomer();
             var results = _service.Query
-                .Where(c=> c.CustomerId == customer.CustomerId)
-                .Select(c => c.CustomerId).Find();
+                .Where(c => c.CustomerId == customer.CustomerId)
+                .Select(c => c.CustomerId)
+                .Find();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
@@ -99,9 +100,10 @@ namespace Skeleton.Tests
         public void Count()
         {
             var count = _service.Query.Count(c => c.CustomerId);
+            var result = count.FirstOrDefault();
 
             Assert.IsNotNull(count);
-            Assert.IsTrue(count > 0);
+            Assert.IsTrue(result.Count > 0);
         }
 
         [TestMethod]
@@ -121,10 +123,11 @@ namespace Skeleton.Tests
                 .Top(1)
                 .FirstOrDefault();
             var min = _service.Query
-                .Min(c => c.CustomerId);
+                .Min(c => c.CustomerId)
+                .FirstOrDefault();
 
             Assert.IsNotNull(min);
-            Assert.IsTrue(min == minCustomer.CustomerId);
+            Assert.IsTrue((int)min == minCustomer.CustomerId);
         }
 
         [TestMethod]
@@ -135,10 +138,22 @@ namespace Skeleton.Tests
                 .Top(1)
                 .FirstOrDefault();
             var max = _service.Query
-                .Max(c => c.CustomerId);
+                .Max(c => c.CustomerId)
+                .FirstOrDefault();
 
             Assert.IsNotNull(max);
-            Assert.IsTrue(max == maxCustomer.CustomerId);
+            Assert.IsTrue((int)max == maxCustomer.CustomerId);
+        }
+
+        [TestMethod]
+        public void Sum()
+        {
+            var sum = _service.Query
+                .OrderBy(c => c.CustomerId)
+                .GroupBy(c => c.CustomerId)
+                .Sum(c => c.CustomerCategoryId);
+            
+            Assert.IsNotNull(sum);
         }
 
         [TestMethod]
@@ -157,7 +172,7 @@ namespace Skeleton.Tests
         [TestCategory("Where")]
         public void Find_WhereIsIn()
         {
-            var customerIds = new object[] {5, 15, 25};
+            var customerIds = new object[] { 5, 15, 25 };
             var results = _service.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -170,7 +185,7 @@ namespace Skeleton.Tests
         [TestCategory("Where")]
         public void Find_WhereNotIn()
         {
-            var customerIds = new object[] {5, 15, 25};
+            var customerIds = new object[] { 5, 15, 25 };
             var results = _service.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -223,7 +238,7 @@ namespace Skeleton.Tests
         public void Find_ComplexWhere()
         {
             var results = _service.Query
-                .Where(c => c.CustomerId >= 1 
+                .Where(c => c.CustomerId >= 1
                         && c.Name.Contains("Customer"))
                 .Find();
 

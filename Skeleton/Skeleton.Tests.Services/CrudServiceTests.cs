@@ -89,5 +89,41 @@ namespace Skeleton.Tests
             var successed = _service.Store.Update(customers);
             Assert.IsTrue(successed);
         }
+
+        [TestMethod]
+        public void Save_ShouldAdd()
+        {
+            var customer = new Customer { Name = "Customer" };
+            var successed = _service.Store.Save(customer);
+            Assert.IsTrue(successed);
+            Assert.IsTrue(customer.Id > 0);
+
+            var result = _service.Query.FirstOrDefault(customer.Id);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(Customer));
+        }
+
+        [TestMethod]
+        public void Save_ShouldUpdate()
+        {
+            var customer = _service.Query.Top(1).FirstOrDefault();
+            Assert.IsTrue(customer.Id > 0);
+
+            customer.Name = "CustomerUpdated";
+            var successed = _service.Store.Save(customer);
+            Assert.IsTrue(successed);
+
+            var result = _service.Query.FirstOrDefault(customer.Id);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Name.Equals("CustomerUpdated"));
+        }
+
+        [TestMethod]
+        public void Save_Multiple()
+        {
+            var customers = MemorySeeder.SeedCustomers(5);
+            var successed = _service.Store.Save(customers);
+            Assert.IsTrue(successed);
+        }
     }
 }

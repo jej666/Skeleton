@@ -4,20 +4,20 @@ using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
-    internal sealed class DataReaderMapper<TResult> :
-        DataReaderMapperBase<TResult>
-        where TResult : class
+    internal sealed class DataReaderMapper<TPoco> :
+        DataReaderMapperBase<TPoco>
+        where TPoco : class
     {
         internal DataReaderMapper(IMetadataProvider accessorCache)
             : base(accessorCache)
         {
         }
 
-        internal IEnumerable<TResult> MapQuery(IDataReader dataReader)
+        internal IEnumerable<TPoco> MapQuery(IDataReader dataReader)
         {
             try
             {
-                var list = new List<TResult>();
+                var list = new List<TPoco>();
 
                 if (dataReader == null || dataReader.FieldCount == 0)
                     return list;
@@ -45,15 +45,15 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        internal TResult MapSingle(IDataReader dataReader)
+        internal TPoco MapSingle(IDataReader dataReader)
         {
             try
             {
                 if (dataReader == null || dataReader.FieldCount == 0)
-                    return default(TResult);
+                    return default(TPoco);
 
                 if (!dataReader.Read())
-                    return default(TResult);
+                    return default(TPoco);
 
                 var values = new object[dataReader.FieldCount];
                 dataReader.GetValues(values);

@@ -203,7 +203,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal static string SelectAggregate(MemberNode node, string selectFunction)
         {
-            return "{0}({1})".FormatWith(selectFunction, Field(node));
+            return "{0}({1}) AS {0}".FormatWith(selectFunction, Field(node));
         }
 
         internal static string WhereIsIn(MemberNode node, IEnumerable<string> parameterIds)
