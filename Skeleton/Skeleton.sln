@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Service", "Skeleton.Core.Service\Skeleton.Core.Service.csproj", "{B06DEE96-287F-421B-9171-7C2A276ED5CC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Data", "Skeleton.Infrastructure.Data\Skeleton.Infrastructure.Data.csproj", "{07953EE3-E1F8-48E6-BCFC-C938AF4B5F27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Repository", "Skeleton.Infrastructure.Repository\Skeleton.Infrastructure.Repository.csproj", "{D246546E-E1E1-431A-9E3F-116128D3AFD9}"
@@ -14,10 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.DependencyResolver", "Skeleton.Infrastructure.DependencyResolver\Skeleton.Infrastructure.DependencyResolver.csproj", "{97FA52F3-1D4E-4A5D-870C-03E8CA4AFD58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Domain", "Skeleton.Core.Domain\Skeleton.Core.Domain.csproj", "{3E857F30-96F5-4A3D-B10F-CCF89BF4D467}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Repository", "Skeleton.Core.Repository\Skeleton.Core.Repository.csproj", "{6E2901D9-48AE-405B-8353-8E299C7693E5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Service", "Skeleton.Infrastructure.Service\Skeleton.Infrastructure.Service.csproj", "{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Services", "Skeleton.Tests.Services\Skeleton.Tests.Services.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
 EndProject
@@ -39,96 +33,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Client", "Skel
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01- Shared", "01- Shared", "{E7580B2A-61D7-4DD1-9F14-3511431608C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Shared.Abstraction", "Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj", "{F848F91F-11C7-4E9B-9701-110A467A0853}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core", "Skeleton.Shared.Abstraction\Skeleton.Core.csproj", "{F848F91F-11C7-4E9B-9701-110A467A0853}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Shared.CommonTypes", "Skeleton.Shared.CommonTypes\Skeleton.Shared.CommonTypes.csproj", "{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Shared.Extensions", "Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj", "{F8C95965-61B3-44D8-9DCD-0BE773898F77}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 18
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://jej666.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Skeleton.Core.Domain\\Skeleton.Core.Domain.csproj
-		SccProjectTopLevelParentUniqueName1 = Skeleton.sln
-		SccProjectName1 = Skeleton.Core.Domain
-		SccLocalPath1 = Skeleton.Core.Domain
-		SccProjectUniqueName2 = Skeleton.Core.Repository\\Skeleton.Core.Repository.csproj
-		SccProjectTopLevelParentUniqueName2 = Skeleton.sln
-		SccProjectName2 = Skeleton.Core.Repository
-		SccLocalPath2 = Skeleton.Core.Repository
-		SccProjectUniqueName3 = Skeleton.Core.Service\\Skeleton.Core.Service.csproj
-		SccProjectTopLevelParentUniqueName3 = Skeleton.sln
-		SccProjectName3 = Skeleton.Core.Service
-		SccLocalPath3 = Skeleton.Core.Service
-		SccProjectUniqueName4 = Skeleton.Infrastructure.Data\\Skeleton.Infrastructure.Data.csproj
-		SccProjectTopLevelParentUniqueName4 = Skeleton.sln
-		SccProjectName4 = Skeleton.Infrastructure.Data
-		SccLocalPath4 = Skeleton.Infrastructure.Data
-		SccProjectUniqueName5 = Skeleton.Infrastructure.DependencyResolver\\Skeleton.Infrastructure.DependencyResolver.csproj
-		SccProjectTopLevelParentUniqueName5 = Skeleton.sln
-		SccProjectName5 = Skeleton.Infrastructure.DependencyResolver
-		SccLocalPath5 = Skeleton.Infrastructure.DependencyResolver
-		SccProjectUniqueName6 = Skeleton.Infrastructure.Logging\\Skeleton.Infrastructure.Logging.csproj
-		SccProjectTopLevelParentUniqueName6 = Skeleton.sln
-		SccProjectName6 = Skeleton.Infrastructure.Logging
-		SccLocalPath6 = Skeleton.Infrastructure.Logging
-		SccProjectUniqueName7 = Skeleton.Infrastructure.Repository\\Skeleton.Infrastructure.Repository.csproj
-		SccProjectTopLevelParentUniqueName7 = Skeleton.sln
-		SccProjectName7 = Skeleton.Infrastructure.Repository
-		SccLocalPath7 = Skeleton.Infrastructure.Repository
-		SccProjectUniqueName8 = Skeleton.Infrastructure.Service\\Skeleton.Infrastructure.Service.csproj
-		SccProjectTopLevelParentUniqueName8 = Skeleton.sln
-		SccProjectName8 = Skeleton.Infrastructure.Service
-		SccLocalPath8 = Skeleton.Infrastructure.Service
-		SccProjectUniqueName9 = Skeleton.Tests.Infrastructure\\Skeleton.Tests.Infrastructure.csproj
-		SccProjectTopLevelParentUniqueName9 = Skeleton.sln
-		SccProjectName9 = Skeleton.Tests.Infrastructure
-		SccLocalPath9 = Skeleton.Tests.Infrastructure
-		SccProjectUniqueName10 = Skeleton.Web.Client\\Skeleton.Web.Client.csproj
-		SccProjectTopLevelParentUniqueName10 = Skeleton.sln
-		SccProjectName10 = Skeleton.Web.Client
-		SccLocalPath10 = Skeleton.Web.Client
-		SccProjectUniqueName11 = Skeleton.Web.Tests\\Skeleton.Tests.Web.csproj
-		SccProjectTopLevelParentUniqueName11 = Skeleton.sln
-		SccProjectName11 = Skeleton.Web.Tests
-		SccLocalPath11 = Skeleton.Web.Tests
-		SccProjectUniqueName12 = Skeleton.Web.Server\\Skeleton.Web.Server.csproj
-		SccProjectTopLevelParentUniqueName12 = Skeleton.sln
-		SccProjectName12 = Skeleton.Web.Server
-		SccLocalPath12 = Skeleton.Web.Server
-		SccProjectUniqueName13 = Skeleton.Tests.Services\\Skeleton.Tests.Services.csproj
-		SccProjectTopLevelParentUniqueName13 = Skeleton.sln
-		SccProjectName13 = Skeleton.Tests.Services
-		SccLocalPath13 = Skeleton.Tests.Services
-		SccProjectUniqueName14 = Skeleton.Tests.Web\\Skeleton.Tests.Web.csproj
-		SccProjectTopLevelParentUniqueName14 = Skeleton.sln
-		SccProjectName14 = Skeleton.Tests.Web
-		SccLocalPath14 = Skeleton.Tests.Web
-		SccProjectUniqueName15 = Skeleton.Shared.Abstraction\\Skeleton.Shared.Abstraction.csproj
-		SccProjectTopLevelParentUniqueName15 = Skeleton.sln
-		SccProjectName15 = Skeleton.Shared.Abstraction
-		SccLocalPath15 = Skeleton.Shared.Abstraction
-		SccProjectUniqueName16 = Skeleton.Shared.CommonTypes\\Skeleton.Shared.CommonTypes.csproj
-		SccProjectTopLevelParentUniqueName16 = Skeleton.sln
-		SccProjectName16 = Skeleton.Shared.CommonTypes
-		SccLocalPath16 = Skeleton.Shared.CommonTypes
-		SccProjectUniqueName17 = Skeleton.Shared.Extensions\\Skeleton.Shared.Extensions.csproj
-		SccProjectTopLevelParentUniqueName17 = Skeleton.sln
-		SccProjectName17 = Skeleton.Shared.Extensions
-		SccLocalPath17 = Skeleton.Shared.Extensions
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B06DEE96-287F-421B-9171-7C2A276ED5CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B06DEE96-287F-421B-9171-7C2A276ED5CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B06DEE96-287F-421B-9171-7C2A276ED5CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B06DEE96-287F-421B-9171-7C2A276ED5CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{07953EE3-E1F8-48E6-BCFC-C938AF4B5F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{07953EE3-E1F8-48E6-BCFC-C938AF4B5F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07953EE3-E1F8-48E6-BCFC-C938AF4B5F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -149,14 +65,6 @@ Global
 		{3E857F30-96F5-4A3D-B10F-CCF89BF4D467}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E857F30-96F5-4A3D-B10F-CCF89BF4D467}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E857F30-96F5-4A3D-B10F-CCF89BF4D467}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E2901D9-48AE-405B-8353-8E299C7693E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E2901D9-48AE-405B-8353-8E299C7693E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E2901D9-48AE-405B-8353-8E299C7693E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E2901D9-48AE-405B-8353-8E299C7693E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{54063976-2135-4994-A69C-9EACE310589C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{54063976-2135-4994-A69C-9EACE310589C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54063976-2135-4994-A69C-9EACE310589C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -194,21 +102,76 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B06DEE96-287F-421B-9171-7C2A276ED5CC} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
 		{07953EE3-E1F8-48E6-BCFC-C938AF4B5F27} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{D246546E-E1E1-431A-9E3F-116128D3AFD9} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{DB2464DA-A301-44A0-8EEB-E5B8C16BD7F8} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{97FA52F3-1D4E-4A5D-870C-03E8CA4AFD58} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{3E857F30-96F5-4A3D-B10F-CCF89BF4D467} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
-		{6E2901D9-48AE-405B-8353-8E299C7693E5} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
-		{75ECBC4D-2AA1-44F4-8AF9-49ACA990962F} = {3836DA6A-25E1-4B49-B6D2-B43CD04470E8}
 		{54063976-2135-4994-A69C-9EACE310589C} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 		{BAED475C-271C-48AF-81C3-B7E4D27BAFD0} = {0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}
 		{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 		{42AFA67C-3644-438A-BCE3-181D3549481E} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 		{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887} = {0E57CFA5-D4C4-42BD-8CFE-502E6E28E81F}
-		{F848F91F-11C7-4E9B-9701-110A467A0853} = {E7580B2A-61D7-4DD1-9F14-3511431608C1}
+		{F848F91F-11C7-4E9B-9701-110A467A0853} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
 		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67} = {E7580B2A-61D7-4DD1-9F14-3511431608C1}
 		{F8C95965-61B3-44D8-9DCD-0BE773898F77} = {E7580B2A-61D7-4DD1-9F14-3511431608C1}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 14
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://jej666.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Skeleton.Core.Domain\\Skeleton.Core.Domain.csproj
+		SccProjectTopLevelParentUniqueName1 = Skeleton.sln
+		SccProjectName1 = Skeleton.Core.Domain
+		SccLocalPath1 = Skeleton.Core.Domain
+		SccProjectUniqueName2 = Skeleton.Infrastructure.Data\\Skeleton.Infrastructure.Data.csproj
+		SccProjectTopLevelParentUniqueName2 = Skeleton.sln
+		SccProjectName2 = Skeleton.Infrastructure.Data
+		SccLocalPath2 = Skeleton.Infrastructure.Data
+		SccProjectUniqueName3 = Skeleton.Infrastructure.DependencyResolver\\Skeleton.Infrastructure.DependencyResolver.csproj
+		SccProjectTopLevelParentUniqueName3 = Skeleton.sln
+		SccProjectName3 = Skeleton.Infrastructure.DependencyResolver
+		SccLocalPath3 = Skeleton.Infrastructure.DependencyResolver
+		SccProjectUniqueName4 = Skeleton.Infrastructure.Logging\\Skeleton.Infrastructure.Logging.csproj
+		SccProjectTopLevelParentUniqueName4 = Skeleton.sln
+		SccProjectName4 = Skeleton.Infrastructure.Logging
+		SccLocalPath4 = Skeleton.Infrastructure.Logging
+		SccProjectUniqueName5 = Skeleton.Infrastructure.Repository\\Skeleton.Infrastructure.Repository.csproj
+		SccProjectTopLevelParentUniqueName5 = Skeleton.sln
+		SccProjectName5 = Skeleton.Infrastructure.Repository
+		SccLocalPath5 = Skeleton.Infrastructure.Repository
+		SccProjectUniqueName6 = Skeleton.Tests.Infrastructure\\Skeleton.Tests.Infrastructure.csproj
+		SccProjectTopLevelParentUniqueName6 = Skeleton.sln
+		SccProjectName6 = Skeleton.Tests.Infrastructure
+		SccLocalPath6 = Skeleton.Tests.Infrastructure
+		SccProjectUniqueName7 = Skeleton.Web.Client\\Skeleton.Web.Client.csproj
+		SccProjectTopLevelParentUniqueName7 = Skeleton.sln
+		SccProjectName7 = Skeleton.Web.Client
+		SccLocalPath7 = Skeleton.Web.Client
+		SccProjectUniqueName8 = Skeleton.Web.Server\\Skeleton.Web.Server.csproj
+		SccProjectTopLevelParentUniqueName8 = Skeleton.sln
+		SccProjectName8 = Skeleton.Web.Server
+		SccLocalPath8 = Skeleton.Web.Server
+		SccProjectUniqueName9 = Skeleton.Tests.Services\\Skeleton.Tests.Services.csproj
+		SccProjectTopLevelParentUniqueName9 = Skeleton.sln
+		SccProjectName9 = Skeleton.Tests.Services
+		SccLocalPath9 = Skeleton.Tests.Services
+		SccProjectUniqueName10 = Skeleton.Tests.Web\\Skeleton.Tests.Web.csproj
+		SccProjectTopLevelParentUniqueName10 = Skeleton.sln
+		SccProjectName10 = Skeleton.Tests.Web
+		SccLocalPath10 = Skeleton.Tests.Web
+		SccProjectUniqueName11 = Skeleton.Shared.CommonTypes\\Skeleton.Shared.CommonTypes.csproj
+		SccProjectTopLevelParentUniqueName11 = Skeleton.sln
+		SccProjectName11 = Skeleton.Shared.CommonTypes
+		SccLocalPath11 = Skeleton.Shared.CommonTypes
+		SccProjectUniqueName12 = Skeleton.Shared.Extensions\\Skeleton.Shared.Extensions.csproj
+		SccProjectTopLevelParentUniqueName12 = Skeleton.sln
+		SccProjectName12 = Skeleton.Shared.Extensions
+		SccLocalPath12 = Skeleton.Shared.Extensions
+		SccProjectUniqueName13 = Skeleton.Shared.Abstraction\\Skeleton.Core.csproj
+		SccProjectTopLevelParentUniqueName13 = Skeleton.sln
+		SccProjectName13 = Skeleton.Shared.Abstraction
+		SccLocalPath13 = Skeleton.Shared.Abstraction
 	EndGlobalSection
 EndGlobal

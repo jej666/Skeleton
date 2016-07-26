@@ -106,8 +106,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.Selection.Add(SqlFormatter.CountAny);
         }
 
-        internal void Aggregate<TResult>(
-            Expression<Func<TEntity, TResult>> expression,
+        internal void Aggregate(
+            Expression<Func<TEntity, object>> expression,
             SelectFunction selectFunction)
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
@@ -171,7 +171,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        internal void Join<T1, T2>(Expression<Func<T1, T2, bool>> expression, JoinType joinType)
+        internal void Join<T1, T2>(
+            Expression<Func<T1, T2, bool>> expression, JoinType joinType)
         {
             var joinExpression = expression.Body.GetBinaryExpression();
             var leftExpression = joinExpression.Left.GetMemberExpression();

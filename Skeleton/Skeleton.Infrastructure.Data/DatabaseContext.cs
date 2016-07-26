@@ -10,7 +10,7 @@ using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
-    [DebuggerDisplay("DatabaseName = {Configuration.Name")]
+    [DebuggerDisplay("DatabaseName = {Configuration.Name}")]
     public abstract class DatabaseContext : DataDisposableBase
     {
         private readonly DataAdapter _adapter;
@@ -22,13 +22,13 @@ namespace Skeleton.Infrastructure.Data
         private IDbTransaction _transaction;
 
         protected DatabaseContext(
+            ILogger logger,
             IDatabaseConfiguration configuration,
-            IMetadataProvider metadataProvider,
-            ILogger logger)
+            IMetadataProvider metadataProvider)
         {
+            _logger = logger;
             _configuration = configuration;
             _metadataProvider = metadataProvider;
-            _logger = logger;
             _adapter = new DataAdapter(configuration);
         }
 

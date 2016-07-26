@@ -73,14 +73,6 @@
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core.Repository\Skeleton.Core.Repository.csproj">
-      <Project>{6e2901d9-48ae-405b-8353-8e299c7693e5}</Project>
-      <Name>Skeleton.Core.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core.Service\Skeleton.Core.Service.csproj">
-      <Project>{b06dee96-287f-421b-9171-7c2a276ed5cc}</Project>
-      <Name>Skeleton.Core.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Infrastructure.DependencyResolver\Skeleton.Infrastructure.DependencyResolver.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
       <Name>Skeleton.Infrastructure.DependencyResolver</Name>
@@ -89,9 +81,9 @@
       <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>
       <Name>Skeleton.Infrastructure.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj">
+    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Core.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Shared.Abstraction</Name>
+      <Name>Skeleton.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj">
       <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>

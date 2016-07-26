@@ -42,8 +42,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\IDatabase.cs" />
+    <Compile Include="Data\IDatabaseAsync.cs" />
+    <Compile Include="Data\IDatabaseConfiguration.cs" />
+    <Compile Include="Data\IDatabaseConfigurationBuilder.cs" />
+    <Compile Include="Data\IDatabaseConfigurationProperties.cs" />
+    <Compile Include="Data\IDatabaseConfigurationRetryPolicy.cs" />
+    <Compile Include="Data\IDatabaseConfigurationRetryPolicyEnd.cs" />
+    <Compile Include="Data\IDatabaseConfigurationSettings.cs" />
+    <Compile Include="Data\IDatabaseExecute.cs" />
+    <Compile Include="Data\IDatabaseExecuteAsync.cs" />
+    <Compile Include="Data\IDatabaseFactory.cs" />
+    <Compile Include="Data\IDatabaseQuery.cs" />
+    <Compile Include="Data\IDatabaseQueryAsync.cs" />
+    <Compile Include="Data\IDatabaseTransaction.cs" />
     <Compile Include="IEntityDescriptor.cs" />
     <Compile Include="IEntityAuditable.cs" />
     <Compile Include="ICacheContext.cs" />
@@ -67,6 +82,23 @@
     <Compile Include="IValidationResult.cs" />
     <Compile Include="IEntityValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.Async\IAsyncCachedEntityReader.cs" />
+    <Compile Include="Repository.Async\IAsyncCachedReadService.cs" />
+    <Compile Include="Repository.Async\IAsyncCrudService.cs" />
+    <Compile Include="Repository.Async\IAsyncEntityAggregateResult.cs" />
+    <Compile Include="Repository.Async\IAsyncEntityPersistor.cs" />
+    <Compile Include="Repository.Async\IAsyncEntityQueryResult.cs" />
+    <Compile Include="Repository.Async\IAsyncEntityReader.cs" />
+    <Compile Include="Repository.Async\IAsyncReadService.cs" />
+    <Compile Include="Repository\ICachedEntityReader.cs" />
+    <Compile Include="Repository\ICachedReadService.cs" />
+    <Compile Include="Repository\ICrudService.cs" />
+    <Compile Include="Repository\IEntityAggregateResult.cs" />
+    <Compile Include="Repository\IEntityMapper.cs" />
+    <Compile Include="Repository\IEntityPersitor.cs" />
+    <Compile Include="Repository\IEntityQueryResult.cs" />
+    <Compile Include="Repository\IEntityReader.cs" />
+    <Compile Include="Repository\IReadService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Abstraction.snk" />

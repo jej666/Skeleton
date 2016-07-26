@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Skeleton.Infrastructure.Data.Configuration;
+using System;
 using System.Configuration;
 
-namespace Skeleton.Infrastructure.Data.Configuration
+namespace Skeleton.Infrastructure.Data
 {
     public sealed class DatabaseConfigurationBuilder :
         DataHideObjectMethods,

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Dynamic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -36,22 +37,50 @@ namespace Skeleton.Infrastructure.Data
                 }
             }
         }
+        internal static async Task<IEnumerable<dynamic>> Map(this DbDataReader dataReader)
+        {
+            try
+            {
+                var list = new List<dynamic>();
+
+                if (dataReader == null || dataReader.FieldCount == 0)
+                    return list;
+
+                while (await dataReader.ReadAsync().ConfigureAwait(false))
+                {
+                    var instance = SetValues(dataReader);
+
+                    list.Add(instance);
+                }
+                while (await dataReader.NextResultAsync().ConfigureAwait(false))
+                {
+                }
+
+                return list;
+            }
+            finally
+            {
+                using (dataReader)
+                {
+                }
+            }
+        }
 
         private static dynamic SetValues(this IDataReader reader)
         {
             var values = new object[reader.FieldCount];
             var fieldCount = reader.GetValues(values);
-            var expando = new ExpandoObject() as IDictionary<string, object>;
+            var dynamicDictionary = new ExpandoObject() as IDictionary<string, object>;
 
             for (var index = 0; index < fieldCount; ++index)
             {
                 if (values[index] == null || values[index] is DBNull)
                     continue;
 
-                expando.Add(reader.GetName(index), values[index].TrimIfNeeded());
+                dynamicDictionary.Add(reader.GetName(index), values[index].TrimIfNeeded());
             }
 
-            return expando;
+            return dynamicDictionary;
         }
     }
 }

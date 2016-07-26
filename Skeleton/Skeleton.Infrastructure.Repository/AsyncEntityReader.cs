@@ -230,63 +230,70 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public async Task<TResult> AverageAsync<TResult>(
-            Expression<Func<TEntity, TResult>> expression)
+        public async Task<IEnumerable<dynamic>> AverageAsync(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Avg);
 
-            return await AggregateAsAsync<TResult>();
+            return await AggregateAsync();
         }
 
         public async Task<int> CountAsync()
         {
-            Builder.Count();
+            try
+            {
+                Builder.Count();
 
-            return await AggregateAsAsync<int>();
+                return await Database.ExecuteScalarAsync<int>(
+                    Builder.SqlQuery,
+                    Builder.Parameters)
+                    .ConfigureAwait(false);
+            }
+            finally { Builder.OnNextQuery(); }
         }
 
-        public async Task<TResult> CountAsync<TResult>(
-            Expression<Func<TEntity, TResult>> expression)
+        public async Task<IEnumerable<dynamic>> CountAsync(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Count);
 
-            return await AggregateAsAsync<TResult>();
+            return await AggregateAsync();
         }
 
-        public async Task<TResult> MaxAsync<TResult>(
-            Expression<Func<TEntity, TResult>> expression)
+        public async Task<IEnumerable<dynamic>> MaxAsync(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Max);
 
-            return await AggregateAsAsync<TResult>();
+            return await AggregateAsync();
         }
 
-        public async Task<TResult> MinAsync<TResult>(
-            Expression<Func<TEntity, TResult>> expression)
+        public async Task<IEnumerable<dynamic>> MinAsync(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Min);
 
-            return await AggregateAsAsync<TResult>();
+            return await AggregateAsync();
         }
 
-        public async Task<TResult> SumAsync<TResult>(
-            Expression<Func<TEntity, TResult>> expression)
+        public async Task<IEnumerable<dynamic>> SumAsync(
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Sum);
 
-            return await AggregateAsAsync<TResult>();
+            return await AggregateAsync();
         }
 
-        private async Task<TResult> AggregateAsAsync<TResult>()
+        private async Task<IEnumerable<dynamic>> AggregateAsync()
         {
             try
             {
-                return await Database.ExecuteScalarAsync<TResult>(
+                return await Database.FindAsync(
                     Builder.SqlQuery,
                     Builder.Parameters)
                     .ConfigureAwait(false);

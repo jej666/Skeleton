@@ -98,10 +98,11 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task CountAsync()
         {
-            var count = await _service.Query.CountAsync(c => c.CustomerId);
+            var count = await _service.Query
+                .CountAsync(c => c.CustomerId);
 
             Assert.IsNotNull(count);
-            Assert.IsTrue(count > 0);
+            Assert.IsTrue(count.FirstOrDefault().Count > 0);
         }
 
         [TestMethod]
@@ -124,7 +125,7 @@ namespace Skeleton.Tests
                 .MinAsync(c => c.CustomerId);
 
             Assert.IsNotNull(min);
-            Assert.IsTrue(min == minCustomer.CustomerId);
+            Assert.IsTrue(min.FirstOrDefault().Min == minCustomer.CustomerId);
         }
 
         [TestMethod]
@@ -138,8 +139,36 @@ namespace Skeleton.Tests
                 .MaxAsync(c => c.CustomerId);
 
             Assert.IsNotNull(max);
-            Assert.IsTrue(max == maxCustomer.CustomerId);
+            Assert.IsTrue(max.FirstOrDefault().Max == maxCustomer.CustomerId);
         }
+
+        [TestMethod]
+        public async Task AverageAsync()
+        {
+            var avg =await _service.Query
+                .OrderBy(c => c.CustomerId)
+                .GroupBy(c => c.CustomerId)
+                .Select(c => c.CustomerId)
+                .AverageAsync(c => c.CustomerCategoryId);
+
+            var result = avg.FirstOrDefault();
+
+            Assert.IsNotNull(avg);
+            Assert.IsTrue(result.Avg > 0);
+        }
+
+        [TestMethod]
+        public async Task SumAsync()
+        {
+            var sum =await _service.Query
+                .OrderBy(c => c.CustomerId)
+                .GroupBy(c => c.CustomerId)
+                .SumAsync(c => c.CustomerCategoryId);
+
+            Assert.IsNotNull(sum);
+            Assert.IsTrue(sum.FirstOrDefault().Sum > 0);
+        }
+
 
         [TestMethod]
         public async Task FindAsync_LeftJoin()

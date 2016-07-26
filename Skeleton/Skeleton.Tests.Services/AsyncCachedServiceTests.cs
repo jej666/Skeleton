@@ -73,6 +73,7 @@ namespace Skeleton.Tests
                 _service.Query.LastGeneratedCacheKey));
         }
 
+        [TestMethod]
         public async Task Cached_PageAsync()
         {
             const int pageSize = 50;

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Skeleton.Shared.Abstraction;
+using System.Collections.Generic;
 
 namespace Skeleton.Infrastructure.Data
 {
     public interface IDatabaseQuery
     {
-        IEnumerable<dynamic> Fetch(
+        IEnumerable<dynamic> Find(
             string query,
             IDictionary<string, object> parameters);
 

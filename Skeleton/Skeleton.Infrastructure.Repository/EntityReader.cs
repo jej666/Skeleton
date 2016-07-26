@@ -212,7 +212,7 @@ namespace Skeleton.Infrastructure.Repository
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Avg);
 
-            return AggregateAs();
+            return Aggregate();
         }
 
         public int Count()
@@ -220,7 +220,7 @@ namespace Skeleton.Infrastructure.Repository
             Builder.Count();
 
             return Builder.OnNextQuery(() =>
-                 Database.Execute(
+                 Database.ExecuteScalar<int>(
                          Builder.SqlQuery,
                          Builder.Parameters)); ;
         }
@@ -231,7 +231,7 @@ namespace Skeleton.Infrastructure.Repository
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Count);
 
-            return AggregateAs();
+            return Aggregate();
         }
 
         public IEnumerable<dynamic> Max(
@@ -240,7 +240,7 @@ namespace Skeleton.Infrastructure.Repository
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Max);
 
-            return AggregateAs();
+            return Aggregate();
         }
 
         public IEnumerable<dynamic> Min(
@@ -249,7 +249,7 @@ namespace Skeleton.Infrastructure.Repository
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Min);
 
-            return AggregateAs();
+            return Aggregate();
         }
 
         public IEnumerable<dynamic> Sum(
@@ -258,13 +258,13 @@ namespace Skeleton.Infrastructure.Repository
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Sum);
 
-            return AggregateAs();
+            return Aggregate();
         }
 
-        private IEnumerable<dynamic> AggregateAs() 
+        private IEnumerable<dynamic> Aggregate() 
         {
             return Builder.OnNextQuery(() =>
-                 Database.Fetch(
+                 Database.Find(
                          Builder.SqlQuery, 
                          Builder.Parameters));
         }

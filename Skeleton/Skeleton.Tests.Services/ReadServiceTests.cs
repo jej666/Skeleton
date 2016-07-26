@@ -127,7 +127,7 @@ namespace Skeleton.Tests
                 .FirstOrDefault();
 
             Assert.IsNotNull(min);
-            Assert.IsTrue((int)min == minCustomer.CustomerId);
+            Assert.IsTrue(min.GetValue<int>("Min") == minCustomer.CustomerId);
         }
 
         [TestMethod]
@@ -137,12 +137,12 @@ namespace Skeleton.Tests
                 .OrderByDescending(c => c.CustomerId)
                 .Top(1)
                 .FirstOrDefault();
-            var max = _service.Query
+            var findMax = _service.Query
                 .Max(c => c.CustomerId)
                 .FirstOrDefault();
 
-            Assert.IsNotNull(max);
-            Assert.IsTrue((int)max == maxCustomer.CustomerId);
+            Assert.IsNotNull(findMax);
+            Assert.IsTrue(findMax.Max == maxCustomer.CustomerId);
         }
 
         [TestMethod]
@@ -154,6 +154,21 @@ namespace Skeleton.Tests
                 .Sum(c => c.CustomerCategoryId);
             
             Assert.IsNotNull(sum);
+        }
+
+        [TestMethod]
+        public void Average()
+        {
+            var avg = _service.Query
+                .OrderBy(c => c.CustomerId)
+                .GroupBy(c => c.CustomerId)
+                .Select (c => c.CustomerId)
+                .Average(c => c.CustomerCategoryId);
+
+            var result = avg.FirstOrDefault();
+
+            Assert.IsNotNull(avg);
+            Assert.IsTrue(result.GetValue<int>("Avg") > 0);
         }
 
         [TestMethod]

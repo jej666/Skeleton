@@ -5,14 +5,18 @@ namespace Skeleton.Infrastructure.Data
 {
     public interface IDatabaseQueryAsync
     {
-        Task<IEnumerable<TResult>> FindAsync<TResult>(
-            string query,
-            IDictionary<string, object> parameters)
-            where TResult : class;
+       Task<IEnumerable<dynamic>> FindAsync(
+          string query,
+          IDictionary<string, object> parameters);
 
-        Task<TResult> FirstOrDefaultAsync<TResult>(
+        Task<IEnumerable<TPoco>> FindAsync<TPoco>(
             string query,
             IDictionary<string, object> parameters)
-            where TResult : class;
+            where TPoco : class;
+
+        Task<TPoco> FirstOrDefaultAsync<TPoco>(
+            string query,
+            IDictionary<string, object> parameters)
+            where TPoco : class;
     }
 }

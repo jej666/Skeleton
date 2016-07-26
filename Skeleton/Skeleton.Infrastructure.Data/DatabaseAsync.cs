@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Shared.Abstraction;
@@ -10,14 +9,13 @@ using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
-    [DebuggerDisplay("DatabaseName = {Configuration.Name")]
     public sealed class DatabaseAsync : DatabaseContext, IDatabaseAsync
     {
         public DatabaseAsync(
+            ILogger logger,
             IDatabaseConfiguration configuration,
-            IMetadataProvider metadataProvider,
-            ILogger logger)
-            : base(configuration, metadataProvider, logger)
+            IMetadataProvider metadataProvider)
+            : base(logger, configuration, metadataProvider)
         {
         }
 
@@ -84,10 +82,30 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        public async Task<IEnumerable<TResult>> FindAsync<TResult>(
+        public async Task<IEnumerable<dynamic>> FindAsync(
+            string query, 
+            IDictionary<string, object> parameters)
+        {
+            try
+            {
+                await OpenConnectionAsync();
+                var command = (DbCommand)CreateTextCommand(query, parameters);
+                var reader = await command.ExecuteReaderAsync()
+                    .ConfigureAwait(false);
+
+                return await reader.Map();
+            }
+            catch (SqlException e)
+            {
+                Logger.Error(e.Message);
+                throw new DataAccessException(e);
+            }
+        }
+
+        public async Task<IEnumerable<TPoco>> FindAsync<TPoco>(
             string query,
             IDictionary<string, object> parameters)
-            where TResult : class
+            where TPoco : class
         {
             try
             {
@@ -96,7 +114,7 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await MetadataProvider.CreateMapperAsync<TResult>()
+                return await MetadataProvider.CreateMapperAsync<TPoco>()
                     .MapQueryAsync(reader);
             }
             catch (SqlException e)
@@ -106,10 +124,10 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        public async Task<TResult> FirstOrDefaultAsync<TResult>(
+        public async Task<TPoco> FirstOrDefaultAsync<TPoco>(
             string query,
             IDictionary<string, object> parameters)
-            where TResult : class
+            where TPoco : class
         {
             try
             {
@@ -118,7 +136,7 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await MetadataProvider.CreateMapperAsync<TResult>()
+                return await MetadataProvider.CreateMapperAsync<TPoco>()
                     .MapSingleAsync(reader);
             }
             catch (SqlException e)

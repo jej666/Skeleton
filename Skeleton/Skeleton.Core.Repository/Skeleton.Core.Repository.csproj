@@ -59,9 +59,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj">
+    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Core.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Shared.Abstraction</Name>
+      <Name>Skeleton.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj">
       <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>

@@ -1,6 +1,7 @@
-﻿using System.Diagnostics;
+﻿using Skeleton.Infrastructure.Data.Configuration;
+using System.Diagnostics;
 
-namespace Skeleton.Infrastructure.Data.Configuration
+namespace Skeleton.Infrastructure.Data
 {
     [DebuggerDisplay("DatabaseName = {Name")]
     public sealed class DatabaseConfiguration :

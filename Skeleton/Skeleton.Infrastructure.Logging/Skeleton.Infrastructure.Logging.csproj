@@ -62,9 +62,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Shared.Abstraction.csproj">
+    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Core.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Shared.Abstraction</Name>
+      <Name>Skeleton.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

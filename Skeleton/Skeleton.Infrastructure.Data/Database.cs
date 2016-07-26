@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Threading;
 using Skeleton.Infrastructure.Data.Configuration;
 using Skeleton.Shared.Abstraction;
@@ -10,14 +9,13 @@ using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
-    [DebuggerDisplay("DatabaseName = {Configuration.Name")]
     public sealed class Database : DatabaseContext, IDatabase
     {
         public Database(
+            ILogger logger,
             IDatabaseConfiguration configuration,
-            IMetadataProvider metadataProvider,
-            ILogger logger)
-            : base(configuration, metadataProvider, logger)
+            IMetadataProvider metadataProvider)
+            : base(logger, configuration, metadataProvider)
         {
             OpenConnection();
         }
@@ -57,7 +55,7 @@ namespace Skeleton.Infrastructure.Data
                     .ExecuteNonQuery());
         }
 
-        public IEnumerable<dynamic> Fetch(
+        public IEnumerable<dynamic> Find(
             string query,
             IDictionary<string, object> parameters)
         {
