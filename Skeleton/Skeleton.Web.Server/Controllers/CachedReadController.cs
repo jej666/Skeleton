@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Web.Http;
-using Skeleton.Core.Service;
-using Skeleton.Shared.Abstraction;
+using Skeleton.Core;
+using Skeleton.Core.Repository;
 
 namespace Skeleton.Web.Server.Controllers
 {
     public class CachedReadController<TEntity, TIdentity, TDto> :
-        ApiController
+            ApiController
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {

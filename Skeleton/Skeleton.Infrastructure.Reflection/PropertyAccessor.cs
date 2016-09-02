@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using Skeleton.Shared.CommonTypes;
 
-namespace Skeleton.Infrastructure.Reflection
+namespace Skeleton.Core.Reflection
 {
     [DebuggerDisplay("Name: {Name}")]
     public class PropertyAccessor : MemberAccessorBase

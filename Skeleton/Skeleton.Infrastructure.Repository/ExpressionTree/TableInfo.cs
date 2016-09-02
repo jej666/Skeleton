@@ -33,7 +33,7 @@ namespace Skeleton.Infrastructure.Repository.ExpressionTree
         {
             var reflectedType = expression.Member.ReflectedType;
 
-            if (reflectedType != null && reflectedType.IsGenericType)
+            if ((reflectedType != null) && reflectedType.IsGenericType)
                 reflectedType = reflectedType.GenericTypeArguments.First();
 
             return GetTableName(reflectedType);

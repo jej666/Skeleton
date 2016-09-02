@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
+using Skeleton.Shared.CommonTypes;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal sealed class QueryContext : ContextBase
     {
-        private readonly LazyLoading<List<string>> _groupBy;
-        private readonly LazyLoading<List<string>> _having;
-        private readonly LazyLoading<List<string>> _joins;
-        private readonly LazyLoading<List<string>> _select;
-        private readonly LazyLoading<List<string>> _orderBy;
-        private readonly LazyLoading<List<string>> _tableNames;
+        private readonly LazyRef<List<string>> _groupBy;
+        private readonly LazyRef<List<string>> _having;
+        private readonly LazyRef<List<string>> _joins;
+        private readonly LazyRef<List<string>> _orderBy;
+        private readonly LazyRef<List<string>> _select;
+        private readonly LazyRef<List<string>> _tableNames;
 
         internal QueryContext()
         {
-            _groupBy = new LazyLoading<List<string>>(() => new List<string>());
-            _having = new LazyLoading<List<string>>(() => new List<string>());
-            _joins = new LazyLoading<List<string>>(() => new List<string>());
-            _select = new LazyLoading<List<string>>(() => new List<string>());
-            _orderBy = new LazyLoading<List<string>>(() => new List<string>());
-            _tableNames = new LazyLoading<List<string>>(() => new List<string>());
+            _groupBy = new LazyRef<List<string>>(() => new List<string>());
+            _having = new LazyRef<List<string>>(() => new List<string>());
+            _joins = new LazyRef<List<string>>(() => new List<string>());
+            _select = new LazyRef<List<string>>(() => new List<string>());
+            _orderBy = new LazyRef<List<string>>(() => new List<string>());
+            _tableNames = new LazyRef<List<string>>(() => new List<string>());
             Top = string.Empty;
         }
 

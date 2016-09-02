@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.ObjectBuilder2;
+using Skeleton.Core;
 using Skeleton.Infrastructure.Logging;
-using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
 {
@@ -14,12 +14,8 @@ namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
             var policy = context.Policies.Get<ICreationStackTrackerPolicy>(null, true);
 
             if (policy.TypeStack.Count >= 2)
-            {
                 if (policy.TypeStack.Peek(0) == typeof(ILogger))
-                {
                     context.Existing = LoggerFactory.GetLogger(policy.TypeStack.Peek(1));
-                }
-            }
 
             base.PreBuildUp(context);
         }

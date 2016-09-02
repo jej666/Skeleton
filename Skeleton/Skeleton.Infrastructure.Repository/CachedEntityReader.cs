@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Skeleton.Core;
+using Skeleton.Core.Data;
 using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Data;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository
 {
     public class CachedEntityReader<TEntity, TIdentity> :
-        EntityReader<TEntity, TIdentity>,
-        ICachedEntityReader<TEntity, TIdentity>
+            EntityReader<TEntity, TIdentity>,
+            ICachedEntityReader<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly ICacheProvider _cacheProvider;
         private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator;
 
         public CachedEntityReader(
@@ -23,16 +21,13 @@ namespace Skeleton.Infrastructure.Repository
         {
             cacheProvider.ThrowIfNull(() => cacheProvider);
 
-            _cacheProvider = cacheProvider;
+            Cache = cacheProvider;
             _keyGenerator = new CacheKeyGenerator<TEntity, TIdentity>();
         }
 
         public Action<ICacheContext> CacheConfigurator { get; set; }
 
-        public ICacheProvider Cache
-        {
-            get { return _cacheProvider; }
-        }
+        public ICacheProvider Cache { get; }
 
         public string LastGeneratedCacheKey { get; private set; }
 

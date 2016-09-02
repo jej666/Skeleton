@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Skeleton.Core;
+using Skeleton.Core.Data;
 using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Data;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository
 {
     public class AsyncCachedEntityReader<TEntity, TIdentity> :
-        AsyncEntityReader<TEntity, TIdentity>,
-        IAsyncCachedEntityReader<TEntity, TIdentity>
+            AsyncEntityReader<TEntity, TIdentity>,
+            IAsyncCachedEntityReader<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly ICacheProvider _cacheProvider;
         private readonly AsyncCacheKeyGenerator<TEntity, TIdentity> _keyGenerator;
 
         public AsyncCachedEntityReader(
@@ -22,16 +20,13 @@ namespace Skeleton.Infrastructure.Repository
             ICacheProvider cacheProvider)
             : base(metadataProvider, database)
         {
-            _cacheProvider = cacheProvider;
+            Cache = cacheProvider;
             _keyGenerator = new AsyncCacheKeyGenerator<TEntity, TIdentity>();
         }
 
         public Action<ICacheContext> CacheConfigurator { get; set; }
 
-        public ICacheProvider Cache
-        {
-            get { return _cacheProvider; }
-        }
+        public ICacheProvider Cache { get; }
 
         public string LastGeneratedCacheKey { get; private set; }
 
@@ -40,9 +35,9 @@ namespace Skeleton.Infrastructure.Repository
             LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SqlQuery);
 
             return await Cache.GetOrAddAsync(
-                LastGeneratedCacheKey,
-                () => base.FindAsync(),
-                CacheConfigurator)
+                    LastGeneratedCacheKey,
+                    () => base.FindAsync(),
+                    CacheConfigurator)
                 .ConfigureAwait(false);
         }
 
@@ -53,9 +48,9 @@ namespace Skeleton.Infrastructure.Repository
             LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(id);
 
             return await Cache.GetOrAddAsync(
-                LastGeneratedCacheKey,
-                () => base.FirstOrDefaultAsync(id),
-                CacheConfigurator)
+                    LastGeneratedCacheKey,
+                    () => base.FirstOrDefaultAsync(id),
+                    CacheConfigurator)
                 .ConfigureAwait(false);
         }
 
@@ -64,9 +59,9 @@ namespace Skeleton.Infrastructure.Repository
             LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(Builder.SqlQuery);
 
             return await Cache.GetOrAddAsync(
-                LastGeneratedCacheKey,
-                () => base.FirstOrDefaultAsync(),
-                CacheConfigurator)
+                    LastGeneratedCacheKey,
+                    () => base.FirstOrDefaultAsync(),
+                    CacheConfigurator)
                 .ConfigureAwait(false);
         }
 
@@ -75,9 +70,9 @@ namespace Skeleton.Infrastructure.Repository
             LastGeneratedCacheKey = _keyGenerator.ForGetAll();
 
             return await Cache.GetOrAddAsync(
-                LastGeneratedCacheKey,
-                () => base.GetAllAsync(),
-                CacheConfigurator)
+                    LastGeneratedCacheKey,
+                    () => base.GetAllAsync(),
+                    CacheConfigurator)
                 .ConfigureAwait(false);
         }
 
@@ -88,9 +83,9 @@ namespace Skeleton.Infrastructure.Repository
             LastGeneratedCacheKey = _keyGenerator.ForPage(pageSize, pageNumber);
 
             return await Cache.GetOrAddAsync(
-                LastGeneratedCacheKey,
-                () => base.PageAsync(pageSize, pageNumber),
-                CacheConfigurator)
+                    LastGeneratedCacheKey,
+                    () => base.PageAsync(pageSize, pageNumber),
+                    CacheConfigurator)
                 .ConfigureAwait(false);
         }
     }

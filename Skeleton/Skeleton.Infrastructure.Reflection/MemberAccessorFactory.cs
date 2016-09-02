@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using Skeleton.Core.Reflection;
 
-namespace Skeleton.Infrastructure.Reflection
+namespace Skeleton.Core.Reflection
 {
     public static class MemberAccessorFactory
     {

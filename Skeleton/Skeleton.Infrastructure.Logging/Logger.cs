@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using log4net;
-using Skeleton.Shared.Abstraction;
+using Skeleton.Core;
 
 namespace Skeleton.Infrastructure.Logging
 {

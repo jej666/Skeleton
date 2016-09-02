@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Skeleton.Shared.Abstraction.Reflection
+namespace Skeleton.Core
 {
     public interface IMemberInfo : IHideObjectMethods
     {

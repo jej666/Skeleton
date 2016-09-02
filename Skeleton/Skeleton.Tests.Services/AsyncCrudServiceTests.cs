@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Core.Service;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -91,7 +91,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task SaveAsync_ShouldAdd()
         {
-            var customer = new Customer { Name = "Customer" };
+            var customer = new Customer {Name = "Customer"};
             var successed = await _service.Store.SaveAsync(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id > 0);
@@ -104,11 +104,11 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task SaveAsync_ShouldUpdate()
         {
-            var customer =await _service.Query.Top(1).FirstOrDefaultAsync();
+            var customer = await _service.Query.Top(1).FirstOrDefaultAsync();
             Assert.IsTrue(customer.Id > 0);
 
             customer.Name = "CustomerUpdated";
-            var successed =await _service.Store.SaveAsync(customer);
+            var successed = await _service.Store.SaveAsync(customer);
             Assert.IsTrue(successed);
 
             var result = await _service.Query.FirstOrDefaultAsync(customer.Id);
@@ -120,7 +120,7 @@ namespace Skeleton.Tests
         public async Task SaveAsync_Multiple()
         {
             var customers = MemorySeeder.SeedCustomers(5);
-            var successed =await  _service.Store.SaveAsync(customers);
+            var successed = await _service.Store.SaveAsync(customers);
             Assert.IsTrue(successed);
         }
     }

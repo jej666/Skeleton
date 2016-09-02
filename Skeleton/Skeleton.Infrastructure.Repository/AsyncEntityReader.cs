@@ -2,50 +2,44 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Skeleton.Core;
+using Skeleton.Core.Data;
 using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Data;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Shared.CommonTypes;
 
 namespace Skeleton.Infrastructure.Repository
 {
     public class AsyncEntityReader<TEntity, TIdentity> :
-        DisposableBase,
-        IAsyncEntityReader<TEntity, TIdentity>
+            DisposableBase,
+            IAsyncEntityReader<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly IDatabaseAsync _database;
-        private readonly SelectQueryBuilder<TEntity, TIdentity> _builder;
-
         public AsyncEntityReader(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
         {
-            _database = database;
-            _builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
+            Database = database;
+            Builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
 
-        protected IDatabaseAsync Database
-        {
-            get { return _database; }
-        }
+        protected IDatabaseAsync Database { get; }
 
-        internal SelectQueryBuilder<TEntity, TIdentity> Builder
-        {
-            get { return _builder; }
-        }
+        internal SelectQueryBuilder<TEntity, TIdentity> Builder { get; }
 
         public virtual async Task<IEnumerable<TEntity>> FindAsync()
         {
             try
             {
                 return await Database.FindAsync<TEntity>(
-                    Builder.SqlQuery,
-                    Builder.Parameters)
+                        Builder.SqlQuery,
+                        Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally { Builder.OnNextQuery(); }
+            finally
+            {
+                Builder.OnNextQuery();
+            }
         }
 
         public virtual async Task<TEntity> FirstOrDefaultAsync(TIdentity id)
@@ -59,7 +53,10 @@ namespace Skeleton.Infrastructure.Repository
 
                 return await FirstOrDefaultAsync();
             }
-            finally { Builder.OnNextQuery(); }
+            finally
+            {
+                Builder.OnNextQuery();
+            }
         }
 
         public virtual async Task<TEntity> FirstOrDefaultAsync()
@@ -67,11 +64,14 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FirstOrDefaultAsync<TEntity>(
-                    Builder.SqlQuery,
-                    Builder.Parameters)
+                        Builder.SqlQuery,
+                        Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally { Builder.OnNextQuery(); }
+            finally
+            {
+                Builder.OnNextQuery();
+            }
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -79,11 +79,14 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FindAsync<TEntity>(
-                    Builder.SqlQuery,
-                    Builder.Parameters)
+                        Builder.SqlQuery,
+                        Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally { Builder.OnNextQuery(); }
+            finally
+            {
+                Builder.OnNextQuery();
+            }
         }
 
         public virtual async Task<IEnumerable<TEntity>> PageAsync(
@@ -93,15 +96,18 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FindAsync<TEntity>(
-                    Builder.SqlPagedQuery(pageSize, pageNumber),
-                    Builder.Parameters)
+                        Builder.SqlPagedQuery(pageSize, pageNumber),
+                        Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally { Builder.OnNextQuery(); }
+            finally
+            {
+                Builder.OnNextQuery();
+            }
         }
 
         public IAsyncEntityReader<TEntity, TIdentity> GroupBy(
-           Expression<Func<TEntity, object>> expression)
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.GroupBy(expression);
@@ -221,15 +227,6 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        private IAsyncEntityReader<TEntity, TIdentity> And(
-            Expression<Func<TEntity, bool>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Builder.ResolveQuery(expression);
-
-            return this;
-        }
-
         public async Task<IEnumerable<dynamic>> AverageAsync(
             Expression<Func<TEntity, object>> expression)
         {
@@ -246,11 +243,14 @@ namespace Skeleton.Infrastructure.Repository
                 Builder.Count();
 
                 return await Database.ExecuteScalarAsync<int>(
-                    Builder.SqlQuery,
-                    Builder.Parameters)
+                        Builder.SqlQuery,
+                        Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally { Builder.OnNextQuery(); }
+            finally
+            {
+                Builder.OnNextQuery();
+            }
         }
 
         public async Task<IEnumerable<dynamic>> CountAsync(
@@ -289,21 +289,33 @@ namespace Skeleton.Infrastructure.Repository
             return await AggregateAsync();
         }
 
+        private IAsyncEntityReader<TEntity, TIdentity> And(
+            Expression<Func<TEntity, bool>> expression)
+        {
+            expression.ThrowIfNull(() => expression);
+            Builder.ResolveQuery(expression);
+
+            return this;
+        }
+
         private async Task<IEnumerable<dynamic>> AggregateAsync()
         {
             try
             {
                 return await Database.FindAsync(
-                    Builder.SqlQuery,
-                    Builder.Parameters)
+                        Builder.SqlQuery,
+                        Builder.Parameters)
                     .ConfigureAwait(false);
             }
-            finally { Builder.OnNextQuery(); }
+            finally
+            {
+                Builder.OnNextQuery();
+            }
         }
 
         protected override void DisposeManagedResources()
         {
-            _database.Dispose();
+            Database.Dispose();
         }
     }
 }

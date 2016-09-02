@@ -1,33 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using Skeleton.Core;
+using Skeleton.Core.Data;
 using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Data;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using Skeleton.Shared.CommonTypes;
 
 namespace Skeleton.Infrastructure.Repository
 {
     public class EntityPersistor<TEntity, TIdentity> :
-        DisposableBase,
-        IEntityPersitor<TEntity, TIdentity>
+            DisposableBase,
+            IEntityPersitor<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IMetadataProvider _metadataProvider;
-        private readonly IDatabase _database;
 
         public EntityPersistor(
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
-            _database = database;
+            Database = database;
             _metadataProvider = metadataProvider;
         }
 
-        protected IDatabase Database
-        {
-            get { return _database; }
-        }
+        protected IDatabase Database { get; }
 
         public virtual bool Add(TEntity entity)
         {
@@ -43,7 +39,7 @@ namespace Skeleton.Infrastructure.Repository
             var enumerable = entities.AsList();
             var count = 0;
 
-            using (var transaction = _database.Transaction)
+            using (var transaction = Database.Transaction)
             {
                 transaction.Begin();
 
@@ -73,7 +69,7 @@ namespace Skeleton.Infrastructure.Repository
             var enumerable = entities.AsList();
             int count = 0, result = 0;
 
-            using (var transaction = _database.Transaction)
+            using (var transaction = Database.Transaction)
             {
                 transaction.Begin();
 
@@ -105,12 +101,11 @@ namespace Skeleton.Infrastructure.Repository
             var enumerable = entities.AsList();
             var result = false;
 
-            using (var transaction = _database.Transaction)
+            using (var transaction = Database.Transaction)
             {
                 transaction.Begin();
 
-                enumerable.ForEach(entity =>
-                    { result = Save(entity); });
+                enumerable.ForEach(entity => { result = Save(entity); });
 
                 if (result)
                     transaction.Commit();
@@ -132,7 +127,7 @@ namespace Skeleton.Infrastructure.Repository
             var enumerable = entities.AsList();
             int count = 0, result = 0;
 
-            using (var transaction = _database.Transaction)
+            using (var transaction = Database.Transaction)
             {
                 transaction.Begin();
 
@@ -166,7 +161,7 @@ namespace Skeleton.Infrastructure.Repository
         private int DeleteCommand(TEntity entity)
         {
             var builder = new DeleteCommandBuilder<TEntity, TIdentity>(
-                    _metadataProvider, entity);
+                _metadataProvider, entity);
 
             return Database.Execute(
                 builder.SqlQuery,
@@ -176,18 +171,18 @@ namespace Skeleton.Infrastructure.Repository
         private int UpdateCommand(TEntity entity)
         {
             var builder = new UpdateCommandBuilder<TEntity, TIdentity>(
-                     _metadataProvider, entity);
+                _metadataProvider, entity);
 
             entity.LastModifiedDateTime = DateTime.Now;
 
-            return _database.Execute(
+            return Database.Execute(
                 builder.SqlQuery,
                 builder.Parameters);
         }
 
         protected override void DisposeManagedResources()
         {
-            _database.Dispose();
+            Database.Dispose();
         }
     }
 }

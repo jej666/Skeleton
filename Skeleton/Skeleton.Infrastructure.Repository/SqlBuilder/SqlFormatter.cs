@@ -25,27 +25,15 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        internal static string ColumnValue(string tableName, string columnName, object value)
-        {
-            return "[{0}].[{1}] = {2} ".FormatWith(tableName, columnName, FormattedValue(value));
-        }
-
 
         internal static string SelectQuery
         {
             get { return "SELECT {0} {1} FROM {2} {3} {4} {5} {6}"; }
         }
 
-        
-
-        internal static string Top(int take)
-        {
-           return "Top({0})".FormatWith(take);
-        }
-
         internal static string CountAny
         {
-           get { return "Count(*)"; }
+            get { return "Count(*)"; }
         }
 
         internal static string BeginExpression
@@ -71,6 +59,17 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         internal static string OrExpression
         {
             get { return " OR "; }
+        }
+
+        internal static string ColumnValue(string tableName, string columnName, object value)
+        {
+            return "[{0}].[{1}] = {2} ".FormatWith(tableName, columnName, FormattedValue(value));
+        }
+
+
+        internal static string Top(int take)
+        {
+            return "Top({0})".FormatWith(take);
         }
 
         internal static string Field(string tableName, string fieldName)
@@ -104,7 +103,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal static string OrderByDescending(MemberNode node)
         {
-            return  "{0} DESC".FormatWith(Field(node));
+            return "{0} DESC".FormatWith(Field(node));
         }
 
         internal static string Source(IEnumerable<string> source, string tableName)
@@ -149,7 +148,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return "{0}.*".FormatWith(Table(tableName));
         }
 
-        internal static string SelectedColumns(IEnumerable<string> selection,  string tableName)
+        internal static string SelectedColumns(IEnumerable<string> selection, string tableName)
         {
             if (selection.IsNullOrEmpty())
                 return SelectAll(tableName);
@@ -165,18 +164,18 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             JoinType joinType)
         {
             return " {0} JOIN {1} ON {2} = {3}".FormatWith(
-                    joinType.ToString(),
-                    Table(joinTableName),
-                    Field(originalTableName, leftField),
-                    Field(joinTableName, rightField));
+                joinType.ToString(),
+                Table(joinTableName),
+                Field(originalTableName, leftField),
+                Field(joinTableName, rightField));
         }
 
         internal static string FieldCondition(MemberNode node, string op, string parameterId)
         {
             return "{0} {1} {2}".FormatWith(
-                 Field(node),
-                 op,
-                 Parameter(parameterId));
+                Field(node),
+                op,
+                Parameter(parameterId));
         }
 
         internal static string FieldComparison(MemberNode leftNode, string op, MemberNode rightNode)
@@ -209,8 +208,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         internal static string WhereIsIn(MemberNode node, IEnumerable<string> parameterIds)
         {
             return "{0} IN ({1})".FormatWith(
-                 Field(node),
-                 Fields(parameterIds));
+                Field(node),
+                Fields(parameterIds));
         }
 
         internal static string LikeCondition(string value, LikeMethod method)
@@ -218,11 +217,11 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             switch (method)
             {
                 case LikeMethod.StartsWith:
-                   return value + "%";
+                    return value + "%";
 
                 case LikeMethod.EndsWith:
                     return "%" + value;
-                
+
                 case LikeMethod.Contains:
                     return "%" + value + "%";
 
@@ -236,7 +235,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             if (value is string)
                 return "'{0}'".FormatWith(value.ToString().Replace("'", "''"));
 
-            if (value != null && value.ToString().Contains(","))
+            if ((value != null) && value.ToString().Contains(","))
                 return value.ToString().Replace(",", ".");
 
             return value != null ? value.ToString() : "null";

@@ -43,9 +43,7 @@ namespace Skeleton.Tests.Infrastructure
             }
 
             foreach (var test in this.OrderBy(t => t.Watch.ElapsedMilliseconds))
-            {
                 Trace.WriteLine(test.Name + " :: " + test.Watch.ElapsedMilliseconds + "ms");
-            }
         }
     }
 }

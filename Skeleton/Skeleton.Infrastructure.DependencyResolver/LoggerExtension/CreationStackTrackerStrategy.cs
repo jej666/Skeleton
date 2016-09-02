@@ -12,9 +12,7 @@ namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
             var policy = context.Policies.Get<ICreationStackTrackerPolicy>(null, true);
 
             if (policy.TypeStack.Count > 0)
-            {
                 policy.TypeStack.Pop();
-            }
 
             base.PostBuildUp(context);
         }

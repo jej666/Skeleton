@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
+using Skeleton.Shared.CommonTypes;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal sealed class CommandContext : ContextBase
     {
-        private readonly LazyLoading<List<string>> _columns;
-        private readonly LazyLoading<List<string>> _values;
-        private readonly LazyLoading<List<string>> _columnValues;
+        private readonly LazyRef<List<string>> _columns;
+        private readonly LazyRef<List<string>> _columnValues;
+        private readonly LazyRef<List<string>> _values;
 
         internal CommandContext()
         {
-            _columns = new LazyLoading<List<string>>(() => new List<string>());
-            _values = new LazyLoading<List<string>>(() => new List<string>());
-            _columnValues = new LazyLoading<List<string>>(() => new List<string>());
+            _columns = new LazyRef<List<string>>(() => new List<string>());
+            _values = new LazyRef<List<string>>(() => new List<string>());
+            _columnValues = new LazyRef<List<string>>(() => new List<string>());
         }
 
         internal IList<string> Columns

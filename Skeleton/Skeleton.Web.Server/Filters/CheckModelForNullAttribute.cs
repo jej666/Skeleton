@@ -15,7 +15,7 @@ namespace Skeleton.Web.Server.Filters
             : this(arguments => arguments.ContainsValue(null))
         {
         }
-        
+
         public CheckModelForNullAttribute(Func<Dictionary<string, object>, bool> checkCondition)
         {
             _validate = checkCondition;
@@ -24,10 +24,8 @@ namespace Skeleton.Web.Server.Filters
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             if (_validate(actionContext.ActionArguments))
-            {
                 actionContext.Response = actionContext.Request.CreateErrorResponse(
                     HttpStatusCode.BadRequest, "The argument cannot be null");
-            }
         }
     }
 }

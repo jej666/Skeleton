@@ -1,17 +1,14 @@
-﻿using Skeleton.Core.Repository;
-using Skeleton.Core.Service;
-using Skeleton.Shared.Abstraction;
+﻿using Skeleton.Core;
+using Skeleton.Core.Repository;
 
-namespace Skeleton.Infrastructure.Service
+namespace Skeleton.Infrastructure.Repository
 {
     public class CrudService<TEntity, TIdentity, TDto> :
-        ReadService<TEntity, TIdentity, TDto>,
-        ICrudService<TEntity, TIdentity, TDto>
+            ReadService<TEntity, TIdentity, TDto>,
+            ICrudService<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly IEntityPersitor<TEntity, TIdentity> _persistor;
-
         public CrudService(
             ILogger logger,
             IEntityMapper<TEntity, TIdentity, TDto> mapper,
@@ -19,17 +16,14 @@ namespace Skeleton.Infrastructure.Service
             IEntityPersitor<TEntity, TIdentity> persistor)
             : base(logger, mapper, reader)
         {
-            _persistor = persistor;
+            Store = persistor;
         }
 
-        public IEntityPersitor<TEntity, TIdentity> Store
-        {
-            get { return _persistor; }
-        }
+        public IEntityPersitor<TEntity, TIdentity> Store { get; }
 
         protected override void DisposeManagedResources()
         {
-            _persistor.Dispose();
+            Store.Dispose();
         }
     }
 }

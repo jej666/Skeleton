@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Skeleton.Core.Service;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Core;
+using Skeleton.Core.Repository;
+using Skeleton.Shared.CommonTypes;
 
-namespace Skeleton.Infrastructure.Service
+namespace Skeleton.Infrastructure.Repository
 {
     public sealed class EntityMapper<TEntity, TIdentity, TDto> :
-        HideObjectMethods,
-        IEntityMapper<TEntity, TIdentity, TDto>
+            HideObjectMethods,
+            IEntityMapper<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly ILogger _logger;
-        private readonly IMetadata _entityMetadata;
         private readonly IMetadata _dtoMetadata;
+        private readonly IMetadata _entityMetadata;
+        private readonly ILogger _logger;
 
         public EntityMapper(
             ILogger logger,
@@ -42,10 +41,8 @@ namespace Skeleton.Infrastructure.Service
 
                 foreach (var entityProperty in _entityMetadata.GetDeclaredOnlyProperties())
                     foreach (var dtoProperty in _dtoMetadata.GetDeclaredOnlyProperties())
-                    {
                         if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
                             dtoProperty.SetValue(instanceDto, entityProperty.GetValue(entity));
-                    }
 
                 return instanceDto;
             });

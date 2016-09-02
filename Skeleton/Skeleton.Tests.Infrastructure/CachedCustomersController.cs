@@ -1,5 +1,4 @@
-﻿using Skeleton.Core.Service;
-using Skeleton.Web.Server;
+﻿using Skeleton.Core.Repository;
 using Skeleton.Web.Server.Controllers;
 
 namespace Skeleton.Tests.Infrastructure

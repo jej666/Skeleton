@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Skeleton.Infrastructure.Reflection
+namespace Skeleton.Core.Reflection
 {
     internal static class DelegateFactory
     {

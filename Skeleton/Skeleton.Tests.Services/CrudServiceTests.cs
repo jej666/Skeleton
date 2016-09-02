@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Core.Service;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -93,7 +93,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Save_ShouldAdd()
         {
-            var customer = new Customer { Name = "Customer" };
+            var customer = new Customer {Name = "Customer"};
             var successed = _service.Store.Save(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id > 0);

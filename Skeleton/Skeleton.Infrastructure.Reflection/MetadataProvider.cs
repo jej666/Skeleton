@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using Skeleton.Core.Reflection;
 using Skeleton.Shared.CommonTypes;
 
-namespace Skeleton.Infrastructure.Reflection
+namespace Skeleton.Core.Reflection
 {
     public sealed class MetadataProvider : HideObjectMethods, IMetadataProvider
     {

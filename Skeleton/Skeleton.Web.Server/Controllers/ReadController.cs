@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Web.Http;
-using Skeleton.Core.Service;
-using Skeleton.Shared.Abstraction;
+using Skeleton.Core;
+using Skeleton.Core.Repository;
 
 namespace Skeleton.Web.Server.Controllers
 {
     public class ReadController<TEntity, TIdentity, TDto> :
-        ApiController
+            ApiController
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
@@ -20,7 +20,7 @@ namespace Skeleton.Web.Server.Controllers
         // GET api/<controller>/5
         public virtual IHttpActionResult Get(TIdentity id)
         {
-           var result = _service.Query.FirstOrDefault(id);
+            var result = _service.Query.FirstOrDefault(id);
 
             if (result == null)
                 return NotFound();

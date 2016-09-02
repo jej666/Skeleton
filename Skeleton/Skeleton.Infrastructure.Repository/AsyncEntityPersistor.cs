@@ -2,34 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Skeleton.Core;
+using Skeleton.Core.Data;
 using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Data;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using Skeleton.Shared.CommonTypes;
 
 namespace Skeleton.Infrastructure.Repository
 {
     public class AsyncEntityPersistor<TEntity, TIdentity> :
-        DisposableBase,
-        IAsyncEntityPersistor<TEntity, TIdentity>
+            DisposableBase,
+            IAsyncEntityPersistor<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private readonly IMetadataProvider _metadataProvider;
-        private readonly IDatabaseAsync _database;
 
         public AsyncEntityPersistor(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
         {
-            _database = database;
+            Database = database;
             _metadataProvider = metadataProvider;
         }
 
-        protected IDatabaseAsync Database
-        {
-            get { return _database; }
-        }
+        protected IDatabaseAsync Database { get; }
 
         public virtual async Task<bool> AddAsync(TEntity entity)
         {
@@ -108,9 +104,7 @@ namespace Skeleton.Infrastructure.Repository
                 transaction.Begin();
 
                 foreach (var entity in enumerable)
-                {
                     result = await SaveAsync(entity);
-                }
 
                 if (result)
                     transaction.Commit();
@@ -155,7 +149,7 @@ namespace Skeleton.Infrastructure.Repository
             var id = await Database.ExecuteScalarAsync<TIdentity>(
                     builder.SqlQuery,
                     builder.Parameters)
-                    .ConfigureAwait(false);
+                .ConfigureAwait(false);
 
             if (id != null)
                 entity.IdAccessor.SetValue(entity, id);
@@ -166,28 +160,28 @@ namespace Skeleton.Infrastructure.Repository
         private async Task<int> DeleteCommand(TEntity entity)
         {
             var builder = new DeleteCommandBuilder<TEntity, TIdentity>(
-               _metadataProvider, entity);
+                _metadataProvider, entity);
 
             return await Database.ExecuteAsync(
                     builder.SqlQuery,
                     builder.Parameters)
-                    .ConfigureAwait(false);
+                .ConfigureAwait(false);
         }
 
         private async Task<int> UpdateCommand(TEntity entity)
         {
             var builder = new UpdateCommandBuilder<TEntity, TIdentity>(
-              _metadataProvider, entity);
+                _metadataProvider, entity);
 
             return await Database.ExecuteAsync(
-                builder.SqlQuery,
-                builder.Parameters)
+                    builder.SqlQuery,
+                    builder.Parameters)
                 .ConfigureAwait(false);
         }
 
         protected override void DisposeManagedResources()
         {
-            _database.Dispose();
+            Database.Dispose();
         }
     }
 }

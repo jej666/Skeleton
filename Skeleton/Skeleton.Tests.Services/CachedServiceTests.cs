@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Core.Service;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -24,11 +24,11 @@ namespace Skeleton.Tests
             var results = _service.Query
                 .Where(c => c.Name.StartsWith("Customer"))
                 .Find();
-            
+
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
             Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
-               _service.Query.LastGeneratedCacheKey));
+                _service.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace Skeleton.Tests
 
                 Assert.AreEqual(pageSize, results.Count());
                 Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
-                _service.Query.LastGeneratedCacheKey));
+                    _service.Query.LastGeneratedCacheKey));
             }
         }
     }

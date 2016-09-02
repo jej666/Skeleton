@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Skeleton.Core.Reflection;
 
-namespace Skeleton.Infrastructure.Reflection
+namespace Skeleton.Core.Reflection
 {
     [DebuggerDisplay("Name: {Name}")]
     public abstract class MemberAccessorBase :

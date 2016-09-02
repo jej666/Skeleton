@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Skeleton.Shared.Abstraction;
 
 namespace Skeleton.Core.Domain
 {
     // make return type a rule
-    public class ValidationResult : IValidationResult
+    public class EntityValidationResult : IEntityValidationResult
     {
         private readonly IEnumerable<string> _brokenRules;
 
-        public ValidationResult(IEnumerable<string> brokenRules)
+        public EntityValidationResult(IEnumerable<string> brokenRules)
         {
             var enumerable = brokenRules as IList<string> ?? brokenRules.ToList();
             enumerable.ThrowIfNull(() => enumerable);

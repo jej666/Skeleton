@@ -1,5 +1,5 @@
-﻿using Skeleton.Infrastructure.DependencyResolver;
-using Skeleton.Shared.Abstraction;
+﻿using Skeleton.Core;
+using Skeleton.Infrastructure.DependencyResolver;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -11,7 +11,7 @@ namespace Skeleton.Tests
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
             Bootstrapper.Initialize();
             Bootstrapper.UseDatabase(builder =>
-                builder.UsingConfigConnectionString("Default").Build());
+                    builder.UsingConfigConnectionString("Default").Build());
         }
 
         protected static IDependencyResolver Container

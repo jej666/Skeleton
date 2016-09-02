@@ -1,7 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
-using Skeleton.Core.Service;
+using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Repository;
-using Skeleton.Infrastructure.Service;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {

@@ -4,7 +4,7 @@ using System.Reflection;
 using Skeleton.Core.Reflection;
 using Skeleton.Shared.CommonTypes;
 
-namespace Skeleton.Infrastructure.Reflection
+namespace Skeleton.Core.Reflection
 {
     [DebuggerDisplay("Name: {Name}")]
     public class MethodAccessor : IMethodAccessor

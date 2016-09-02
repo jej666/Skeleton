@@ -1,34 +1,28 @@
-﻿using Skeleton.Core.Repository;
-using Skeleton.Core.Service;
-using Skeleton.Shared.Abstraction;
+﻿using Skeleton.Core;
+using Skeleton.Core.Repository;
 
-namespace Skeleton.Infrastructure.Service
+namespace Skeleton.Infrastructure.Repository
 {
     public class CachedReadService<TEntity, TIdentity, TDto> :
-        ReadService<TEntity, TIdentity, TDto>,
-        ICachedReadService<TEntity, TIdentity, TDto>
+            ReadService<TEntity, TIdentity, TDto>,
+            ICachedReadService<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly ICachedEntityReader<TEntity, TIdentity> _reader;
-
         public CachedReadService(
             ILogger logger,
             IEntityMapper<TEntity, TIdentity, TDto> mapper,
             ICachedEntityReader<TEntity, TIdentity> reader)
             : base(logger, mapper, reader)
         {
-            _reader = reader;
+            Query = reader;
         }
 
-        public new ICachedEntityReader<TEntity, TIdentity> Query
-        {
-            get { return _reader; }
-        }
+        public new ICachedEntityReader<TEntity, TIdentity> Query { get; }
 
         protected override void DisposeManagedResources()
         {
-            _reader.Dispose();
+            Query.Dispose();
         }
     }
 }

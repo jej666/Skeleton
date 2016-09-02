@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Core.Service;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -9,7 +9,7 @@ namespace Skeleton.Tests
     [TestClass]
     public class AsyncCachedServiceTests : TestBase
     {
-        private readonly IAsyncCachedReadService<Customer, int,CustomerDto> _service;
+        private readonly IAsyncCachedReadService<Customer, int, CustomerDto> _service;
 
         public AsyncCachedServiceTests()
         {
@@ -87,7 +87,7 @@ namespace Skeleton.Tests
 
                 Assert.AreEqual(pageSize, results.Count());
                 Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
-                _service.Query.LastGeneratedCacheKey));
+                    _service.Query.LastGeneratedCacheKey));
             }
         }
     }

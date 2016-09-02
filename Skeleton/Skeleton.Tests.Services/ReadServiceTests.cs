@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Core.Service;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -152,7 +152,7 @@ namespace Skeleton.Tests
                 .OrderBy(c => c.CustomerId)
                 .GroupBy(c => c.CustomerId)
                 .Sum(c => c.CustomerCategoryId);
-            
+
             Assert.IsNotNull(sum);
         }
 
@@ -162,7 +162,7 @@ namespace Skeleton.Tests
             var avg = _service.Query
                 .OrderBy(c => c.CustomerId)
                 .GroupBy(c => c.CustomerId)
-                .Select (c => c.CustomerId)
+                .Select(c => c.CustomerId)
                 .Average(c => c.CustomerCategoryId);
 
             var result = avg.FirstOrDefault();
@@ -175,8 +175,8 @@ namespace Skeleton.Tests
         public void Find_LeftJoin()
         {
             var results = _service.Query.LeftJoin<CustomerCategory>(
-                (customer, category) =>
-                    customer.CustomerCategoryId == category.CustomerCategoryId)
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
                 .Find();
 
             Assert.IsNotNull(results);
@@ -187,7 +187,7 @@ namespace Skeleton.Tests
         [TestCategory("Where")]
         public void Find_WhereIsIn()
         {
-            var customerIds = new object[] { 5, 15, 25 };
+            var customerIds = new object[] {5, 15, 25};
             var results = _service.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -200,7 +200,7 @@ namespace Skeleton.Tests
         [TestCategory("Where")]
         public void Find_WhereNotIn()
         {
-            var customerIds = new object[] { 5, 15, 25 };
+            var customerIds = new object[] {5, 15, 25};
             var results = _service.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -253,8 +253,8 @@ namespace Skeleton.Tests
         public void Find_ComplexWhere()
         {
             var results = _service.Query
-                .Where(c => c.CustomerId >= 1
-                        && c.Name.Contains("Customer"))
+                .Where(c => (c.CustomerId >= 1)
+                            && c.Name.Contains("Customer"))
                 .Find();
 
             Assert.IsNotNull(results);

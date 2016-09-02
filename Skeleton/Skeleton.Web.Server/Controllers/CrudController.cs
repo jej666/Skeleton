@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using Skeleton.Core.Service;
-using Skeleton.Shared.Abstraction;
+using Skeleton.Core;
+using Skeleton.Core.Repository;
 
 namespace Skeleton.Web.Server.Controllers
 {
     public class CrudController<TEntity, TIdentity, TDto> :
-        ReadController<TEntity, TIdentity, TDto>
+            ReadController<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
@@ -47,14 +47,14 @@ namespace Skeleton.Web.Server.Controllers
             var entity = _service.Mapper.Map(dto);
             var result = _service.Store.Add(entity);
 
-            if (!result) 
+            if (!result)
                 return NotFound();
 
             var newDto = _service.Mapper.Map(entity);
 
             return CreatedAtRoute(
-                "DefaultApiWithId", 
-                new { id = entity.Id }, 
+                "DefaultApiWithId",
+                new {id = entity.Id},
                 newDto);
         }
 

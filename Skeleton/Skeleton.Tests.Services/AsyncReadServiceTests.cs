@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Core.Service;
+using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -145,7 +145,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task AverageAsync()
         {
-            var avg =await _service.Query
+            var avg = await _service.Query
                 .OrderBy(c => c.CustomerId)
                 .GroupBy(c => c.CustomerId)
                 .Select(c => c.CustomerId)
@@ -160,7 +160,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task SumAsync()
         {
-            var sum =await _service.Query
+            var sum = await _service.Query
                 .OrderBy(c => c.CustomerId)
                 .GroupBy(c => c.CustomerId)
                 .SumAsync(c => c.CustomerCategoryId);
@@ -174,8 +174,8 @@ namespace Skeleton.Tests
         public async Task FindAsync_LeftJoin()
         {
             var results = await _service.Query.LeftJoin<CustomerCategory>(
-                (customer, category) =>
-                    customer.CustomerCategoryId == category.CustomerCategoryId)
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
                 .FindAsync();
 
             Assert.IsNotNull(results);
@@ -185,7 +185,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_WhereIsIn()
         {
-            var customerIds = new object[] { 5, 15, 25 };
+            var customerIds = new object[] {5, 15, 25};
             var results = await _service.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
                 .FindAsync();
@@ -197,7 +197,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_WhereNotIn()
         {
-            var customerIds = new object[] { 5, 15, 25 };
+            var customerIds = new object[] {5, 15, 25};
             var results = await _service.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
                 .FindAsync();
@@ -247,8 +247,8 @@ namespace Skeleton.Tests
         public async Task FindAsync_ComplexWhere()
         {
             var results = await _service.Query
-                .Where(c => c.CustomerId >= 1
-                        && c.Name.Contains("Customer"))
+                .Where(c => (c.CustomerId >= 1)
+                            && c.Name.Contains("Customer"))
                 .FindAsync();
 
             Assert.IsNotNull(results);

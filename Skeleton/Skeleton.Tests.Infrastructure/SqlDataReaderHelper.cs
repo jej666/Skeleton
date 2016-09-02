@@ -9,9 +9,7 @@ namespace Skeleton.Tests.Infrastructure
         {
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
-            {
                 return (string) tmp;
-            }
             return null;
         }
 
@@ -19,9 +17,7 @@ namespace Skeleton.Tests.Infrastructure
         {
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
-            {
                 return (T) tmp;
-            }
             return null;
         }
     }

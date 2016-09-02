@@ -1,12 +1,10 @@
-﻿using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Skeleton.Core;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal sealed class InsertCommandBuilder<TEntity, TIdentity> :
-        SqlBuilderBase<TEntity, TIdentity>
+            SqlBuilderBase<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private const string ScopeIdentity = "SELECT scope_identity() AS[SCOPE_IDENTITY]";
@@ -16,22 +14,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             : base(metadataProvider)
         {
             Build(entity);
-        }
-
-        private void Build(TEntity entity)
-        {
-            foreach (var column in GetTableColumns(entity))
-            {
-                if (entity.IdAccessor.Name.IsNullOrEmpty() ||
-                    entity.IdAccessor.Name == column.Name)
-                    continue;
-
-                var value = column.GetValue(entity);
-                var formattedValue = SqlFormatter.FormattedValue(value);
-
-                _context.Columns.Add(column.Name);
-                _context.Values.Add(formattedValue);
-            }
         }
 
         internal override string SqlQuery
@@ -66,6 +48,22 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         protected internal override ContextBase ContextBase
         {
             get { return _context; }
+        }
+
+        private void Build(TEntity entity)
+        {
+            foreach (var column in GetTableColumns(entity))
+            {
+                if (entity.IdAccessor.Name.IsNullOrEmpty() ||
+                    (entity.IdAccessor.Name == column.Name))
+                    continue;
+
+                var value = column.GetValue(entity);
+                var formattedValue = SqlFormatter.FormattedValue(value);
+
+                _context.Columns.Add(column.Name);
+                _context.Values.Add(formattedValue);
+            }
         }
 
         internal override void OnNextQuery()

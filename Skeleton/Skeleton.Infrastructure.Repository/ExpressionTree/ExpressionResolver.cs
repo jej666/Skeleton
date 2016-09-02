@@ -44,7 +44,6 @@ namespace Skeleton.Infrastructure.Repository.ExpressionTree
                 var fieldValue = callExpression.Arguments.First().GetExpressionValue();
 
                 if (fieldValue != null)
-                {
                     return new LikeNode
                     {
                         MemberNode = new MemberNode
@@ -55,7 +54,6 @@ namespace Skeleton.Infrastructure.Repository.ExpressionTree
                         Method = callFunction,
                         Value = fieldValue.ToString()
                     };
-                }
             }
 
             var value = callExpression.InvokeMethodCall();
@@ -91,6 +89,6 @@ namespace Skeleton.Infrastructure.Repository.ExpressionTree
             throw new ArgumentException(
                 "The provided expression '{0}' is currently not supported"
                     .FormatWith(expression.NodeType));
-        }           
+        }
     }
 }

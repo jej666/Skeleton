@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
+using Skeleton.Core.Data;
 using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Data.Configuration;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {

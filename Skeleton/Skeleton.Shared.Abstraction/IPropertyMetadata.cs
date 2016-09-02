@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Skeleton.Shared.Abstraction.Reflection
+namespace Skeleton.Core
 {
     public interface IPropertyMetadata
     {
         int PropertiesCount { get; }
+
         IEnumerable<IMemberAccessor> GetDeclaredOnlyProperties();
 
         IEnumerable<IMemberAccessor> GetProperties();

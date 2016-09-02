@@ -1,37 +1,26 @@
-﻿using Skeleton.Infrastructure.Repository.ExpressionTree;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Skeleton.Core;
+using Skeleton.Infrastructure.Repository.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     internal class SelectQueryBuilder<TEntity, TIdentity> :
-        SqlBuilderBase<TEntity, TIdentity>
+            SqlBuilderBase<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private QueryContext _context = new QueryContext();
-
         internal SelectQueryBuilder(IMetadataProvider metadataProvider)
             : base(metadataProvider)
         {
         }
 
-        internal override void OnNextQuery()
-        {
-            _context = new QueryContext();
-        }
-
         protected internal override ContextBase ContextBase
         {
-            get { return _context; }
+            get { return Context; }
         }
 
-        protected internal QueryContext Context
-        {
-            get { return _context; }
-        }
+        protected internal QueryContext Context { get; private set; } = new QueryContext();
 
         internal override string SqlQuery
         {
@@ -49,6 +38,21 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
+        internal string SqlPagedQueryTemplate
+        {
+            get { return "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY"; }
+        }
+
+        protected internal override string SqlQueryTemplate
+        {
+            get { return "SELECT {0} {1} FROM {2} {3} {4} {5} {6}"; }
+        }
+
+        internal override void OnNextQuery()
+        {
+            Context = new QueryContext();
+        }
+
         internal string SqlPagedQuery(int pageSize, int pageNumber)
         {
             if (Context.OrderBy.IsNullOrEmpty())
@@ -60,30 +64,14 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     SqlFormatter.Source(Context.Source, TableName),
                     SqlFormatter.Conditions(Context.Conditions),
                     SqlFormatter.OrderBy(Context.OrderBy),
-                    pageSize * (pageNumber - 1),
+                    pageSize*(pageNumber - 1),
                     pageSize);
-        }
-
-        internal string SqlPagedQueryTemplate
-        {
-            get
-            {
-                return "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY";
-            }
-        }
-
-        protected internal override string SqlQueryTemplate
-        {
-            get
-            {
-                return "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
-            }
         }
 
         internal void OrderBy(Expression<Func<TEntity, object>> expression)
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
-            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
+            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
 
             Context.OrderBy.Add(SqlFormatter.Field(memberNode));
         }
@@ -91,7 +79,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         internal void OrderByDescending(Expression<Func<TEntity, object>> expression)
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
-            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
+            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
 
             Context.OrderBy.Add(SqlFormatter.OrderByDescending(memberNode));
         }
@@ -111,7 +99,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             SelectFunction selectFunction)
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
-            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
+            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
             var selectionString = SqlFormatter.SelectAggregate(memberNode, selectFunction.ToString());
 
             Context.Selection.Add(selectionString);
@@ -120,7 +108,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         internal void GroupBy(Expression<Func<TEntity, object>> expression)
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
-            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
+            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
 
             Context.GroupBy.Add(SqlFormatter.Field(memberNode));
         }
@@ -145,7 +133,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     if (newExpression != null)
                         foreach (var e in newExpression.Arguments)
                         {
-                            var memberExp = (MemberExpression)e;
+                            var memberExp = (MemberExpression) e;
                             Select(memberExp);
                         }
                     break;
@@ -157,7 +145,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         private void Select(MemberExpression expression)
         {
-            if (expression.Type.IsClass && expression.Type != typeof(string))
+            if (expression.Type.IsClass && (expression.Type != typeof(string)))
                 Select(TableInfo.GetTableName(expression.Type));
             else
             {
@@ -196,7 +184,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         private void OrderByPrimaryKey()
         {
-            var memberNode = new MemberNode { TableName = TableName, FieldName = EntityIdName };
+            var memberNode = new MemberNode {TableName = TableName, FieldName = EntityIdName};
             Context.OrderBy.Add(SqlFormatter.Field(memberNode));
         }
     }

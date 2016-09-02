@@ -1,17 +1,17 @@
 ﻿using System;
-using Skeleton.Shared.Abstraction;
+using Skeleton.Core;
 
 namespace Skeleton.Infrastructure.Repository
 {
     public class CacheKeyGenerator<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        protected string Prefix { get; set; }
-
         public CacheKeyGenerator()
         {
             Prefix = string.Empty;
         }
+
+        protected string Prefix { get; set; }
 
         public string ForFind(string query)
         {
@@ -55,11 +55,10 @@ namespace Skeleton.Infrastructure.Repository
     }
 
     public class AsyncCacheKeyGenerator<TEntity, TIdentity> :
-        CacheKeyGenerator<TEntity, TIdentity>
+            CacheKeyGenerator<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         public AsyncCacheKeyGenerator()
-            :base()
         {
             Prefix = "async_";
         }

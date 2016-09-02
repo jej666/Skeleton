@@ -1,54 +1,45 @@
-﻿using Skeleton.Core.Repository;
-using Skeleton.Infrastructure.Data;
-using Skeleton.Infrastructure.Repository.SqlBuilder;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Skeleton.Core;
+using Skeleton.Core.Data;
+using Skeleton.Core.Repository;
+using Skeleton.Infrastructure.Repository.SqlBuilder;
+using Skeleton.Shared.CommonTypes;
 
 namespace Skeleton.Infrastructure.Repository
 {
     public class EntityReader<TEntity, TIdentity> :
-        DisposableBase,
-        IEntityReader<TEntity, TIdentity>
+            DisposableBase,
+            IEntityReader<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
-        private readonly IDatabase _database;
-        private readonly SelectQueryBuilder<TEntity, TIdentity> _builder;
-
         public EntityReader(
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
-            _database = database;
-            _builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
+            Database = database;
+            Builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
 
-        protected IDatabase Database
-        {
-            get { return _database; }
-        }
+        protected IDatabase Database { get; }
 
-        internal SelectQueryBuilder<TEntity, TIdentity> Builder
-        {
-            get { return _builder; }
-        }
+        internal SelectQueryBuilder<TEntity, TIdentity> Builder { get; }
 
         public virtual IEnumerable<TEntity> Find()
         {
             return Builder.OnNextQuery(() =>
                 Database.Find<TEntity>(
-                          Builder.SqlQuery,
-                          Builder.Parameters));
+                    Builder.SqlQuery,
+                    Builder.Parameters));
         }
 
         public virtual TEntity FirstOrDefault()
         {
             return Builder.OnNextQuery(() =>
                 Database.FirstOrDefault<TEntity>(
-                        Builder.SqlQuery,
-                        Builder.Parameters));
+                    Builder.SqlQuery,
+                    Builder.Parameters));
         }
 
         public virtual TEntity FirstOrDefault(TIdentity id)
@@ -64,20 +55,20 @@ namespace Skeleton.Infrastructure.Repository
         {
             return Builder.OnNextQuery(() =>
                 Database.Find<TEntity>(
-                        Builder.SqlQuery,
-                        Builder.Parameters));
+                    Builder.SqlQuery,
+                    Builder.Parameters));
         }
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
             return Builder.OnNextQuery(() =>
-                 Database.Find<TEntity>(
+                Database.Find<TEntity>(
                     Builder.SqlPagedQuery(pageSize, pageNumber),
                     Builder.Parameters));
         }
 
         public IEntityReader<TEntity, TIdentity> GroupBy(
-           Expression<Func<TEntity, object>> expression)
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.GroupBy(expression);
@@ -197,15 +188,6 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        private IEntityReader<TEntity, TIdentity> And(
-            Expression<Func<TEntity, bool>> expression)
-        {
-            expression.ThrowIfNull(() => expression);
-            Builder.ResolveQuery(expression);
-
-            return this;
-        }
-
         public IEnumerable<dynamic> Average(
             Expression<Func<TEntity, object>> expression)
         {
@@ -220,9 +202,10 @@ namespace Skeleton.Infrastructure.Repository
             Builder.Count();
 
             return Builder.OnNextQuery(() =>
-                 Database.ExecuteScalar<int>(
-                         Builder.SqlQuery,
-                         Builder.Parameters)); ;
+                Database.ExecuteScalar<int>(
+                    Builder.SqlQuery,
+                    Builder.Parameters));
+            ;
         }
 
         public IEnumerable<dynamic> Count(
@@ -235,7 +218,7 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public IEnumerable<dynamic> Max(
-            Expression<Func<TEntity, object>> expression) 
+            Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
             Builder.Aggregate(expression, SelectFunction.Max);
@@ -261,17 +244,26 @@ namespace Skeleton.Infrastructure.Repository
             return Aggregate();
         }
 
-        private IEnumerable<dynamic> Aggregate() 
+        private IEntityReader<TEntity, TIdentity> And(
+            Expression<Func<TEntity, bool>> expression)
+        {
+            expression.ThrowIfNull(() => expression);
+            Builder.ResolveQuery(expression);
+
+            return this;
+        }
+
+        private IEnumerable<dynamic> Aggregate()
         {
             return Builder.OnNextQuery(() =>
-                 Database.Find(
-                         Builder.SqlQuery, 
-                         Builder.Parameters));
+                Database.Find(
+                    Builder.SqlQuery,
+                    Builder.Parameters));
         }
 
         protected override void DisposeManagedResources()
         {
-            _database.Dispose();
+            Database.Dispose();
         }
     }
 }

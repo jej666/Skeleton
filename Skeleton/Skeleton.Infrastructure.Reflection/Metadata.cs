@@ -8,7 +8,7 @@ using System.Reflection;
 using Skeleton.Core.Reflection;
 using Skeleton.Shared.CommonTypes;
 
-namespace Skeleton.Infrastructure.Reflection
+namespace Skeleton.Core.Reflection
 {
     [DebuggerDisplay("Type = {Type}")]
     public sealed class Metadata : HideObjectMethods, IMetadata

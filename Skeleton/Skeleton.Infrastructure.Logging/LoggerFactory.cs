@@ -1,5 +1,5 @@
 ﻿using System;
-using Skeleton.Shared.Abstraction;
+using Skeleton.Core;
 
 namespace Skeleton.Infrastructure.Logging
 {

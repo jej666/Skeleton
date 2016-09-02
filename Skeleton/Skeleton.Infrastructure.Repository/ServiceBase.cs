@@ -1,15 +1,13 @@
 ﻿using System;
-using Skeleton.Shared.Abstraction;
+using Skeleton.Core;
+using Skeleton.Shared.CommonTypes;
 
-namespace Skeleton.Infrastructure.Service
+namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class ServiceBase :
-        HideObjectMethods,
-        IDisposable
+    public abstract class ServiceBase :DisposableBase
     {
         private readonly ILogger _logger;
-        private bool _disposed;
-
+       
         protected ServiceBase(ILogger logger)
         {
             _logger = logger;
@@ -26,30 +24,6 @@ namespace Skeleton.Infrastructure.Service
                 _logger.Error(e.Message);
                 throw;
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~ServiceBase()
-        {
-            Dispose(false);
-        }
-
-        protected abstract void DisposeManagedResources();
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            if (disposing)
-                DisposeManagedResources();
-
-            _disposed = true;
         }
     }
 }
