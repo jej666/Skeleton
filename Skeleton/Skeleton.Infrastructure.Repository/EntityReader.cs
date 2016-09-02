@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Skeleton.Core;
-using Skeleton.Core.Data;
-using Skeleton.Core.Repository;
+using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Repository;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
 using Skeleton.Shared;
 

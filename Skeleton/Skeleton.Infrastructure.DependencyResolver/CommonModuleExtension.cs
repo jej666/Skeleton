@@ -1,9 +1,9 @@
 ﻿using Microsoft.Practices.Unity;
-using Skeleton.Core;
+using Skeleton.Abstraction;
+using Skeleton.Core.Caching;
 using Skeleton.Core.Reflection;
 using Skeleton.Infrastructure.DependencyResolver.LoggerExtension;
 using Skeleton.Infrastructure.Logging;
-using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
@@ -15,8 +15,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
 
             Container.AddExtension(new LoggerConstructorInjectionExtension())
                 .RegisterType<ICacheProvider, MemoryCacheProvider>()
-                .RegisterType<IMetadataProvider, MetadataProvider>()
-                .RegisterType<IConfigurationProvider, ConfigurationProvider>();
+                .RegisterType<IMetadataProvider, MetadataProvider>();
         }
     }
 }

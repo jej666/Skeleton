@@ -89,6 +89,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="HttpClientCachedReadTests.cs" />
+    <Compile Include="AsyncHttpClientCrudTests.cs" />
     <Compile Include="HttpClientCrudTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -105,9 +106,9 @@
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
       <Name>Skeleton.Infrastructure.DependencyResolver</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core\Skeleton.Core.csproj">
+    <ProjectReference Include="..\Skeleton.Core\Skeleton.Abstraction.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Core</Name>
+      <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Tests.Infrastructure\Skeleton.Tests.Infrastructure.csproj">
       <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>

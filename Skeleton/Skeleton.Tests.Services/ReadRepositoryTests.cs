@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Core.Repository;
+using Skeleton.Abstraction.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -154,9 +153,9 @@ namespace Skeleton.Tests
                 .Sum(c => c.CustomerCategoryId);
 
             var result = sum.FirstOrDefault();
-             
+
             Assert.IsNotNull(sum);
-            Assert.IsTrue(result != null && result.Sum > 0);
+            Assert.IsTrue((result != null) && (result.Sum > 0));
         }
 
         [TestMethod]
@@ -171,7 +170,7 @@ namespace Skeleton.Tests
             var result = avg.FirstOrDefault();
 
             Assert.IsNotNull(avg);
-            Assert.IsTrue(result != null && result.Avg > 0);
+            Assert.IsTrue((result != null) && (result.Avg > 0));
         }
 
         [TestMethod]
@@ -183,7 +182,7 @@ namespace Skeleton.Tests
                 .Find();
 
             Assert.IsNotNull(results);
-            Assert.IsTrue(results.FastAny());
+            Assert.IsTrue(results.Any());
         }
 
         [TestMethod]

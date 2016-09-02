@@ -1,5 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
-using Skeleton.Core.Repository;
+using Skeleton.Abstraction.Repository;
 using Skeleton.Infrastructure.Repository;
 
 namespace Skeleton.Infrastructure.DependencyResolver

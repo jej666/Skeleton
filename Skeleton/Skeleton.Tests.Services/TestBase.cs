@@ -1,4 +1,4 @@
-﻿using Skeleton.Core;
+﻿using Skeleton.Abstraction;
 using Skeleton.Infrastructure.DependencyResolver;
 using Skeleton.Tests.Infrastructure;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Skeleton.Core;
+using Skeleton.Abstraction;
 using Skeleton.Infrastructure.Repository.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder

@@ -1,65 +1,39 @@
-﻿using System.Linq;
-using System.Web.Http;
-using Skeleton.Core;
-using Skeleton.Core.Repository;
+﻿using System.Web.Http;
+using Skeleton.Abstraction;
+using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Web.Server.Controllers
 {
     public class CachedReadController<TEntity, TIdentity, TDto> :
-            ApiController
+            ReadController<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly ICachedReadRepository<TEntity, TIdentity, TDto> _repository;
-
         public CachedReadController(
             ICachedReadRepository<TEntity, TIdentity, TDto> repository)
+            : base(repository)
         {
-            _repository = repository;
         }
 
         // GET api/<controller>/5
-        public virtual IHttpActionResult Get(TIdentity id)
+        // ReSharper disable once RedundantOverriddenMember
+        public override IHttpActionResult Get(TIdentity id)
         {
-            var result = _repository.Query.FirstOrDefault(id);
-
-            if (result == null)
-                return NotFound();
-
-            return Ok(_repository.Mapper.Map(result));
+            return base.Get(id);
         }
 
-        public virtual IHttpActionResult Get()
-        {
-            var allData = _repository.Query
-                .GetAll()
-                .Select(_repository.Mapper.Map)
-                .ToList();
 
-            return Ok(allData);
+        // ReSharper disable once RedundantOverriddenMember
+        public override IHttpActionResult Get()
+        {
+            return base.Get();
         }
 
         // GET api/<controller>/?pageSize=20&pageNumber=1
         [HttpGet]
-        public virtual IHttpActionResult Page(int pageSize, int pageNumber)
+        public override IHttpActionResult Page(int pageSize, int pageNumber)
         {
-            var totalCount = _repository.Query.Count();
-            var pagedData = _repository.Query
-                .Page(pageSize, pageNumber)
-                .Select(_repository.Mapper.Map)
-                .ToList();
-            var pagedResult = Request.SetPagedResult(
-                totalCount, pageNumber, pageSize, pagedData);
-
-            return Ok(pagedResult);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-                _repository.Dispose();
-
-            base.Dispose(disposing);
+            return base.Page(pageSize, pageNumber);
         }
     }
 }

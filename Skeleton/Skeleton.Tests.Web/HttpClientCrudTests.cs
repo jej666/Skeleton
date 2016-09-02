@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Remoting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Infrastructure.DependencyResolver;
 using Skeleton.Tests.Infrastructure;
@@ -122,7 +121,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var customer = new CustomerDto { Name = "Customer" };
+                var customer = new CustomerDto {Name = "Customer"};
                 var result = client.Add(customer);
 
                 Assert.IsNotNull(result);
@@ -149,7 +148,7 @@ namespace Skeleton.Web.Tests
             using (var client = new CustomersHttpClient())
             {
                 var data = client.GetAll().FirstOrDefault();
-                var result = data != null && client.Delete(data.CustomerId);
+                var result = (data != null) && client.Delete(data.CustomerId);
 
                 Assert.IsTrue(result);
             }

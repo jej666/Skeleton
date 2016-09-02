@@ -1,5 +1,5 @@
 ﻿using System;
-using Skeleton.Core;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {

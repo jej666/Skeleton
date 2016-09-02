@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Skeleton.Core;
-using Skeleton.Core.Data;
-using Skeleton.Core.Repository;
+using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {

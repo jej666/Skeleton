@@ -1,5 +1,5 @@
 ﻿using System;
-using Skeleton.Core;
+using Skeleton.Abstraction;
 using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.Repository

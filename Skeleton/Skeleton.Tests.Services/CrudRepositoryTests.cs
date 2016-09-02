@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Core.Repository;
+using Skeleton.Abstraction.Repository;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests

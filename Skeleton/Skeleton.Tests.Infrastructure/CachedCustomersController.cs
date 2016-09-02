@@ -1,4 +1,4 @@
-﻿using Skeleton.Core.Repository;
+﻿using Skeleton.Abstraction.Repository;
 using Skeleton.Web.Server.Controllers;
 
 namespace Skeleton.Tests.Infrastructure

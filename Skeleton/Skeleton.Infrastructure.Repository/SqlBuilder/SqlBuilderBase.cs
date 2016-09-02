@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using Skeleton.Core;
+using Skeleton.Abstraction;
 using Skeleton.Infrastructure.Repository.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder

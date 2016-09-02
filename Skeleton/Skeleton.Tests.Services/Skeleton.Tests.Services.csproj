@@ -81,13 +81,9 @@
       <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>
       <Name>Skeleton.Infrastructure.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core\Skeleton.Core.csproj">
+    <ProjectReference Include="..\Skeleton.Core\Skeleton.Abstraction.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj">
-      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
-      <Name>Skeleton.Shared.Extensions</Name>
+      <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Tests.Infrastructure\Skeleton.Tests.Infrastructure.csproj">
       <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>
