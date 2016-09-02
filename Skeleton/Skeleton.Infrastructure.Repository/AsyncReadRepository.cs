@@ -3,22 +3,25 @@ using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class CachedReadService<TEntity, TIdentity, TDto> :
-            ReadService<TEntity, TIdentity, TDto>,
-            ICachedReadService<TEntity, TIdentity, TDto>
+    public class AsyncReadRepository<TEntity, TIdentity, TDto> :
+            RepositoryBase,
+            IAsyncReadRepository<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        public CachedReadService(
+        public AsyncReadRepository(
             ILogger logger,
             IEntityMapper<TEntity, TIdentity, TDto> mapper,
-            ICachedEntityReader<TEntity, TIdentity> reader)
-            : base(logger, mapper, reader)
+            IAsyncEntityReader<TEntity, TIdentity> reader)
+            : base(logger)
         {
             Query = reader;
+            Mapper = mapper;
         }
 
-        public new ICachedEntityReader<TEntity, TIdentity> Query { get; }
+        public IAsyncEntityReader<TEntity, TIdentity> Query { get; }
+
+        public IEntityMapper<TEntity, TIdentity, TDto> Mapper { get; }
 
         protected override void DisposeManagedResources()
         {

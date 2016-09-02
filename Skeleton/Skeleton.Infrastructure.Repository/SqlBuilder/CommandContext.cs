@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Skeleton.Shared.CommonTypes;
+using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -16,19 +16,10 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             _columnValues = new LazyRef<List<string>>(() => new List<string>());
         }
 
-        internal IList<string> Columns
-        {
-            get { return _columns.Value; }
-        }
+        internal IList<string> Columns => _columns.Value;
 
-        internal IList<string> Values
-        {
-            get { return _values.Value; }
-        }
+        internal IList<string> Values => _values.Value;
 
-        internal IList<string> ColumnValues
-        {
-            get { return _columnValues.Value; }
-        }
+        internal IList<string> ColumnValues => _columnValues.Value;
     }
 }

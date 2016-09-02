@@ -33,16 +33,14 @@ namespace Skeleton.Web.Client
         public PagedResult<TDto> Page(int pageSize, int pageNumber)
         {
             var requestUri = AddressSuffix +
-                string.Format("Page/?pageSize={0}&pageNumber={1}", pageSize, pageNumber);
+                             $"Page/?pageSize={pageSize}&pageNumber={pageNumber}";
             var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             var content = responseMessage.Content
                                         .ReadAsStringAsync()
                                         .Result;
-            var data = JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
-
-            return data;
+           return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
         }
 
         public TDto Add(TDto model)

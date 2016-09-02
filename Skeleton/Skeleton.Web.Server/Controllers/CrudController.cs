@@ -10,19 +10,19 @@ namespace Skeleton.Web.Server.Controllers
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly ICrudService<TEntity, TIdentity, TDto> _service;
+        private readonly ICrudRepository<TEntity, TIdentity, TDto> _repository;
 
         public CrudController(
-            ICrudService<TEntity, TIdentity, TDto> service)
-            : base(service)
+            ICrudRepository<TEntity, TIdentity, TDto> repository)
+            : base(repository)
         {
-            _service = service;
+            _repository = repository;
         }
 
         public IHttpActionResult Put(TIdentity id, TDto dto)
         {
-            var entity = _service.Mapper.Map(id, dto);
-            var result = _service.Store.Update(entity);
+            var entity = _repository.Mapper.Map(id, dto);
+            var result = _repository.Store.Update(entity);
 
             if (result)
                 return Ok();
@@ -33,8 +33,8 @@ namespace Skeleton.Web.Server.Controllers
         [HttpPost]
         public IHttpActionResult UpdateMany(IEnumerable<TDto> dtos)
         {
-            var entities = _service.Mapper.Map(dtos);
-            var result = _service.Store.Update(entities);
+            var entities = _repository.Mapper.Map(dtos);
+            var result = _repository.Store.Update(entities);
 
             if (result)
                 return Ok();
@@ -44,13 +44,13 @@ namespace Skeleton.Web.Server.Controllers
 
         public IHttpActionResult Post(TDto dto)
         {
-            var entity = _service.Mapper.Map(dto);
-            var result = _service.Store.Add(entity);
+            var entity = _repository.Mapper.Map(dto);
+            var result = _repository.Store.Add(entity);
 
             if (!result)
                 return NotFound();
 
-            var newDto = _service.Mapper.Map(entity);
+            var newDto = _repository.Mapper.Map(entity);
 
             return CreatedAtRoute(
                 "DefaultApiWithId",
@@ -61,23 +61,23 @@ namespace Skeleton.Web.Server.Controllers
         [HttpPost]
         public IHttpActionResult AddMany(IEnumerable<TDto> dtos)
         {
-            var entities = _service.Mapper.Map(dtos);
-            var result = _service.Store.Add(entities);
+            var entities = _repository.Mapper.Map(dtos);
+            var result = _repository.Store.Add(entities);
 
             if (result)
-                return Ok(_service.Mapper.Map(entities));
+                return Ok(_repository.Mapper.Map(entities));
 
             return NotFound();
         }
 
         public IHttpActionResult Delete(TIdentity id)
         {
-            var entity = _service.Query.FirstOrDefault(id);
+            var entity = _repository.Query.FirstOrDefault(id);
 
             if (entity == null)
                 return NotFound();
 
-            var result = _service.Store.Delete(entity);
+            var result = _repository.Store.Delete(entity);
 
             if (result)
                 return Ok();
@@ -88,8 +88,8 @@ namespace Skeleton.Web.Server.Controllers
         [HttpPost]
         public IHttpActionResult DeleteMany(IEnumerable<TDto> dtos)
         {
-            var entities = _service.Mapper.Map(dtos);
-            var result = _service.Store.Delete(entities);
+            var entities = _repository.Mapper.Map(dtos);
+            var result = _repository.Store.Delete(entities);
 
             if (result)
                 return Ok();
@@ -100,7 +100,7 @@ namespace Skeleton.Web.Server.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-                _service.Dispose();
+                _repository.Dispose();
 
             base.Dispose(disposing);
         }

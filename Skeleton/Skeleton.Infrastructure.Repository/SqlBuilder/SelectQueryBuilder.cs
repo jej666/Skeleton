@@ -15,38 +15,23 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
         }
 
-        protected internal override ContextBase ContextBase
-        {
-            get { return Context; }
-        }
+        protected internal override ContextBase ContextBase => Context;
 
         protected internal QueryContext Context { get; private set; } = new QueryContext();
 
-        internal override string SqlQuery
-        {
-            get
-            {
-                return SqlQueryTemplate
-                    .FormatWith(
-                        Context.Top,
-                        SqlFormatter.SelectedColumns(Context.Selection, TableName),
-                        SqlFormatter.Source(Context.Source, TableName),
-                        SqlFormatter.Conditions(Context.Conditions),
-                        SqlFormatter.GroupBy(Context.GroupBy),
-                        SqlFormatter.Having(Context.Having),
-                        SqlFormatter.OrderBy(Context.OrderBy));
-            }
-        }
+        internal override string SqlQuery => SqlQueryTemplate
+            .FormatWith(
+                Context.Top,
+                SqlFormatter.SelectedColumns(Context.Selection, TableName),
+                SqlFormatter.Source(Context.Source, TableName),
+                SqlFormatter.Conditions(Context.Conditions),
+                SqlFormatter.GroupBy(Context.GroupBy),
+                SqlFormatter.Having(Context.Having),
+                SqlFormatter.OrderBy(Context.OrderBy));
 
-        internal string SqlPagedQueryTemplate
-        {
-            get { return "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY"; }
-        }
+        internal string SqlPagedQueryTemplate => "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY";
 
-        protected internal override string SqlQueryTemplate
-        {
-            get { return "SELECT {0} {1} FROM {2} {3} {4} {5} {6}"; }
-        }
+        protected internal override string SqlQueryTemplate => "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
 
         internal override void OnNextQuery()
         {

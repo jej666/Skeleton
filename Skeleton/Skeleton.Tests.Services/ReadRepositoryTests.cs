@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
@@ -7,32 +7,33 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class AsyncReadServiceTests : TestBase
+    public class ReadRepositoryTests : TestBase
     {
-        private readonly IAsyncCrudService<Customer, int, CustomerDto> _service;
+        private readonly ICrudRepository<Customer, int, CustomerDto> _repository;
 
-        public AsyncReadServiceTests()
+        public ReadRepositoryTests()
         {
-            _service = Container.Resolve<IAsyncCrudService<Customer, int, CustomerDto>>();
+            _repository = Container.Resolve<ICrudRepository<Customer, int, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }
 
-        private async Task<Customer> GetAsyncFirstCustomer()
+        private Customer GetFirstCustomer()
         {
-            return await _service.Query
+            return _repository.Query
                 .Top(1)
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
         }
 
         [TestMethod]
-        public async Task FindAsync_EqualsMethod()
+        [TestCategory("Where")]
+        public void Find_EqualsMethod()
         {
-            var customer = await GetAsyncFirstCustomer();
-            var results = await _service.Query
+            var customer = GetFirstCustomer();
+            var results = _repository.Query
                 .Where(c => c.Name.Equals(customer.Name))
                 .OrderBy(c => c.CustomerId)
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
             var firstResult = results.First();
@@ -40,22 +41,22 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task FirstOrDefaultAsync_StartWith()
+        public void FirstOrDefault_StartWith()
         {
-            var result = await _service.Query
+            var result = _repository.Query
                 .Where(c => c.Name.StartsWith("Customer"))
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(Customer));
         }
 
         [TestMethod]
-        public async Task FirstOrDefaultAsync_ById()
+        public void FirstOrDefault_ById()
         {
-            var customer1 = await GetAsyncFirstCustomer();
-            var customer2 = await _service.Query
-                .FirstOrDefaultAsync(customer1.Id);
+            var customer1 = GetFirstCustomer();
+            var customer2 = _repository.Query
+                .FirstOrDefault(customer1.Id);
 
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
@@ -63,22 +64,22 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task GetAllAsync()
+        public void GetAll()
         {
-            var results = await _service.Query.GetAllAsync();
+            var results = _repository.Query.GetAll();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
         }
 
         [TestMethod]
-        public async Task FindAsync_SelectedColumns()
+        public void Find_SelectedColumns()
         {
-            var customer = await GetAsyncFirstCustomer();
-            var results = await _service.Query
+            var customer = GetFirstCustomer();
+            var results = _repository.Query
                 .Where(c => c.CustomerId == customer.CustomerId)
                 .Select(c => c.CustomerId)
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
@@ -86,9 +87,9 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task FindAsync_Top()
+        public void Find_Top()
         {
-            var customers = await _service.Query.Top(5).FindAsync();
+            var customers = _repository.Query.Top(5).Find();
 
             Assert.IsNotNull(customers);
             Assert.IsInstanceOfType(customers.First(), typeof(Customer));
@@ -96,171 +97,180 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task CountAsync()
+        public void Count()
         {
-            var count = await _service.Query
-                .CountAsync(c => c.CustomerId);
+            var count = _repository.Query.Count(c => c.CustomerId);
+            var result = count.FirstOrDefault();
 
             Assert.IsNotNull(count);
-            Assert.IsTrue(count.FirstOrDefault().Count > 0);
+            Assert.IsTrue(result.Count > 0);
         }
 
         [TestMethod]
-        public async Task CountAllAsync()
+        public void CountAll()
         {
-            var count = await _service.Query.CountAsync();
+            var count = _repository.Query.Count();
 
             Assert.IsNotNull(count);
             Assert.IsTrue(count > 0);
         }
 
         [TestMethod]
-        public async Task MinAsync()
+        public void Min()
         {
-            var minCustomer = await _service.Query
+            var minCustomer = _repository.Query
                 .OrderBy(c => c.CustomerId)
                 .Top(1)
-                .FirstOrDefaultAsync();
-            var min = await _service.Query
-                .MinAsync(c => c.CustomerId);
+                .FirstOrDefault();
+            var min = _repository.Query
+                .Min(c => c.CustomerId)
+                .FirstOrDefault();
 
             Assert.IsNotNull(min);
-            Assert.IsTrue(min.FirstOrDefault().Min == minCustomer.CustomerId);
+            Assert.IsTrue(min.Min == minCustomer.CustomerId);
         }
 
         [TestMethod]
-        public async Task MaxAsync()
+        public void Max()
         {
-            var maxCustomer = await _service.Query
+            var maxCustomer = _repository.Query
                 .OrderByDescending(c => c.CustomerId)
                 .Top(1)
-                .FirstOrDefaultAsync();
-            var max = await _service.Query
-                .MaxAsync(c => c.CustomerId);
+                .FirstOrDefault();
+            var findMax = _repository.Query
+                .Max(c => c.CustomerId)
+                .FirstOrDefault();
 
-            Assert.IsNotNull(max);
-            Assert.IsTrue(max.FirstOrDefault().Max == maxCustomer.CustomerId);
+            Assert.IsNotNull(findMax);
+            Assert.IsTrue(findMax.Max == maxCustomer.CustomerId);
         }
 
         [TestMethod]
-        public async Task AverageAsync()
+        public void Sum()
         {
-            var avg = await _service.Query
+            var sum = _repository.Query
+                .OrderBy(c => c.CustomerId)
+                .GroupBy(c => c.CustomerId)
+                .Sum(c => c.CustomerCategoryId);
+
+            var result = sum.FirstOrDefault();
+             
+            Assert.IsNotNull(sum);
+            Assert.IsTrue(result != null && result.Sum > 0);
+        }
+
+        [TestMethod]
+        public void Average()
+        {
+            var avg = _repository.Query
                 .OrderBy(c => c.CustomerId)
                 .GroupBy(c => c.CustomerId)
                 .Select(c => c.CustomerId)
-                .AverageAsync(c => c.CustomerCategoryId);
+                .Average(c => c.CustomerCategoryId);
 
             var result = avg.FirstOrDefault();
 
             Assert.IsNotNull(avg);
-            Assert.IsTrue(result.Avg > 0);
+            Assert.IsTrue(result != null && result.Avg > 0);
         }
 
         [TestMethod]
-        public async Task SumAsync()
+        public void Find_LeftJoin()
         {
-            var sum = await _service.Query
-                .OrderBy(c => c.CustomerId)
-                .GroupBy(c => c.CustomerId)
-                .SumAsync(c => c.CustomerCategoryId);
-
-            Assert.IsNotNull(sum);
-            Assert.IsTrue(sum.FirstOrDefault().Sum > 0);
-        }
-
-
-        [TestMethod]
-        public async Task FindAsync_LeftJoin()
-        {
-            var results = await _service.Query.LeftJoin<CustomerCategory>(
+            var results = _repository.Query.LeftJoin<CustomerCategory>(
                     (customer, category) =>
                             customer.CustomerCategoryId == category.CustomerCategoryId)
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
-            Assert.IsTrue(results.Any());
+            Assert.IsTrue(results.FastAny());
         }
 
         [TestMethod]
-        public async Task FindAsync_WhereIsIn()
+        [TestCategory("Where")]
+        public void Find_WhereIsIn()
         {
             var customerIds = new object[] {5, 15, 25};
-            var results = await _service.Query
+            var results = _repository.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
             Assert.IsTrue(results.All(c => customerIds.Contains(c.CustomerId)));
         }
 
         [TestMethod]
-        public async Task FindAsync_WhereNotIn()
+        [TestCategory("Where")]
+        public void Find_WhereNotIn()
         {
             var customerIds = new object[] {5, 15, 25};
-            var results = await _service.Query
+            var results = _repository.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
             Assert.IsTrue(results.All(c => !customerIds.Contains(c.CustomerId)));
         }
 
         [TestMethod]
-        public async Task PageAsync()
+        public void Page()
         {
             const int pageSize = 50;
             const int numberOfPages = 5;
 
             for (var page = 1; page < numberOfPages; ++page)
             {
-                var results = await _service.Query
+                var results = _repository.Query
                     .OrderBy(c => c.CustomerCategoryId)
-                    .PageAsync(pageSize, page);
+                    .Page(pageSize, page);
 
                 Assert.AreEqual(pageSize, results.Count());
             }
         }
 
         [TestMethod]
-        public async Task FindAsync_WhereIsNull()
+        [TestCategory("Where")]
+        public void Find_WhereIsNull()
         {
-            var results = await _service.Query
+            var results = _repository.Query
                 .Where(c => c.Name == null)
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
             Assert.AreEqual(0, results.Count());
         }
 
         [TestMethod]
-        public async Task FindAsync_WhereIsNotNull()
+        [TestCategory("Where")]
+        public void Find_WhereIsNotNull()
         {
-            var results = await _service.Query
+            var results = _repository.Query
                 .Where(c => c.Name != null)
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
         }
 
         [TestMethod]
-        public async Task FindAsync_ComplexWhere()
+        [TestCategory("Where")]
+        public void Find_ComplexWhere()
         {
-            var results = await _service.Query
+            var results = _repository.Query
                 .Where(c => (c.CustomerId >= 1)
                             && c.Name.Contains("Customer"))
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
         }
 
         [TestMethod]
-        public async Task FindAsync_EqualsOperator()
+        [TestCategory("Where")]
+        public void Find_EqualsOperator()
         {
-            var customer = await GetAsyncFirstCustomer();
-            var results = await _service.Query
+            var customer = GetFirstCustomer();
+            var results = _repository.Query
                 .Where(c => c.CustomerId == customer.Id)
-                .FindAsync();
+                .Find();
 
             Assert.IsNotNull(results);
         }

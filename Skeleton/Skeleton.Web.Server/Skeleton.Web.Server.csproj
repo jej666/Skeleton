@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Skeleton.Web.Server</RootNamespace>
     <AssemblyName>Skeleton.Web.Server</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -118,7 +118,7 @@
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
       <Name>Skeleton.Infrastructure.DependencyResolver</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Core.csproj">
+    <ProjectReference Include="..\Skeleton.Core\Skeleton.Core.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Core</Name>
     </ProjectReference>

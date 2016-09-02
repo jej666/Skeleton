@@ -14,9 +14,6 @@ namespace Skeleton.Tests
                     builder.UsingConfigConnectionString("Default").Build());
         }
 
-        protected static IDependencyResolver Container
-        {
-            get { return Bootstrapper.Resolver; }
-        }
+        protected static IDependencyResolver Container => Bootstrapper.Resolver;
     }
 }

@@ -9,8 +9,7 @@ namespace Skeleton.Web.Client
     public abstract class HttpClientBase :
         IDisposable 
     {
-        private readonly string _addressSuffix;
-        private readonly string _jsonMediaType = "application/json";
+        private const string JsonMediaType = "application/json";
         private readonly string _serviceBaseAddress;
         private bool _disposed;
         private HttpClient _httpClient;
@@ -18,25 +17,16 @@ namespace Skeleton.Web.Client
         protected HttpClientBase(string serviceBaseAddress, string addressSuffix)
         {
             _serviceBaseAddress = serviceBaseAddress;
-            _addressSuffix = addressSuffix;
+            AddressSuffix = addressSuffix;
 
-            if (!_addressSuffix.EndsWith("/"))
-                _addressSuffix += "/";
+            if (!AddressSuffix.EndsWith("/"))
+                AddressSuffix += "/";
         }
 
-        public HttpClient JsonHttpClient
-        {
-            get
-            {
-                return _httpClient ??
-                       (_httpClient = CreateJsonHttpClient(_serviceBaseAddress));
-            }
-        }
+        public HttpClient JsonHttpClient => _httpClient ??
+                                            (_httpClient = CreateJsonHttpClient(_serviceBaseAddress));
 
-        public string AddressSuffix
-        {
-            get { return _addressSuffix; }
-        }
+        public string AddressSuffix { get; }
 
         public void Dispose()
         {
@@ -44,11 +34,11 @@ namespace Skeleton.Web.Client
             GC.SuppressFinalize(this);
         }
 
-        private HttpClient CreateJsonHttpClient(string serviceBaseAddress)
+        private static HttpClient CreateJsonHttpClient(string serviceBaseAddress)
         {
             var client = new HttpClient {BaseAddress = new Uri(serviceBaseAddress)};
 
-            client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(_jsonMediaType));
+            client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
             client.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
             client.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
             client.DefaultRequestHeaders.UserAgent.Add(

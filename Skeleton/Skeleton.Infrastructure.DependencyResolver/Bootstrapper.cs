@@ -16,20 +16,11 @@ namespace Skeleton.Infrastructure.DependencyResolver
         private static readonly Lazy<IDependencyRegistrar> RegistrarWrapper =
             new Lazy<IDependencyRegistrar>(() => new DependencyRegistrar(UnityContainer.Value));
 
-        public static IDependencyResolver Resolver
-        {
-            get { return ContainerWrapper.Value; }
-        }
+        public static IDependencyResolver Resolver => ContainerWrapper.Value;
 
-        public static IDependencyRegistrar Registrar
-        {
-            get { return RegistrarWrapper.Value; }
-        }
+        public static IDependencyRegistrar Registrar => RegistrarWrapper.Value;
 
-        public static IUnityContainer Container
-        {
-            get { return UnityContainer.Value; }
-        }
+        public static IUnityContainer Container => UnityContainer.Value;
 
         public static void Initialize()
         {
@@ -38,8 +29,7 @@ namespace Skeleton.Infrastructure.DependencyResolver
             UnityContainer.Value
                 .AddExtension(new CommonModuleExtension())
                 .AddExtension(new DataModuleExtension())
-                .AddExtension(new RepositoryModuleExtension())
-                .AddExtension(new ServiceModuleExtension());
+                .AddExtension(new RepositoryModuleExtension());
         }
 
         public static void UseDatabase(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)

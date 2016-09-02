@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Core.Repository;
 using Skeleton.Tests.Infrastructure;
@@ -7,23 +7,21 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class CachedServiceTests : TestBase
+    public class AsyncCachedRepositoryTests : TestBase
     {
-        private readonly ICachedReadService<Customer, int, CustomerDto> _service;
+        private readonly IAsyncCachedReadRepository<Customer, int, CustomerDto> _service;
 
-        public CachedServiceTests()
+        public AsyncCachedRepositoryTests()
         {
-            _service = Container.Resolve<ICachedReadService<Customer, int, CustomerDto>>();
-            _service.Query.CacheConfigurator = config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
-            SqlDbSeeder.SeedCustomers();
+            _service = Container.Resolve<IAsyncCachedReadRepository<Customer, int, CustomerDto>>();
         }
 
         [TestMethod]
-        public void Cached_Find_ByExpression()
+        public async Task Cached_FindAsync_ByExpression()
         {
-            var results = _service.Query
+            var results = await _service.Query
                 .Where(c => c.Name.StartsWith("Customer"))
-                .Find();
+                .FindAsync();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
@@ -32,14 +30,14 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Cached_FirstOrDefault_ByExpression()
+        public async Task Cached_FirstOrDefaultAsync_ByExpression()
         {
-            var customer1 = _service.Query
+            var customer1 = await _service.Query
                 .Top(1)
-                .FirstOrDefault();
-            var customer2 = _service.Query
+                .FirstOrDefaultAsync();
+            var customer2 = await _service.Query
                 .Where(c => c.Name.Equals(customer1.Name))
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
@@ -49,10 +47,13 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Cached_FirstOrDefault_ById()
+        public async Task Cached_FirstOrDefaultAsync_ById()
         {
-            var customer1 = _service.Query.Top(1).FirstOrDefault();
-            var customer2 = _service.Query.FirstOrDefault(customer1.Id);
+            var customer1 = await _service.Query
+                .Top(1)
+                .FirstOrDefaultAsync();
+            var customer2 = await _service.Query
+                .FirstOrDefaultAsync(customer1.Id);
 
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
@@ -62,9 +63,10 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Cached_GetAll()
+        public async Task Cached_GetAllAsync()
         {
-            var results = _service.Query.GetAll();
+            var results = await _service.Query.GetAllAsync();
+
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
             Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
@@ -72,16 +74,16 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Cached_Page()
+        public async Task Cached_PageAsync()
         {
             const int pageSize = 50;
             const int numberOfPages = 5;
 
             for (var page = 1; page < numberOfPages; ++page)
             {
-                var results = _service.Query
+                var results = await _service.Query
                     .OrderBy(c => c.CustomerCategoryId)
-                    .Page(pageSize, page);
+                    .PageAsync(pageSize, page);
 
                 Assert.AreEqual(pageSize, results.Count());
                 Assert.IsTrue(_service.Query.Cache.Contains<Customer>(

@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Skeleton.Tests</RootNamespace>
     <AssemblyName>Skeleton.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -58,14 +58,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AsyncCachedServiceTests.cs" />
+    <Compile Include="AsyncCachedRepositoryTests.cs" />
     <Compile Include="PerformanceTests.cs" />
-    <Compile Include="AsyncReadServiceTests.cs" />
-    <Compile Include="AsyncCrudServiceTests.cs" />
-    <Compile Include="CachedServiceTests.cs" />
-    <Compile Include="CrudServiceTests.cs" />
+    <Compile Include="AsyncReadRepositoryTests.cs" />
+    <Compile Include="AsyncCrudRepositoryTests.cs" />
+    <Compile Include="CachedRepositoryTests.cs" />
+    <Compile Include="CrudRepositoryTests.cs" />
     <Compile Include="TestBase.cs" />
-    <Compile Include="ReadServiceTests.cs" />
+    <Compile Include="ReadRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,7 +81,7 @@
       <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>
       <Name>Skeleton.Infrastructure.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Core.csproj">
+    <ProjectReference Include="..\Skeleton.Core\Skeleton.Core.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Core</Name>
     </ProjectReference>

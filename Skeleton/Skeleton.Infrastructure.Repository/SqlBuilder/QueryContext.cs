@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Skeleton.Shared.CommonTypes;
+using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -25,34 +25,16 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal string Top { get; set; }
 
-        internal IList<string> GroupBy
-        {
-            get { return _groupBy.Value; }
-        }
+        internal IList<string> GroupBy => _groupBy.Value;
 
-        internal IList<string> Having
-        {
-            get { return _having.Value; }
-        }
+        internal IList<string> Having => _having.Value;
 
-        internal IList<string> Source
-        {
-            get { return _joins.Value; }
-        }
+        internal IList<string> Source => _joins.Value;
 
-        internal IList<string> Selection
-        {
-            get { return _select.Value; }
-        }
+        internal IList<string> Selection => _select.Value;
 
-        internal IList<string> OrderBy
-        {
-            get { return _orderBy.Value; }
-        }
+        internal IList<string> OrderBy => _orderBy.Value;
 
-        internal IList<string> TableNames
-        {
-            get { return _tableNames.Value; }
-        }
+        internal IList<string> TableNames => _tableNames.Value;
     }
 }

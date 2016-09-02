@@ -5,7 +5,7 @@ using Skeleton.Core;
 using Skeleton.Core.Data;
 using Skeleton.Core.Repository;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
-using Skeleton.Shared.CommonTypes;
+using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -205,7 +205,6 @@ namespace Skeleton.Infrastructure.Repository
                 Database.ExecuteScalar<int>(
                     Builder.SqlQuery,
                     Builder.Parameters));
-            ;
         }
 
         public IEnumerable<dynamic> Count(

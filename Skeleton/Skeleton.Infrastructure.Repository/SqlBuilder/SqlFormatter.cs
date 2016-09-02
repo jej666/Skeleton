@@ -9,63 +9,36 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     {
         private const string FieldDelimiter = ", ";
 
-        internal static Dictionary<ExpressionType, string> Operations
-        {
-            get
+        internal static Dictionary<ExpressionType, string> Operations =>
+            new Dictionary<ExpressionType, string>
             {
-                return new Dictionary<ExpressionType, string>
-                {
-                    {ExpressionType.Equal, "="},
-                    {ExpressionType.NotEqual, "!="},
-                    {ExpressionType.GreaterThan, ">"},
-                    {ExpressionType.LessThan, "<"},
-                    {ExpressionType.GreaterThanOrEqual, ">="},
-                    {ExpressionType.LessThanOrEqual, "<="}
-                };
-            }
-        }
+                {ExpressionType.Equal, "="},
+                {ExpressionType.NotEqual, "!="},
+                {ExpressionType.GreaterThan, ">"},
+                {ExpressionType.LessThan, "<"},
+                {ExpressionType.GreaterThanOrEqual, ">="},
+                {ExpressionType.LessThanOrEqual, "<="}
+            };
 
 
-        internal static string SelectQuery
-        {
-            get { return "SELECT {0} {1} FROM {2} {3} {4} {5} {6}"; }
-        }
+        internal static string SelectQuery => "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
 
-        internal static string CountAny
-        {
-            get { return "Count(*)"; }
-        }
+        internal static string CountAny => "Count(*)";
 
-        internal static string BeginExpression
-        {
-            get { return "("; }
-        }
+        internal static string BeginExpression => "(";
 
-        internal static string EndExpression
-        {
-            get { return ")"; }
-        }
+        internal static string EndExpression => ")";
 
-        internal static string AndExpression
-        {
-            get { return " AND "; }
-        }
+        internal static string AndExpression => " AND ";
 
-        internal static string NotExpression
-        {
-            get { return " NOT "; }
-        }
+        internal static string NotExpression => " NOT ";
 
-        internal static string OrExpression
-        {
-            get { return " OR "; }
-        }
+        internal static string OrExpression => " OR ";
 
         internal static string ColumnValue(string tableName, string columnName, object value)
         {
             return "[{0}].[{1}] = {2} ".FormatWith(tableName, columnName, FormattedValue(value));
         }
-
 
         internal static string Top(int take)
         {
@@ -113,34 +86,22 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal static string Conditions(IEnumerable<string> where)
         {
-            if (where.IsNullOrEmpty())
-                return string.Empty;
-
-            return "WHERE {0}".FormatWith(string.Join("", where));
+            return where.IsNullOrEmpty() ? string.Empty : "WHERE {0}".FormatWith(string.Join("", where));
         }
 
         internal static string GroupBy(IEnumerable<string> grouping)
         {
-            if (grouping.IsNullOrEmpty())
-                return string.Empty;
-
-            return "GROUP BY {0}".FormatWith(Fields(grouping));
+            return grouping.IsNullOrEmpty() ? string.Empty : "GROUP BY {0}".FormatWith(Fields(grouping));
         }
 
         internal static string Having(IEnumerable<string> having)
         {
-            if (having.IsNullOrEmpty())
-                return string.Empty;
-
-            return "HAVING {0}".FormatWith(string.Join(" ", having));
+            return having.IsNullOrEmpty() ? string.Empty : "HAVING {0}".FormatWith(string.Join(" ", having));
         }
 
         internal static string OrderBy(IEnumerable<string> ordering)
         {
-            if (ordering.IsNullOrEmpty())
-                return string.Empty;
-
-            return "ORDER BY {0}".FormatWith(Fields(ordering));
+            return ordering.IsNullOrEmpty() ? string.Empty : "ORDER BY {0}".FormatWith(Fields(ordering));
         }
 
         internal static string SelectAll(string tableName)
@@ -150,10 +111,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal static string SelectedColumns(IEnumerable<string> selection, string tableName)
         {
-            if (selection.IsNullOrEmpty())
-                return SelectAll(tableName);
-
-            return Fields(selection);
+            return selection.IsNullOrEmpty() ? SelectAll(tableName) : Fields(selection);
         }
 
         internal static string Join(
@@ -238,7 +196,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             if ((value != null) && value.ToString().Contains(","))
                 return value.ToString().Replace(",", ".");
 
-            return value != null ? value.ToString() : "null";
+            return value?.ToString() ?? "null";
         }
     }
 }

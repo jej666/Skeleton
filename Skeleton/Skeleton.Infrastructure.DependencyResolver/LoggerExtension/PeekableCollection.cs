@@ -11,15 +11,9 @@ namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension
             _list = new List<T>();
         }
 
-        public int Count
-        {
-            get { return _list.Count; }
-        }
+        public int Count => _list.Count;
 
-        public IEnumerable<T> Items
-        {
-            get { return _list.ToArray(); }
-        }
+        public IEnumerable<T> Items => _list.ToArray();
 
         public T Peek(int depth)
         {

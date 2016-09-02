@@ -5,8 +5,8 @@ namespace Skeleton.Tests.Infrastructure
 {
     public class CustomersController : CrudController<Customer, int, CustomerDto>
     {
-        public CustomersController(ICrudService<Customer, int, CustomerDto> service)
-            : base(service)
+        public CustomersController(ICrudRepository<Customer, int, CustomerDto> repository)
+            : base(repository)
         {
         }
     }

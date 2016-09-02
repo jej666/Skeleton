@@ -6,7 +6,7 @@ namespace Skeleton.Tests.Infrastructure
 {
     public class SqlLocalDbHelper
     {
-        private const string LocalDbPath = @"Microsoft\Microsoft SQL Server Local DB\Instances\v11.0";
+        private const string LocalDbPath = @"Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB";
 
         public static void CreateDatabaseIfNotExists()
         {
@@ -16,17 +16,17 @@ namespace Skeleton.Tests.Infrastructure
             if (File.Exists(fullPath))
                 return;
 
-            using (var connection = new SqlConnection(@"server=(localdb)\v11.0"))
+            using (var connection = new SqlConnection(@"server=(localdb)\MSSQLLocalDB"))
             {
                 connection.Open();
 
-                var sql = string.Format(@"
+                var sql = $@"
                     CREATE DATABASE
                         [TestDb]
                     ON PRIMARY (
                        NAME=TestDb,
-                       FILENAME = '{0}'
-                    )", fullPath);
+                       FILENAME = '{fullPath}'
+                    )";
 
                 var command = new SqlCommand(sql, connection);
                 command.ExecuteNonQuery();

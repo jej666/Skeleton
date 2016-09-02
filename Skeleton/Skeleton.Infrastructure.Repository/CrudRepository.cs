@@ -3,13 +3,13 @@ using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class CrudService<TEntity, TIdentity, TDto> :
-            ReadService<TEntity, TIdentity, TDto>,
-            ICrudService<TEntity, TIdentity, TDto>
+    public class CrudRepository<TEntity, TIdentity, TDto> :
+            ReadRepository<TEntity, TIdentity, TDto>,
+            ICrudRepository<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        public CrudService(
+        public CrudRepository(
             ILogger logger,
             IEntityMapper<TEntity, TIdentity, TDto> mapper,
             IEntityReader<TEntity, TIdentity> reader,

@@ -12,7 +12,7 @@ namespace Skeleton.Web.Server
         public UnityResolver(IUnityContainer container)
         {
             if (container == null)
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException(nameof(container));
 
             Container = container;
         }

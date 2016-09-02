@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
 using Skeleton.Core;
-using Skeleton.Shared.CommonTypes;
+using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {

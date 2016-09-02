@@ -12,10 +12,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         protected internal IDictionary<string, object> Parameters { get; } = new ExpandoObject();
 
-        internal IList<string> Conditions
-        {
-            get { return _conditions; }
-        }
+        internal IList<string> Conditions => _conditions;
 
         protected internal string NextParamId()
         {

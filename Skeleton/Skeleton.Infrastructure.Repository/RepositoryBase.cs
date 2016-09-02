@@ -1,14 +1,14 @@
 ﻿using System;
 using Skeleton.Core;
-using Skeleton.Shared.CommonTypes;
+using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public abstract class ServiceBase :DisposableBase
+    public abstract class RepositoryBase : DisposableBase
     {
         private readonly ILogger _logger;
-       
-        protected ServiceBase(ILogger logger)
+
+        protected RepositoryBase(ILogger logger)
         {
             _logger = logger;
         }

@@ -10,30 +10,30 @@ namespace Skeleton.Web.Server.Controllers
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        private readonly ICachedReadService<TEntity, TIdentity, TDto> _service;
+        private readonly ICachedReadRepository<TEntity, TIdentity, TDto> _repository;
 
         public CachedReadController(
-            ICachedReadService<TEntity, TIdentity, TDto> service)
+            ICachedReadRepository<TEntity, TIdentity, TDto> repository)
         {
-            _service = service;
+            _repository = repository;
         }
 
         // GET api/<controller>/5
         public virtual IHttpActionResult Get(TIdentity id)
         {
-            var result = _service.Query.FirstOrDefault(id);
+            var result = _repository.Query.FirstOrDefault(id);
 
             if (result == null)
                 return NotFound();
 
-            return Ok(_service.Mapper.Map(result));
+            return Ok(_repository.Mapper.Map(result));
         }
 
         public virtual IHttpActionResult Get()
         {
-            var allData = _service.Query
+            var allData = _repository.Query
                 .GetAll()
-                .Select(_service.Mapper.Map)
+                .Select(_repository.Mapper.Map)
                 .ToList();
 
             return Ok(allData);
@@ -43,10 +43,10 @@ namespace Skeleton.Web.Server.Controllers
         [HttpGet]
         public virtual IHttpActionResult Page(int pageSize, int pageNumber)
         {
-            var totalCount = _service.Query.Count();
-            var pagedData = _service.Query
+            var totalCount = _repository.Query.Count();
+            var pagedData = _repository.Query
                 .Page(pageSize, pageNumber)
-                .Select(_service.Mapper.Map)
+                .Select(_repository.Mapper.Map)
                 .ToList();
             var pagedResult = Request.SetPagedResult(
                 totalCount, pageNumber, pageSize, pagedData);
@@ -57,7 +57,7 @@ namespace Skeleton.Web.Server.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-                _service.Dispose();
+                _repository.Dispose();
 
             base.Dispose(disposing);
         }

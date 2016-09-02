@@ -6,13 +6,13 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class CrudServiceTests : TestBase
+    public class CrudRepositoryTests : TestBase
     {
-        private readonly ICrudService<Customer, int, CustomerDto> _service;
+        private readonly ICrudRepository<Customer, int, CustomerDto> _service;
 
-        public CrudServiceTests()
+        public CrudRepositoryTests()
         {
-            _service = Container.Resolve<ICrudService<Customer, int, CustomerDto>>();
+            _service = Container.Resolve<ICrudRepository<Customer, int, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }

@@ -4,7 +4,6 @@ using Skeleton.Core.Reflection;
 using Skeleton.Infrastructure.DependencyResolver.LoggerExtension;
 using Skeleton.Infrastructure.Logging;
 using Skeleton.Shared;
-using Skeleton.Shared.CommonTypes;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {

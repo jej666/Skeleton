@@ -17,29 +17,18 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal SqlBuilderBase(IMetadataProvider metadataProvider)
         {
-            metadataProvider.ThrowIfNull(() => metadataProvider);
-
             _metadata = metadataProvider.GetMetadata<TEntity>();
         }
 
-        internal IDictionary<string, object> Parameters
-        {
-            get { return ContextBase.Parameters; }
-        }
+        internal IDictionary<string, object> Parameters => ContextBase.Parameters;
 
         internal abstract string SqlQuery { get; }
         protected internal abstract string SqlQueryTemplate { get; }
         protected internal abstract ContextBase ContextBase { get; }
 
-        protected internal Type EntityType
-        {
-            get { return _metadata.Type; }
-        }
+        protected internal Type EntityType => _metadata.Type;
 
-        protected internal string TableName
-        {
-            get { return EntityType.Name; }
-        }
+        protected internal string TableName => EntityType.Name;
 
         protected internal string EntityIdName
         {

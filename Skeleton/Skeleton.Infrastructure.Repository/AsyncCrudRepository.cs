@@ -3,13 +3,13 @@ using Skeleton.Core.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class AsyncCrudService<TEntity, TIdentity, TDto> :
-            AsyncReadService<TEntity, TIdentity, TDto>,
-            IAsyncCrudService<TEntity, TIdentity, TDto>
+    public class AsyncCrudRepository<TEntity, TIdentity, TDto> :
+            AsyncReadRepository<TEntity, TIdentity, TDto>,
+            IAsyncCrudRepository<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>
         where TDto : class
     {
-        public AsyncCrudService(
+        public AsyncCrudRepository(
             ILogger logger,
             IEntityMapper<TEntity, TIdentity, TDto> mapper,
             IAsyncEntityReader<TEntity, TIdentity> reader,
