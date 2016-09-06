@@ -82,6 +82,7 @@
     <Compile Include="ExpressionTree\ValueNode.cs" />
     <Compile Include="SqlBuilder\SqlFormatter.cs" />
     <Compile Include="ExpressionTree\TableInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">

@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
+using Skeleton.Common;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -9,18 +11,18 @@ namespace Skeleton.Tests
     [TestClass]
     public class AsyncReadRepositoryTests : TestBase
     {
-        private readonly IAsyncCrudRepository<Customer, int, CustomerDto> _service;
+        private readonly IAsyncCrudRepository<Customer, int, CustomerDto> _repository;
 
         public AsyncReadRepositoryTests()
         {
-            _service = Container.Resolve<IAsyncCrudRepository<Customer, int, CustomerDto>>();
+            _repository = Container.Resolve<IAsyncCrudRepository<Customer, int, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }
 
         private async Task<Customer> GetAsyncFirstCustomer()
         {
-            return await _service.Query
+            return await _repository.Query
                 .Top(1)
                 .FirstOrDefaultAsync();
         }
@@ -29,7 +31,7 @@ namespace Skeleton.Tests
         public async Task FindAsync_EqualsMethod()
         {
             var customer = await GetAsyncFirstCustomer();
-            var results = await _service.Query
+            var results = await _repository.Query
                 .Where(c => c.Name.Equals(customer.Name))
                 .OrderBy(c => c.CustomerId)
                 .FindAsync();
@@ -42,7 +44,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FirstOrDefaultAsync_StartWith()
         {
-            var result = await _service.Query
+            var result = await _repository.Query
                 .Where(c => c.Name.StartsWith("Customer"))
                 .FirstOrDefaultAsync();
 
@@ -54,7 +56,7 @@ namespace Skeleton.Tests
         public async Task FirstOrDefaultAsync_ById()
         {
             var customer1 = await GetAsyncFirstCustomer();
-            var customer2 = await _service.Query
+            var customer2 = await _repository.Query
                 .FirstOrDefaultAsync(customer1.Id);
 
             Assert.IsNotNull(customer2);
@@ -65,7 +67,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task GetAllAsync()
         {
-            var results = await _service.Query.GetAllAsync();
+            var results = await _repository.Query.GetAllAsync();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
@@ -75,7 +77,7 @@ namespace Skeleton.Tests
         public async Task FindAsync_SelectedColumns()
         {
             var customer = await GetAsyncFirstCustomer();
-            var results = await _service.Query
+            var results = await _repository.Query
                 .Where(c => c.CustomerId == customer.CustomerId)
                 .Select(c => c.CustomerId)
                 .FindAsync();
@@ -88,7 +90,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_Top()
         {
-            var customers = await _service.Query.Top(5).FindAsync();
+            var customers = await _repository.Query.Top(5).FindAsync();
 
             Assert.IsNotNull(customers);
             Assert.IsInstanceOfType(customers.First(), typeof(Customer));
@@ -98,7 +100,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task CountAsync()
         {
-            var count = await _service.Query
+            var count = await _repository.Query
                 .CountAsync(c => c.CustomerId);
 
             Assert.IsNotNull(count);
@@ -108,7 +110,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task CountAllAsync()
         {
-            var count = await _service.Query.CountAsync();
+            var count = await _repository.Query.CountAsync();
 
             Assert.IsNotNull(count);
             Assert.IsTrue(count > 0);
@@ -117,11 +119,11 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task MinAsync()
         {
-            var minCustomer = await _service.Query
+            var minCustomer = await _repository.Query
                 .OrderBy(c => c.CustomerId)
                 .Top(1)
                 .FirstOrDefaultAsync();
-            var min = await _service.Query
+            var min = await _repository.Query
                 .MinAsync(c => c.CustomerId);
 
             Assert.IsNotNull(min);
@@ -131,11 +133,11 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task MaxAsync()
         {
-            var maxCustomer = await _service.Query
+            var maxCustomer = await _repository.Query
                 .OrderByDescending(c => c.CustomerId)
                 .Top(1)
                 .FirstOrDefaultAsync();
-            var max = await _service.Query
+            var max = await _repository.Query
                 .MaxAsync(c => c.CustomerId);
 
             Assert.IsNotNull(max);
@@ -145,7 +147,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task AverageAsync()
         {
-            var avg = await _service.Query
+            var avg = await _repository.Query
                 .OrderBy(c => c.CustomerId)
                 .GroupBy(c => c.CustomerId)
                 .Select(c => c.CustomerId)
@@ -160,7 +162,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task SumAsync()
         {
-            var sum = await _service.Query
+            var sum = await _repository.Query
                 .OrderBy(c => c.CustomerId)
                 .GroupBy(c => c.CustomerId)
                 .SumAsync(c => c.CustomerCategoryId);
@@ -175,7 +177,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_LeftJoin()
         {
-            var results = await _service.Query.LeftJoin<CustomerCategory>(
+            var results = await _repository.Query.LeftJoin<CustomerCategory>(
                     (customer, category) =>
                             customer.CustomerCategoryId == category.CustomerCategoryId)
                 .FindAsync();
@@ -188,7 +190,7 @@ namespace Skeleton.Tests
         public async Task FindAsync_WhereIsIn()
         {
             var customerIds = new object[] {5, 15, 25};
-            var results = await _service.Query
+            var results = await _repository.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
                 .FindAsync();
 
@@ -200,7 +202,7 @@ namespace Skeleton.Tests
         public async Task FindAsync_WhereNotIn()
         {
             var customerIds = new object[] {5, 15, 25};
-            var results = await _service.Query
+            var results = await _repository.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
                 .FindAsync();
 
@@ -216,7 +218,7 @@ namespace Skeleton.Tests
 
             for (var page = 1; page < numberOfPages; ++page)
             {
-                var results = await _service.Query
+                var results = await _repository.Query
                     .OrderBy(c => c.CustomerCategoryId)
                     .PageAsync(pageSize, page);
 
@@ -227,7 +229,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_WhereIsNull()
         {
-            var results = await _service.Query
+            var results = await _repository.Query
                 .Where(c => c.Name == null)
                 .FindAsync();
 
@@ -238,7 +240,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_WhereIsNotNull()
         {
-            var results = await _service.Query
+            var results = await _repository.Query
                 .Where(c => c.Name != null)
                 .FindAsync();
 
@@ -248,7 +250,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task FindAsync_ComplexWhere()
         {
-            var results = await _service.Query
+            var results = await _repository.Query
                 .Where(c => (c.CustomerId >= 1)
                             && c.Name.Contains("Customer"))
                 .FindAsync();
@@ -260,11 +262,25 @@ namespace Skeleton.Tests
         public async Task FindAsync_EqualsOperator()
         {
             var customer = await GetAsyncFirstCustomer();
-            var results = await _service.Query
+            var results = await _repository.Query
                 .Where(c => c.CustomerId == customer.Id)
                 .FindAsync();
 
             Assert.IsNotNull(results);
+        }
+
+        [TestMethod]
+        public void Dispose_Query()
+        {
+            using (_repository.Query)
+            {
+            }
+
+            var fieldInfo = typeof(DisposableBase).GetField("_disposed",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.IsNotNull(fieldInfo);
+            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Query));
         }
     }
 }

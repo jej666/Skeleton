@@ -56,17 +56,22 @@ namespace Skeleton.Common
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
         {
             source.ThrowIfNull(() => source);
-            var enumerable = source as IList<TSource> ?? source.ToList();
-
             action.ThrowIfNull(() => action);
 
+            var enumerable = source as IList<TSource> ?? source.ToList();
+            
             foreach (var value in enumerable)
                 action(value);
         }
 
-        public static void ForEachWhileTrue<T>(this IEnumerable<T> that, Func<T, bool> action)
+        public static void ForEachWhileTrue<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> action)
         {
-            foreach (var item in that)
+            source.ThrowIfNull(() => source);
+            action.ThrowIfNull(() => action);
+
+            var enumerable = source as IList<TSource> ?? source.ToList();
+
+            foreach (var item in enumerable)
                 if (!action(item)) break;
         }
 
