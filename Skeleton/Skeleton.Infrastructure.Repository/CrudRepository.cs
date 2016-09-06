@@ -3,7 +3,7 @@ using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class CrudRepository<TEntity, TIdentity, TDto> :
+    public sealed class CrudRepository<TEntity, TIdentity, TDto> :
             ReadRepository<TEntity, TIdentity, TDto>,
             ICrudRepository<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>

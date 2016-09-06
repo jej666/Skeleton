@@ -7,7 +7,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class CachedEntityReader<TEntity, TIdentity> :
+    public sealed class CachedEntityReader<TEntity, TIdentity> :
             EntityReader<TEntity, TIdentity>,
             ICachedEntityReader<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>

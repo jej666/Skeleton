@@ -16,7 +16,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private readonly IMetadata _metadata;
         private string _cacheIdName;
 
-        internal SqlBuilderBase(IMetadataProvider metadataProvider)
+        protected internal SqlBuilderBase(IMetadataProvider metadataProvider)
         {
             _metadata = metadataProvider.GetMetadata<TEntity>();
         }

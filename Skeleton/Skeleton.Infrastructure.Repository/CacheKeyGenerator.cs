@@ -54,7 +54,7 @@ namespace Skeleton.Infrastructure.Repository
         }
     }
 
-    public class AsyncCacheKeyGenerator<TEntity, TIdentity> :
+    public sealed class AsyncCacheKeyGenerator<TEntity, TIdentity> :
             CacheKeyGenerator<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
