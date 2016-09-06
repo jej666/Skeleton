@@ -62,7 +62,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Core\Skeleton.Abstraction.csproj">
+    <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
