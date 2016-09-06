@@ -73,7 +73,7 @@
     <None Include="Infrastructure.Data.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Core.csproj">
+    <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Core</Name>
     </ProjectReference>

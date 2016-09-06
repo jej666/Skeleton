@@ -58,11 +58,11 @@
     <None Include="Core.Domain.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Shared.Abstraction\Skeleton.Core.csproj">
+    <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Shared.CommonTypes\Skeleton.Shared.CommonTypes.csproj">
+    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
       <Project>{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}</Project>
       <Name>Skeleton.Shared.CommonTypes</Name>
     </ProjectReference>
