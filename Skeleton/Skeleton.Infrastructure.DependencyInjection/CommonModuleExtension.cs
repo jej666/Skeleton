@@ -2,7 +2,7 @@
 using Skeleton.Abstraction;
 using Skeleton.Core.Caching;
 using Skeleton.Core.Reflection;
-using Skeleton.Infrastructure.DependencyResolver.LoggerExtension;
+using Skeleton.Infrastructure.DependencyInjection.LoggerExtension;
 using Skeleton.Infrastructure.Logging;
 
 namespace Skeleton.Infrastructure.DependencyInjection

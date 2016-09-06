@@ -61,11 +61,12 @@
     <Compile Include="AsyncEntityPersistor.cs" />
     <Compile Include="EntityPersistor.cs" />
     <Compile Include="EntityReader.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadRepository.cs" />
+    <Compile Include="ExpressionTree\LikeMethod.cs" />
     <Compile Include="SqlBuilder\JoinType.cs" />
+    <Compile Include="ReadRepository.cs" />
     <Compile Include="SqlBuilder\CommandContext.cs" />
     <Compile Include="SqlBuilder\ContextBase.cs" />
+    <Compile Include="SqlBuilder\SelectFunction.cs" />
     <Compile Include="SqlBuilder\SelectQueryBuilder.cs" />
     <Compile Include="SqlBuilder\SqlBuilderBase.cs" />
     <Compile Include="SqlBuilder\QueryContext.cs" />
@@ -73,14 +74,12 @@
     <Compile Include="SqlBuilder\InsertCommandBuilder.cs" />
     <Compile Include="SqlBuilder\UpdateCommandBuilder.cs" />
     <Compile Include="ExpressionTree\ExpressionResolver.cs" />
-    <Compile Include="ExpressionTree\LikeMethod.cs" />
     <Compile Include="ExpressionTree\LikeNode.cs" />
     <Compile Include="ExpressionTree\MemberNode.cs" />
     <Compile Include="ExpressionTree\Node.cs" />
     <Compile Include="ExpressionTree\OperationNode.cs" />
     <Compile Include="ExpressionTree\SingleOperationNode.cs" />
     <Compile Include="ExpressionTree\ValueNode.cs" />
-    <Compile Include="SqlBuilder\SelectFunction.cs" />
     <Compile Include="SqlBuilder\SqlFormatter.cs" />
     <Compile Include="ExpressionTree\TableInfo.cs" />
   </ItemGroup>
@@ -95,9 +94,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Infrastructure.Repository.snk" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

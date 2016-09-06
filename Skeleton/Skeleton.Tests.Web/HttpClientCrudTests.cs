@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Infrastructure.DependencyResolver;
+using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Infrastructure;
 using Skeleton.Web.Server;
 
