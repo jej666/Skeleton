@@ -58,8 +58,6 @@
     <Compile Include="DataAdapter.cs" />
     <Compile Include="DatabaseFactory.cs" />
     <Compile Include="DatabaseTransaction.cs" />
-    <Compile Include="DataDisposableBase.cs" />
-    <Compile Include="DataHideObjectMethods.cs" />
     <Compile Include="DataReaderMapper.cs" />
     <Compile Include="DataReaderMapperAsync.cs" />
     <Compile Include="DataReaderMapperBase.cs" />
