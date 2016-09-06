@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System.CodeDom;
+using System.Linq;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
+using Skeleton.Common;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -189,7 +192,7 @@ namespace Skeleton.Tests
         [TestCategory("Where")]
         public void Find_WhereIsIn()
         {
-            var customerIds = new object[] {5, 15, 25};
+            var customerIds = new object[] { 5, 15, 25 };
             var results = _repository.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -202,7 +205,7 @@ namespace Skeleton.Tests
         [TestCategory("Where")]
         public void Find_WhereNotIn()
         {
-            var customerIds = new object[] {5, 15, 25};
+            var customerIds = new object[] { 5, 15, 25 };
             var results = _repository.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -272,6 +275,20 @@ namespace Skeleton.Tests
                 .Find();
 
             Assert.IsNotNull(results);
+        }
+
+        [TestMethod]
+        public void Dispose_Query()
+        {
+            using (_repository.Query)
+            {
+            }
+
+            var fieldInfo = typeof(DisposableBase).GetField("_disposed",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.IsNotNull(fieldInfo);
+            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Query));
         }
     }
 }

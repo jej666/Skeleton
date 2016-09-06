@@ -5,7 +5,7 @@ using Microsoft.Practices.Unity;
 
 namespace Skeleton.Web.Server
 {
-    public class UnityResolver : IDependencyResolver
+    public sealed class UnityResolver : IDependencyResolver
     {
         private readonly IUnityContainer _container;
 

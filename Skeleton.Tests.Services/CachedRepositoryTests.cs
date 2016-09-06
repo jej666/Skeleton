@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
+using Skeleton.Common;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Tests
@@ -9,66 +11,66 @@ namespace Skeleton.Tests
     [TestClass]
     public class CachedRepositoryTests : TestBase
     {
-        private readonly ICachedReadRepository<Customer, int, CustomerDto> _service;
+        private readonly ICachedReadRepository<Customer, int, CustomerDto> _repository;
 
         public CachedRepositoryTests()
         {
-            _service = Container.Resolve<ICachedReadRepository<Customer, int, CustomerDto>>();
-            _service.Query.CacheConfigurator = config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
+            _repository = Container.Resolve<ICachedReadRepository<Customer, int, CustomerDto>>();
+            _repository.Query.CacheConfigurator = config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
             SqlDbSeeder.SeedCustomers();
         }
 
         [TestMethod]
         public void Cached_Find_ByExpression()
         {
-            var results = _service.Query
+            var results = _repository.Query
                 .Where(c => c.Name.StartsWith("Customer"))
                 .Find();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
-                _service.Query.LastGeneratedCacheKey));
+            Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+                _repository.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
         public void Cached_FirstOrDefault_ByExpression()
         {
-            var customer1 = _service.Query
+            var customer1 = _repository.Query
                 .Top(1)
                 .FirstOrDefault();
-            var customer2 = _service.Query
+            var customer2 = _repository.Query
                 .Where(c => c.Name.Equals(customer1.Name))
                 .FirstOrDefault();
 
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
-                _service.Query.LastGeneratedCacheKey));
+            Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+                _repository.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
         public void Cached_FirstOrDefault_ById()
         {
-            var customer1 = _service.Query.Top(1).FirstOrDefault();
-            var customer2 = _service.Query.FirstOrDefault(customer1.Id);
+            var customer1 = _repository.Query.Top(1).FirstOrDefault();
+            var customer2 = _repository.Query.FirstOrDefault(customer1.Id);
 
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
-                _service.Query.LastGeneratedCacheKey));
+            Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+                _repository.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
         public void Cached_GetAll()
         {
-            var results = _service.Query.GetAll();
+            var results = _repository.Query.GetAll();
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
-                _service.Query.LastGeneratedCacheKey));
+            Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+                _repository.Query.LastGeneratedCacheKey));
         }
 
         [TestMethod]
@@ -79,14 +81,28 @@ namespace Skeleton.Tests
 
             for (var page = 1; page < numberOfPages; ++page)
             {
-                var results = _service.Query
+                var results = _repository.Query
                     .OrderBy(c => c.CustomerCategoryId)
                     .Page(pageSize, page);
 
                 Assert.AreEqual(pageSize, results.Count());
-                Assert.IsTrue(_service.Query.Cache.Contains<Customer>(
-                    _service.Query.LastGeneratedCacheKey));
+                Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+                    _repository.Query.LastGeneratedCacheKey));
             }
+        }
+
+        [TestMethod]
+        public void Dispose_Query()
+        {
+            using (_repository.Query)
+            {
+            }
+
+            var fieldInfo = typeof(DisposableBase).GetField("_disposed",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.IsNotNull(fieldInfo);
+            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Query));
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.DependencyInjection
 {
@@ -29,11 +30,14 @@ namespace Skeleton.Infrastructure.DependencyInjection
             UnityContainer.Value
                 .AddExtension(new CommonModuleExtension())
                 .AddExtension(new DataModuleExtension())
-                .AddExtension(new RepositoryModuleExtension());
+                .AddExtension(new RepositoryModuleExtension())
+                .AddExtension(new AsyncRepositoryModuleExtension());
         }
 
         public static void UseDatabase(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
         {
+            configurator.ThrowIfNull(() => configurator);
+
             var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
             UnityContainer.Value.RegisterInstance(configurator.Invoke(builder));
         }

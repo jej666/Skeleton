@@ -69,6 +69,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
+      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
+      <Name>Skeleton.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
