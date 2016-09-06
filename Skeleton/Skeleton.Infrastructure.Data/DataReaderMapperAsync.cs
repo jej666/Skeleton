@@ -32,6 +32,7 @@ namespace Skeleton.Infrastructure.Data
 
                     list.Add(instance);
                 }
+
                 while (await dataReader.NextResultAsync().ConfigureAwait(false))
                 {
                 }
@@ -59,6 +60,7 @@ namespace Skeleton.Infrastructure.Data
                 var values = new object[dataReader.FieldCount];
                 dataReader.GetValues(values);
                 var instance = SetMatchingValues(dataReader, values);
+
                 while (await dataReader.NextResultAsync().ConfigureAwait(false))
                 {
                 }

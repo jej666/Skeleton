@@ -73,9 +73,9 @@
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Infrastructure.DependencyResolver\Skeleton.Infrastructure.DependencyResolver.csproj">
+    <ProjectReference Include="..\Skeleton.Infrastructure.DependencyResolver\Skeleton.Infrastructure.DependencyInjection.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
-      <Name>Skeleton.Infrastructure.DependencyResolver</Name>
+      <Name>Skeleton.Infrastructure.DependencyInjection</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Infrastructure.Data\Skeleton.Infrastructure.Data.csproj">
       <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>

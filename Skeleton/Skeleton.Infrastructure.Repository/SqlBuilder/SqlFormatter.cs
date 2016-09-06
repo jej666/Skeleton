@@ -18,10 +18,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             {ExpressionType.GreaterThanOrEqual, ">="},
             {ExpressionType.LessThanOrEqual, "<="}
         };
-
-
-        internal static string SelectQuery => "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
-
+        
         internal static string CountAny => "Count(*)";
 
         internal static string BeginExpression => "(";
