@@ -124,7 +124,7 @@ Global
 		{E86A7537-4A96-4344-94E6-BF5FD4155A1A} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 17
+		SccNumberOfProjects = 19
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://jej666.visualstudio.com/
 		SccLocalPath0 = .
@@ -192,5 +192,13 @@ Global
 		SccProjectTopLevelParentUniqueName16 = Skeleton.sln
 		SccProjectName16 = Skeleton.Shared
 		SccLocalPath16 = Skeleton.Shared
+		SccProjectUniqueName17 = Skeleton.Abstraction\\Skeleton.Abstraction.csproj
+		SccProjectTopLevelParentUniqueName17 = Skeleton.sln
+		SccProjectName17 = Skeleton.Abstraction
+		SccLocalPath17 = Skeleton.Abstraction
+		SccProjectUniqueName18 = Skeleton.Common\\Skeleton.Common.csproj
+		SccProjectTopLevelParentUniqueName18 = Skeleton.sln
+		SccProjectName18 = Skeleton.Common
+		SccLocalPath18 = Skeleton.Common
 	EndGlobalSection
 EndGlobal
