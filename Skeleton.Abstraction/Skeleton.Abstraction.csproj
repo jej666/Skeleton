@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F848F91F-11C7-4E9B-9701-110A467A0853}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Skeleton.Abstraction</RootNamespace>
+    <AssemblyName>Skeleton.Abstraction</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Abstraction.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\IDatabase.cs" />
+    <Compile Include="Data\IDatabaseAsync.cs" />
+    <Compile Include="Data\IDatabaseConfiguration.cs" />
+    <Compile Include="Data\IDatabaseConfigurationBuilder.cs" />
+    <Compile Include="Data\IDatabaseConfigurationProperties.cs" />
+    <Compile Include="Data\IDatabaseConfigurationRetryPolicy.cs" />
+    <Compile Include="Data\IDatabaseConfigurationRetryPolicyEnd.cs" />
+    <Compile Include="Data\IDatabaseConfigurationSettings.cs" />
+    <Compile Include="Data\IDatabaseExecute.cs" />
+    <Compile Include="Data\IDatabaseExecuteAsync.cs" />
+    <Compile Include="Data\IDatabaseFactory.cs" />
+    <Compile Include="Data\IDatabaseQuery.cs" />
+    <Compile Include="Data\IDatabaseQueryAsync.cs" />
+    <Compile Include="Data\IDatabaseTransaction.cs" />
+    <Compile Include="IEntityDescriptor.cs" />
+    <Compile Include="IEntityAuditable.cs" />
+    <Compile Include="ICacheContext.cs" />
+    <Compile Include="ICacheProvider.cs" />
+    <Compile Include="IDependencyRegistrar.cs" />
+    <Compile Include="IDependencyResolver.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IFieldMetadata.cs" />
+    <Compile Include="IHideObjectMethods.cs" />
+    <Compile Include="IInstanceCreator.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="IEntityValidatable.cs" />
+    <Compile Include="IEntityValidationResult.cs" />
+    <Compile Include="IEntityValidator.cs" />
+    <Compile Include="IMemberAccessor.cs" />
+    <Compile Include="IMemberInfo.cs" />
+    <Compile Include="IMetadata.cs" />
+    <Compile Include="IMetadataProvider.cs" />
+    <Compile Include="IMethodAccessor.cs" />
+    <Compile Include="IMethodMetadata.cs" />
+    <Compile Include="IPropertyMetadata.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IAsyncCachedEntityReader.cs" />
+    <Compile Include="Repository\IAsyncCachedReadRepository.cs" />
+    <Compile Include="Repository\IAsyncCrudRepository.cs" />
+    <Compile Include="Repository\IAsyncEntityAggregateResult.cs" />
+    <Compile Include="Repository\IAsyncEntityPersistor.cs" />
+    <Compile Include="Repository\IAsyncEntityQueryResult.cs" />
+    <Compile Include="Repository\IAsyncEntityReader.cs" />
+    <Compile Include="Repository\IAsyncReadRepository.cs" />
+    <Compile Include="Repository\ICachedEntityReader.cs" />
+    <Compile Include="Repository\ICachedReadRepository.cs" />
+    <Compile Include="Repository\ICrudRepository.cs" />
+    <Compile Include="Repository\IEntityAggregateResult.cs" />
+    <Compile Include="Repository\IEntityMapper.cs" />
+    <Compile Include="Repository\IEntityPersitor.cs" />
+    <Compile Include="Repository\IEntityQueryResult.cs" />
+    <Compile Include="Repository\IEntityReader.cs" />
+    <Compile Include="Repository\IReadRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Abstraction.snk" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
