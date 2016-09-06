@@ -26,11 +26,6 @@ namespace Skeleton.Infrastructure.Repository
 
         protected IDatabaseAsync Database { get; }
 
-        protected override void DisposeManagedResources()
-        {
-            Database.Dispose();
-        }
-
         public virtual async Task<bool> AddAsync(TEntity entity)
         {
             entity.ThrowIfNull(() => entity);
@@ -143,6 +138,11 @@ namespace Skeleton.Infrastructure.Repository
                     transaction.Commit();
             }
             return result == count;
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            Database.Dispose();
         }
 
         private async Task<TIdentity> AddCommand(TEntity entity)

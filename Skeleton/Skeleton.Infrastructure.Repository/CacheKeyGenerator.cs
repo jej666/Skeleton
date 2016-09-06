@@ -53,14 +53,4 @@ namespace Skeleton.Infrastructure.Repository
                 pageNumber);
         }
     }
-
-    public sealed class AsyncCacheKeyGenerator<TEntity, TIdentity> :
-            CacheKeyGenerator<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
-    {
-        public AsyncCacheKeyGenerator()
-        {
-            Prefix = "async_";
-        }
-    }
 }

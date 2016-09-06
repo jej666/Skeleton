@@ -19,7 +19,7 @@ namespace Skeleton.Common
             type.ThrowIfNull(() => type);
 
             return type.IsGenericType &&
-                   type.GetGenericTypeDefinition() == typeof(Nullable<>);
+                   (type.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
         public static bool IsNumeric(this Type type)
@@ -59,15 +59,15 @@ namespace Skeleton.Common
             var collectionType = typeof(ICollection<>);
 
             return source.GetTypeInfo().IsGenericType && source
-                .GetInterfaces()
-                .Any(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == collectionType);
+                       .GetInterfaces()
+                       .Any(i => i.GetTypeInfo().IsGenericType && (i.GetGenericTypeDefinition() == collectionType));
         }
 
         public static bool IsEnumerable(this Type source)
         {
             var enumerableType = typeof(IEnumerable<>);
 
-            return source.GetTypeInfo().IsGenericType && source.GetGenericTypeDefinition() == enumerableType;
+            return source.GetTypeInfo().IsGenericType && (source.GetGenericTypeDefinition() == enumerableType);
         }
 
         public static TypeCode GetTypeCode(this Type type)
@@ -109,7 +109,7 @@ namespace Skeleton.Common
 
         public static Type[] ToTypeArray(this object[] values)
         {
-            if (values == null || values.Length == 0)
+            if ((values == null) || (values.Length == 0))
                 return Type.EmptyTypes;
 
             var types = new Type[values.Length];
@@ -126,14 +126,10 @@ namespace Skeleton.Common
         public static bool IsPrimitiveExtendedIncludingNullable(this Type type)
         {
             if (IsPrimitiveExtended(type))
-            {
                 return true;
-            }
 
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
+            if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Nullable<>)))
                 return IsPrimitiveExtended(type.GenericTypeArguments[0]);
-            }
 
             return false;
         }
@@ -141,16 +137,14 @@ namespace Skeleton.Common
         public static bool IsPrimitiveExtended(this Type type)
         {
             if (type.IsPrimitive)
-            {
                 return true;
-            }
 
-            return type == typeof(string) ||
-                   type == typeof(decimal) ||
-                   type == typeof(DateTime) ||
-                   type == typeof(DateTimeOffset) ||
-                   type == typeof(TimeSpan) ||
-                   type == typeof(Guid);
+            return (type == typeof(string)) ||
+                   (type == typeof(decimal)) ||
+                   (type == typeof(DateTime)) ||
+                   (type == typeof(DateTimeOffset)) ||
+                   (type == typeof(TimeSpan)) ||
+                   (type == typeof(Guid));
         }
 
         public static bool IsInstantiatableType(this Type type)
@@ -173,9 +167,7 @@ namespace Skeleton.Common
         public static bool HasDefaultConstructor(this Type type)
         {
             if (type == null)
-            {
                 throw new ArgumentNullException(nameof(type));
-            }
 
             var hasDefaultConstructor =
                 type.GetTypeInfo().DeclaredConstructors.Any(ctor => !ctor.GetParameters().Any());
@@ -201,25 +193,19 @@ namespace Skeleton.Common
         {
             while (true)
             {
-                if (type == null || check == null)
-                {
+                if ((type == null) || (check == null))
                     return false;
-                }
 
                 if (type == check)
                     return true;
 
                 if (check.GetTypeInfo().IsInterface)
-                {
                     if (type.GetInterfaces().Any(t => IsSubClass(t, check)))
                         return true;
-                }
 
                 if (type.GetTypeInfo().IsGenericType && !type.GetTypeInfo().IsGenericTypeDefinition)
-                {
                     if (IsSubClass(type.GetGenericTypeDefinition(), check))
                         return true;
-                }
 
                 type = type.GetTypeInfo().BaseType;
             }

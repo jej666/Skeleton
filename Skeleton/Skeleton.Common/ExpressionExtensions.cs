@@ -132,9 +132,7 @@ namespace Skeleton.Common
                 var propertyInfo = memberExpression.Member as PropertyInfo;
 
                 if (propertyInfo == null)
-                {
                     return null;
-                }
 
                 propertyInfos.Insert(0, propertyInfo);
                 propertyAccessExpression = memberExpression.Expression;
@@ -149,17 +147,15 @@ namespace Skeleton.Common
         {
             var propertyInfos = MatchPropertyAccess(parameterExpression, propertyAccessExpression);
 
-            return propertyInfos != null && propertyInfos.Length == 1 ? propertyInfos[0] : null;
+            return (propertyInfos != null) && (propertyInfos.Length == 1) ? propertyInfos[0] : null;
         }
 
         private static Expression RemoveConvert(this Expression expression)
         {
-            while (expression != null
-                   && (expression.NodeType == ExpressionType.Convert
-                       || expression.NodeType == ExpressionType.ConvertChecked))
-            {
-                expression = RemoveConvert(((UnaryExpression)expression).Operand);
-            }
+            while ((expression != null)
+                   && ((expression.NodeType == ExpressionType.Convert)
+                       || (expression.NodeType == ExpressionType.ConvertChecked)))
+                expression = RemoveConvert(((UnaryExpression) expression).Operand);
 
             return expression;
         }

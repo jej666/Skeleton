@@ -24,11 +24,6 @@ namespace Skeleton.Infrastructure.Repository
 
         protected IDatabase Database { get; }
 
-        protected override void DisposeManagedResources()
-        {
-            Database.Dispose();
-        }
-
         internal SelectQueryBuilder<TEntity, TIdentity> Builder { get; }
 
         public virtual IEnumerable<TEntity> Find()
@@ -246,6 +241,11 @@ namespace Skeleton.Infrastructure.Repository
             Builder.Aggregate(expression, SelectFunction.Sum);
 
             return Aggregate();
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            Database.Dispose();
         }
 
         private IEntityReader<TEntity, TIdentity> And(

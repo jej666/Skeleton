@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace Skeleton.Web.Client
 {
@@ -18,8 +18,8 @@ namespace Skeleton.Web.Client
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content
-                                  .ReadAsAsync<IEnumerable<TDto>>()
-                                  .Result;
+                .ReadAsAsync<IEnumerable<TDto>>()
+                .Result;
         }
 
         public TDto FirstOrDefault(TId id)
@@ -38,9 +38,9 @@ namespace Skeleton.Web.Client
             responseMessage.EnsureSuccessStatusCode();
 
             var content = responseMessage.Content
-                                        .ReadAsStringAsync()
-                                        .Result;
-           return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
+                .ReadAsStringAsync()
+                .Result;
+            return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
         }
 
         public TDto Add(TDto model)

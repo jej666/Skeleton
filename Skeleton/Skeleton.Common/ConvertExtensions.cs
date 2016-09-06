@@ -24,7 +24,7 @@ namespace Skeleton.Common
                         continue;
                     }
 
-                    if (string.IsNullOrEmpty(s) && toType != typeof(string))
+                    if (string.IsNullOrEmpty(s) && (toType != typeof(string)))
                     {
                         value = null;
                         continue;
@@ -39,19 +39,15 @@ namespace Skeleton.Common
                     }
                 }
 
-                if (toType.IsGenericType && toType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
+                if (toType.IsGenericType && (toType.GetGenericTypeDefinition() == typeof(Nullable<>)))
                     toType = Nullable.GetUnderlyingType(toType);
-                }
 
                 var canConvert = toType.IsValueType && !toType.IsEnum;
 
                 try
                 {
                     if (canConvert)
-                    {
                         return (T) Convert.ChangeType(value, toType, provider);
-                    }
                     return (T) value;
                 }
                 catch
@@ -87,15 +83,13 @@ namespace Skeleton.Common
             {
                 object zeroValue = 0;
                 var valueType = value as ValueType;
-                return valueType != null && valueType.Equals(
-                    Convert.ChangeType(zeroValue, type, CultureInfo.InvariantCulture));
+                return (valueType != null) && valueType.Equals(
+                           Convert.ChangeType(zeroValue, type, CultureInfo.InvariantCulture));
             }
 
             if (type == typeof(string))
-            {
                 return value.Equals(string.Empty) ||
                        value.Equals(" ");
-            }
 
             return false;
         }

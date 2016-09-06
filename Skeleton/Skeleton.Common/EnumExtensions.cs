@@ -15,9 +15,7 @@ namespace Skeleton.Common
             enumType.ThrowIfNotEnum();
 
             if (Enum.IsDefined(enumType, value))
-            {
                 return (int) Enum.ToObject(enumType, value);
-            }
 
             return 0;
         }
@@ -60,9 +58,7 @@ namespace Skeleton.Common
             enumType.ThrowIfNotEnum();
 
             if (Enum.IsDefined(enumType, value))
-            {
                 return (T) Enum.ToObject(enumType, value);
-            }
 
             return defaultValue;
         }

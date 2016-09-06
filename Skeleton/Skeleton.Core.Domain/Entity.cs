@@ -9,7 +9,7 @@ namespace Skeleton.Core.Domain
 {
     [DebuggerDisplay(" Id = {ToString()}")]
     public abstract class Entity<TEntity, TIdentity> :
-        IEntity<TEntity, TIdentity>
+            IEntity<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private const int HashMultiplier = 31;
@@ -51,23 +51,19 @@ namespace Skeleton.Core.Domain
         public virtual bool Equals(TEntity other)
         {
             if (other == null)
-            {
                 return false;
-            }
 
             var otherIsTransient = Equals(other.Id, null);
 
             if (otherIsTransient || IsTransient())
-            {
                 return ReferenceEquals(other, this);
-            }
 
             return other.Id.Equals(Id);
         }
 
         public virtual bool IsTransient()
         {
-            return Id == null || Id.Equals(default(TIdentity));
+            return (Id == null) || Id.Equals(default(TIdentity));
         }
 
         //public IValidationResult Validate(IEntityValidator<TEntity, TIdentity> validator)
@@ -100,7 +96,7 @@ namespace Skeleton.Core.Domain
         {
             var entity = obj as TEntity;
 
-            return entity != null
+            return (entity != null)
                    && Equals(entity);
         }
 
@@ -117,17 +113,13 @@ namespace Skeleton.Core.Domain
                 return _cachedHashcode.Value;
 
             if (IsTransient())
-            {
                 _cachedHashcode = base.GetHashCode();
-            }
             else
-            {
                 unchecked
                 {
                     var hashCode = GetType().GetHashCode();
                     _cachedHashcode = (hashCode*HashMultiplier) ^ Id.GetHashCode();
                 }
-            }
             return _cachedHashcode.Value;
         }
     }

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AsyncCachedEntityReader.cs" />
     <Compile Include="AsyncCachedReadRepository.cs" />
+    <Compile Include="AsyncCacheKeyGenerator.cs" />
     <Compile Include="AsyncCrudRepository.cs" />
     <Compile Include="AsyncReadRepository.cs" />
     <Compile Include="CachedEntityReader.cs" />

@@ -7,7 +7,7 @@ using System.Net.Http.Headers;
 namespace Skeleton.Web.Client
 {
     public abstract class HttpClientBase :
-        IDisposable 
+        IDisposable
     {
         private const string JsonMediaType = "application/json";
         private readonly string _serviceBaseAddress;
@@ -24,7 +24,7 @@ namespace Skeleton.Web.Client
         }
 
         protected HttpClient JsonHttpClient => _httpClient ??
-                                            (_httpClient = CreateJsonHttpClient(_serviceBaseAddress));
+                                               (_httpClient = CreateJsonHttpClient(_serviceBaseAddress));
 
         protected string AddressSuffix { get; }
 

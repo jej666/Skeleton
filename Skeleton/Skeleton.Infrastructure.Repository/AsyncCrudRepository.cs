@@ -10,7 +10,7 @@ namespace Skeleton.Infrastructure.Repository
         where TDto : class
     {
         public AsyncCrudRepository(
-           IEntityMapper<TEntity, TIdentity, TDto> mapper,
+            IEntityMapper<TEntity, TIdentity, TDto> mapper,
             IAsyncEntityReader<TEntity, TIdentity> reader,
             IAsyncEntityPersistor<TEntity, TIdentity> persistor)
             : base(mapper, reader)

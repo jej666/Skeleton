@@ -27,9 +27,7 @@ namespace Skeleton.Common
             onNext.ThrowIfNull(() => onNext);
 
             if (value.IsAfter(until))
-            {
                 throw new InvalidOperationException("Source date must be anterior to until date");
-            }
             var d = value;
 
             while (!(d > until))
@@ -58,9 +56,7 @@ namespace Skeleton.Common
             var list = new List<DateTime>();
 
             for (var d = from.Date; d <= until.Date; d = d.AddDays(1))
-            {
                 list.Add(d);
-            }
 
             return list;
         }
@@ -86,7 +82,7 @@ namespace Skeleton.Common
 
         public static bool IsDateBetween(this DateTime inBetweenDate, DateTime startDate, DateTime endDate)
         {
-            return inBetweenDate >= startDate && inBetweenDate <= endDate;
+            return (inBetweenDate >= startDate) && (inBetweenDate <= endDate);
         }
 
         public static bool IsDateEqual(this DateTime value, DateTime dateToCompare)
@@ -96,7 +92,7 @@ namespace Skeleton.Common
 
         public static bool IsWeekend(this DateTime value)
         {
-            return value.DayOfWeek == DayOfWeek.Saturday || value.DayOfWeek == DayOfWeek.Sunday;
+            return (value.DayOfWeek == DayOfWeek.Saturday) || (value.DayOfWeek == DayOfWeek.Sunday);
         }
 
         public static DateTime LastMonthDay(this DateTime value)
@@ -143,9 +139,7 @@ namespace Skeleton.Common
 
                 case 53:
                     if (endOfYear.DayOfWeek < DayOfWeek.Thursday)
-                    {
                         weekNumber = 1;
-                    }
                     break;
             }
             return weekNumber;

@@ -72,14 +72,10 @@ namespace Skeleton.Common
                     return;
             }
 
-            if (value > -129 && value < 128)
-            {
+            if ((value > -129) && (value < 128))
                 generator.Emit(OpCodes.Ldc_I4_S, (sbyte) value);
-            }
             else
-            {
                 generator.Emit(OpCodes.Ldc_I4, value);
-            }
         }
 
         public static void PushInstance(this ILGenerator generator, Type type)

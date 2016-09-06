@@ -25,11 +25,6 @@ namespace Skeleton.Infrastructure.Repository
 
         protected IDatabaseAsync Database { get; }
 
-        protected override void DisposeManagedResources()
-        {
-            Database.Dispose();
-        }
-
         internal SelectQueryBuilder<TEntity, TIdentity> Builder { get; }
 
         public virtual async Task<IEnumerable<TEntity>> FindAsync()
@@ -292,6 +287,11 @@ namespace Skeleton.Infrastructure.Repository
             Builder.Aggregate(expression, SelectFunction.Sum);
 
             return await AggregateAsync();
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            Database.Dispose();
         }
 
         private IAsyncEntityReader<TEntity, TIdentity> And(

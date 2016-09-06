@@ -25,11 +25,6 @@ namespace Skeleton.Infrastructure.Repository
 
         protected IDatabase Database { get; }
 
-        protected override void DisposeManagedResources()
-        {
-            Database.Dispose();
-        }
-
         public virtual bool Add(TEntity entity)
         {
             entity.ThrowIfNull(() => entity);
@@ -146,6 +141,11 @@ namespace Skeleton.Infrastructure.Repository
                     transaction.Commit();
             }
             return result == count;
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            Database.Dispose();
         }
 
         private TIdentity AddCommand(TEntity entity)

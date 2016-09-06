@@ -66,7 +66,7 @@ namespace Skeleton.Web.Client
 
             return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
         }
-        
+
         public async Task<IEnumerable<TDto>> AddAsync(IEnumerable<TDto> dtos)
         {
             var responseMessage = await JsonHttpClient.PostAsJsonAsync(AddressSuffix + "AddMany", dtos);
@@ -74,7 +74,7 @@ namespace Skeleton.Web.Client
 
             return responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
         }
-        
+
         public async Task<bool> UpdateAsync(IEnumerable<TDto> dtos)
         {
             return await Post(dtos, "UpdateMany");

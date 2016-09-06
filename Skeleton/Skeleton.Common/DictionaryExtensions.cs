@@ -20,13 +20,9 @@ namespace Skeleton.Common
             if (value == null) return result;
 
             if (value.GetType() != typeof(T))
-            {
                 result = value.ChangeType<T>();
-            }
             else
-            {
                 result = (T) value;
-            }
 
             return result;
         }
