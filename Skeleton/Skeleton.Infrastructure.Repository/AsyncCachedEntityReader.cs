@@ -8,7 +8,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class AsyncCachedEntityReader<TEntity, TIdentity> :
+    public sealed class AsyncCachedEntityReader<TEntity, TIdentity> :
             AsyncEntityReader<TEntity, TIdentity>,
             IAsyncCachedEntityReader<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>

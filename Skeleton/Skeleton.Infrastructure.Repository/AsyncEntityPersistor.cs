@@ -10,7 +10,7 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 namespace Skeleton.Infrastructure.Repository
 {
     public class AsyncEntityPersistor<TEntity, TIdentity> :
-            AsyncEntityDatabase,
+            DisposableBase,
             IAsyncEntityPersistor<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
@@ -19,9 +19,16 @@ namespace Skeleton.Infrastructure.Repository
         public AsyncEntityPersistor(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
-            :base(database)
         {
             _metadataProvider = metadataProvider;
+            Database = database;
+        }
+
+        protected IDatabaseAsync Database { get; }
+
+        protected override void DisposeManagedResources()
+        {
+            Database.Dispose();
         }
 
         public virtual async Task<bool> AddAsync(TEntity entity)

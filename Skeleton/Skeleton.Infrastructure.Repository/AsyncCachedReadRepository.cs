@@ -3,7 +3,7 @@ using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class AsyncCachedReadRepository<TEntity, TIdentity, TDto> :
+    public sealed class AsyncCachedReadRepository<TEntity, TIdentity, TDto> :
             AsyncReadRepository<TEntity, TIdentity, TDto>,
             IAsyncCachedReadRepository<TEntity, TIdentity, TDto>
         where TEntity : class, IEntity<TEntity, TIdentity>

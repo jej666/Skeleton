@@ -9,7 +9,7 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 namespace Skeleton.Infrastructure.Repository
 {
     public class EntityPersistor<TEntity, TIdentity> :
-            EntityDatabase,
+            DisposableBase,
             IEntityPersitor<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
@@ -18,9 +18,16 @@ namespace Skeleton.Infrastructure.Repository
         public EntityPersistor(
             IMetadataProvider metadataProvider,
             IDatabase database)
-            : base(database)
         {
             _metadataProvider = metadataProvider;
+            Database = database;
+        }
+
+        protected IDatabase Database { get; }
+
+        protected override void DisposeManagedResources()
+        {
+            Database.Dispose();
         }
 
         public virtual bool Add(TEntity entity)

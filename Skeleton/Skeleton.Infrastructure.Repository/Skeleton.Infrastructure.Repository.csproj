@@ -56,8 +56,6 @@
     <Compile Include="CacheKeyGenerator.cs" />
     <Compile Include="CrudRepository.cs" />
     <Compile Include="AsyncEntityReader.cs" />
-    <Compile Include="AsyncEntityDatabase.cs" />
-    <Compile Include="EntityDatabase.cs" />
     <Compile Include="EntityMapper.cs" />
     <Compile Include="AsyncEntityPersistor.cs" />
     <Compile Include="EntityPersistor.cs" />
