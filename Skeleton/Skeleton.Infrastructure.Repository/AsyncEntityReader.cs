@@ -11,19 +11,17 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 namespace Skeleton.Infrastructure.Repository
 {
     public class AsyncEntityReader<TEntity, TIdentity> :
-            DisposableBase,
+            AsyncEntityDatabase,
             IAsyncEntityReader<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         public AsyncEntityReader(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
+            : base(database)
         {
-            Database = database;
             Builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
-
-        protected IDatabaseAsync Database { get; }
 
         internal SelectQueryBuilder<TEntity, TIdentity> Builder { get; }
 
@@ -311,11 +309,6 @@ namespace Skeleton.Infrastructure.Repository
             {
                 Builder.OnNextQuery();
             }
-        }
-
-        protected override void DisposeManagedResources()
-        {
-            Database.Dispose();
         }
     }
 }

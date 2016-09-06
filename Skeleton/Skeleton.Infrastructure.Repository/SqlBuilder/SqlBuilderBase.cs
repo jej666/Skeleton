@@ -18,8 +18,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal SqlBuilderBase(IMetadataProvider metadataProvider)
         {
-            metadataProvider.ThrowIfNull(() => metadataProvider);
-
             _metadata = metadataProvider.GetMetadata<TEntity>();
         }
 

@@ -10,19 +10,17 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 namespace Skeleton.Infrastructure.Repository
 {
     public class EntityReader<TEntity, TIdentity> :
-            DisposableBase,
+            EntityDatabase,
             IEntityReader<TEntity, TIdentity>
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         public EntityReader(
             IMetadataProvider metadataProvider,
             IDatabase database)
+            :base(database)
         {
-            Database = database;
             Builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
         }
-
-        protected IDatabase Database { get; }
 
         internal SelectQueryBuilder<TEntity, TIdentity> Builder { get; }
 
@@ -258,11 +256,6 @@ namespace Skeleton.Infrastructure.Repository
                 Database.Find(
                     Builder.SqlQuery,
                     Builder.Parameters));
-        }
-
-        protected override void DisposeManagedResources()
-        {
-            Database.Dispose();
         }
     }
 }
