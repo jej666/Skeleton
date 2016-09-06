@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Skeleton.Infrastructure.Data.Configuration;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -83,13 +82,13 @@ namespace Skeleton.Infrastructure.Data
         }
 
         public async Task<IEnumerable<dynamic>> FindAsync(
-            string query, 
+            string query,
             IDictionary<string, object> parameters)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand)CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(query, parameters);
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 

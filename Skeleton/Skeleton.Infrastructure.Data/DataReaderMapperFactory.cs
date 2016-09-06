@@ -1,4 +1,4 @@
-using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Data
 {

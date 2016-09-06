@@ -4,19 +4,16 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Skeleton.Infrastructure.Data.Configuration;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
+using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.Data
 {
     [DebuggerDisplay("DatabaseName = {Configuration.Name}")]
-    public abstract class DatabaseContext : DataDisposableBase
+    public abstract class DatabaseContext : DisposableBase
     {
         private readonly DataAdapter _adapter;
-        private readonly IDatabaseConfiguration _configuration;
-        private readonly ILogger _logger;
-        private readonly IMetadataProvider _metadataProvider;
         private IDbCommand _command;
         private IDbConnection _connection;
         private IDbTransaction _transaction;
@@ -26,31 +23,22 @@ namespace Skeleton.Infrastructure.Data
             IDatabaseConfiguration configuration,
             IMetadataProvider metadataProvider)
         {
-            _logger = logger;
-            _configuration = configuration;
-            _metadataProvider = metadataProvider;
+            Logger = logger;
+            Configuration = configuration;
+            MetadataProvider = metadataProvider;
             _adapter = new DataAdapter(configuration);
         }
 
-        public IDatabaseConfiguration Configuration
-        {
-            get { return _configuration; }
-        }
+        public IDatabaseConfiguration Configuration { get; }
 
         public IDatabaseTransaction Transaction
         {
             get { return new DatabaseTransaction(this); }
         }
 
-        internal ILogger Logger
-        {
-            get { return _logger; }
-        }
+        internal ILogger Logger { get; }
 
-        internal IMetadataProvider MetadataProvider
-        {
-            get { return _metadataProvider; }
-        }
+        internal IMetadataProvider MetadataProvider { get; }
 
         internal void BeginTransaction(IsolationLevel? isolationLevel)
         {
@@ -111,7 +99,7 @@ namespace Skeleton.Infrastructure.Data
                     _connection = _adapter.CreateConnection();
 
                 if (_connection.ConnectionString.IsNullOrEmpty())
-                    _connection.ConnectionString = _configuration.ConnectionString;
+                    _connection.ConnectionString = Configuration.ConnectionString;
 
                 if (_connection.State != ConnectionState.Open)
                     _connection.Open();
@@ -174,7 +162,7 @@ namespace Skeleton.Infrastructure.Data
             _command.CommandText = commandText;
             _command.CommandType = commandType;
             _command.CommandTimeout =
-                _configuration.CommandTimeout;
+                Configuration.CommandTimeout;
 
             if (_transaction != null)
                 _command.Transaction = _transaction;

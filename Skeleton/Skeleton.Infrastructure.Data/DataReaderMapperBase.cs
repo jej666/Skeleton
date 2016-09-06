@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -33,13 +33,11 @@ namespace Skeleton.Infrastructure.Data
             {
                 for (var index = 0; index < values.Length; ++index)
                 {
-                    if (values[index] == null || values[index] is DBNull)
+                    if ((values[index] == null) || values[index] is DBNull)
                         continue;
 
                     if (string.Equals(record.GetName(index), column.Name))
-                    {
                         column.SetValue(instance, values[index]);
-                    }
                 }
             });
 

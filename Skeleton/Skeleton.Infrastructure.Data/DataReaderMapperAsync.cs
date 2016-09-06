@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
-using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Data
 {
     internal sealed class DataReaderMapperAsync<TPoco> :
-        DataReaderMapperBase<TPoco>
+            DataReaderMapperBase<TPoco>
         where TPoco : class
     {
         internal DataReaderMapperAsync(IMetadataProvider accessorCache)
@@ -20,7 +20,7 @@ namespace Skeleton.Infrastructure.Data
             {
                 var list = new List<TPoco>();
 
-                if (dataReader == null || dataReader.FieldCount == 0)
+                if ((dataReader == null) || (dataReader.FieldCount == 0))
                     return list;
 
                 while (await dataReader.ReadAsync().ConfigureAwait(false))
@@ -50,7 +50,7 @@ namespace Skeleton.Infrastructure.Data
         {
             try
             {
-                if (dataReader == null || dataReader.FieldCount == 0)
+                if ((dataReader == null) || (dataReader.FieldCount == 0))
                     return default(TPoco);
 
                 if (!await dataReader.ReadAsync().ConfigureAwait(false))

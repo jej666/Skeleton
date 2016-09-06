@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Data
             {
                 var list = new List<dynamic>();
 
-                if (dataReader == null || dataReader.FieldCount == 0)
+                if ((dataReader == null) || (dataReader.FieldCount == 0))
                     return list;
 
                 while (dataReader.Read())
@@ -37,13 +37,14 @@ namespace Skeleton.Infrastructure.Data
                 }
             }
         }
+
         internal static async Task<IEnumerable<dynamic>> Map(this DbDataReader dataReader)
         {
             try
             {
                 var list = new List<dynamic>();
 
-                if (dataReader == null || dataReader.FieldCount == 0)
+                if ((dataReader == null) || (dataReader.FieldCount == 0))
                     return list;
 
                 while (await dataReader.ReadAsync().ConfigureAwait(false))
@@ -74,7 +75,7 @@ namespace Skeleton.Infrastructure.Data
 
             for (var index = 0; index < fieldCount; ++index)
             {
-                if (values[index] == null || values[index] is DBNull)
+                if ((values[index] == null) || values[index] is DBNull)
                     continue;
 
                 dynamicDictionary.Add(reader.GetName(index), values[index].TrimIfNeeded());

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Skeleton.Core.Domain</RootNamespace>
     <AssemblyName>Skeleton.Core.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity.cs" />
-    <Compile Include="ValidationResult.cs" />
+    <Compile Include="EntityValidationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,15 +60,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Core</Name>
+      <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
-      <Project>{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}</Project>
-      <Name>Skeleton.Shared.CommonTypes</Name>
+      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
+      <Name>Skeleton.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj">
-      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
-      <Name>Skeleton.Shared.Extensions</Name>
+    <ProjectReference Include="..\Skeleton.Core.Reflection\Skeleton.Core.Reflection.csproj">
+      <Project>{3e91a67b-9609-4a92-8b3c-6fff2c3941a9}</Project>
+      <Name>Skeleton.Core.Reflection</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

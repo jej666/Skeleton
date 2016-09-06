@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Skeleton.Infrastructure.Data</RootNamespace>
     <AssemblyName>Skeleton.Infrastructure.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -71,17 +71,17 @@
     <None Include="Infrastructure.Data.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
-      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Shared.Extensions\Skeleton.Shared.Extensions.csproj">
-      <Project>{f8c95965-61b3-44d8-9dcd-0be773898f77}</Project>
-      <Name>Skeleton.Shared.Extensions</Name>
-    </ProjectReference>
+    <Folder Include="Configuration\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Configuration\" />
+    <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Abstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
+      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
+      <Name>Skeleton.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

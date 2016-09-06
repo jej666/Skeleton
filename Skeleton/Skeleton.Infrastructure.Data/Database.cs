@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
-using Skeleton.Infrastructure.Data.Configuration;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
+using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -62,7 +61,7 @@ namespace Skeleton.Infrastructure.Data
             return WrapRetryPolicy(() =>
             {
                 var reader = CreateTextCommand(query, parameters)
-                     .ExecuteReader();
+                    .ExecuteReader();
 
                 return reader.Map();
             });
@@ -105,7 +104,6 @@ namespace Skeleton.Infrastructure.Data
             var delay = TimeSpan.FromSeconds(retryInterval);
 
             while (true)
-            {
                 try
                 {
                     return func();
@@ -119,12 +117,11 @@ namespace Skeleton.Infrastructure.Data
                     if (retryCount <= 0)
                         throw new DataAccessException(e);
 
-                    if (e.Number != 1205 && e.Number != -2)
+                    if ((e.Number != 1205) && (e.Number != -2))
                         throw new DataAccessException(e);
 
                     Thread.Sleep(delay);
                 }
-            }
         }
     }
 }

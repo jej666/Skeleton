@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using Skeleton.Shared.Abstraction;
-using Skeleton.Shared.Abstraction.Reflection;
-using Skeleton.Shared.CommonTypes.Reflection;
+using Skeleton.Abstraction;
+using Skeleton.Core.Reflection;
 
 namespace Skeleton.Core.Domain
 {
@@ -13,38 +12,24 @@ namespace Skeleton.Core.Domain
         where TEntity : class, IEntity<TEntity, TIdentity>
     {
         private const int HashMultiplier = 31;
-        private readonly IMemberAccessor _idAccessor;
-        private readonly IMetadata _typeAccessor;
         private int? _cachedHashcode;
 
         protected Entity(Expression<Func<TEntity, object>> idExpression)
         {
             idExpression.ThrowIfNull(() => idExpression);
 
-            _typeAccessor = typeof(TEntity).GetMetadata();
-            _idAccessor = _typeAccessor.GetProperty(idExpression);
+            TypeAccessor = new MetadataProvider().GetMetadata(typeof(TEntity));
+            IdAccessor = TypeAccessor.GetProperty(idExpression);
             CreatedDateTime = DateTime.Now;
         }
 
-        public TIdentity Id
-        {
-            get { return (TIdentity) _idAccessor.GetValue(this); }
-        }
+        public TIdentity Id => (TIdentity) IdAccessor.GetValue(this);
 
-        public string IdName
-        {
-            get { return _idAccessor.Name; }
-        }
+        public string IdName => IdAccessor.Name;
 
-        public IMemberAccessor IdAccessor
-        {
-            get { return _idAccessor; }
-        }
+        public IMemberAccessor IdAccessor { get; }
 
-        public IMetadata TypeAccessor
-        {
-            get { return _typeAccessor; }
-        }
+        public IMetadata TypeAccessor { get; }
 
         public string CreatedBy { get; set; }
 

@@ -1,9 +1,11 @@
 ﻿using System.Data;
+using Skeleton.Abstraction.Data;
+using Skeleton.Shared;
 
 namespace Skeleton.Infrastructure.Data
 {
     public sealed class DatabaseTransaction :
-        DataDisposableBase,
+        DisposableBase,
         IDatabaseTransaction
     {
         private readonly DatabaseContext _database;

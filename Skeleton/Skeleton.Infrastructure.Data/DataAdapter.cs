@@ -2,7 +2,7 @@
 using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
-using Skeleton.Infrastructure.Data.Configuration;
+using Skeleton.Abstraction.Data;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -16,7 +16,7 @@ namespace Skeleton.Infrastructure.Data
             ProviderType = GetProviderType(configuration.ProviderName);
         }
 
-        internal DataProviderType ProviderType { get; private set; }
+        internal DataProviderType ProviderType { get; }
 
         internal IDbCommand CreateCommand()
         {
