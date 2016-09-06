@@ -117,7 +117,7 @@ namespace Skeleton.Common
             for (var i = 0; i < types.Length; i++)
             {
                 var obj = values[i];
-                types[i] = obj != null ? obj.GetType() : null;
+                types[i] = obj?.GetType();
             }
 
             return types;
@@ -156,7 +156,7 @@ namespace Skeleton.Common
         public static bool IsInstantiatableType(this Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             if (type.GetTypeInfo().IsAbstract || type.GetTypeInfo().IsInterface || type.IsArray)
                 return false;
@@ -174,7 +174,7 @@ namespace Skeleton.Common
         {
             if (type == null)
             {
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             }
 
             var hasDefaultConstructor =
@@ -186,7 +186,7 @@ namespace Skeleton.Common
         public static bool IsAssignable(this Type to, Type from)
         {
             if (to == null)
-                throw new ArgumentNullException("to");
+                throw new ArgumentNullException(nameof(to));
 
             if (to.IsAssignableFrom(from))
                 return true;

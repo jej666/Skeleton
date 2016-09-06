@@ -23,10 +23,10 @@ namespace Skeleton.Web.Client
                 AddressSuffix += "/";
         }
 
-        public HttpClient JsonHttpClient => _httpClient ??
+        protected HttpClient JsonHttpClient => _httpClient ??
                                             (_httpClient = CreateJsonHttpClient(_serviceBaseAddress));
 
-        public string AddressSuffix { get; }
+        protected string AddressSuffix { get; }
 
         public void Dispose()
         {

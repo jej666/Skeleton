@@ -31,10 +31,7 @@ namespace Skeleton.Infrastructure.Data
 
         public IDatabaseConfiguration Configuration { get; }
 
-        public IDatabaseTransaction Transaction
-        {
-            get { return new DatabaseTransaction(this); }
-        }
+        public IDatabaseTransaction Transaction => new DatabaseTransaction(this);
 
         internal ILogger Logger { get; }
 
@@ -53,8 +50,7 @@ namespace Skeleton.Infrastructure.Data
 
         internal void CommitTransaction()
         {
-            if (_transaction != null)
-                _transaction.Commit();
+            _transaction?.Commit();
         }
 
         internal void DisposeTransaction()
@@ -106,8 +102,7 @@ namespace Skeleton.Infrastructure.Data
             }
             catch (Exception ex)
             {
-                if (_connection != null)
-                    _connection.Close();
+                _connection?.Close();
 
                 Logger.Error(ex.Message);
                 throw new DataAccessException(ex.Message, ex.InnerException);
@@ -127,8 +122,7 @@ namespace Skeleton.Infrastructure.Data
             }
             catch (Exception ex)
             {
-                if (_connection != null)
-                    _connection.Close();
+                _connection?.Close();
 
                 Logger.Error(ex.Message);
                 throw new DataAccessException(ex.Message, ex.InnerException);

@@ -2,12 +2,11 @@
 using System.Runtime.Caching;
 using System.Threading.Tasks;
 using Skeleton.Abstraction;
-using Skeleton.Core;
 using Skeleton.Common;
 
 namespace Skeleton.Core.Caching
 {
-    public class MemoryCacheProvider :
+    public sealed class MemoryCacheProvider :
         HideObjectMethods,
         ICacheProvider
     {

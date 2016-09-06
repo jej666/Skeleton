@@ -7,21 +7,21 @@ namespace Skeleton.Web.Server
 {
     public class UnityResolver : IDependencyResolver
     {
-        protected IUnityContainer Container;
+        private readonly IUnityContainer _container;
 
         public UnityResolver(IUnityContainer container)
         {
             if (container == null)
                 throw new ArgumentNullException(nameof(container));
 
-            Container = container;
+            _container = container;
         }
 
         public object GetService(Type serviceType)
         {
             try
             {
-                return Container.Resolve(serviceType);
+                return _container.Resolve(serviceType);
             }
             catch (ResolutionFailedException)
             {
@@ -33,7 +33,7 @@ namespace Skeleton.Web.Server
         {
             try
             {
-                return Container.ResolveAll(serviceType);
+                return _container.ResolveAll(serviceType);
             }
             catch (ResolutionFailedException)
             {
@@ -43,13 +43,13 @@ namespace Skeleton.Web.Server
 
         public IDependencyScope BeginScope()
         {
-            var child = Container.CreateChildContainer();
+            var child = _container.CreateChildContainer();
             return new UnityResolver(child);
         }
 
         public void Dispose()
         {
-            Container.Dispose();
+            _container.Dispose();
         }
     }
 }

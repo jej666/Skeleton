@@ -14,10 +14,7 @@ namespace Skeleton.Common
             _initializer = initializer;
         }
 
-        public bool HasValue
-        {
-            get { return _initializer == null; }
-        }
+        public bool HasValue => _initializer == null;
 
         public T Value
         {
