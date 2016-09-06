@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Practices.ObjectBuilder2;
+﻿using Microsoft.Practices.ObjectBuilder2;
 using Skeleton.Abstraction;
+using Skeleton.Common;
 using Skeleton.Infrastructure.Logging;
 
 namespace Skeleton.Infrastructure.DependencyResolver.LoggerExtension

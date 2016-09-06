@@ -1,6 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
-namespace System
+namespace Skeleton.Common
 {
     public static class StringExtensions
     {

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq.Expressions;
+using Skeleton.Common;
 using Skeleton.Infrastructure.Repository.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {

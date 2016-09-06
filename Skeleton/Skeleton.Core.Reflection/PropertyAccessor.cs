@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
-using Skeleton.Shared;
+using Skeleton.Common;
 
 namespace Skeleton.Core.Reflection
 {

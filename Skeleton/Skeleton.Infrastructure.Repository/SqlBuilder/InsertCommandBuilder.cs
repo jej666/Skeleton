@@ -1,5 +1,5 @@
-﻿using System;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -16,39 +16,21 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Build(entity);
         }
 
-        internal override string SqlQuery
-        {
-            get
-            {
-                return SqlQueryTemplate
-                    .FormatWith(
-                        TableName,
-                        InsertColumns,
-                        InsertValues,
-                        ScopeIdentity);
-            }
-        }
+        internal override string SqlQuery => SqlQueryTemplate
+            .FormatWith(
+                TableName,
+                InsertColumns,
+                InsertValues,
+                ScopeIdentity);
 
-        private string InsertColumns
-        {
-            get { return SqlFormatter.Fields(_context.Columns); }
-        }
+        private string InsertColumns => SqlFormatter.Fields(_context.Columns);
 
-        private string InsertValues
-        {
-            get { return SqlFormatter.Fields(_context.Values); }
-        }
+        private string InsertValues => SqlFormatter.Fields(_context.Values);
 
-        protected internal override string SqlQueryTemplate
-        {
-            get { return "INSERT INTO {0} ({1}) VALUES ({2}); {3};"; }
-        }
+        protected internal override string SqlQueryTemplate => "INSERT INTO {0} ({1}) VALUES ({2}); {3};";
 
 
-        protected internal override ContextBase ContextBase
-        {
-            get { return _context; }
-        }
+        protected internal override ContextBase ContextBase => _context;
 
         private void Build(TEntity entity)
         {

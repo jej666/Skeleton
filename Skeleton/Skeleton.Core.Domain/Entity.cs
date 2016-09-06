@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using Skeleton.Abstraction;
+using Skeleton.Common;
 using Skeleton.Core.Reflection;
 
 namespace Skeleton.Core.Domain

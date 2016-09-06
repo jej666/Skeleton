@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Skeleton.Abstraction.Data;
-using Skeleton.Shared;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {

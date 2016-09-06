@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Repository;
-using Skeleton.Shared;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
-using Skeleton.Shared;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {

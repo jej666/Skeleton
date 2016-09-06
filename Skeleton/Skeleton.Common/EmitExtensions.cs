@@ -1,4 +1,8 @@
-﻿namespace System.Reflection.Emit
+﻿using System;
+using System.Reflection;
+using System.Reflection.Emit;
+
+namespace Skeleton.Common
 {
     public static class EmitExtensions
     {

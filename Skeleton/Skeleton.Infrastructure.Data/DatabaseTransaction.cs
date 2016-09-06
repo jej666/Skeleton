@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using Skeleton.Abstraction.Data;
-using Skeleton.Shared;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -32,8 +32,7 @@ namespace Skeleton.Infrastructure.Data
 
         protected override void DisposeManagedResources()
         {
-            if (_database != null)
-                _database.DisposeTransaction();
+            _database?.DisposeTransaction();
         }
     }
 }

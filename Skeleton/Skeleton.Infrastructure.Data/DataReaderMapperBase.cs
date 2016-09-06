@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Skeleton.Abstraction;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {

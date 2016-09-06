@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Dynamic;
 using System.Threading.Tasks;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -67,7 +68,7 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        private static dynamic SetValues(this IDataReader reader)
+        private static dynamic SetValues(this IDataRecord reader)
         {
             var values = new object[reader.FieldCount];
             var fieldCount = reader.GetValues(values);

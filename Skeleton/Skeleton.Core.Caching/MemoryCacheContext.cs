@@ -1,7 +1,7 @@
 ﻿using System;
 using Skeleton.Abstraction;
 using Skeleton.Core;
-using Skeleton.Shared;
+using Skeleton.Common;
 
 namespace Skeleton.Core.Caching
 {

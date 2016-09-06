@@ -7,8 +7,8 @@
     <ProjectGuid>{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skeleton.Shared</RootNamespace>
-    <AssemblyName>Skeleton.Shared</AssemblyName>
+    <RootNamespace>Skeleton.Common</RootNamespace>
+    <AssemblyName>Skeleton.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

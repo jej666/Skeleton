@@ -1,5 +1,5 @@
-﻿using System;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
@@ -15,37 +15,19 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Build(entity);
         }
 
-        internal override string SqlQuery
-        {
-            get
-            {
-                return SqlQueryTemplate
-                    .FormatWith(
-                        TableName,
-                        UpdateColumnValues,
-                        WhereCondition);
-            }
-        }
+        internal override string SqlQuery => SqlQueryTemplate
+            .FormatWith(
+                TableName,
+                UpdateColumnValues,
+                WhereCondition);
 
-        private string UpdateColumnValues
-        {
-            get { return SqlFormatter.Fields(_context.ColumnValues); }
-        }
+        private string UpdateColumnValues => SqlFormatter.Fields(_context.ColumnValues);
 
-        private string WhereCondition
-        {
-            get { return SqlFormatter.Conditions(_context.Conditions); }
-        }
+        private string WhereCondition => SqlFormatter.Conditions(_context.Conditions);
 
-        protected internal override string SqlQueryTemplate
-        {
-            get { return "UPDATE {0} SET {1} {2}"; }
-        }
+        protected internal override string SqlQueryTemplate => "UPDATE {0} SET {1} {2}";
 
-        protected internal override ContextBase ContextBase
-        {
-            get { return _context; }
-        }
+        protected internal override ContextBase ContextBase => _context;
 
         private void Build(TEntity entity)
         {

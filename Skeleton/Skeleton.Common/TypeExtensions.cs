@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace System
+namespace Skeleton.Common
 {
     public static class TypeExtensions
     {

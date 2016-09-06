@@ -3,7 +3,7 @@ using System.Runtime.Caching;
 using System.Threading.Tasks;
 using Skeleton.Abstraction;
 using Skeleton.Core;
-using Skeleton.Shared;
+using Skeleton.Common;
 
 namespace Skeleton.Core.Caching
 {

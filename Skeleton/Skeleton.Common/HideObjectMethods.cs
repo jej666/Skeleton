@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using Skeleton.Abstraction;
 
-namespace Skeleton.Shared
+namespace Skeleton.Common
 {
     public abstract class HideObjectMethods : IHideObjectMethods
     {

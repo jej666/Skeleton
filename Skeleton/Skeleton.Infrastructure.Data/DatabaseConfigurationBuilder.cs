@@ -1,7 +1,6 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using Skeleton.Abstraction.Data;
-using Skeleton.Shared;
+using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -19,7 +18,7 @@ namespace Skeleton.Infrastructure.Data
         {
             var connectionSettings = ConfigurationManager.ConnectionStrings;
 
-            if ((connectionSettings == null) || (connectionSettings[connectionStringConfigName] == null))
+            if (connectionSettings?[connectionStringConfigName] == null)
                 throw new ConfigurationErrorsException("No connection settings found in config file");
 
             var namedDatabase = connectionSettings[connectionStringConfigName];
@@ -42,7 +41,7 @@ namespace Skeleton.Infrastructure.Data
         {
             var connectionSettings = ConfigurationManager.ConnectionStrings;
 
-            if ((connectionSettings == null) || (connectionSettings[0] == null))
+            if (connectionSettings?[0] == null)
                 throw new ConfigurationErrorsException("No connection settings found in config file");
 
             var defaultDatabase = connectionSettings[0];
