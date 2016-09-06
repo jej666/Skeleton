@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Skeleton.Abstraction.Data;
+using Skeleton.Infrastructure.Data;
 
 namespace Skeleton.Infrastructure.DependencyResolver
 {
