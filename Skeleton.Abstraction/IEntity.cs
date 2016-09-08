@@ -2,15 +2,15 @@
 
 namespace Skeleton.Abstraction
 {
-    public interface IEntity<TEntity, out TIdentity> :
+    public interface IEntity<TEntity> :
             IComparable<TEntity>,
             IEquatable<TEntity>,
             //  IEntityValidatable<TEntity, TIdentity>,
             IEntityDescriptor,
             IEntityAuditable
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
     {
-        TIdentity Id { get; }
+        object Id { get; }
 
         bool IsTransient();
     }

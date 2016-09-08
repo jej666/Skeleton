@@ -5,20 +5,20 @@ using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Web.Server.Controllers
 {
-    public class ReadController<TEntity, TIdentity, TDto> :
+    public class ReadController<TEntity, TDto> :
             ApiController
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        private readonly IReadRepository<TEntity, TIdentity, TDto> _repository;
+        private readonly IReadRepository<TEntity, TDto> _repository;
 
-        public ReadController(IReadRepository<TEntity, TIdentity, TDto> repository)
+        public ReadController(IReadRepository<TEntity, TDto> repository)
         {
             _repository = repository;
         }
 
-        // GET api/<controller>/5
-        public virtual IHttpActionResult Get(TIdentity id)
+        [HttpGet]
+        public virtual IHttpActionResult Get(string id)
         {
             var result = _repository.Query.FirstOrDefault(id);
 
@@ -28,7 +28,8 @@ namespace Skeleton.Web.Server.Controllers
             return Ok(_repository.Mapper.Map(result));
         }
 
-        public virtual IHttpActionResult Get()
+        [HttpGet]
+        public virtual IHttpActionResult GetAll()
         {
             var allData = _repository.Query
                 .GetAll()

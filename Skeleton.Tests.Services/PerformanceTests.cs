@@ -56,7 +56,7 @@ namespace Skeleton.Tests
                 }, "HandCoded");
 
                 // With Skeleton.ORM
-                var repository = Container.Resolve<IEntityReader<Post, int>>();
+                var repository = Container.Resolve<IEntityReader<Post>>();
 
                 benchmarks.Add(() =>
                 {
@@ -68,7 +68,7 @@ namespace Skeleton.Tests
                     var list = repository.GetAll();
                 }, "Skeleton.Orm => Hot start (benefits of TypeCacheAccessor)");
 
-                var repositoryAsync = Container.Resolve<IAsyncEntityReader<Post, int>>();
+                var repositoryAsync = Container.Resolve<IAsyncEntityReader<Post>>();
 
                 benchmarks.Add(() =>
                 {

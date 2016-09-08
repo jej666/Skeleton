@@ -3,9 +3,9 @@ using Skeleton.Web.Server.Controllers;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class AsyncCustomersController : AsyncCrudController<Customer, int, CustomerDto>
+    public class AsyncCustomersController : AsyncCrudController<Customer, CustomerDto>
     {
-        public AsyncCustomersController(IAsyncCrudRepository<Customer, int, CustomerDto> repository)
+        public AsyncCustomersController(IAsyncCrudRepository<Customer, CustomerDto> repository)
             : base(repository)
         {
         }

@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IAsyncEntityQueryResult<TEntity, in TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface IAsyncEntityQueryResult<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         Task<TEntity> FirstOrDefaultAsync();
 
-        Task<TEntity> FirstOrDefaultAsync(TIdentity id);
+        Task<TEntity> FirstOrDefaultAsync(object id);
 
         Task<IEnumerable<TEntity>> FindAsync();
 

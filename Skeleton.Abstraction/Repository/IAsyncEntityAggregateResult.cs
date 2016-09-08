@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IAsyncEntityAggregateResult<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface IAsyncEntityAggregateResult<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         Task<int> CountAsync();
 

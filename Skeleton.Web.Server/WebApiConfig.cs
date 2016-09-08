@@ -19,17 +19,10 @@ namespace Skeleton.Web.Server
             config.Filters.Add(new CheckModelForNullAttribute());
             config.Filters.Add(new ValidateModelStateAttribute());
 
-            config.Routes.MapHttpRoute("DefaultApiWithId", "api/{controller}/{id}", new {id = RouteParameter.Optional},
-                new {id = @"\d+"});
-            config.Routes.MapHttpRoute("DefaultApiWithAction", "api/{controller}/{action}");
-            config.Routes.MapHttpRoute("DefaultApiGet", "api/{controller}", new {action = "Get"},
-                new {httpMethod = new HttpMethodConstraint(HttpMethod.Get)});
-            config.Routes.MapHttpRoute("DefaultApiPost", "api/{controller}", new {action = "Post"},
-                new {httpMethod = new HttpMethodConstraint(HttpMethod.Post)});
-            config.Routes.MapHttpRoute("DefaultApiPut", "api/{controller}", new {action = "Put"},
-                new {httpMethod = new HttpMethodConstraint(HttpMethod.Put)});
-            config.Routes.MapHttpRoute("DefaultApiDelete", "api/{controller}", new {action = "Delete"},
-                new {httpMethod = new HttpMethodConstraint(HttpMethod.Delete)});
+            config.Routes.MapHttpRoute(
+                "DefaultApiWithId",
+                "api/{controller}/{action}/{id}",
+                new { id = RouteParameter.Optional });
         }
     }
 }

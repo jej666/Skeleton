@@ -127,6 +127,16 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\RouteDebugger\Components\" />
+    <Folder Include="Areas\RouteDebugger\Content\" />
+    <Folder Include="Areas\RouteDebugger\Controllers\" />
+    <Folder Include="Areas\RouteDebugger\Models\" />
+    <Folder Include="Areas\RouteDebugger\Scripts\" />
+    <Folder Include="Areas\RouteDebugger\Views\RouteDebugger\" />
+    <Folder Include="Content\images\" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

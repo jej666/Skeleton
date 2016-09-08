@@ -9,6 +9,10 @@ namespace Skeleton.Abstraction.Data
             string query,
             IDictionary<string, object> parameters);
 
+        Task<object> ExecuteScalarAsync(
+            string query,
+            IDictionary<string, object> parameters);
+
         Task<TValue> ExecuteScalarAsync<TValue>(
             string query,
             IDictionary<string, object> parameters);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Repository;
@@ -8,10 +9,10 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class EntityPersistor<TEntity, TIdentity> :
+    public class EntityPersistor<TEntity> :
             DisposableBase,
-            IEntityPersitor<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+            IEntityPersitor<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
 
@@ -148,24 +149,28 @@ namespace Skeleton.Infrastructure.Repository
             Database.Dispose();
         }
 
-        private TIdentity AddCommand(TEntity entity)
+        private object AddCommand(TEntity entity)
         {
-            var builder = new InsertCommandBuilder<TEntity, TIdentity>(
+            var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            var id = Database.ExecuteScalar<TIdentity>(
+            var id = Database.ExecuteScalar(
                 builder.SqlQuery,
                 builder.Parameters);
 
             if (id != null)
-                entity.IdAccessor.SetValue(entity, id);
+            {
+                var destinationType = entity.IdAccessor.MemberType;
+                var convertedId = id.ChangeType(destinationType, CultureInfo.CurrentCulture);
+                entity.IdAccessor.SetValue(entity, convertedId);
+            }
 
             return id;
         }
 
         private int DeleteCommand(TEntity entity)
         {
-            var builder = new DeleteCommandBuilder<TEntity, TIdentity>(
+            var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
             return Database.Execute(
@@ -175,7 +180,7 @@ namespace Skeleton.Infrastructure.Repository
 
         private int UpdateCommand(TEntity entity)
         {
-            var builder = new UpdateCommandBuilder<TEntity, TIdentity>(
+            var builder = new UpdateCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
             entity.LastModifiedDateTime = DateTime.Now;

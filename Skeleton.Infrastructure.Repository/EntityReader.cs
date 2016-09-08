@@ -9,22 +9,22 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class EntityReader<TEntity, TIdentity> :
+    public class EntityReader<TEntity> :
             DisposableBase,
-            IEntityReader<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+            IEntityReader<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         public EntityReader(
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
-            Builder = new SelectQueryBuilder<TEntity, TIdentity>(metadataProvider);
+            Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
             Database = database;
         }
 
         protected IDatabase Database { get; }
 
-        internal SelectQueryBuilder<TEntity, TIdentity> Builder { get; }
+        internal SelectQueryBuilder<TEntity> Builder { get; }
 
         public virtual IEnumerable<TEntity> Find()
         {
@@ -42,7 +42,7 @@ namespace Skeleton.Infrastructure.Repository
                     Builder.Parameters));
         }
 
-        public virtual TEntity FirstOrDefault(TIdentity id)
+        public virtual TEntity FirstOrDefault(object id)
         {
             id.ThrowIfNull(() => id);
 
@@ -67,7 +67,7 @@ namespace Skeleton.Infrastructure.Repository
                     Builder.Parameters));
         }
 
-        public IEntityReader<TEntity, TIdentity> GroupBy(
+        public IEntityReader<TEntity> GroupBy(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -76,9 +76,9 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> LeftJoin<TEntity2>(
+        public IEntityReader<TEntity> LeftJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>
+            where TEntity2 : class, IEntity<TEntity2>
         {
             expression.ThrowIfNull(() => expression);
             Builder.Join(expression, JoinType.Left);
@@ -86,9 +86,9 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> RightJoin<TEntity2>(
+        public IEntityReader<TEntity> RightJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>
+            where TEntity2 : class, IEntity<TEntity2>
         {
             expression.ThrowIfNull(() => expression);
             Builder.Join(expression, JoinType.Right);
@@ -96,9 +96,9 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> InnerJoin<TEntity2>(
+        public IEntityReader<TEntity> InnerJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>
+            where TEntity2 : class, IEntity<TEntity2>
         {
             expression.ThrowIfNull(() => expression);
             Builder.Join(expression, JoinType.Inner);
@@ -106,9 +106,9 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> CrossJoin<TEntity2>(
+        public IEntityReader<TEntity> CrossJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>
+            where TEntity2 : class, IEntity<TEntity2>
         {
             expression.ThrowIfNull(() => expression);
             Builder.Join(expression, JoinType.Cross);
@@ -116,7 +116,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> OrderBy(
+        public IEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -125,7 +125,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> OrderByDescending(
+        public IEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -134,7 +134,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> Select(
+        public IEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions)
         {
             expressions.ThrowIfNull(() => expressions);
@@ -145,7 +145,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> Distinct(
+        public IEntityReader<TEntity> Distinct(
             Expression<Func<TEntity, object>> expression)
         {
             expression.ThrowIfNull(() => expression);
@@ -154,21 +154,21 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> Top(int take)
+        public IEntityReader<TEntity> Top(int take)
         {
             Builder.Top(take);
 
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> Where(
+        public IEntityReader<TEntity> Where(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
             return And(expression);
         }
 
-        public IEntityReader<TEntity, TIdentity> WhereIsIn(
+        public IEntityReader<TEntity> WhereIsIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
@@ -178,7 +178,7 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity, TIdentity> WhereNotIn(
+        public IEntityReader<TEntity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
@@ -248,7 +248,7 @@ namespace Skeleton.Infrastructure.Repository
             Database.Dispose();
         }
 
-        private IEntityReader<TEntity, TIdentity> And(
+        private IEntityReader<TEntity> And(
             Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);

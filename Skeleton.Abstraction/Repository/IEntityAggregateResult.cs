@@ -4,8 +4,8 @@ using System.Linq.Expressions;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IEntityAggregateResult<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface IEntityAggregateResult<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         int Count();
 

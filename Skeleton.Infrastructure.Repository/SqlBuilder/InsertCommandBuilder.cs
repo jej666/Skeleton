@@ -3,9 +3,9 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal sealed class InsertCommandBuilder<TEntity, TIdentity> :
-            SqlBuilderBase<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    internal sealed class InsertCommandBuilder<TEntity> :
+            SqlBuilderBase<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         private const string ScopeIdentity = "SELECT scope_identity() AS[SCOPE_IDENTITY]";
         private CommandContext _context = new CommandContext();

@@ -11,11 +11,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class CachedRepositoryTests : TestBase
     {
-        private readonly ICachedReadRepository<Customer, int, CustomerDto> _repository;
+        private readonly ICachedReadRepository<Customer, CustomerDto> _repository;
 
         public CachedRepositoryTests()
         {
-            _repository = Container.Resolve<ICachedReadRepository<Customer, int, CustomerDto>>();
+            _repository = Container.Resolve<ICachedReadRepository<Customer, CustomerDto>>();
             _repository.Query.CacheConfigurator = config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
             SqlDbSeeder.SeedCustomers();
         }

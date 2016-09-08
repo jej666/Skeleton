@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Skeleton.Web.Client
 {
-    public class AsyncCrudHttpClient<TDto, TId> :
+    public class AsyncCrudHttpClient<TDto> :
         HttpClientBase where TDto : class
     {
         public AsyncCrudHttpClient(string serviceBaseAddress, string addressSuffix)
@@ -15,15 +15,15 @@ namespace Skeleton.Web.Client
 
         public async Task<IEnumerable<TDto>> GetAllAsync()
         {
-            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix);
+            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + "GetAll");
             responseMessage.EnsureSuccessStatusCode();
 
             return await responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>();
         }
 
-        public async Task<TDto> FirstOrDefaultAsync(TId id)
+        public async Task<TDto> FirstOrDefaultAsync(object id)
         {
-            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + id);
+            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + "Get/" + id);
             responseMessage.EnsureSuccessStatusCode();
 
             return await responseMessage.Content.ReadAsAsync<TDto>();
@@ -32,24 +32,24 @@ namespace Skeleton.Web.Client
         public async Task<TDto> AddAsync(TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
-            var responseMessage = await JsonHttpClient.PostAsync(AddressSuffix, objectContent);
+            var responseMessage = await JsonHttpClient.PostAsync(AddressSuffix + "Add", objectContent);
             responseMessage.EnsureSuccessStatusCode();
 
             return await responseMessage.Content.ReadAsAsync<TDto>();
         }
 
-        public async Task<bool> UpdateAsync(TId id, TDto model)
+        public async Task<bool> UpdateAsync(TDto model)
         {
             var objectContent = CreateJsonObjectContent(model);
-            var responseMessage = await JsonHttpClient.PutAsync(AddressSuffix + id, objectContent);
+            var responseMessage = await JsonHttpClient.PostAsync(AddressSuffix + "Update", objectContent);
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<bool> DeleteAsync(TId id)
+        public async Task<bool> DeleteAsync(object id)
         {
-            var responseMessage = await JsonHttpClient.DeleteAsync(AddressSuffix + id);
+            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + "Delete/" + id);
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.IsSuccessStatusCode;

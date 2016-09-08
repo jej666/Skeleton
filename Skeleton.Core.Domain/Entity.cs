@@ -8,9 +8,9 @@ using Skeleton.Core.Reflection;
 namespace Skeleton.Core.Domain
 {
     [DebuggerDisplay(" Id = {ToString()}")]
-    public abstract class Entity<TEntity, TIdentity> :
-            IEntity<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public abstract class Entity<TEntity> :
+            IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         private const int HashMultiplier = 31;
         private int? _cachedHashcode;
@@ -24,7 +24,7 @@ namespace Skeleton.Core.Domain
             CreatedDateTime = DateTime.Now;
         }
 
-        public TIdentity Id => (TIdentity) IdAccessor.GetValue(this);
+        public object Id => IdAccessor.GetValue(this);
 
         public string IdName => IdAccessor.Name;
 
@@ -63,7 +63,7 @@ namespace Skeleton.Core.Domain
 
         public virtual bool IsTransient()
         {
-            return (Id == null) || Id.Equals(default(TIdentity));
+            return (Id == null) || Id.Equals(default(object));
         }
 
         //public IValidationResult Validate(IEntityValidator<TEntity, TIdentity> validator)
@@ -74,15 +74,15 @@ namespace Skeleton.Core.Domain
         //}
 
         public static bool operator !=(
-            Entity<TEntity, TIdentity> entity1,
-            Entity<TEntity, TIdentity> entity2)
+            Entity<TEntity> entity1,
+            Entity<TEntity> entity2)
         {
             return !(entity1 == entity2);
         }
 
         public static bool operator ==(
-            Entity<TEntity, TIdentity> entity1,
-            Entity<TEntity, TIdentity> entity2)
+            Entity<TEntity> entity1,
+            Entity<TEntity> entity2)
         {
             return Equals(entity1, entity2);
         }

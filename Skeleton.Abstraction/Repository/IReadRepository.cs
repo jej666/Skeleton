@@ -2,14 +2,14 @@
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IReadRepository<TEntity, TIdentity, TDto> :
+    public interface IReadRepository<TEntity, TDto> :
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        IEntityReader<TEntity, TIdentity> Query { get; }
+        IEntityReader<TEntity> Query { get; }
 
-        IEntityMapper<TEntity, TIdentity, TDto> Mapper { get; }
+        IEntityMapper<TEntity, TDto> Mapper { get; }
     }
 }

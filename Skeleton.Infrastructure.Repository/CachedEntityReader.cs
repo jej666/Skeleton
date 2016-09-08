@@ -7,12 +7,12 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class CachedEntityReader<TEntity, TIdentity> :
-            EntityReader<TEntity, TIdentity>,
-            ICachedEntityReader<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public sealed class CachedEntityReader<TEntity> :
+            EntityReader<TEntity>,
+            ICachedEntityReader<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
-        private readonly CacheKeyGenerator<TEntity, TIdentity> _keyGenerator;
+        private readonly CacheKeyGenerator<TEntity> _keyGenerator;
 
         public CachedEntityReader(
             IMetadataProvider metadataProvider,
@@ -23,7 +23,7 @@ namespace Skeleton.Infrastructure.Repository
             cacheProvider.ThrowIfNull(() => cacheProvider);
 
             Cache = cacheProvider;
-            _keyGenerator = new CacheKeyGenerator<TEntity, TIdentity>();
+            _keyGenerator = new CacheKeyGenerator<TEntity>();
         }
 
         public Action<ICacheContext> CacheConfigurator { get; set; }
@@ -42,7 +42,7 @@ namespace Skeleton.Infrastructure.Repository
                 CacheConfigurator);
         }
 
-        public override TEntity FirstOrDefault(TIdentity id)
+        public override TEntity FirstOrDefault(object id)
         {
             id.ThrowIfNull(() => id);
 

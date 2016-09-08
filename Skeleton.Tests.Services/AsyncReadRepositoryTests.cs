@@ -11,11 +11,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class AsyncReadRepositoryTests : TestBase
     {
-        private readonly IAsyncCrudRepository<Customer, int, CustomerDto> _repository;
+        private readonly IAsyncCrudRepository<Customer, CustomerDto> _repository;
 
         public AsyncReadRepositoryTests()
         {
-            _repository = Container.Resolve<IAsyncCrudRepository<Customer, int, CustomerDto>>();
+            _repository = Container.Resolve<IAsyncCrudRepository<Customer, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }
@@ -263,7 +263,7 @@ namespace Skeleton.Tests
         {
             var customer = await GetAsyncFirstCustomer();
             var results = await _repository.Query
-                .Where(c => c.CustomerId == customer.Id)
+                .Where(c => c.CustomerId.Equals(customer.Id))
                 .FindAsync();
 
             Assert.IsNotNull(results);

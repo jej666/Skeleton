@@ -6,9 +6,9 @@ using Skeleton.Infrastructure.Repository.ExpressionTree;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal class SelectQueryBuilder<TEntity, TIdentity> :
-            SqlBuilderBase<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    internal class SelectQueryBuilder<TEntity> :
+            SqlBuilderBase<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         internal SelectQueryBuilder(IMetadataProvider metadataProvider)
             : base(metadataProvider)

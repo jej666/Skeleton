@@ -6,20 +6,20 @@ using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Web.Server.Controllers
 {
-    public class AsyncReadController<TEntity, TIdentity, TDto> :
+    public class AsyncReadController<TEntity, TDto> :
             ApiController
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        private readonly IAsyncReadRepository<TEntity, TIdentity, TDto> _repository;
+        private readonly IAsyncReadRepository<TEntity, TDto> _repository;
 
-        public AsyncReadController(IAsyncReadRepository<TEntity, TIdentity, TDto> repository)
+        public AsyncReadController(IAsyncReadRepository<TEntity, TDto> repository)
         {
             _repository = repository;
         }
 
-        // GET api/<controller>/5
-        public virtual async Task<IHttpActionResult> Get(TIdentity id)
+        [HttpGet]
+        public virtual async Task<IHttpActionResult> Get(string id)
         {
             var result = await _repository.Query.FirstOrDefaultAsync(id);
 
@@ -29,7 +29,8 @@ namespace Skeleton.Web.Server.Controllers
             return Ok(_repository.Mapper.Map(result));
         }
 
-        public virtual async Task<IHttpActionResult> Get()
+        [HttpGet]
+        public virtual async Task<IHttpActionResult> GetAll()
         {
             var result = await _repository.Query.GetAllAsync();
 

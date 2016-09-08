@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IAsyncEntityPersistor<in TEntity, TIdentity> :
+    public interface IAsyncEntityPersistor<in TEntity> :
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
     {
         Task<bool> AddAsync(TEntity entity);
 

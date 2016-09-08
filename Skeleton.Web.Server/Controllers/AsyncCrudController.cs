@@ -6,23 +6,24 @@ using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Web.Server.Controllers
 {
-    public class AsyncCrudController<TEntity, TIdentity, TDto> :
-            AsyncReadController<TEntity, TIdentity, TDto>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public class AsyncCrudController<TEntity, TDto> :
+            AsyncReadController<TEntity, TDto>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        private readonly IAsyncCrudRepository<TEntity, TIdentity, TDto> _repository;
+        private readonly IAsyncCrudRepository<TEntity, TDto> _repository;
 
         public AsyncCrudController(
-            IAsyncCrudRepository<TEntity, TIdentity, TDto> repository)
+            IAsyncCrudRepository<TEntity, TDto> repository)
             : base(repository)
         {
             _repository = repository;
         }
 
-        public async Task<IHttpActionResult> Put(TIdentity id, TDto dto)
+        [HttpPost]
+        public async Task<IHttpActionResult> Update(TDto dto)
         {
-            var entity = _repository.Mapper.Map(id, dto);
+            var entity = _repository.Mapper.Map(dto);
             var result = await _repository.Store.UpdateAsync(entity);
 
             if (result)
@@ -43,7 +44,8 @@ namespace Skeleton.Web.Server.Controllers
             return NotFound();
         }
 
-        public async Task<IHttpActionResult> Post(TDto dto)
+        [HttpPost]
+        public async Task<IHttpActionResult> Add(TDto dto)
         {
             var entity = _repository.Mapper.Map(dto);
             var result = await _repository.Store.AddAsync(entity);
@@ -71,7 +73,8 @@ namespace Skeleton.Web.Server.Controllers
             return NotFound();
         }
 
-        public async Task<IHttpActionResult> Delete(TIdentity id)
+        [HttpGet]
+        public async Task<IHttpActionResult> Delete(string id)
         {
             var entity = await _repository.Query.FirstOrDefaultAsync(id);
 

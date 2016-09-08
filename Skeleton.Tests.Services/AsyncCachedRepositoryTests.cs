@@ -11,11 +11,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class AsyncCachedRepositoryTests : TestBase
     {
-        private readonly IAsyncCachedReadRepository<Customer, int, CustomerDto> _repository;
+        private readonly IAsyncCachedReadRepository<Customer, CustomerDto> _repository;
 
         public AsyncCachedRepositoryTests()
         {
-            _repository = Container.Resolve<IAsyncCachedReadRepository<Customer, int, CustomerDto>>();
+            _repository = Container.Resolve<IAsyncCachedReadRepository<Customer, CustomerDto>>();
         }
 
         [TestMethod]

@@ -8,6 +8,10 @@ namespace Skeleton.Abstraction.Data
             string query,
             IDictionary<string, object> parameters);
 
+        object ExecuteScalar(
+            string query,
+            IDictionary<string, object> parameters);
+
         TValue ExecuteScalar<TValue>(
             string query,
             IDictionary<string, object> parameters);
