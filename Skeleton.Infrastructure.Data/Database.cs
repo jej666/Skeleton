@@ -50,8 +50,8 @@ namespace Skeleton.Infrastructure.Data
         {
             var result = ExecuteScalar(query, parameters);
 
-            return result == null 
-                ? default(TValue) 
+            return result == null
+                ? default(TValue)
                 : result.ChangeType<TValue>();
         }
 

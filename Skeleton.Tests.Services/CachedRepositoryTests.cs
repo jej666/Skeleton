@@ -92,7 +92,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Dispose_Query()
+        public void Cached_Dispose_Query()
         {
             using (_repository.Query)
             {
@@ -102,7 +102,7 @@ namespace Skeleton.Tests
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsNotNull(fieldInfo);
-            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Query));
+            Assert.IsTrue((bool) fieldInfo.GetValue(_repository.Query));
         }
     }
 }

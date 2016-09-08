@@ -66,9 +66,8 @@ namespace Skeleton.Infrastructure.Repository
                     {
                         if (!entityProperty.Name.EquivalentTo(dtoProperty.Name))
                             continue;
-                        
-                            entityProperty.SetValue(instanceEntity, dtoProperty.GetValue(dto));
-                      
+
+                        entityProperty.SetValue(instanceEntity, dtoProperty.GetValue(dto));
                     }
 
                 return instanceEntity;

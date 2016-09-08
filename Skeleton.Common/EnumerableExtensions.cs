@@ -59,7 +59,7 @@ namespace Skeleton.Common
             action.ThrowIfNull(() => action);
 
             var enumerable = source as IList<TSource> ?? source.ToList();
-            
+
             foreach (var value in enumerable)
                 action(value);
         }

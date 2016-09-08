@@ -58,11 +58,10 @@ namespace Skeleton.Common
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-        public static object ChangeType(this object value,Type type, IFormatProvider provider)
+        public static object ChangeType(this object value, Type type, IFormatProvider provider)
         {
             while (true)
             {
-
                 if (value == null) return null;
 
                 var s = value as string;

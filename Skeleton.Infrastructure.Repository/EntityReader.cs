@@ -106,16 +106,6 @@ namespace Skeleton.Infrastructure.Repository
             return this;
         }
 
-        public IEntityReader<TEntity> CrossJoin<TEntity2>(
-            Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>
-        {
-            expression.ThrowIfNull(() => expression);
-            Builder.Join(expression, JoinType.Cross);
-
-            return this;
-        }
-
         public IEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression)
         {

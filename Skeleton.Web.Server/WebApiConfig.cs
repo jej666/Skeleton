@@ -1,7 +1,5 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Web.Http;
-using System.Web.Http.Routing;
 using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Web.Server.Filters;
 
@@ -22,7 +20,7 @@ namespace Skeleton.Web.Server
             config.Routes.MapHttpRoute(
                 "DefaultApiWithId",
                 "api/{controller}/{action}/{id}",
-                new { id = RouteParameter.Optional });
+                new {id = RouteParameter.Optional});
         }
     }
 }

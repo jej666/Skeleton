@@ -93,7 +93,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Save_ShouldAdd()
+        public void Save_Should_Add()
         {
             var customer = new Customer {Name = "Customer"};
             var successed = _repository.Store.Save(customer);
@@ -106,7 +106,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Save_ShouldUpdate()
+        public void Save_Should_Update()
         {
             var customer = _repository.Query.Top(1).FirstOrDefault();
             Assert.IsFalse(customer.Id.IsZeroOrEmpty());
@@ -139,7 +139,7 @@ namespace Skeleton.Tests
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsNotNull(fieldInfo);
-            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Store));
+            Assert.IsTrue((bool) fieldInfo.GetValue(_repository.Store));
         }
     }
 }

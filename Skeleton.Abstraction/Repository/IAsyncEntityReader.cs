@@ -26,10 +26,6 @@ namespace Skeleton.Abstraction.Repository
             Expression<Func<TEntity, TEntity2, bool>> expression)
             where TEntity2 : class, IEntity<TEntity2>;
 
-        IAsyncEntityReader<TEntity> CrossJoin<TEntity2>(
-            Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>;
-
         IAsyncEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression);
 
