@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
@@ -102,9 +101,12 @@ namespace Skeleton.Tests
         public void Count()
         {
             var count = _repository.Query.Count(c => c.CustomerId);
-            var result = count.FirstOrDefault();
 
             Assert.IsNotNull(count);
+
+            var result = count.FirstOrDefault();
+
+            Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
         }
 
