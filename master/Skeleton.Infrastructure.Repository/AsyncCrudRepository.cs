@@ -3,22 +3,22 @@ using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class AsyncCrudRepository<TEntity, TIdentity, TDto> :
-            AsyncReadRepository<TEntity, TIdentity, TDto>,
-            IAsyncCrudRepository<TEntity, TIdentity, TDto>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public sealed class AsyncCrudRepository<TEntity, TDto> :
+            AsyncReadRepository<TEntity, TDto>,
+            IAsyncCrudRepository<TEntity, TDto>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
         public AsyncCrudRepository(
-            IEntityMapper<TEntity, TIdentity, TDto> mapper,
-            IAsyncEntityReader<TEntity, TIdentity> reader,
-            IAsyncEntityPersistor<TEntity, TIdentity> persistor)
+            IEntityMapper<TEntity, TDto> mapper,
+            IAsyncEntityReader<TEntity> reader,
+            IAsyncEntityPersistor<TEntity> persistor)
             : base(mapper, reader)
         {
             Store = persistor;
         }
 
-        public IAsyncEntityPersistor<TEntity, TIdentity> Store { get; }
+        public IAsyncEntityPersistor<TEntity> Store { get; }
 
         protected override void DisposeManagedResources()
         {

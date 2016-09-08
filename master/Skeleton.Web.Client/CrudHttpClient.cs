@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Skeleton.Web.Client
 {
-    public class CrudHttpClient<TDto, TId> :
+    public class CrudHttpClient<TDto> :
         HttpClientBase where TDto : class
     {
         public CrudHttpClient(string serviceBaseAddress, string addressSuffix)
@@ -14,7 +14,7 @@ namespace Skeleton.Web.Client
 
         public IEnumerable<TDto> GetAll()
         {
-            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix).Result;
+            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + "GetAll").Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content
@@ -22,9 +22,9 @@ namespace Skeleton.Web.Client
                 .Result;
         }
 
-        public TDto FirstOrDefault(TId id)
+        public TDto FirstOrDefault(object id)
         {
-            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + id).Result;
+            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + "Get/" + id).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
@@ -43,10 +43,10 @@ namespace Skeleton.Web.Client
             return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
         }
 
-        public TDto Add(TDto model)
+        public TDto Add(TDto dto)
         {
-            var objectContent = CreateJsonObjectContent(model);
-            var responseMessage = JsonHttpClient.PostAsync(AddressSuffix, objectContent).Result;
+            var objectContent = CreateJsonObjectContent(dto);
+            var responseMessage = JsonHttpClient.PostAsync(AddressSuffix + "Add", objectContent).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
@@ -54,16 +54,17 @@ namespace Skeleton.Web.Client
 
         public IEnumerable<TDto> Add(IEnumerable<TDto> dtos)
         {
-            var responseMessage = JsonHttpClient.PostAsJsonAsync(AddressSuffix + "AddMany", dtos).Result;
+            var objectContent = CreateJsonObjectContent(dtos);
+            var responseMessage = JsonHttpClient.PostAsync(AddressSuffix + "AddMany", objectContent).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
         }
 
-        public bool Update(TId id, TDto model)
+        public bool Update(TDto dto)
         {
-            var objectContent = CreateJsonObjectContent(model);
-            var responseMessage = JsonHttpClient.PutAsync(AddressSuffix + id, objectContent).Result;
+            var objectContent = CreateJsonObjectContent(dto);
+            var responseMessage = JsonHttpClient.PostAsync(AddressSuffix + "Update", objectContent).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.IsSuccessStatusCode;
@@ -74,9 +75,9 @@ namespace Skeleton.Web.Client
             return Post(dtos, "UpdateMany");
         }
 
-        public bool Delete(TId id)
+        public bool Delete(object id)
         {
-            var responseMessage = JsonHttpClient.DeleteAsync(AddressSuffix + id).Result;
+            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + "Delete/" + id).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.IsSuccessStatusCode;

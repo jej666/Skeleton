@@ -10,11 +10,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class AsyncCrudRepositoryTests : TestBase
     {
-        private readonly IAsyncCrudRepository<Customer, int, CustomerDto> _repository;
+        private readonly IAsyncCrudRepository<Customer, CustomerDto> _repository;
 
         public AsyncCrudRepositoryTests()
         {
-            _repository = Container.Resolve<IAsyncCrudRepository<Customer, int, CustomerDto>>();
+            _repository = Container.Resolve<IAsyncCrudRepository<Customer, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }
@@ -26,7 +26,7 @@ namespace Skeleton.Tests
             var successed = await _repository.Store.AddAsync(customer);
 
             Assert.IsTrue(successed);
-            Assert.IsTrue(customer.Id > 0);
+            Assert.IsTrue(customer.Id.IsNotZeroOrEmpty());
 
             var result = await _repository.Query.FirstOrDefaultAsync(customer.Id);
             Assert.IsNotNull(result);
@@ -96,7 +96,7 @@ namespace Skeleton.Tests
             var customer = new Customer {Name = "Customer"};
             var successed = await _repository.Store.SaveAsync(customer);
             Assert.IsTrue(successed);
-            Assert.IsTrue(customer.Id > 0);
+            Assert.IsTrue(customer.Id.IsNotZeroOrEmpty());
 
             var result = await _repository.Query.FirstOrDefaultAsync(customer.Id);
             Assert.IsNotNull(result);
@@ -107,7 +107,7 @@ namespace Skeleton.Tests
         public async Task SaveAsync_ShouldUpdate()
         {
             var customer = await _repository.Query.Top(1).FirstOrDefaultAsync();
-            Assert.IsTrue(customer.Id > 0);
+            Assert.IsTrue(customer.Id.IsNotZeroOrEmpty());
 
             customer.Name = "CustomerUpdated";
             var successed = await _repository.Store.SaveAsync(customer);

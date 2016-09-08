@@ -10,8 +10,8 @@ using Skeleton.Infrastructure.Repository.ExpressionTree;
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     [DebuggerDisplay("EntityName = {EntityType.Name}")]
-    internal abstract class SqlBuilderBase<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    internal abstract class SqlBuilderBase<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadata _metadata;
         private string _cacheIdName;

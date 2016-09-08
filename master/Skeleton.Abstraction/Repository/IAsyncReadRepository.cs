@@ -2,14 +2,14 @@
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IAsyncReadRepository<TEntity, TIdentity, TDto> :
+    public interface IAsyncReadRepository<TEntity, TDto> :
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        IAsyncEntityReader<TEntity, TIdentity> Query { get; }
+        IAsyncEntityReader<TEntity> Query { get; }
 
-        IEntityMapper<TEntity, TIdentity, TDto> Mapper { get; }
+        IEntityMapper<TEntity, TDto> Mapper { get; }
     }
 }

@@ -4,54 +4,54 @@ using System.Linq.Expressions;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IEntityReader<TEntity, TIdentity> :
-            IEntityQueryResult<TEntity, TIdentity>,
-            IEntityAggregateResult<TEntity, TIdentity>,
+    public interface IEntityReader<TEntity> :
+            IEntityQueryResult<TEntity>,
+            IEntityAggregateResult<TEntity>,
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
     {
-        IEntityReader<TEntity, TIdentity> GroupBy(
+        IEntityReader<TEntity> GroupBy(
             Expression<Func<TEntity, object>> expression);
 
-        IEntityReader<TEntity, TIdentity> LeftJoin<TEntity2>(
+        IEntityReader<TEntity> LeftJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>;
+            where TEntity2 : class, IEntity<TEntity2>;
 
-        IEntityReader<TEntity, TIdentity> RightJoin<TEntity2>(
+        IEntityReader<TEntity> RightJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>;
+            where TEntity2 : class, IEntity<TEntity2>;
 
-        IEntityReader<TEntity, TIdentity> InnerJoin<TEntity2>(
+        IEntityReader<TEntity> InnerJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>;
+            where TEntity2 : class, IEntity<TEntity2>;
 
-        IEntityReader<TEntity, TIdentity> CrossJoin<TEntity2>(
+        IEntityReader<TEntity> CrossJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>;
+            where TEntity2 : class, IEntity<TEntity2>;
 
-        IEntityReader<TEntity, TIdentity> OrderBy(
+        IEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression);
 
-        IEntityReader<TEntity, TIdentity> OrderByDescending(
+        IEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression);
 
-        IEntityReader<TEntity, TIdentity> Select(
+        IEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions);
 
-        IEntityReader<TEntity, TIdentity> Distinct(
+        IEntityReader<TEntity> Distinct(
             Expression<Func<TEntity, object>> expression);
 
-        IEntityReader<TEntity, TIdentity> Top(int take);
+        IEntityReader<TEntity> Top(int take);
 
-        IEntityReader<TEntity, TIdentity> Where(
+        IEntityReader<TEntity> Where(
             Expression<Func<TEntity, bool>> expression);
 
-        IEntityReader<TEntity, TIdentity> WhereIsIn(
+        IEntityReader<TEntity> WhereIsIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values);
 
-        IEntityReader<TEntity, TIdentity> WhereNotIn(
+        IEntityReader<TEntity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values);
     }

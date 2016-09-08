@@ -2,16 +2,14 @@
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IEntityMapper<TEntity, in TIdentity, TDto> :
+    public interface IEntityMapper<TEntity, TDto> :
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
         TDto Map(TEntity entity);
 
         TEntity Map(TDto dto);
-
-        TEntity Map(TIdentity id, TDto dto);
 
         IEnumerable<TDto> Map(IEnumerable<TEntity> entities);
 

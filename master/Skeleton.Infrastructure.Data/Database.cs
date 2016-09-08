@@ -29,7 +29,7 @@ namespace Skeleton.Infrastructure.Data
                     .ExecuteNonQuery());
         }
 
-        public TValue ExecuteScalar<TValue>(
+        public object ExecuteScalar(
             string query,
             IDictionary<string, object> parameters)
         {
@@ -39,9 +39,20 @@ namespace Skeleton.Infrastructure.Data
                     .ExecuteScalar();
 
                 return result is DBNull
-                    ? default(TValue)
-                    : result.ChangeType<TValue>();
+                    ? null
+                    : result.ChangeType();
             });
+        }
+
+        public TValue ExecuteScalar<TValue>(
+            string query,
+            IDictionary<string, object> parameters)
+        {
+            var result = ExecuteScalar(query, parameters);
+
+            return result == null 
+                ? default(TValue) 
+                : result.ChangeType<TValue>();
         }
 
         public int ExecuteStoredProcedure(

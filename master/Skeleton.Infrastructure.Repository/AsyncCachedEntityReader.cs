@@ -8,12 +8,12 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class AsyncCachedEntityReader<TEntity, TIdentity> :
-            AsyncEntityReader<TEntity, TIdentity>,
-            IAsyncCachedEntityReader<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public sealed class AsyncCachedEntityReader<TEntity> :
+            AsyncEntityReader<TEntity>,
+            IAsyncCachedEntityReader<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
-        private readonly AsyncCacheKeyGenerator<TEntity, TIdentity> _keyGenerator;
+        private readonly AsyncCacheKeyGenerator<TEntity> _keyGenerator;
 
         public AsyncCachedEntityReader(
             IMetadataProvider metadataProvider,
@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Repository
             : base(metadataProvider, database)
         {
             Cache = cacheProvider;
-            _keyGenerator = new AsyncCacheKeyGenerator<TEntity, TIdentity>();
+            _keyGenerator = new AsyncCacheKeyGenerator<TEntity>();
         }
 
         public Action<ICacheContext> CacheConfigurator { get; set; }
@@ -42,7 +42,7 @@ namespace Skeleton.Infrastructure.Repository
                 .ConfigureAwait(false);
         }
 
-        public override async Task<TEntity> FirstOrDefaultAsync(TIdentity id)
+        public override async Task<TEntity> FirstOrDefaultAsync(object id)
         {
             id.ThrowIfNull(() => id);
 

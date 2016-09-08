@@ -57,6 +57,54 @@ namespace Skeleton.Common
             }
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        public static object ChangeType(this object value,Type type, IFormatProvider provider)
+        {
+            while (true)
+            {
+
+                if (value == null) return null;
+
+                var s = value as string;
+                if (s != null)
+                {
+                    if (type == typeof(Guid))
+                    {
+                        value = new Guid(Convert.ToString(value, provider));
+                        continue;
+                    }
+
+                    if (string.IsNullOrEmpty(s) && (type != typeof(string)))
+                    {
+                        value = null;
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (type == typeof(string))
+                    {
+                        value = Convert.ToString(value, provider);
+                        continue;
+                    }
+                }
+
+                if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                    type = Nullable.GetUnderlyingType(type);
+
+                var canConvert = type.IsValueType && !type.IsEnum;
+
+                try
+                {
+                    return canConvert ? Convert.ChangeType(value, type, provider) : value;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
         public static T ChangeType<T>(this object value)
         {
             return ChangeType<T>(value, CultureInfo.CurrentCulture);

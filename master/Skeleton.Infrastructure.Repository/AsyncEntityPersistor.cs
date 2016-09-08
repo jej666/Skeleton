@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Skeleton.Abstraction;
@@ -9,10 +10,10 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class AsyncEntityPersistor<TEntity, TIdentity> :
+    public class AsyncEntityPersistor<TEntity> :
             DisposableBase,
-            IAsyncEntityPersistor<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+            IAsyncEntityPersistor<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
 
@@ -145,25 +146,29 @@ namespace Skeleton.Infrastructure.Repository
             Database.Dispose();
         }
 
-        private async Task<TIdentity> AddCommand(TEntity entity)
+        private async Task<object> AddCommand(TEntity entity)
         {
-            var builder = new InsertCommandBuilder<TEntity, TIdentity>(
+            var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            var id = await Database.ExecuteScalarAsync<TIdentity>(
+            var id = await Database.ExecuteScalarAsync(
                     builder.SqlQuery,
                     builder.Parameters)
                 .ConfigureAwait(false);
 
             if (id != null)
-                entity.IdAccessor.SetValue(entity, id);
+            {
+                var destinationType = entity.IdAccessor.MemberType;
+                var convertedId = id.ChangeType(destinationType, CultureInfo.CurrentCulture);
+                entity.IdAccessor.SetValue(entity, convertedId);
+            }
 
             return id;
         }
 
         private async Task<int> DeleteCommand(TEntity entity)
         {
-            var builder = new DeleteCommandBuilder<TEntity, TIdentity>(
+            var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
             return await Database.ExecuteAsync(
@@ -174,7 +179,7 @@ namespace Skeleton.Infrastructure.Repository
 
         private async Task<int> UpdateCommand(TEntity entity)
         {
-            var builder = new UpdateCommandBuilder<TEntity, TIdentity>(
+            var builder = new UpdateCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
             return await Database.ExecuteAsync(

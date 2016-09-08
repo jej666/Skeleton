@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IEntityPersitor<in TEntity, TIdentity> :
+    public interface IEntityPersitor<in TEntity> :
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
     {
         bool Add(TEntity entity);
 

@@ -2,12 +2,12 @@
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IEntityQueryResult<out TEntity, in TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface IEntityQueryResult<out TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         TEntity FirstOrDefault();
 
-        TEntity FirstOrDefault(TIdentity id);
+        TEntity FirstOrDefault(object id);
 
         IEnumerable<TEntity> Find();
 

@@ -2,7 +2,7 @@
 
 namespace Skeleton.Tests.Infrastructure
 {
-    public class CustomerCategory : Entity<CustomerCategory, int>
+    public class CustomerCategory : Entity<CustomerCategory>
     {
         // Need an empty ctor
         public CustomerCategory()

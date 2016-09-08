@@ -3,21 +3,21 @@ using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class CachedReadRepository<TEntity, TIdentity, TDto> :
-            ReadRepository<TEntity, TIdentity, TDto>,
-            ICachedReadRepository<TEntity, TIdentity, TDto>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public sealed class CachedReadRepository<TEntity, TDto> :
+            ReadRepository<TEntity, TDto>,
+            ICachedReadRepository<TEntity, TDto>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
         public CachedReadRepository(
-            IEntityMapper<TEntity, TIdentity, TDto> mapper,
-            ICachedEntityReader<TEntity, TIdentity> reader)
+            IEntityMapper<TEntity, TDto> mapper,
+            ICachedEntityReader<TEntity> reader)
             : base(mapper, reader)
         {
             Query = reader;
         }
 
-        public new ICachedEntityReader<TEntity, TIdentity> Query { get; }
+        public new ICachedEntityReader<TEntity> Query { get; }
 
         protected override void DisposeManagedResources()
         {

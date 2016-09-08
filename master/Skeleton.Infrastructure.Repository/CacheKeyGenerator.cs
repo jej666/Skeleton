@@ -3,8 +3,8 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class CacheKeyGenerator<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public class CacheKeyGenerator<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         public CacheKeyGenerator()
         {
@@ -21,7 +21,7 @@ namespace Skeleton.Infrastructure.Repository
                 query);
         }
 
-        public string ForFirstOrDefault(TIdentity id)
+        public string ForFirstOrDefault(object id)
         {
             return "{0}{1}[FirstOrDefault]-{2}".FormatWith(
                 Prefix,

@@ -1,10 +1,10 @@
 ﻿namespace Skeleton.Abstraction.Repository
 {
-    public interface ICachedReadRepository<TEntity, TIdentity, TDto> :
-            IReadRepository<TEntity, TIdentity, TDto>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface ICachedReadRepository<TEntity, TDto> :
+            IReadRepository<TEntity, TDto>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        new ICachedEntityReader<TEntity, TIdentity> Query { get; }
+        new ICachedEntityReader<TEntity> Query { get; }
     }
 }

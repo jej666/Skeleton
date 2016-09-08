@@ -5,23 +5,24 @@ using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Web.Server.Controllers
 {
-    public class CrudController<TEntity, TIdentity, TDto> :
-            ReadController<TEntity, TIdentity, TDto>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public class CrudController<TEntity, TDto> :
+            ReadController<TEntity, TDto>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        private readonly ICrudRepository<TEntity, TIdentity, TDto> _repository;
+        private readonly ICrudRepository<TEntity, TDto> _repository;
 
         public CrudController(
-            ICrudRepository<TEntity, TIdentity, TDto> repository)
+            ICrudRepository<TEntity, TDto> repository)
             : base(repository)
         {
             _repository = repository;
         }
 
-        public IHttpActionResult Put(TIdentity id, TDto dto)
+        [HttpPost]
+        public IHttpActionResult Update(TDto dto)
         {
-            var entity = _repository.Mapper.Map(id, dto);
+            var entity = _repository.Mapper.Map(dto);
             var result = _repository.Store.Update(entity);
 
             if (result)
@@ -42,7 +43,8 @@ namespace Skeleton.Web.Server.Controllers
             return NotFound();
         }
 
-        public IHttpActionResult Post(TDto dto)
+        [HttpPost]
+        public IHttpActionResult Add(TDto dto)
         {
             var entity = _repository.Mapper.Map(dto);
             var result = _repository.Store.Add(entity);
@@ -54,7 +56,7 @@ namespace Skeleton.Web.Server.Controllers
 
             return CreatedAtRoute(
                 "DefaultApiWithId",
-                new {id = entity.Id},
+                new { id = entity.Id },
                 newDto);
         }
 
@@ -70,7 +72,8 @@ namespace Skeleton.Web.Server.Controllers
             return NotFound();
         }
 
-        public IHttpActionResult Delete(TIdentity id)
+        [HttpGet]
+        public IHttpActionResult Delete(string id)
         {
             var entity = _repository.Query.FirstOrDefault(id);
 

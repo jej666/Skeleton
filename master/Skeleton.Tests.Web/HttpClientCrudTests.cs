@@ -91,10 +91,11 @@ namespace Skeleton.Web.Tests
 
                 var customer = new CustomerDto
                 {
+                    CustomerId = data.CustomerId,
                     Name = "CustomerUpdated" + data.CustomerId,
                     CustomerCategoryId = data.CustomerCategoryId
                 };
-                var result = client.Update(data.CustomerId, customer);
+                var result = client.Update(customer);
 
                 Assert.IsTrue(result);
             }
@@ -147,7 +148,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var data = client.GetAll().FirstOrDefault();
+                var data = client.Page(1, 1).Results.FirstOrDefault();
                 var result = (data != null) && client.Delete(data.CustomerId);
 
                 Assert.IsTrue(result);

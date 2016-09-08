@@ -4,54 +4,54 @@ using System.Linq.Expressions;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IAsyncEntityReader<TEntity, TIdentity> :
-            IAsyncEntityQueryResult<TEntity, TIdentity>,
-            IAsyncEntityAggregateResult<TEntity, TIdentity>,
+    public interface IAsyncEntityReader<TEntity> :
+            IAsyncEntityQueryResult<TEntity>,
+            IAsyncEntityAggregateResult<TEntity>,
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity, TIdentity>
+        where TEntity : class, IEntity<TEntity>
     {
-        IAsyncEntityReader<TEntity, TIdentity> GroupBy(
+        IAsyncEntityReader<TEntity> GroupBy(
             Expression<Func<TEntity, object>> expression);
 
-        IAsyncEntityReader<TEntity, TIdentity> LeftJoin<TEntity2>(
+        IAsyncEntityReader<TEntity> LeftJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>;
+            where TEntity2 : class, IEntity<TEntity2>;
 
-        IAsyncEntityReader<TEntity, TIdentity> RightJoin<TEntity2>(
+        IAsyncEntityReader<TEntity> RightJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>;
+            where TEntity2 : class, IEntity<TEntity2>;
 
-        IAsyncEntityReader<TEntity, TIdentity> InnerJoin<TEntity2>(
+        IAsyncEntityReader<TEntity> InnerJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>;
+            where TEntity2 : class, IEntity<TEntity2>;
 
-        IAsyncEntityReader<TEntity, TIdentity> CrossJoin<TEntity2>(
+        IAsyncEntityReader<TEntity> CrossJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2, TIdentity>;
+            where TEntity2 : class, IEntity<TEntity2>;
 
-        IAsyncEntityReader<TEntity, TIdentity> OrderBy(
+        IAsyncEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression);
 
-        IAsyncEntityReader<TEntity, TIdentity> OrderByDescending(
+        IAsyncEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression);
 
-        IAsyncEntityReader<TEntity, TIdentity> Select(
+        IAsyncEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions);
 
-        IAsyncEntityReader<TEntity, TIdentity> Distinct(
+        IAsyncEntityReader<TEntity> Distinct(
             Expression<Func<TEntity, object>> expression);
 
-        IAsyncEntityReader<TEntity, TIdentity> Top(int take);
+        IAsyncEntityReader<TEntity> Top(int take);
 
-        IAsyncEntityReader<TEntity, TIdentity> Where(
+        IAsyncEntityReader<TEntity> Where(
             Expression<Func<TEntity, bool>> expression);
 
-        IAsyncEntityReader<TEntity, TIdentity> WhereIsIn(
+        IAsyncEntityReader<TEntity> WhereIsIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values);
 
-        IAsyncEntityReader<TEntity, TIdentity> WhereNotIn(
+        IAsyncEntityReader<TEntity> WhereNotIn(
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values);
     }

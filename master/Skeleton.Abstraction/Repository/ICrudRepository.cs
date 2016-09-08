@@ -1,10 +1,10 @@
 ﻿namespace Skeleton.Abstraction.Repository
 {
-    public interface ICrudRepository<TEntity, TIdentity, TDto> :
-            IReadRepository<TEntity, TIdentity, TDto>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface ICrudRepository<TEntity, TDto> :
+            IReadRepository<TEntity, TDto>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        IEntityPersitor<TEntity, TIdentity> Store { get; }
+        IEntityPersitor<TEntity> Store { get; }
     }
 }

@@ -3,9 +3,9 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal sealed class UpdateCommandBuilder<TEntity, TIdentity> :
-            SqlBuilderBase<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    internal sealed class UpdateCommandBuilder<TEntity> :
+            SqlBuilderBase<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         private CommandContext _context = new CommandContext();
 

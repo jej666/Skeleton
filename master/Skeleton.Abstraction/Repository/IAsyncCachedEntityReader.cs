@@ -2,9 +2,9 @@
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IAsyncCachedEntityReader<TEntity, TIdentity> :
-            IAsyncEntityReader<TEntity, TIdentity>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface IAsyncCachedEntityReader<TEntity> :
+            IAsyncEntityReader<TEntity>
+        where TEntity : class, IEntity<TEntity>
     {
         ICacheProvider Cache { get; }
 

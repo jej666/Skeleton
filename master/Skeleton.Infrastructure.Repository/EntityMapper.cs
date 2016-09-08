@@ -7,10 +7,10 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class EntityMapper<TEntity, TIdentity, TDto> :
+    public sealed class EntityMapper<TEntity, TDto> :
             HideObjectMethods,
-            IEntityMapper<TEntity, TIdentity, TDto>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+            IEntityMapper<TEntity, TDto>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
         private readonly IMetadata _dtoMetadata;
@@ -55,7 +55,7 @@ namespace Skeleton.Infrastructure.Repository
             return dtos.Select(Map).AsList();
         }
 
-        public TEntity Map(TIdentity id, TDto dto)
+        public TEntity Map(TDto dto)
         {
             return HandleException(() =>
             {
@@ -66,20 +66,13 @@ namespace Skeleton.Infrastructure.Repository
                     {
                         if (!entityProperty.Name.EquivalentTo(dtoProperty.Name))
                             continue;
-
-                        if (!id.Equals(default(TIdentity)))
-                            instanceEntity.IdAccessor.SetValue(instanceEntity, id);
-                        else
+                        
                             entityProperty.SetValue(instanceEntity, dtoProperty.GetValue(dto));
+                      
                     }
 
                 return instanceEntity;
             });
-        }
-
-        public TEntity Map(TDto dto)
-        {
-            return Map(default(TIdentity), dto);
         }
 
         private T HandleException<T>(Func<T> handler)

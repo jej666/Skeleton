@@ -1,8 +1,8 @@
 ﻿namespace Skeleton.Abstraction
 {
-    public interface IEntityValidatable<out TEntity, TIdentity> : IHideObjectMethods
-        where TEntity : class, IEntity<TEntity, TIdentity>
+    public interface IEntityValidatable<out TEntity> : IHideObjectMethods
+        where TEntity : class, IEntity<TEntity>
     {
-        IEntityValidationResult Validate(IEntityValidator<TEntity, TIdentity> validator);
+        IEntityValidationResult Validate(IEntityValidator<TEntity> validator);
     }
 }

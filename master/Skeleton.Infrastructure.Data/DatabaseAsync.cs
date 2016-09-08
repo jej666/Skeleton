@@ -26,7 +26,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand)CreateTextCommand(query, parameters);
 
                 return await command.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
@@ -38,26 +38,38 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        public async Task<TValue> ExecuteScalarAsync<TValue>(
-            string query,
-            IDictionary<string, object> parameters)
+
+        public async Task<object> ExecuteScalarAsync(
+             string query,
+             IDictionary<string, object> parameters)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand)CreateTextCommand(query, parameters);
                 var result = await command.ExecuteScalarAsync()
                     .ConfigureAwait(false);
 
                 return result is DBNull
-                    ? default(TValue)
-                    : result.ChangeType<TValue>();
+                    ? null
+                    : result;
             }
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
                 throw new DataAccessException(e);
             }
+        }
+
+        public async Task<TValue> ExecuteScalarAsync<TValue>(
+            string query,
+            IDictionary<string, object> parameters)
+        {  
+                var result = await ExecuteScalarAsync(query, parameters);
+
+                return result == null
+                    ? default(TValue)
+                    : result.ChangeType<TValue>();
         }
 
         public async Task<int> ExecuteStoredProcedureAsync(
@@ -69,7 +81,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateStoredProcedureCommand(
+                var command = (DbCommand)CreateStoredProcedureCommand(
                     procedureName, parameters);
 
                 return await command.ExecuteNonQueryAsync()
@@ -89,7 +101,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand)CreateTextCommand(query, parameters);
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -110,7 +122,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand)CreateTextCommand(query, parameters);
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -132,7 +144,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand)CreateTextCommand(query, parameters);
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 

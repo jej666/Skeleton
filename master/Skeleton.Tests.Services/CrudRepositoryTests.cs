@@ -10,11 +10,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class CrudRepositoryTests : TestBase
     {
-        private readonly ICrudRepository<Customer, int, CustomerDto> _repository;
+        private readonly ICrudRepository<Customer, CustomerDto> _repository;
 
         public CrudRepositoryTests()
         {
-            _repository = Container.Resolve<ICrudRepository<Customer, int, CustomerDto>>();
+            _repository = Container.Resolve<ICrudRepository<Customer, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }
@@ -25,7 +25,7 @@ namespace Skeleton.Tests
             var customer = new Customer {Name = "Customer"};
             var successed = _repository.Store.Add(customer);
             Assert.IsTrue(successed);
-            Assert.IsTrue(customer.Id > 0);
+            Assert.IsTrue(customer.Id.IsNotZeroOrEmpty());
 
             var result = _repository.Query.FirstOrDefault(customer.Id);
             Assert.IsNotNull(result);
@@ -98,7 +98,7 @@ namespace Skeleton.Tests
             var customer = new Customer {Name = "Customer"};
             var successed = _repository.Store.Save(customer);
             Assert.IsTrue(successed);
-            Assert.IsTrue(customer.Id > 0);
+            Assert.IsFalse(customer.Id.IsZeroOrEmpty());
 
             var result = _repository.Query.FirstOrDefault(customer.Id);
             Assert.IsNotNull(result);
@@ -109,7 +109,7 @@ namespace Skeleton.Tests
         public void Save_ShouldUpdate()
         {
             var customer = _repository.Query.Top(1).FirstOrDefault();
-            Assert.IsTrue(customer.Id > 0);
+            Assert.IsFalse(customer.Id.IsZeroOrEmpty());
 
             customer.Name = "CustomerUpdated";
             var successed = _repository.Store.Save(customer);

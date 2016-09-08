@@ -70,10 +70,11 @@ namespace Skeleton.Web.Tests
 
                 var customer = new CustomerDto
                 {
+                    CustomerId = firstCustomer.CustomerId,
                     Name = "CustomerUpdated" + firstCustomer.CustomerId,
                     CustomerCategoryId = firstCustomer.CustomerCategoryId
                 };
-                var result = await client.UpdateAsync(firstCustomer.CustomerId, customer);
+                var result = await client.UpdateAsync(customer);
 
                 Assert.IsTrue(result);
             }

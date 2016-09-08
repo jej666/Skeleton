@@ -4,23 +4,23 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class ReadRepository<TEntity, TIdentity, TDto> :
+    public class ReadRepository<TEntity, TDto> :
             DisposableBase,
-            IReadRepository<TEntity, TIdentity, TDto>
-        where TEntity : class, IEntity<TEntity, TIdentity>
+            IReadRepository<TEntity, TDto>
+        where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
         public ReadRepository(
-            IEntityMapper<TEntity, TIdentity, TDto> mapper,
-            IEntityReader<TEntity, TIdentity> reader)
+            IEntityMapper<TEntity, TDto> mapper,
+            IEntityReader<TEntity> reader)
         {
             Mapper = mapper;
             Query = reader;
         }
 
-        public IEntityReader<TEntity, TIdentity> Query { get; }
+        public IEntityReader<TEntity> Query { get; }
 
-        public IEntityMapper<TEntity, TIdentity, TDto> Mapper { get; }
+        public IEntityMapper<TEntity, TDto> Mapper { get; }
 
         protected override void DisposeManagedResources()
         {

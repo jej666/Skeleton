@@ -10,11 +10,11 @@ namespace Skeleton.Tests
     [TestClass]
     public class ReadRepositoryTests : TestBase
     {
-        private readonly ICrudRepository<Customer, int, CustomerDto> _repository;
+        private readonly ICrudRepository<Customer, CustomerDto> _repository;
 
         public ReadRepositoryTests()
         {
-            _repository = Container.Resolve<ICrudRepository<Customer, int, CustomerDto>>();
+            _repository = Container.Resolve<ICrudRepository<Customer, CustomerDto>>();
 
             SqlDbSeeder.SeedCustomers();
         }
@@ -273,7 +273,7 @@ namespace Skeleton.Tests
         {
             var customer = GetFirstCustomer();
             var results = _repository.Query
-                .Where(c => c.CustomerId == customer.Id)
+                .Where(c => c.CustomerId.Equals(customer.Id))
                 .Find();
 
             Assert.IsNotNull(results);
