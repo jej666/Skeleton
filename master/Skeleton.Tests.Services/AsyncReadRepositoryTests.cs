@@ -74,7 +74,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task FindAsync_SelectedColumns()
+        public async Task FindAsync_Selected_Columns()
         {
             var customer = await GetAsyncFirstCustomer();
             var results = await _repository.Query
@@ -104,7 +104,7 @@ namespace Skeleton.Tests
                 .CountAsync(c => c.CustomerId);
 
             Assert.IsNotNull(count);
-            Assert.IsTrue(count.FirstOrDefault().Count > 0);
+            Assert.IsTrue(count.FirstOrDefault().CountCustomerId > 0);
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace Skeleton.Tests
                 .MinAsync(c => c.CustomerId);
 
             Assert.IsNotNull(min);
-            Assert.IsTrue(min.FirstOrDefault().Min == minCustomer.CustomerId);
+            Assert.IsTrue(min.FirstOrDefault().MinCustomerId == minCustomer.CustomerId);
         }
 
         [TestMethod]
@@ -141,7 +141,7 @@ namespace Skeleton.Tests
                 .MaxAsync(c => c.CustomerId);
 
             Assert.IsNotNull(max);
-            Assert.IsTrue(max.FirstOrDefault().Max == maxCustomer.CustomerId);
+            Assert.IsTrue(max.FirstOrDefault().MaxCustomerId == maxCustomer.CustomerId);
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@ namespace Skeleton.Tests
             var result = avg.FirstOrDefault();
 
             Assert.IsNotNull(avg);
-            Assert.IsTrue(result.Avg > 0);
+            Assert.IsTrue(result.AvgCustomerCategoryId > 0);
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace Skeleton.Tests
             var result = sum.FirstOrDefault();
 
             Assert.IsNotNull(sum);
-            Assert.IsTrue(result.Sum > 0);
+            Assert.IsTrue(result.SumCustomerCategoryId > 0);
         }
 
 
@@ -187,7 +187,44 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task FindAsync_WhereIsIn()
+        public async Task FindAsync_RightJoin()
+        {
+            var results = await _repository.Query.RightJoin<CustomerCategory>(
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
+                .FindAsync();
+
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+        }
+
+        [TestMethod]
+        public async Task FindAsync_RightJoin_Distinct()
+        {
+            var results = await _repository.Query.RightJoin<CustomerCategory>(
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
+                .Distinct(customer => customer.CustomerId)
+                .FindAsync();
+
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+        }
+
+        [TestMethod]
+        public async Task FindAsync_InnerJoin()
+        {
+            var results = await _repository.Query.InnerJoin<CustomerCategory>(
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
+                .FindAsync();
+
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+        }
+
+        [TestMethod]
+        public async Task FindAsync_Where_Is_In()
         {
             var customerIds = new object[] {5, 15, 25};
             var results = await _repository.Query
@@ -199,7 +236,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task FindAsync_WhereNotIn()
+        public async Task FindAsync_Where_Not_In()
         {
             var customerIds = new object[] {5, 15, 25};
             var results = await _repository.Query
@@ -227,7 +264,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task FindAsync_WhereIsNull()
+        public async Task FindAsync_Where_Is_Null()
         {
             var results = await _repository.Query
                 .Where(c => c.Name == null)
@@ -238,7 +275,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task FindAsync_WhereIsNotNull()
+        public async Task FindAsync_Where_Is_Not_Null()
         {
             var results = await _repository.Query
                 .Where(c => c.Name != null)
@@ -248,22 +285,11 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public async Task FindAsync_ComplexWhere()
+        public async Task FindAsync_Where_Complex()
         {
             var results = await _repository.Query
                 .Where(c => (c.CustomerId >= 1)
                             && c.Name.Contains("Customer"))
-                .FindAsync();
-
-            Assert.IsNotNull(results);
-        }
-
-        [TestMethod]
-        public async Task FindAsync_EqualsOperator()
-        {
-            var customer = await GetAsyncFirstCustomer();
-            var results = await _repository.Query
-                .Where(c => c.CustomerId.Equals(customer.Id))
                 .FindAsync();
 
             Assert.IsNotNull(results);
@@ -280,7 +306,7 @@ namespace Skeleton.Tests
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsNotNull(fieldInfo);
-            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Query));
+            Assert.IsTrue((bool) fieldInfo.GetValue(_repository.Query));
         }
     }
 }

@@ -29,7 +29,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 SqlFormatter.Having(Context.Having),
                 SqlFormatter.OrderBy(Context.OrderBy));
 
-        internal static string SqlPagedQueryTemplate => "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY";
+        internal static string SqlPagedQueryTemplate
+            => "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY";
 
         protected internal override string SqlQueryTemplate => "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
 
@@ -85,7 +86,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
-            var selectionString = SqlFormatter.SelectAggregate(memberNode, selectFunction.ToString());
+
+            var selectionString =
+                SqlFormatter.SelectAggregate(memberNode, selectFunction.ToString());
 
             Context.Selection.Add(selectionString);
         }

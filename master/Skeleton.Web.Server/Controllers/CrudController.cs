@@ -56,7 +56,7 @@ namespace Skeleton.Web.Server.Controllers
 
             return CreatedAtRoute(
                 "DefaultApiWithId",
-                new { id = entity.Id },
+                new {id = entity.Id},
                 newDto);
         }
 

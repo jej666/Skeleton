@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Web", "Skele
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Client", "Skeleton.Web.Client\Skeleton.Web.Client.csproj", "{0C6FCF97-446E-4FF0-89AE-2B52AA6BA887}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01- Shared", "01- Shared", "{E7580B2A-61D7-4DD1-9F14-3511431608C1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{E7580B2A-61D7-4DD1-9F14-3511431608C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Abstraction", "Skeleton.Abstraction\Skeleton.Abstraction.csproj", "{F848F91F-11C7-4E9B-9701-110A467A0853}"
 EndProject

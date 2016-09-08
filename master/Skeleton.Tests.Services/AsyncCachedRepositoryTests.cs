@@ -104,7 +104,7 @@ namespace Skeleton.Tests
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsNotNull(fieldInfo);
-            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Query));
+            Assert.IsTrue((bool) fieldInfo.GetValue(_repository.Query));
         }
     }
 }

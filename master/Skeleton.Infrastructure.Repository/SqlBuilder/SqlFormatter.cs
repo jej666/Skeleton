@@ -18,7 +18,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             {ExpressionType.GreaterThanOrEqual, ">="},
             {ExpressionType.LessThanOrEqual, "<="}
         };
-        
+
         internal static string CountAny => "Count(*)";
 
         internal static string BeginExpression => "(";
@@ -126,10 +126,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal static string FieldCondition(MemberNode node, string op, string parameterId)
         {
-            return "{0} {1} {2}".FormatWith(
-                Field(node),
-                op,
-                Parameter(parameterId));
+            return "{0} {1} {2}".FormatWith(Field(node), op, Parameter(parameterId));
         }
 
         internal static string FieldComparison(MemberNode leftNode, string op, MemberNode rightNode)
@@ -156,7 +153,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal static string SelectAggregate(MemberNode node, string selectFunction)
         {
-            return "{0}({1}) AS {0}".FormatWith(selectFunction, Field(node));
+            return "{0}({1}) AS {0}{2}".FormatWith(selectFunction, Field(node), node.FieldName);
         }
 
         internal static string WhereIsIn(MemberNode node, IEnumerable<string> parameterIds)

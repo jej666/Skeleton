@@ -4,7 +4,6 @@
     {
         Left = 0,
         Right,
-        Inner,
-        Cross
+        Inner
     }
 }

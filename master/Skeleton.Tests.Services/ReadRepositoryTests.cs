@@ -74,7 +74,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Find_SelectedColumns()
+        public void Find_Selected_Columns()
         {
             var customer = GetFirstCustomer();
             var results = _repository.Query
@@ -107,11 +107,11 @@ namespace Skeleton.Tests
             var result = count.FirstOrDefault();
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Count > 0);
+            Assert.IsTrue(result.CountCustomerId > 0);
         }
 
         [TestMethod]
-        public void CountAll()
+        public void Count_All()
         {
             var count = _repository.Query.Count();
 
@@ -131,7 +131,7 @@ namespace Skeleton.Tests
                 .FirstOrDefault();
 
             Assert.IsNotNull(min);
-            Assert.IsTrue(min.Min == minCustomer.CustomerId);
+            Assert.IsTrue(min.MinCustomerId == minCustomer.CustomerId);
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace Skeleton.Tests
                 .FirstOrDefault();
 
             Assert.IsNotNull(findMax);
-            Assert.IsTrue(findMax.Max == maxCustomer.CustomerId);
+            Assert.IsTrue(findMax.MaxCustomerId == maxCustomer.CustomerId);
         }
 
         [TestMethod]
@@ -160,7 +160,7 @@ namespace Skeleton.Tests
             var result = sum.FirstOrDefault();
 
             Assert.IsNotNull(sum);
-            Assert.IsTrue((result != null) && (result.Sum > 0));
+            Assert.IsTrue((result != null) && (result.SumCustomerCategoryId > 0));
         }
 
         [TestMethod]
@@ -175,7 +175,7 @@ namespace Skeleton.Tests
             var result = avg.FirstOrDefault();
 
             Assert.IsNotNull(avg);
-            Assert.IsTrue((result != null) && (result.Avg > 0));
+            Assert.IsTrue((result != null) && (result.AvgCustomerCategoryId > 0));
         }
 
         [TestMethod]
@@ -191,10 +191,47 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        [TestCategory("Where")]
-        public void Find_WhereIsIn()
+        public void Find_RightJoin()
         {
-            var customerIds = new object[] { 5, 15, 25 };
+            var results = _repository.Query.RightJoin<CustomerCategory>(
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
+                .Find();
+
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+        }
+
+        [TestMethod]
+        public void Find_InnerJoin()
+        {
+            var results = _repository.Query.InnerJoin<CustomerCategory>(
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
+                .Find();
+
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+        }
+
+        [TestMethod]
+        public void Find_RightJoin_Distinct()
+        {
+            var results = _repository.Query.InnerJoin<CustomerCategory>(
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
+                .Distinct(customer => customer.CustomerId)
+                .Find();
+
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+        }
+
+        [TestMethod]
+        [TestCategory("Where")]
+        public void Find_Where_Is_In()
+        {
+            var customerIds = new object[] {5, 15, 25};
             var results = _repository.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -205,9 +242,9 @@ namespace Skeleton.Tests
 
         [TestMethod]
         [TestCategory("Where")]
-        public void Find_WhereNotIn()
+        public void Find_Where_Not_In()
         {
-            var customerIds = new object[] { 5, 15, 25 };
+            var customerIds = new object[] {5, 15, 25};
             var results = _repository.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -234,7 +271,7 @@ namespace Skeleton.Tests
 
         [TestMethod]
         [TestCategory("Where")]
-        public void Find_WhereIsNull()
+        public void Find_Where_Is_Null()
         {
             var results = _repository.Query
                 .Where(c => c.Name == null)
@@ -246,7 +283,7 @@ namespace Skeleton.Tests
 
         [TestMethod]
         [TestCategory("Where")]
-        public void Find_WhereIsNotNull()
+        public void Find_Where_Is_Not_Null()
         {
             var results = _repository.Query
                 .Where(c => c.Name != null)
@@ -257,23 +294,11 @@ namespace Skeleton.Tests
 
         [TestMethod]
         [TestCategory("Where")]
-        public void Find_ComplexWhere()
+        public void Find_Where_Complex()
         {
             var results = _repository.Query
                 .Where(c => (c.CustomerId >= 1)
                             && c.Name.Contains("Customer"))
-                .Find();
-
-            Assert.IsNotNull(results);
-        }
-
-        [TestMethod]
-        [TestCategory("Where")]
-        public void Find_EqualsOperator()
-        {
-            var customer = GetFirstCustomer();
-            var results = _repository.Query
-                .Where(c => c.CustomerId.Equals(customer.Id))
                 .Find();
 
             Assert.IsNotNull(results);
@@ -290,7 +315,29 @@ namespace Skeleton.Tests
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsNotNull(fieldInfo);
-            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Query));
+            Assert.IsTrue((bool) fieldInfo.GetValue(_repository.Query));
+        }
+
+        [TestMethod]
+        public void Find_Where_Not_Found()
+        {
+            var results = _repository
+                .Query
+                .Where(c => c.Name.StartsWith("Jerome"))
+                .Find();
+
+            Assert.IsFalse(results.Any());
+        }
+
+        [TestMethod]
+        public void FirstOrDefault_Where_Not_Found()
+        {
+            var result = _repository
+                .Query
+                .Where(c => c.Name.StartsWith("Jerome"))
+                .FirstOrDefault();
+
+            Assert.IsNull(result);
         }
     }
 }
