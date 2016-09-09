@@ -7,7 +7,7 @@ using Skeleton.Common;
 namespace Skeleton.Core.Reflection
 {
     [DebuggerDisplay("Name: {Name}")]
-    public class PropertyAccessor : MemberAccessorBase
+    public sealed class PropertyAccessor : MemberAccessorBase
     {
         private readonly LazyRef<GetterDelegate> _getDelegate;
         private readonly PropertyInfo _propertyInfo;

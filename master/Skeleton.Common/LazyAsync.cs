@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Common
 {
-    public class LazyAsync<T> : Lazy<Task<T>>
+    public sealed class LazyAsync<T> : Lazy<Task<T>>
     {
         public LazyAsync(Func<T> valueFactory) :
             base(() => Task.Factory.StartNew(valueFactory))

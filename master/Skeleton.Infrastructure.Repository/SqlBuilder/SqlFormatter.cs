@@ -9,7 +9,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     {
         private const string FieldDelimiter = ", ";
 
-        internal static Dictionary<ExpressionType, string> Operations => new Dictionary<ExpressionType, string>
+        internal static IDictionary<ExpressionType, string> Operations => new Dictionary<ExpressionType, string>
         {
             {ExpressionType.Equal, "="},
             {ExpressionType.NotEqual, "!="},

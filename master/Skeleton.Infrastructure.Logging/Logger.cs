@@ -6,7 +6,7 @@ using Skeleton.Abstraction;
 
 namespace Skeleton.Infrastructure.Logging
 {
-    public class Logger : ILogger
+    public sealed class Logger : ILogger
     {
         private readonly ILog _log;
 
