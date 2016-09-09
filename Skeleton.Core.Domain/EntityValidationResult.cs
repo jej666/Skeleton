@@ -5,7 +5,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Core.Domain
 {
-    public class EntityValidationResult : IEntityValidationResult
+    public sealed class EntityValidationResult : IEntityValidationResult
     {
         public EntityValidationResult(IEnumerable<string> brokenRules)
         {

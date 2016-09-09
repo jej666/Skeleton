@@ -6,7 +6,7 @@ using Skeleton.Common;
 namespace Skeleton.Core.Reflection
 {
     [DebuggerDisplay("Name: {Name}")]
-    public class MethodAccessor : IMethodAccessor
+    public sealed class MethodAccessor : IMethodAccessor
     {
         private readonly LazyRef<MethodDelegate> _methodDelegate;
 

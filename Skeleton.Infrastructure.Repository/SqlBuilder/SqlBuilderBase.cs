@@ -212,7 +212,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Build(memberNode, valueNode, op);
         }
 
-
         private void Build(SingleOperationNode leftMember, Node rightMember, ExpressionType op)
         {
             if (leftMember.Operator == ExpressionType.Not)
@@ -235,7 +234,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             ContextBase.Conditions.Add(SqlFormatter.EndExpression);
         }
 
-
         private void Build(MemberNode leftNode, MemberNode rightNode, ExpressionType op)
         {
             var newCondition = SqlFormatter.FieldComparison(
@@ -245,7 +243,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
             ContextBase.Conditions.Add(newCondition);
         }
-
 
         private void Build(Node node)
         {

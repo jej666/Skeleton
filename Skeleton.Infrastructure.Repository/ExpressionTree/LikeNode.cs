@@ -1,6 +1,6 @@
 ﻿namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
-    internal class LikeNode : Node
+    internal sealed class LikeNode : Node
     {
         internal MemberNode MemberNode { get; set; }
         internal LikeMethod Method { get; set; }
