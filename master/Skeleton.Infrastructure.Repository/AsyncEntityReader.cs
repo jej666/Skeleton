@@ -44,22 +44,20 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual async Task<TEntity> FirstOrDefaultAsync(object id)
         {
-            try
-            {
-                id.ThrowIfNull(() => id);
+            id.ThrowIfNull(() => id);
 
-                Builder.QueryByPrimaryKey(
-                    e => e.Id.Equals(id));
+            Builder.QueryByPrimaryKey(
+                e => e.Id.Equals(id));
 
-                return await FirstOrDefaultAsync();
-            }
-            finally
-            {
-                Builder.OnNextQuery();
-            }
+            return await FirstOrDefaultCoreAsync();
         }
 
         public virtual async Task<TEntity> FirstOrDefaultAsync()
+        {
+            return await FirstOrDefaultCoreAsync();
+        }
+
+        private async Task<TEntity> FirstOrDefaultCoreAsync()
         {
             try
             {
@@ -74,20 +72,20 @@ namespace Skeleton.Infrastructure.Repository
             }
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            try
-            {
-                return await Database.FindAsync<TEntity>(
-                        Builder.SqlQuery,
-                        Builder.Parameters)
-                    .ConfigureAwait(false);
-            }
-            finally
-            {
-                Builder.OnNextQuery();
-            }
-        }
+        //public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        //{
+        //    try
+        //    {
+        //        return await Database.FindAsync<TEntity>(
+        //                Builder.SqlQuery,
+        //                Builder.Parameters)
+        //            .ConfigureAwait(false);
+        //    }
+        //    finally
+        //    {
+        //        Builder.OnNextQuery();
+        //    }
+        //}
 
         public virtual async Task<IEnumerable<TEntity>> PageAsync(
             int pageSize,

@@ -9,7 +9,7 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class AsyncCachedRepositoryTests : TestBase
+    public class AsyncCachedRepositoryTests : RepositoryTestBase
     {
         private readonly IAsyncCachedReadRepository<Customer, CustomerDto> _repository;
 
@@ -67,7 +67,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task Cached_GetAllAsync()
         {
-            var results = await _repository.Query.GetAllAsync();
+            var results = await _repository.Query.FindAsync();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));

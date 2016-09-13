@@ -36,10 +36,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual TEntity FirstOrDefault()
         {
-            return Builder.OnNextQuery(() =>
-                Database.FirstOrDefault<TEntity>(
-                    Builder.SqlQuery,
-                    Builder.Parameters));
+            return FirstOrDefaultCore();
         }
 
         public virtual TEntity FirstOrDefault(object id)
@@ -48,13 +45,13 @@ namespace Skeleton.Infrastructure.Repository
 
             Builder.QueryByPrimaryKey(e => e.Id.Equals(id));
 
-            return FirstOrDefault();
+            return FirstOrDefaultCore();
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        private TEntity FirstOrDefaultCore()
         {
             return Builder.OnNextQuery(() =>
-                Database.Find<TEntity>(
+                Database.FirstOrDefault<TEntity>(
                     Builder.SqlQuery,
                     Builder.Parameters));
         }

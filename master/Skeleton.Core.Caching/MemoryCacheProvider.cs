@@ -28,6 +28,9 @@ namespace Skeleton.Core.Caching
                 var policy = new CachePolicyFactory().Create(configurator);
                 var value = valueFactory();
 
+                if (value == null)
+                    return default(T);
+
                 Cache.Add(key, value, policy);
 
                 return value;
@@ -57,6 +60,7 @@ namespace Skeleton.Core.Caching
 
                 if (asyncLazyValue != Cache.AddOrGetExisting(key, new LazyAsync<T>(valueFactory), policy))
                     return await GetOrAddAsync(key, valueFactory, configurator);
+
                 return result;
             }
             catch (Exception)

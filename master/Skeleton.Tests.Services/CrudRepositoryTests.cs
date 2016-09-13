@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
@@ -8,7 +9,7 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class CrudRepositoryTests : TestBase
+    public class CrudRepositoryTests : RepositoryTestBase
     {
         private readonly ICrudRepository<Customer, CustomerDto> _repository;
 
@@ -22,7 +23,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Add()
         {
-            var customer = new Customer {Name = "Customer"};
+            var customer = MemorySeeder.SeedCustomer();
             var successed = _repository.Store.Add(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id.IsNotZeroOrEmpty());
@@ -70,6 +71,7 @@ namespace Skeleton.Tests
                 .Top(1)
                 .FirstOrDefault();
             customer.Name = "CustomerUpdated";
+            customer.CustomerCategoryId = new Random().Next(0, 10);
             var successed = _repository.Store.Update(customer);
             Assert.IsTrue(successed);
 
@@ -95,7 +97,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public void Save_Should_Add()
         {
-            var customer = new Customer {Name = "Customer"};
+            var customer = MemorySeeder.SeedCustomer();
             var successed = _repository.Store.Save(customer);
             Assert.IsTrue(successed);
             Assert.IsFalse(customer.Id.IsZeroOrEmpty());

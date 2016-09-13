@@ -151,6 +151,9 @@ namespace Skeleton.Infrastructure.Repository
 
         private object AddCommand(TEntity entity)
         {
+            if (entity.Id.IsNotZeroOrEmpty())
+                throw new ArgumentException($"Entity Id is not null. {nameof(AddCommand)} is canceled");
+
             var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
@@ -170,6 +173,9 @@ namespace Skeleton.Infrastructure.Repository
 
         private int DeleteCommand(TEntity entity)
         {
+            if (entity.Id.IsZeroOrEmpty())
+                throw new ArgumentException($"Entity Id is null. {nameof(DeleteCommand)} is canceled");
+
             var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
@@ -180,6 +186,9 @@ namespace Skeleton.Infrastructure.Repository
 
         private int UpdateCommand(TEntity entity)
         {
+            if (entity.Id.IsZeroOrEmpty())
+                throw new ArgumentException($"Entity Id is null. {nameof(UpdateCommand)} is canceled");
+
             var builder = new UpdateCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 

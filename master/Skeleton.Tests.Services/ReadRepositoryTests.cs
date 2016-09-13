@@ -8,7 +8,7 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class ReadRepositoryTests : TestBase
+    public class ReadRepositoryTests : RepositoryTestBase
     {
         private readonly ICrudRepository<Customer, CustomerDto> _repository;
 
@@ -65,9 +65,17 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
+        public void FirstOrDefault_With_Wrong_Id()
+        {
+            var customer = _repository.Query.FirstOrDefault(100000);
+
+            Assert.IsNull(customer);
+        }
+
+        [TestMethod]
         public void GetAll()
         {
-            var results = _repository.Query.GetAll();
+            var results = _repository.Query.Find();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
@@ -169,13 +177,12 @@ namespace Skeleton.Tests
             var avg = _repository.Query
                 .OrderBy(c => c.CustomerId)
                 .GroupBy(c => c.CustomerId)
-                .Select(c => c.CustomerId)
-                .Average(c => c.CustomerCategoryId);
+                .Average(c => c.CustomerId);
 
             var result = avg.FirstOrDefault();
 
             Assert.IsNotNull(avg);
-            Assert.IsTrue((result != null) && (result.AvgCustomerCategoryId > 0));
+            Assert.IsTrue((result != null) && (result.AvgCustomerId > 0));
         }
 
         [TestMethod]

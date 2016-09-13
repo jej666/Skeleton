@@ -32,7 +32,7 @@ namespace Skeleton.Web.Server.Controllers
         [HttpGet]
         public virtual async Task<IHttpActionResult> GetAll()
         {
-            var result = await _repository.Query.GetAllAsync();
+            var result = await _repository.Query.FindAsync();
 
             if (result == null)
                 return NotFound();

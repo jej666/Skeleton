@@ -9,7 +9,7 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class CachedRepositoryTests : TestBase
+    public class CachedRepositoryTests : RepositoryTestBase
     {
         private readonly ICachedReadRepository<Customer, CustomerDto> _repository;
 
@@ -64,9 +64,17 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
+        public void Cached_FirstOrDefault_With_Wrong_Id()
+        {
+            var customer = _repository.Query.FirstOrDefault(100000);
+
+            Assert.IsNull(customer);
+        }
+
+        [TestMethod]
         public void Cached_GetAll()
         {
-            var results = _repository.Query.GetAll();
+            var results = _repository.Query.Find();
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
             Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(

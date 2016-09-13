@@ -11,8 +11,6 @@ namespace Skeleton.Abstraction.Repository
 
         IEnumerable<TEntity> Find();
 
-        IEnumerable<TEntity> GetAll();
-
         IEnumerable<TEntity> Page(int pageSize, int pageNumber);
     }
 }

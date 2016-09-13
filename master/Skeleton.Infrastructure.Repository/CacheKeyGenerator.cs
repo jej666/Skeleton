@@ -37,12 +37,12 @@ namespace Skeleton.Infrastructure.Repository
                 query);
         }
 
-        public string ForGetAll()
-        {
-            return "{0}{1}[GetAll]".FormatWith(
-                Prefix,
-                typeof(TEntity).FullName);
-        }
+        //public string ForGetAll()
+        //{
+        //    return "{0}{1}[GetAll]".FormatWith(
+        //        Prefix,
+        //        typeof(TEntity).FullName);
+        //}
 
         public string ForPage(int pageSize, int pageNumber)
         {
