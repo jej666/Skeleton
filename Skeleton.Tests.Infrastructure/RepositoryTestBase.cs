@@ -1,12 +1,11 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Infrastructure.DependencyInjection;
-using Skeleton.Tests.Infrastructure;
 
-namespace Skeleton.Tests
+namespace Skeleton.Tests.Infrastructure
 {
-    public abstract class TestBase
+    public abstract class RepositoryTestBase
     {
-        protected TestBase()
+        protected RepositoryTestBase()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
             Bootstrapper.Initialize();

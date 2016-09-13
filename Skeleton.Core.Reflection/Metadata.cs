@@ -19,6 +19,9 @@ namespace Skeleton.Core.Reflection
         private const BindingFlags DefaultFlags =
             BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
 
+        private const BindingFlags AllFlags =
+            BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
+
         private readonly Lazy<ConcurrentDictionary<string, IMemberAccessor>> _fieldCache =
             new Lazy<ConcurrentDictionary<string, IMemberAccessor>>(() =>
                     new ConcurrentDictionary<string, IMemberAccessor>());
@@ -82,15 +85,30 @@ namespace Skeleton.Core.Reflection
 
         public IMemberAccessor GetField(string name)
         {
+            return GetField(name, DefaultFlags);
+        }
+        
+        public IMemberAccessor GetPrivateField(string name)
+        {
+            return GetField(name, AllFlags);
+        }
+
+        private IMemberAccessor GetField(string name, BindingFlags bindings)
+        {
             name.ThrowIfNullOrEmpty(() => name);
 
             IMemberAccessor accessor;
             if (_fieldCache.Value.TryGetValue(name, out accessor))
                 return accessor;
 
-            var fieldInfo = Type.GetField(name);
+            var fieldInfo = Type.GetField(name, bindings);
 
             return fieldInfo == null ? null : MemberAccessorFactory.Create(fieldInfo);
+        }
+
+        public IEnumerable<IMemberAccessor> GetAllFields()
+        {
+            return GetFields(AllFlags);
         }
 
         public IEnumerable<IMemberAccessor> GetFields()

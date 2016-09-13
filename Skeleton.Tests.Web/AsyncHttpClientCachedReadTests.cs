@@ -1,24 +1,25 @@
 ﻿using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Tests.Infrastructure;
 
 namespace Skeleton.Web.Tests
 {
     [TestClass]
-    public class HttpClientCachedReadTests
+    public class AsyncHttpClientCachedReadTests
     {
-        public HttpClientCachedReadTests()
+        public AsyncHttpClientCachedReadTests()
         {
             SqlDbSeeder.SeedCustomers();
         }
 
         [TestMethod]
-        public void GetAll()
+        public async Task GetAllAsync()
         {
-            using (var client = new CachedCustomersHttpClient())
+            using (var client = new AsyncCachedCustomersHttpClient())
             {
-                var results = client.GetAll();
+                var results = await client.GetAllAsync();
 
                 Assert.IsNotNull(results);
                 Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
@@ -26,15 +27,16 @@ namespace Skeleton.Web.Tests
         }
 
         [TestMethod]
-        public void FirstOrDefault_ById()
+        public async Task FirstOrDefaultAsync_ById()
         {
-            using (var client = new CachedCustomersHttpClient())
+            using (var client = new AsyncCachedCustomersHttpClient())
             {
-                var data = client.Page(1,1).Results.FirstOrDefault();
+                var data = await client.PageAsync(1,1);
+                var first = data.Results.FirstOrDefault();
 
-                Assert.IsNotNull(data);
+                Assert.IsNotNull(first);
 
-                var result = client.FirstOrDefault(data.CustomerId);
+                var result = await client.FirstOrDefaultAsync(first.CustomerId);
 
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(CustomerDto));
@@ -43,25 +45,25 @@ namespace Skeleton.Web.Tests
 
         [TestMethod]
         [ExpectedException(typeof(HttpRequestException))]
-        public void FirstOrDefault_With_Wrong_Id()
+        public async Task FirstOrDefaultAsync_With_Wrong_Id()
         {
-            using (var client = new CachedCustomersHttpClient())
+            using (var client = new AsyncCachedCustomersHttpClient())
             {
-                client.FirstOrDefault(1000000);
+               await client.FirstOrDefaultAsync(100000);
             }
         }
 
         [TestMethod]
-        public void Page()
+        public async Task Page()
         {
             const int pageSize = 50;
             const int numberOfPages = 5;
 
-            using (var client = new CachedCustomersHttpClient())
+            using (var client = new AsyncCachedCustomersHttpClient())
             {
                 for (var page = 1; page < numberOfPages; ++page)
                 {
-                    var response = client.Page(pageSize, page);
+                    var response = await client.PageAsync(pageSize, page);
                     Assert.AreEqual(pageSize, response.Results.Count());
                 }
             }

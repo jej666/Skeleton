@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Reflection", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Caching", "Skeleton.Core.Caching\Skeleton.Core.Caching.csproj", "{E86A7537-4A96-4344-94E6-BF5FD4155A1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Benchmarks", "Skeleton.Tests.Benchmarks\Skeleton.Tests.Benchmarks.csproj", "{C3A6CF1E-201F-4A5D-BC4E-02255709FA75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{E86A7537-4A96-4344-94E6-BF5FD4155A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E86A7537-4A96-4344-94E6-BF5FD4155A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E86A7537-4A96-4344-94E6-BF5FD4155A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3A6CF1E-201F-4A5D-BC4E-02255709FA75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A6CF1E-201F-4A5D-BC4E-02255709FA75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3A6CF1E-201F-4A5D-BC4E-02255709FA75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3A6CF1E-201F-4A5D-BC4E-02255709FA75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,9 +128,10 @@ Global
 		{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67} = {E7580B2A-61D7-4DD1-9F14-3511431608C1}
 		{3E91A67B-9609-4A92-8B3C-6FFF2C3941A9} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
 		{E86A7537-4A96-4344-94E6-BF5FD4155A1A} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
+		{C3A6CF1E-201F-4A5D-BC4E-02255709FA75} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 15
+		SccNumberOfProjects = 16
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://jej666.visualstudio.com/
 		SccLocalPath0 = .
@@ -184,5 +191,9 @@ Global
 		SccProjectTopLevelParentUniqueName14 = Skeleton.sln
 		SccProjectName14 = Skeleton.Infrastructure.DependencyInjection
 		SccLocalPath14 = Skeleton.Infrastructure.DependencyInjection
+		SccProjectUniqueName15 = Skeleton.Tests.Benchmarks\\Skeleton.Tests.Benchmarks.csproj
+		SccProjectTopLevelParentUniqueName15 = Skeleton.sln
+		SccProjectName15 = Skeleton.Tests.Benchmarks
+		SccLocalPath15 = Skeleton.Tests.Benchmarks
 	EndGlobalSection
 EndGlobal

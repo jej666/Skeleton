@@ -4,10 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Tests.Infrastructure;
 
-namespace Skeleton.Tests
+namespace Skeleton.Tests.Benchmarks
 {
     [TestClass]
-    public class PerformanceTests : TestBase
+    public class RepositoryPerformanceTests : RepositoryTestBase
     {
         [TestMethod]
         public void Run()
@@ -60,19 +60,19 @@ namespace Skeleton.Tests
 
                 benchmarks.Add(() =>
                 {
-                    var list = repository.GetAll();
+                    var list = repository.Find();
                 }, "Skeleton.Orm => Cold start");
 
                 benchmarks.Add(() =>
                 {
-                    var list = repository.GetAll();
+                    var list = repository.Find();
                 }, "Skeleton.Orm => Hot start (benefits of TypeCacheAccessor)");
 
                 var repositoryAsync = Container.Resolve<IAsyncEntityReader<Post>>();
 
                 benchmarks.Add(() =>
                 {
-                    var list = repositoryAsync.GetAllAsync().Result;
+                    var list = repositoryAsync.FindAsync().Result;
                 }, "Skeleton.Orm.Async => Hot start");
 
                 benchmarks.Run();

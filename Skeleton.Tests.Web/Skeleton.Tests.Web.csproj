@@ -48,10 +48,6 @@
       <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Hosting, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -88,6 +84,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AsyncHttpClientCachedReadTests.cs" />
     <Compile Include="HttpClientCachedReadTests.cs" />
     <Compile Include="AsyncHttpClientCrudTests.cs" />
     <Compile Include="HttpClientCrudTests.cs" />
@@ -97,10 +94,6 @@
     <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Infrastructure.Data\Skeleton.Infrastructure.Data.csproj">
-      <Project>{07953ee3-e1f8-48e6-bcfc-c938af4b5f27}</Project>
-      <Name>Skeleton.Infrastructure.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Infrastructure.DependencyInjection\Skeleton.Infrastructure.DependencyInjection.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
@@ -127,16 +120,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\RouteDebugger\Components\" />
-    <Folder Include="Areas\RouteDebugger\Content\" />
-    <Folder Include="Areas\RouteDebugger\Controllers\" />
-    <Folder Include="Areas\RouteDebugger\Models\" />
-    <Folder Include="Areas\RouteDebugger\Scripts\" />
-    <Folder Include="Areas\RouteDebugger\Views\RouteDebugger\" />
-    <Folder Include="Content\images\" />
-    <Folder Include="Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

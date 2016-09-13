@@ -66,17 +66,6 @@ namespace Skeleton.Infrastructure.Repository
                 .ConfigureAwait(false);
         }
 
-        public override async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            LastGeneratedCacheKey = _keyGenerator.ForGetAll();
-
-            return await Cache.GetOrAddAsync(
-                    LastGeneratedCacheKey,
-                    () => base.GetAllAsync(),
-                    CacheConfigurator)
-                .ConfigureAwait(false);
-        }
-
         public override async Task<IEnumerable<TEntity>> PageAsync(
             int pageSize,
             int pageNumber)

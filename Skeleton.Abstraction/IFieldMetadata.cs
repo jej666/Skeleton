@@ -5,11 +5,15 @@ namespace Skeleton.Abstraction
     public interface IFieldMetadata
     {
         int FieldsCount { get; }
-
-        IEnumerable<IMemberAccessor> GetDeclaredOnlyFields();
-
+        
         IMemberAccessor GetField(string name);
 
+        IMemberAccessor GetPrivateField(string name);
+
+        IEnumerable<IMemberAccessor> GetAllFields();
+
         IEnumerable<IMemberAccessor> GetFields();
+
+        IEnumerable<IMemberAccessor> GetDeclaredOnlyFields();
     }
 }

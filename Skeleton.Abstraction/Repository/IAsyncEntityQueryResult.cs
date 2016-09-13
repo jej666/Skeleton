@@ -12,8 +12,6 @@ namespace Skeleton.Abstraction.Repository
 
         Task<IEnumerable<TEntity>> FindAsync();
 
-        Task<IEnumerable<TEntity>> GetAllAsync();
-
         Task<IEnumerable<TEntity>> PageAsync(int pageSize, int pageNumber);
     }
 }

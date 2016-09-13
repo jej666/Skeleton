@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Infrastructure;
@@ -65,6 +66,16 @@ namespace Skeleton.Web.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(HttpRequestException))]
+        public void FirstOrDefault_With_Wrong_Id()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var result = client.FirstOrDefault(100000);
+            }
+        }
+
+        [TestMethod]
         public void Page()
         {
             const int pageSize = 50;
@@ -102,11 +113,27 @@ namespace Skeleton.Web.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(HttpRequestException))]
+        public void Update_With_Wrong_Id()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var customer = new CustomerDto
+                {
+                    CustomerId = 100000,
+                    Name = "CustomerUpdated"
+                };
+
+                client.Update(customer);
+            }
+        }
+
+        [TestMethod]
         public void Update_Multiple()
         {
             using (var client = new CustomersHttpClient())
             {
-                var customers = client.Page(5, 1).Results;
+                var customers = client.Page(5, 1).Results.ToList();
                 Assert.IsNotNull(customers);
 
                 foreach (var customer in customers)
@@ -122,11 +149,23 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var customer = new CustomerDto {Name = "Customer"};
+                var customer = MemorySeeder.SeedCustomerDto();
                 var result = client.Add(customer);
 
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(HttpRequestException))]
+        public void Add_With_Id()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                var customer = MemorySeeder.SeedCustomerDto();
+                customer.CustomerId = 100000;
+                client.Add(customer);
             }
         }
 
@@ -165,6 +204,16 @@ namespace Skeleton.Web.Tests
 
                 var result = client.Delete(customers);
                 Assert.IsTrue(result);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(HttpRequestException))]
+        public void Delete_With_Wrong_Id()
+        {
+            using (var client = new CustomersHttpClient())
+            {
+                client.Delete(100000);
             }
         }
     }

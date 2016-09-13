@@ -8,7 +8,7 @@ using Skeleton.Tests.Infrastructure;
 namespace Skeleton.Tests
 {
     [TestClass]
-    public class AsyncCrudRepositoryTests : TestBase
+    public class AsyncCrudRepositoryTests : RepositoryTestBase
     {
         private readonly IAsyncCrudRepository<Customer, CustomerDto> _repository;
 
@@ -22,7 +22,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task AddAsync()
         {
-            var customer = new Customer {Name = "Foo"};
+            var customer = MemorySeeder.SeedCustomer();
             var successed = await _repository.Store.AddAsync(customer);
 
             Assert.IsTrue(successed);
@@ -93,7 +93,7 @@ namespace Skeleton.Tests
         [TestMethod]
         public async Task SaveAsync_ShouldAdd()
         {
-            var customer = new Customer {Name = "Customer"};
+            var customer = MemorySeeder.SeedCustomer();
             var successed = await _repository.Store.SaveAsync(customer);
             Assert.IsTrue(successed);
             Assert.IsTrue(customer.Id.IsNotZeroOrEmpty());

@@ -32,7 +32,7 @@ namespace Skeleton.Web.Server.Controllers
         public virtual IHttpActionResult GetAll()
         {
             var allData = _repository.Query
-                .GetAll()
+                .Find()
                 .Select(_repository.Mapper.Map)
                 .ToList();
 

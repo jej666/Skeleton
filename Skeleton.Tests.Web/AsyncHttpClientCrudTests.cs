@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Tests.Infrastructure;
@@ -39,6 +40,16 @@ namespace Skeleton.Web.Tests
 
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(HttpRequestException))]
+        public async Task FirstOrDefault_With_Wrong_Id()
+        {
+            using (var client = new AsyncCustomersHttpClient())
+            {
+               await client.FirstOrDefaultAsync(100000);
             }
         }
 

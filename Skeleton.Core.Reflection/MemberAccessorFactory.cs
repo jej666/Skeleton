@@ -19,13 +19,6 @@ namespace Skeleton.Core.Reflection
                 : new PropertyAccessor(propertyInfo);
         }
 
-        public static IMethodAccessor Create(MethodInfo methodInfo)
-        {
-            return methodInfo == null
-                ? null
-                : new MethodAccessor(methodInfo);
-        }
-
         public static IMethodAccessor Create(Type type, string name, Type[] parameterTypes)
         {
             if (type == null)
