@@ -49,7 +49,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new AsyncCustomersHttpClient())
             {
-               await client.FirstOrDefaultAsync(100000);
+                await client.FirstOrDefaultAsync(100000);
             }
         }
 

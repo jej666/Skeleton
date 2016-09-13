@@ -30,7 +30,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CachedCustomersHttpClient())
             {
-                var data = client.Page(1,1).Results.FirstOrDefault();
+                var data = client.Page(1, 1).Results.FirstOrDefault();
 
                 Assert.IsNotNull(data);
 

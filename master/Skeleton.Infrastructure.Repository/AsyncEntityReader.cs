@@ -57,21 +57,6 @@ namespace Skeleton.Infrastructure.Repository
             return await FirstOrDefaultCoreAsync();
         }
 
-        private async Task<TEntity> FirstOrDefaultCoreAsync()
-        {
-            try
-            {
-                return await Database.FirstOrDefaultAsync<TEntity>(
-                        Builder.SqlQuery,
-                        Builder.Parameters)
-                    .ConfigureAwait(false);
-            }
-            finally
-            {
-                Builder.OnNextQuery();
-            }
-        }
-
         //public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         //{
         //    try
@@ -275,6 +260,21 @@ namespace Skeleton.Infrastructure.Repository
             Builder.Aggregate(expression, SelectFunction.Sum);
 
             return await AggregateAsync();
+        }
+
+        private async Task<TEntity> FirstOrDefaultCoreAsync()
+        {
+            try
+            {
+                return await Database.FirstOrDefaultAsync<TEntity>(
+                        Builder.SqlQuery,
+                        Builder.Parameters)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                Builder.OnNextQuery();
+            }
         }
 
         protected override void DisposeManagedResources()

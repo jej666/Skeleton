@@ -64,7 +64,7 @@ namespace Skeleton.Infrastructure.Repository
                 CacheConfigurator);
         }
 
-       public override IEnumerable<TEntity> Page(int pageSize, int pageNumber)
+        public override IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
             LastGeneratedCacheKey = _keyGenerator.ForPage(pageSize, pageNumber);
 

@@ -31,7 +31,7 @@ namespace Skeleton.Tests.Benchmarks
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var properties = metadata.GetProperties().ToArray();
 
-            for (int i = 0; i <= Iterations; ++i)
+            for (var i = 0; i <= Iterations; ++i)
             {
                 var property = properties[0];
                 var instance = metadata.CreateInstance<MetadataType>();
@@ -44,7 +44,7 @@ namespace Skeleton.Tests.Benchmarks
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var properties = metadata.GetProperties().ToArray();
 
-            for (int i = 0; i <= Iterations; ++i)
+            for (var i = 0; i <= Iterations; ++i)
             {
                 var property = properties[0];
                 var instance = metadata.CreateInstance<MetadataType>();
@@ -54,7 +54,7 @@ namespace Skeleton.Tests.Benchmarks
 
         private static void SetPropertyValue_Reflection()
         {
-            for (int i = 0; i <= Iterations; ++i)
+            for (var i = 0; i <= Iterations; ++i)
             {
                 var property = typeof(MetadataType).GetProperty("Property");
                 var instance = Activator.CreateInstance(typeof(MetadataType));
@@ -64,7 +64,7 @@ namespace Skeleton.Tests.Benchmarks
 
         private static void GetPropertyValue_Reflection()
         {
-            for (int i = 0; i <= Iterations; ++i)
+            for (var i = 0; i <= Iterations; ++i)
             {
                 var property = typeof(MetadataType).GetProperty("Property");
                 var instance = Activator.CreateInstance(typeof(MetadataType));
@@ -76,7 +76,7 @@ namespace Skeleton.Tests.Benchmarks
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
 
-            for (int i = 0; i <= Iterations; ++i)
+            for (var i = 0; i <= Iterations; ++i)
             {
                 var instance = metadata.CreateInstance<MetadataType>();
             }
@@ -84,7 +84,7 @@ namespace Skeleton.Tests.Benchmarks
 
         private static void CreateInstance_Reflection()
         {
-            for (int i = 0; i <= Iterations; ++i)
+            for (var i = 0; i <= Iterations; ++i)
             {
                 var instance = Activator.CreateInstance(typeof(MetadataType));
             }
