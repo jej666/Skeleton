@@ -5,7 +5,7 @@ namespace Skeleton.Abstraction
     public interface IFieldMetadata
     {
         int FieldsCount { get; }
-        
+
         IMemberAccessor GetField(string name);
 
         IMemberAccessor GetPrivateField(string name);

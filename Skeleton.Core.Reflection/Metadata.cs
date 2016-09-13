@@ -87,23 +87,10 @@ namespace Skeleton.Core.Reflection
         {
             return GetField(name, DefaultFlags);
         }
-        
+
         public IMemberAccessor GetPrivateField(string name)
         {
             return GetField(name, AllFlags);
-        }
-
-        private IMemberAccessor GetField(string name, BindingFlags bindings)
-        {
-            name.ThrowIfNullOrEmpty(() => name);
-
-            IMemberAccessor accessor;
-            if (_fieldCache.Value.TryGetValue(name, out accessor))
-                return accessor;
-
-            var fieldInfo = Type.GetField(name, bindings);
-
-            return fieldInfo == null ? null : MemberAccessorFactory.Create(fieldInfo);
         }
 
         public IEnumerable<IMemberAccessor> GetAllFields()
@@ -161,6 +148,19 @@ namespace Skeleton.Core.Reflection
                 return accessor;
 
             return MemberAccessorFactory.Create(propertyInfo);
+        }
+
+        private IMemberAccessor GetField(string name, BindingFlags bindings)
+        {
+            name.ThrowIfNullOrEmpty(() => name);
+
+            IMemberAccessor accessor;
+            if (_fieldCache.Value.TryGetValue(name, out accessor))
+                return accessor;
+
+            var fieldInfo = Type.GetField(name, bindings);
+
+            return fieldInfo == null ? null : MemberAccessorFactory.Create(fieldInfo);
         }
 
         private void CreateConstructorDelegate(Type[] parameterTypes)

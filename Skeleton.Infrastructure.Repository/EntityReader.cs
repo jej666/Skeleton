@@ -48,14 +48,6 @@ namespace Skeleton.Infrastructure.Repository
             return FirstOrDefaultCore();
         }
 
-        private TEntity FirstOrDefaultCore()
-        {
-            return Builder.OnNextQuery(() =>
-                Database.FirstOrDefault<TEntity>(
-                    Builder.SqlQuery,
-                    Builder.Parameters));
-        }
-
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
             return Builder.OnNextQuery(() =>
@@ -228,6 +220,14 @@ namespace Skeleton.Infrastructure.Repository
             Builder.Aggregate(expression, SelectFunction.Sum);
 
             return Aggregate();
+        }
+
+        private TEntity FirstOrDefaultCore()
+        {
+            return Builder.OnNextQuery(() =>
+                Database.FirstOrDefault<TEntity>(
+                    Builder.SqlQuery,
+                    Builder.Parameters));
         }
 
         protected override void DisposeManagedResources()

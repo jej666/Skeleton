@@ -31,7 +31,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new AsyncCachedCustomersHttpClient())
             {
-                var data = await client.PageAsync(1,1);
+                var data = await client.PageAsync(1, 1);
                 var first = data.Results.FirstOrDefault();
 
                 Assert.IsNotNull(first);
@@ -49,7 +49,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new AsyncCachedCustomersHttpClient())
             {
-               await client.FirstOrDefaultAsync(100000);
+                await client.FirstOrDefaultAsync(100000);
             }
         }
 
