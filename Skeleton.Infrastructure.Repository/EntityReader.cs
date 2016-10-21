@@ -14,10 +14,13 @@ namespace Skeleton.Infrastructure.Repository
             IEntityReader<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
+        private readonly IMetadataProvider _metadataProvider;
+
         public EntityReader(
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
+            _metadataProvider = metadataProvider;
             Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
             Database = database;
         }
@@ -30,8 +33,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             return Builder.OnNextQuery(() =>
                 Database.Find<TEntity>(
-                    Builder.SqlQuery,
-                    Builder.Parameters));
+                    Builder.SqlCommand));
         }
 
         public virtual TEntity FirstOrDefault()
@@ -50,10 +52,12 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
+            var pagedBuilder= new PagedSelectQueryBuilder<TEntity>(
+                _metadataProvider, pageSize, pageNumber);
+
             return Builder.OnNextQuery(() =>
                 Database.Find<TEntity>(
-                    Builder.SqlPagedQuery(pageSize, pageNumber),
-                    Builder.Parameters));
+                    Builder.SqlCommand));;
         }
 
         public IEntityReader<TEntity> GroupBy(
@@ -182,8 +186,7 @@ namespace Skeleton.Infrastructure.Repository
 
             return Builder.OnNextQuery(() =>
                 Database.ExecuteScalar<int>(
-                    Builder.SqlQuery,
-                    Builder.Parameters));
+                    Builder.SqlCommand));
         }
 
         public IEnumerable<dynamic> Count(
@@ -226,8 +229,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             return Builder.OnNextQuery(() =>
                 Database.FirstOrDefault<TEntity>(
-                    Builder.SqlQuery,
-                    Builder.Parameters));
+                    Builder.SqlCommand));
         }
 
         protected override void DisposeManagedResources()
@@ -248,8 +250,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             return Builder.OnNextQuery(() =>
                 Database.Find(
-                    Builder.SqlQuery,
-                    Builder.Parameters));
+                    Builder.SqlCommand));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal enum SelectFunction
+    public enum SelectFunction
     {
         Distinct,
         Avg,

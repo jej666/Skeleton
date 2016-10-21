@@ -157,9 +157,7 @@ namespace Skeleton.Infrastructure.Repository
             var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            var id = Database.ExecuteScalar(
-                builder.SqlQuery,
-                builder.Parameters);
+            var id = Database.ExecuteScalar(builder.SqlCommand);
 
             if (id != null)
             {
@@ -179,9 +177,7 @@ namespace Skeleton.Infrastructure.Repository
             var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            return Database.Execute(
-                builder.SqlQuery,
-                builder.Parameters);
+            return Database.Execute(builder.SqlCommand);
         }
 
         private int UpdateCommand(TEntity entity)
@@ -194,9 +190,7 @@ namespace Skeleton.Infrastructure.Repository
 
             entity.LastModifiedDateTime = DateTime.Now;
 
-            return Database.Execute(
-                builder.SqlQuery,
-                builder.Parameters);
+            return Database.Execute(builder.SqlCommand);
         }
     }
 }

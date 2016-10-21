@@ -59,6 +59,7 @@
     <Compile Include="Data\IDatabaseQuery.cs" />
     <Compile Include="Data\IDatabaseQueryAsync.cs" />
     <Compile Include="Data\IDatabaseTransaction.cs" />
+    <Compile Include="Data\ISqlCommand.cs" />
     <Compile Include="IEntityDescriptor.cs" />
     <Compile Include="IEntityAuditable.cs" />
     <Compile Include="ICacheContext.cs" />

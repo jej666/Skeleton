@@ -1,6 +1,6 @@
 ﻿namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
-    internal enum LikeMethod
+    public enum LikeMethod
     {
         StartsWith,
         EndsWith,

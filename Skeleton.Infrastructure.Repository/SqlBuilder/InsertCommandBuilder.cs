@@ -3,20 +3,20 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal sealed class InsertCommandBuilder<TEntity> :
+    public sealed class InsertCommandBuilder<TEntity> :
             SqlBuilderBase<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private const string ScopeIdentity = "SELECT scope_identity() AS[SCOPE_IDENTITY]";
         private CommandContext _context = new CommandContext();
 
-        internal InsertCommandBuilder(IMetadataProvider metadataProvider, TEntity entity)
+        public InsertCommandBuilder(IMetadataProvider metadataProvider, TEntity entity)
             : base(metadataProvider)
         {
             Build(entity);
         }
 
-        internal override string SqlQuery => SqlQueryTemplate
+        public override string SqlQuery => SqlQueryTemplate
             .FormatWith(
                 TableName,
                 InsertColumns,
@@ -27,10 +27,10 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         private string InsertValues => SqlFormatter.Fields(_context.Values);
 
-        protected internal override string SqlQueryTemplate => "INSERT INTO {0} ({1}) VALUES ({2}); {3};";
+        protected override string SqlQueryTemplate => "INSERT INTO {0} ({1}) VALUES ({2}); {3};";
 
 
-        protected internal override ContextBase ContextBase => _context;
+        protected override ContextBase ContextBase => _context;
 
         private void Build(TEntity entity)
         {
@@ -48,7 +48,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        internal override void OnNextQuery()
+        public override void OnNextQuery()
         {
             _context = new CommandContext();
         }

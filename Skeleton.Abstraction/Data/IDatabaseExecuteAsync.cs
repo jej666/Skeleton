@@ -5,20 +5,12 @@ namespace Skeleton.Abstraction.Data
 {
     public interface IDatabaseExecuteAsync
     {
-        Task<int> ExecuteAsync(
-            string query,
-            IDictionary<string, object> parameters);
+        Task<int> ExecuteAsync(ISqlCommand command);
 
-        Task<object> ExecuteScalarAsync(
-            string query,
-            IDictionary<string, object> parameters);
+        Task<object> ExecuteScalarAsync(ISqlCommand command);
 
-        Task<TValue> ExecuteScalarAsync<TValue>(
-            string query,
-            IDictionary<string, object> parameters);
+        Task<TValue> ExecuteScalarAsync<TValue>(ISqlCommand command);
 
-        Task<int> ExecuteStoredProcedureAsync(
-            string procedureName,
-            IDictionary<string, object> parameters);
+        Task<int> ExecuteStoredProcedureAsync(ISqlCommand procStockCommand);
     }
 }

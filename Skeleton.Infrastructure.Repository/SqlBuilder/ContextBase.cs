@@ -4,17 +4,17 @@ using System.Globalization;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal abstract class ContextBase
+    public abstract class ContextBase
     {
         private const string ParameterPrefix = "P";
         private readonly List<string> _conditions = new List<string>();
         private int _paramIndex;
 
-        protected internal IDictionary<string, object> Parameters { get; } = new ExpandoObject();
+        public IDictionary<string, object> Parameters { get; } = new ExpandoObject();
 
-        internal IList<string> Conditions => _conditions;
+        public IList<string> Conditions => _conditions;
 
-        protected internal string NextParamId()
+        public string NextParamId()
         {
             ++_paramIndex;
 
@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                    _paramIndex.ToString(CultureInfo.InvariantCulture);
         }
 
-        protected internal void AddParameter(string key, object value)
+        public void AddParameter(string key, object value)
         {
             if (!Parameters.ContainsKey(key))
                 Parameters.Add(key, value);

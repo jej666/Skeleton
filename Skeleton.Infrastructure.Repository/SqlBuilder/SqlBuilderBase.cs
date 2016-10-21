@@ -6,32 +6,37 @@ using System.Linq.Expressions;
 using Skeleton.Abstraction;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Repository.ExpressionTree;
+using Skeleton.Abstraction.Data;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     [DebuggerDisplay("EntityName = {EntityType.Name}")]
-    internal abstract class SqlBuilderBase<TEntity>
+    public abstract class SqlBuilderBase<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadata _metadata;
         private string _cacheIdName;
 
-        protected internal SqlBuilderBase(IMetadataProvider metadataProvider)
+        protected SqlBuilderBase(IMetadataProvider metadataProvider)
         {
             _metadata = metadataProvider.GetMetadata<TEntity>();
         }
 
-        internal IDictionary<string, object> Parameters => ContextBase.Parameters;
+        public IDictionary<string, object> Parameters => ContextBase.Parameters;
 
-        internal abstract string SqlQuery { get; }
-        protected internal abstract string SqlQueryTemplate { get; }
-        protected internal abstract ContextBase ContextBase { get; }
+        public abstract string SqlQuery { get; }
 
-        protected internal Type EntityType => _metadata.Type;
+        protected abstract string SqlQueryTemplate { get; }
 
-        protected internal string TableName => EntityType.Name;
+        public ISqlCommand SqlCommand => new SqlCommand(SqlQuery, Parameters);
 
-        protected internal string EntityIdName
+        protected abstract ContextBase ContextBase { get; }
+
+        protected Type EntityType => _metadata.Type;
+
+        protected string TableName => EntityType.Name;
+
+        protected string EntityIdName
         {
             get
             {
@@ -49,9 +54,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        internal abstract void OnNextQuery();
+        public abstract void OnNextQuery();
 
-        internal T OnNextQuery<T>(Func<T> func)
+        public T OnNextQuery<T>(Func<T> func)
         {
             try
             {
@@ -63,26 +68,26 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        protected internal static IEnumerable<IMemberAccessor> GetTableColumns(TEntity entity)
+        protected static IEnumerable<IMemberAccessor> GetTableColumns(TEntity entity)
         {
             return entity.TypeAccessor.GetDeclaredOnlyProperties()
                 .Where(x => x.MemberType.IsPrimitiveExtended())
                 .ToArray();
         }
 
-        internal void WhereIsIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
+        public void WhereIsIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
         {
             var fieldName = TableInfo.GetColumnName(expression);
-            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
+            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
 
             And();
             WhereIsIn(memberNode, values);
         }
 
-        internal void WhereNotIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
+        public void WhereNotIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
         {
             var fieldName = TableInfo.GetColumnName(expression);
-            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
+            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
 
             Not();
             WhereIsIn(memberNode, values);
@@ -101,20 +106,20 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             ContextBase.Conditions.Add(newCondition);
         }
 
-        internal void ResolveQuery(Expression<Func<TEntity, bool>> expression)
+        public void ResolveQuery(Expression<Func<TEntity, bool>> expression)
         {
-            var expressionTree = ExpressionResolver.Resolve((dynamic) expression.Body);
+            var expressionTree = ExpressionResolver.Resolve((dynamic)expression.Body);
             And();
             Build(expressionTree);
         }
 
-        protected internal void QueryByPrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
+        public void QueryByPrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
         {
-            var expressionTree = ExpressionResolver.Resolve((dynamic) whereExpression.Body, EntityIdName);
+            var expressionTree = ExpressionResolver.Resolve((dynamic)whereExpression.Body, EntityIdName);
             Build(expressionTree);
         }
 
-        protected internal void QueryFieldCondition(MemberNode node, string op, object fieldValue)
+        public void QueryFieldCondition(MemberNode node, string op, object fieldValue)
         {
             var paramId = ContextBase.NextParamId();
             var newCondition = SqlFormatter.FieldCondition(node, op, paramId);
@@ -123,18 +128,18 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             ContextBase.AddParameter(paramId, fieldValue);
         }
 
-        protected internal void And()
+        protected void And()
         {
             if (ContextBase.Conditions.IsNotNullOrEmpty())
                 ContextBase.Conditions.Add(SqlFormatter.AndExpression);
         }
 
-        protected internal void Not()
+        protected void Not()
         {
             ContextBase.Conditions.Add(SqlFormatter.NotExpression);
         }
 
-        protected internal void Or()
+        protected void Or()
         {
             if (ContextBase.Conditions.IsNotNullOrEmpty())
                 ContextBase.Conditions.Add(SqlFormatter.OrExpression);
@@ -177,7 +182,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         private void Build(OperationNode node)
         {
-            Build((dynamic) node.Left, (dynamic) node.Right, node.Operator);
+            Build((dynamic)node.Left, (dynamic)node.Right, node.Operator);
         }
 
         private void Build(MemberNode memberNode)
@@ -217,7 +222,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             if (leftMember.Operator == ExpressionType.Not)
                 Build(leftMember as Node, rightMember, op);
             else
-                Build((dynamic) leftMember.Child, (dynamic) rightMember, op);
+                Build((dynamic)leftMember.Child, (dynamic)rightMember, op);
         }
 
         private void Build(Node leftMember, SingleOperationNode rightMember, ExpressionType op)
@@ -228,9 +233,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private void Build(Node leftNode, Node rightNode, ExpressionType op)
         {
             ContextBase.Conditions.Add(SqlFormatter.BeginExpression);
-            Build((dynamic) leftNode);
+            Build((dynamic)leftNode);
             ResolveOperation(op);
-            Build((dynamic) rightNode);
+            Build((dynamic)rightNode);
             ContextBase.Conditions.Add(SqlFormatter.EndExpression);
         }
 
@@ -246,7 +251,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         private void Build(Node node)
         {
-            Build((dynamic) node);
+            Build((dynamic)node);
         }
 
         private void Build(LikeNode node)

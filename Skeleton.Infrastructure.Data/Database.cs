@@ -20,22 +20,18 @@ namespace Skeleton.Infrastructure.Data
             OpenConnection();
         }
 
-        public int Execute(
-            string query,
-            IDictionary<string, object> parameters)
+        public int Execute(ISqlCommand sqlCommand)
         {
             return WrapRetryPolicy(() =>
-                CreateTextCommand(query, parameters)
+                CreateTextCommand(sqlCommand)
                     .ExecuteNonQuery());
         }
 
-        public object ExecuteScalar(
-            string query,
-            IDictionary<string, object> parameters)
+        public object ExecuteScalar(ISqlCommand sqlCommand)
         {
             return WrapRetryPolicy(() =>
             {
-                var result = CreateTextCommand(query, parameters)
+                var result = CreateTextCommand(sqlCommand)
                     .ExecuteScalar();
 
                 return result is DBNull
@@ -44,49 +40,39 @@ namespace Skeleton.Infrastructure.Data
             });
         }
 
-        public TValue ExecuteScalar<TValue>(
-            string query,
-            IDictionary<string, object> parameters)
+        public TValue ExecuteScalar<TValue>(ISqlCommand sqlCommand)
         {
-            var result = ExecuteScalar(query, parameters);
+            var result = ExecuteScalar(sqlCommand);
 
             return result == null
                 ? default(TValue)
                 : result.ChangeType<TValue>();
         }
 
-        public int ExecuteStoredProcedure(
-            string procedureName,
-            IDictionary<string, object> parameters)
+        public int ExecuteStoredProcedure(ISqlCommand procStockCommand)
         {
-            parameters.ThrowIfNull(() => parameters);
-
             return WrapRetryPolicy(() =>
-                CreateStoredProcedureCommand(procedureName, parameters)
+                CreateStoredProcedureCommand(procStockCommand)
                     .ExecuteNonQuery());
         }
 
-        public IEnumerable<dynamic> Find(
-            string query,
-            IDictionary<string, object> parameters)
+        public IEnumerable<dynamic> Find(ISqlCommand sqlCommand)
         {
             return WrapRetryPolicy(() =>
             {
-                var reader = CreateTextCommand(query, parameters)
+                var reader = CreateTextCommand(sqlCommand)
                     .ExecuteReader();
 
                 return reader.Map();
             });
         }
 
-        public IEnumerable<TPoco> Find<TPoco>(
-            string query,
-            IDictionary<string, object> parameters)
+        public IEnumerable<TPoco> Find<TPoco>(ISqlCommand sqlCommand)
             where TPoco : class
         {
             return WrapRetryPolicy(() =>
             {
-                var reader = CreateTextCommand(query, parameters)
+                var reader = CreateTextCommand(sqlCommand)
                     .ExecuteReader();
 
                 return MetadataProvider.CreateMapper<TPoco>()
@@ -94,14 +80,12 @@ namespace Skeleton.Infrastructure.Data
             });
         }
 
-        public TPoco FirstOrDefault<TPoco>(
-            string query,
-            IDictionary<string, object> parameters)
+        public TPoco FirstOrDefault<TPoco>(ISqlCommand sqlCommand)
             where TPoco : class
         {
             return WrapRetryPolicy(() =>
             {
-                var reader = CreateTextCommand(query, parameters)
+                var reader = CreateTextCommand(sqlCommand)
                     .ExecuteReader(CommandBehavior.SingleRow);
 
                 return MetadataProvider.CreateMapper<TPoco>()

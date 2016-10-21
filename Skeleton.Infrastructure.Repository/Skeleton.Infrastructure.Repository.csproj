@@ -66,12 +66,14 @@
     <Compile Include="ReadRepository.cs" />
     <Compile Include="SqlBuilder\CommandContext.cs" />
     <Compile Include="SqlBuilder\ContextBase.cs" />
+    <Compile Include="SqlBuilder\PagedSelectQueryBuilder.cs" />
     <Compile Include="SqlBuilder\SelectFunction.cs" />
     <Compile Include="SqlBuilder\SelectQueryBuilder.cs" />
     <Compile Include="SqlBuilder\SqlBuilderBase.cs" />
     <Compile Include="SqlBuilder\QueryContext.cs" />
     <Compile Include="SqlBuilder\DeleteCommandBuilder.cs" />
     <Compile Include="SqlBuilder\InsertCommandBuilder.cs" />
+    <Compile Include="SqlBuilder\SqlCommand.cs" />
     <Compile Include="SqlBuilder\UpdateCommandBuilder.cs" />
     <Compile Include="ExpressionTree\ExpressionResolver.cs" />
     <Compile Include="ExpressionTree\LikeNode.cs" />
@@ -94,9 +96,7 @@
       <Name>Skeleton.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Infrastructure.Repository.snk" />
   </ItemGroup>
