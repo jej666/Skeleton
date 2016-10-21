@@ -4,20 +4,12 @@ namespace Skeleton.Abstraction.Data
 {
     public interface IDatabaseExecute
     {
-        int Execute(
-            string query,
-            IDictionary<string, object> parameters);
+        int Execute(ISqlCommand command);
 
-        object ExecuteScalar(
-            string query,
-            IDictionary<string, object> parameters);
+        object ExecuteScalar(ISqlCommand command);
 
-        TValue ExecuteScalar<TValue>(
-            string query,
-            IDictionary<string, object> parameters);
+        TValue ExecuteScalar<TValue>(ISqlCommand command);
 
-        int ExecuteStoredProcedure(
-            string procedureName,
-            IDictionary<string, object> parameters);
+        int ExecuteStoredProcedure(ISqlCommand procStockCommand);
     }
 }

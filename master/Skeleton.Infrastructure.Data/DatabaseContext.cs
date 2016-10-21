@@ -73,18 +73,14 @@ namespace Skeleton.Infrastructure.Data
                 _connection.Close();
         }
 
-        internal IDbCommand CreateStoredProcedureCommand(
-            string procedureName,
-            IDictionary<string, object> parameters)
+        internal IDbCommand CreateStoredProcedureCommand(ISqlCommand procStockCommand)
         {
-            return CreateCommand(CommandType.StoredProcedure, procedureName, parameters);
+            return CreateCommand(CommandType.StoredProcedure, procStockCommand);
         }
 
-        internal IDbCommand CreateTextCommand(
-            string commandText,
-            IDictionary<string, object> parameters)
+        internal IDbCommand CreateTextCommand(ISqlCommand sqlCommand)
         {
-            return CreateCommand(CommandType.Text, commandText, parameters);
+            return CreateCommand(CommandType.Text, sqlCommand);
         }
 
         internal void OpenConnection()
@@ -146,14 +142,13 @@ namespace Skeleton.Infrastructure.Data
 
         private IDbCommand CreateCommand(
             CommandType commandType,
-            string commandText,
-            IDictionary<string, object> parameters)
+            ISqlCommand sqlCommand)
         {
-            commandText.ThrowIfNullOrEmpty(() => commandText);
+            sqlCommand.SqlQuery.ThrowIfNullOrEmpty(() => sqlCommand.SqlQuery);
 
             _command = _adapter.CreateCommand();
             _command.Connection = _connection;
-            _command.CommandText = commandText;
+            _command.CommandText = sqlCommand.SqlQuery;
             _command.CommandType = commandType;
             _command.CommandTimeout =
                 Configuration.CommandTimeout;
@@ -161,8 +156,8 @@ namespace Skeleton.Infrastructure.Data
             if (_transaction != null)
                 _command.Transaction = _transaction;
 
-            if (parameters != null)
-                AttachParameters(parameters);
+            if (sqlCommand.Parameters != null)
+                AttachParameters(sqlCommand.Parameters);
 
             return _command;
         }

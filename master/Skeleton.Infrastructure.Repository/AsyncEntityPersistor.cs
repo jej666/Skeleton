@@ -152,8 +152,7 @@ namespace Skeleton.Infrastructure.Repository
                 _metadataProvider, entity);
 
             var id = await Database.ExecuteScalarAsync(
-                    builder.SqlQuery,
-                    builder.Parameters)
+                    builder.SqlCommand)
                 .ConfigureAwait(false);
 
             if (id != null)
@@ -172,8 +171,7 @@ namespace Skeleton.Infrastructure.Repository
                 _metadataProvider, entity);
 
             return await Database.ExecuteAsync(
-                    builder.SqlQuery,
-                    builder.Parameters)
+                    builder.SqlCommand)
                 .ConfigureAwait(false);
         }
 
@@ -183,8 +181,7 @@ namespace Skeleton.Infrastructure.Repository
                 _metadataProvider, entity);
 
             return await Database.ExecuteAsync(
-                    builder.SqlQuery,
-                    builder.Parameters)
+                    builder.SqlCommand)
                 .ConfigureAwait(false);
         }
     }

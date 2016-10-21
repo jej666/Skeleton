@@ -19,14 +19,12 @@ namespace Skeleton.Infrastructure.Data
         {
         }
 
-        public async Task<int> ExecuteAsync(
-            string query,
-            IDictionary<string, object> parameters)
+        public async Task<int> ExecuteAsync(ISqlCommand sqlCommand)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(sqlCommand);
 
                 return await command.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
@@ -39,14 +37,12 @@ namespace Skeleton.Infrastructure.Data
         }
 
 
-        public async Task<object> ExecuteScalarAsync(
-            string query,
-            IDictionary<string, object> parameters)
+        public async Task<object> ExecuteScalarAsync(ISqlCommand sqlCommand)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(sqlCommand);
                 var result = await command.ExecuteScalarAsync()
                     .ConfigureAwait(false);
 
@@ -61,28 +57,22 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        public async Task<TValue> ExecuteScalarAsync<TValue>(
-            string query,
-            IDictionary<string, object> parameters)
+        public async Task<TValue> ExecuteScalarAsync<TValue>(ISqlCommand sqlCommand)
         {
-            var result = await ExecuteScalarAsync(query, parameters);
+            var result = await ExecuteScalarAsync(sqlCommand);
 
             return result == null
                 ? default(TValue)
                 : result.ChangeType<TValue>();
         }
 
-        public async Task<int> ExecuteStoredProcedureAsync(
-            string procedureName,
-            IDictionary<string, object> parameters)
+        public async Task<int> ExecuteStoredProcedureAsync(ISqlCommand sqlCommand)
         {
-            parameters.ThrowIfNull(() => parameters);
-
             try
             {
                 await OpenConnectionAsync();
                 var command = (DbCommand) CreateStoredProcedureCommand(
-                    procedureName, parameters);
+                    sqlCommand);
 
                 return await command.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
@@ -94,14 +84,12 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        public async Task<IEnumerable<dynamic>> FindAsync(
-            string query,
-            IDictionary<string, object> parameters)
+        public async Task<IEnumerable<dynamic>> FindAsync(ISqlCommand sqlCommand)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(sqlCommand);
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -115,14 +103,13 @@ namespace Skeleton.Infrastructure.Data
         }
 
         public async Task<IEnumerable<TPoco>> FindAsync<TPoco>(
-            string query,
-            IDictionary<string, object> parameters)
+            ISqlCommand sqlCommand)
             where TPoco : class
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(sqlCommand);
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -137,14 +124,13 @@ namespace Skeleton.Infrastructure.Data
         }
 
         public async Task<TPoco> FirstOrDefaultAsync<TPoco>(
-            string query,
-            IDictionary<string, object> parameters)
+            ISqlCommand sqlCommand)
             where TPoco : class
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(query, parameters);
+                var command = (DbCommand) CreateTextCommand(sqlCommand);
                 var reader = await command.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 

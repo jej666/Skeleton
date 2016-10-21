@@ -3,7 +3,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal sealed class QueryContext : ContextBase
+    public sealed class QueryContext : ContextBase
     {
         private readonly LazyRef<List<string>> _groupBy;
         private readonly LazyRef<List<string>> _having;
@@ -12,7 +12,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private readonly LazyRef<List<string>> _select;
         private readonly LazyRef<List<string>> _tableNames;
 
-        internal QueryContext()
+        public QueryContext()
         {
             _groupBy = new LazyRef<List<string>>(() => new List<string>());
             _having = new LazyRef<List<string>>(() => new List<string>());
@@ -23,18 +23,18 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Top = string.Empty;
         }
 
-        internal string Top { get; set; }
+        public string Top { get; set; }
 
-        internal IList<string> GroupBy => _groupBy.Value;
+        public IList<string> GroupBy => _groupBy.Value;
 
-        internal IList<string> Having => _having.Value;
+        public IList<string> Having => _having.Value;
 
-        internal IList<string> Source => _joins.Value;
+        public IList<string> Source => _joins.Value;
 
-        internal IList<string> Selection => _select.Value;
+        public IList<string> Selection => _select.Value;
 
-        internal IList<string> OrderBy => _orderBy.Value;
+        public IList<string> OrderBy => _orderBy.Value;
 
-        internal IList<string> TableNames => _tableNames.Value;
+        public IList<string> TableNames => _tableNames.Value;
     }
 }

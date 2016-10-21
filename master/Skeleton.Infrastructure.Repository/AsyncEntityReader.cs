@@ -15,10 +15,13 @@ namespace Skeleton.Infrastructure.Repository
             IAsyncEntityReader<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
+        private readonly IMetadataProvider _metadataProvider;
+
         public AsyncEntityReader(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
         {
+            _metadataProvider = metadataProvider;
             Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
             Database = database;
         }
@@ -31,9 +34,8 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                return await Database.FindAsync<TEntity>(
-                        Builder.SqlQuery,
-                        Builder.Parameters)
+                return await Database.FindAsync<TEntity>(  
+                    Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
             finally
@@ -57,30 +59,17 @@ namespace Skeleton.Infrastructure.Repository
             return await FirstOrDefaultCoreAsync();
         }
 
-        //public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-        //{
-        //    try
-        //    {
-        //        return await Database.FindAsync<TEntity>(
-        //                Builder.SqlQuery,
-        //                Builder.Parameters)
-        //            .ConfigureAwait(false);
-        //    }
-        //    finally
-        //    {
-        //        Builder.OnNextQuery();
-        //    }
-        //}
-
         public virtual async Task<IEnumerable<TEntity>> PageAsync(
             int pageSize,
             int pageNumber)
         {
             try
             {
+                var pagedBuilder = new PagedSelectQueryBuilder<TEntity>(
+                    _metadataProvider, pageSize, pageNumber);
+
                 return await Database.FindAsync<TEntity>(
-                        Builder.SqlPagedQuery(pageSize, pageNumber),
-                        Builder.Parameters)
+                        pagedBuilder.SqlCommand)
                     .ConfigureAwait(false);
             }
             finally
@@ -216,8 +205,7 @@ namespace Skeleton.Infrastructure.Repository
                 Builder.Count();
 
                 return await Database.ExecuteScalarAsync<int>(
-                        Builder.SqlQuery,
-                        Builder.Parameters)
+                        Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
             finally
@@ -267,8 +255,7 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FirstOrDefaultAsync<TEntity>(
-                        Builder.SqlQuery,
-                        Builder.Parameters)
+                        Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
             finally
@@ -296,8 +283,7 @@ namespace Skeleton.Infrastructure.Repository
             try
             {
                 return await Database.FindAsync(
-                        Builder.SqlQuery,
-                        Builder.Parameters)
+                        Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
             finally
