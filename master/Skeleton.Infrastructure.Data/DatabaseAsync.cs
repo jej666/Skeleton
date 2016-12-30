@@ -19,14 +19,14 @@ namespace Skeleton.Infrastructure.Data
         {
         }
 
-        public async Task<int> ExecuteAsync(ISqlCommand sqlCommand)
+        public async Task<int> ExecuteAsync(ISqlCommand command)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(sqlCommand);
+                var dbCommand = (DbCommand) CreateTextCommand(command);
 
-                return await command.ExecuteNonQueryAsync()
+                return await dbCommand.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
             }
             catch (SqlException e)
@@ -37,13 +37,13 @@ namespace Skeleton.Infrastructure.Data
         }
 
 
-        public async Task<object> ExecuteScalarAsync(ISqlCommand sqlCommand)
+        public async Task<object> ExecuteScalarAsync(ISqlCommand command)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(sqlCommand);
-                var result = await command.ExecuteScalarAsync()
+                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var result = await dbCommand.ExecuteScalarAsync()
                     .ConfigureAwait(false);
 
                 return result is DBNull
@@ -57,24 +57,24 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        public async Task<TValue> ExecuteScalarAsync<TValue>(ISqlCommand sqlCommand)
+        public async Task<TValue> ExecuteScalarAsync<TValue>(ISqlCommand command)
         {
-            var result = await ExecuteScalarAsync(sqlCommand);
+            var result = await ExecuteScalarAsync(command);
 
             return result == null
                 ? default(TValue)
                 : result.ChangeType<TValue>();
         }
 
-        public async Task<int> ExecuteStoredProcedureAsync(ISqlCommand sqlCommand)
+        public async Task<int> ExecuteStoredProcedureAsync(ISqlCommand procStockCommand)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateStoredProcedureCommand(
-                    sqlCommand);
+                var dbCommand = (DbCommand) CreateStoredProcedureCommand(
+                    procStockCommand);
 
-                return await command.ExecuteNonQueryAsync()
+                return await dbCommand.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
             }
             catch (SqlException e)
@@ -84,13 +84,13 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        public async Task<IEnumerable<dynamic>> FindAsync(ISqlCommand sqlCommand)
+        public async Task<IEnumerable<dynamic>> FindAsync(ISqlCommand command)
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(sqlCommand);
-                var reader = await command.ExecuteReaderAsync()
+                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
                 return await reader.Map();
@@ -103,14 +103,14 @@ namespace Skeleton.Infrastructure.Data
         }
 
         public async Task<IEnumerable<TPoco>> FindAsync<TPoco>(
-            ISqlCommand sqlCommand)
+            ISqlCommand command)
             where TPoco : class
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(sqlCommand);
-                var reader = await command.ExecuteReaderAsync()
+                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
                 return await MetadataProvider.CreateMapperAsync<TPoco>()
@@ -124,14 +124,14 @@ namespace Skeleton.Infrastructure.Data
         }
 
         public async Task<TPoco> FirstOrDefaultAsync<TPoco>(
-            ISqlCommand sqlCommand)
+            ISqlCommand command)
             where TPoco : class
         {
             try
             {
                 await OpenConnectionAsync();
-                var command = (DbCommand) CreateTextCommand(sqlCommand);
-                var reader = await command.ExecuteReaderAsync()
+                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
                 return await MetadataProvider.CreateMapperAsync<TPoco>()

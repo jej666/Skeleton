@@ -19,6 +19,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         protected SqlBuilderBase(IMetadataProvider metadataProvider)
         {
+            metadataProvider.ThrowIfNull(() => metadataProvider);
+
             _metadata = metadataProvider.GetMetadata<TEntity>();
         }
 
@@ -60,6 +62,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         {
             try
             {
+                func.ThrowIfNull(() => func);
+
                 return func();
             }
             finally
@@ -70,7 +74,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         protected static IEnumerable<IMemberAccessor> GetTableColumns(TEntity entity)
         {
-            return entity.TypeAccessor.GetDeclaredOnlyProperties()
+            return entity.TypeAccessor
+                .GetDeclaredOnlyProperties()
                 .Where(x => x.MemberType.IsPrimitiveExtended())
                 .ToArray();
         }
@@ -108,6 +113,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         public void ResolveQuery(Expression<Func<TEntity, bool>> expression)
         {
+            expression.ThrowIfNull(() => expression);
+
             var expressionTree = ExpressionResolver.Resolve((dynamic)expression.Body);
             And();
             Build(expressionTree);
@@ -115,6 +122,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         public void QueryByPrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
         {
+            whereExpression.ThrowIfNull(() => whereExpression);
+
             var expressionTree = ExpressionResolver.Resolve((dynamic)whereExpression.Body, EntityIdName);
             Build(expressionTree);
         }

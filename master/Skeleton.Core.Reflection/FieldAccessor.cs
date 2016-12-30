@@ -39,13 +39,15 @@ namespace Skeleton.Core.Reflection
 
         public override object GetValue(object instance)
         {
-            return instance == null ? null : _getDelegate.Value?.Invoke(instance);
+            instance.ThrowIfNull(() => instance);
+
+            return _getDelegate.Value?.Invoke(instance);
         }
 
         public override void SetValue(object instance, object value)
         {
-            if ((value == null) || (instance == null))
-                return;
+            instance.ThrowIfNull(() => instance);
+            value.ThrowIfNull(() => value);
 
             if (!HasSetter)
                 throw new InvalidOperationException(

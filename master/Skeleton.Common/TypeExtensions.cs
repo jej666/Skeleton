@@ -24,6 +24,8 @@ namespace Skeleton.Common
 
         public static bool IsNumeric(this Type type)
         {
+            type.ThrowIfNull(() => type);
+
             type = type.GetNonNullableType();
             if (type.IsEnum) return false;
             switch (Type.GetTypeCode(type))
@@ -44,34 +46,44 @@ namespace Skeleton.Common
             return false;
         }
 
-        public static Assembly GetAssembly(this Type source)
+        public static Assembly GetAssembly(this Type type)
         {
-            return source.GetTypeInfo().Assembly;
+            type.ThrowIfNull(() => type);
+
+            return type.GetTypeInfo().Assembly;
         }
 
-        public static bool IsArray(this Type source)
+        public static bool IsArray(this Type type)
         {
-            return source.GetTypeInfo().BaseType == typeof(Array);
+            type.ThrowIfNull(() => type);
+
+            return type.GetTypeInfo().BaseType == typeof(Array);
         }
 
-        public static bool IsCollection(this Type source)
+        public static bool IsCollection(this Type type)
         {
+            type.ThrowIfNull(() => type);
+
             var collectionType = typeof(ICollection<>);
 
-            return source.GetTypeInfo().IsGenericType && source
+            return type.GetTypeInfo().IsGenericType && type
                        .GetInterfaces()
                        .Any(i => i.GetTypeInfo().IsGenericType && (i.GetGenericTypeDefinition() == collectionType));
         }
 
-        public static bool IsEnumerable(this Type source)
+        public static bool IsEnumerable(this Type type)
         {
+            type.ThrowIfNull(() => type);
+
             var enumerableType = typeof(IEnumerable<>);
 
-            return source.GetTypeInfo().IsGenericType && (source.GetGenericTypeDefinition() == enumerableType);
+            return type.GetTypeInfo().IsGenericType && (type.GetGenericTypeDefinition() == enumerableType);
         }
 
         public static TypeCode GetTypeCode(this Type type)
         {
+            type.ThrowIfNull(() => type);
+
             if (type == typeof(bool))
                 return TypeCode.Boolean;
             if (type == typeof(char))
@@ -125,6 +137,8 @@ namespace Skeleton.Common
 
         public static bool IsPrimitiveExtendedIncludingNullable(this Type type)
         {
+            type.ThrowIfNull(() => type);
+
             if (IsPrimitiveExtended(type))
                 return true;
 
@@ -136,6 +150,8 @@ namespace Skeleton.Common
 
         public static bool IsPrimitiveExtended(this Type type)
         {
+            type.ThrowIfNull(() => type);
+
             if (type.IsPrimitive)
                 return true;
 
@@ -177,8 +193,8 @@ namespace Skeleton.Common
 
         public static bool IsAssignable(this Type to, Type from)
         {
-            if (to == null)
-                throw new ArgumentNullException(nameof(to));
+            to.ThrowIfNull(() => to);
+            from.ThrowIfNull(() => from);
 
             if (to.IsAssignableFrom(from))
                 return true;

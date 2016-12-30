@@ -238,7 +238,7 @@ namespace Skeleton.Tests
         [TestCategory("Where")]
         public void Find_Where_Is_In()
         {
-            var customerIds = new object[] {5, 15, 25};
+            var customerIds = new object[] { 5, 15, 25 };
             var results = _repository.Query
                 .WhereIsIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -251,7 +251,7 @@ namespace Skeleton.Tests
         [TestCategory("Where")]
         public void Find_Where_Not_In()
         {
-            var customerIds = new object[] {5, 15, 25};
+            var customerIds = new object[] { 5, 15, 25 };
             var results = _repository.Query
                 .WhereNotIn(c => c.CustomerId, customerIds)
                 .Find();
@@ -272,7 +272,7 @@ namespace Skeleton.Tests
                     .OrderBy(c => c.CustomerCategoryId)
                     .Page(pageSize, page);
 
-                Assert.AreEqual(pageSize, results.Count());
+                Assert.IsTrue(results.Count() <= pageSize);
             }
         }
 
@@ -322,7 +322,7 @@ namespace Skeleton.Tests
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsNotNull(fieldInfo);
-            Assert.IsTrue((bool) fieldInfo.GetValue(_repository.Query));
+            Assert.IsTrue((bool)fieldInfo.GetValue(_repository.Query));
         }
 
         [TestMethod]

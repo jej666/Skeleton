@@ -29,7 +29,7 @@ namespace Skeleton.Tests
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+            Assert.IsTrue(_repository.Query.Cache.Contains(
                 _repository.Query.LastGeneratedCacheKey));
         }
 
@@ -46,7 +46,7 @@ namespace Skeleton.Tests
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+            Assert.IsTrue(_repository.Query.Cache.Contains(
                 _repository.Query.LastGeneratedCacheKey));
         }
 
@@ -59,7 +59,7 @@ namespace Skeleton.Tests
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOfType(customer2, typeof(Customer));
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+            Assert.IsTrue(_repository.Query.Cache.Contains(
                 _repository.Query.LastGeneratedCacheKey));
         }
 
@@ -77,7 +77,7 @@ namespace Skeleton.Tests
             var results = _repository.Query.Find();
             Assert.IsNotNull(results);
             Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+            Assert.IsTrue(_repository.Query.Cache.Contains(
                 _repository.Query.LastGeneratedCacheKey));
         }
 
@@ -93,8 +93,8 @@ namespace Skeleton.Tests
                     .OrderBy(c => c.CustomerCategoryId)
                     .Page(pageSize, page);
 
-                Assert.AreEqual(pageSize, results.Count());
-                Assert.IsTrue(_repository.Query.Cache.Contains<Customer>(
+                Assert.IsTrue(results.Count() <= pageSize);
+                Assert.IsTrue(_repository.Query.Cache.Contains(
                     _repository.Query.LastGeneratedCacheKey));
             }
         }

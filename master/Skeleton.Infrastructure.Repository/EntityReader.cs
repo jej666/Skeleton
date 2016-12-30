@@ -55,9 +55,7 @@ namespace Skeleton.Infrastructure.Repository
             var pagedBuilder= new PagedSelectQueryBuilder<TEntity>(
                 _metadataProvider, pageSize, pageNumber);
 
-            return Builder.OnNextQuery(() =>
-                Database.Find<TEntity>(
-                    Builder.SqlCommand));;
+            return Database.Find<TEntity>(pagedBuilder.SqlCommand);
         }
 
         public IEntityReader<TEntity> GroupBy(

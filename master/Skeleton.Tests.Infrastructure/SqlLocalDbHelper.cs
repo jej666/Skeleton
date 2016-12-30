@@ -25,8 +25,7 @@ namespace Skeleton.Tests.Infrastructure
                         [TestDb]
                     ON PRIMARY (
                        NAME=TestDb,
-                       FILENAME = '{fullPath}'
-                    )";
+                       FILENAME = '{fullPath}')";
 
                 var command = new SqlCommand(sql, connection);
                 command.ExecuteNonQuery();

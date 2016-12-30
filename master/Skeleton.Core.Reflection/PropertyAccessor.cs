@@ -42,8 +42,7 @@ namespace Skeleton.Core.Reflection
 
         public override object GetValue(object instance)
         {
-            if (instance == null)
-                return null;
+            instance.ThrowIfNull(() => instance);
 
             if (!HasGetter)
                 throw new InvalidOperationException(
@@ -54,8 +53,8 @@ namespace Skeleton.Core.Reflection
 
         public override void SetValue(object instance, object value)
         {
-            if ((value == null) || (instance == null))
-                return;
+            instance.ThrowIfNull(() => instance);
+            value.ThrowIfNull(() => value);
 
             if (!HasSetter)
                 throw new InvalidOperationException(

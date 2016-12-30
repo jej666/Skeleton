@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction;
 using Skeleton.Common;
 using Skeleton.Tests.Infrastructure;
+using System;
 
 namespace Skeleton.Tests
 {
@@ -66,12 +67,83 @@ namespace Skeleton.Tests
             property.SetValue(instance, 1);
             var value = property.GetValue(instance);
 
-            Assert.IsTrue((int) value == 1);
+            Assert.IsTrue((int)value == 1);
             Assert.IsTrue(property.HasGetter);
             Assert.IsTrue(property.HasSetter);
             Assert.IsNotNull(property.MemberInfo);
             Assert.IsInstanceOfType(value, property.MemberType);
             Assert.IsTrue(property.Name == "Property");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void Should_SetProperty_ThrowOnNullInstance()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var property = metadata.GetProperty("Property");
+
+            Assert.IsNotNull(property);
+            Assert.IsInstanceOfType(property, typeof(IMemberAccessor));
+
+            property.SetValue(null, 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void Should_SetProperty_ThrowOnNullValue()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var property = metadata.GetProperty("Property");
+            var instance = metadata.CreateInstance<MetadataType>();
+
+            Assert.IsNotNull(property);
+            Assert.IsInstanceOfType(property, typeof(IMemberAccessor));
+            Assert.IsNotNull(instance);
+
+            property.SetValue(instance, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void Should_GetProperty_ThrowOnNullInstance()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var property = metadata.GetProperty("Property");
+
+            Assert.IsNotNull(property);
+            Assert.IsInstanceOfType(property, typeof(IMemberAccessor));
+
+            property.GetValue(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void Should_WriteOnlyProperty_ThrowInvalidOperationOnGetValue()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var property = metadata.GetProperty("WriteOnlyProperty");
+            var instance = metadata.CreateInstance<MetadataType>();
+
+            Assert.IsNotNull(property);
+            Assert.IsInstanceOfType(property, typeof(IMemberAccessor));
+            Assert.IsNotNull(instance);
+
+            property.GetValue(instance);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void Should_GetReadOnlyProperty_ThrowInvalidOperationOnSetValue()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var property = metadata.GetProperty("ReadOnlyProperty");
+            var instance = metadata.CreateInstance<MetadataType>();
+
+            Assert.IsNotNull(property);
+            Assert.IsInstanceOfType(property, typeof(IMemberAccessor));
+            Assert.IsNotNull(instance);
+
+            property.SetValue(instance, 1);
         }
 
         [TestMethod]
@@ -97,7 +169,7 @@ namespace Skeleton.Tests
             field.SetValue(instance, 1);
             var value = field.GetValue(instance);
 
-            Assert.IsTrue((int) value == 1);
+            Assert.IsTrue((int)value == 1);
             Assert.IsTrue(field.HasGetter);
             Assert.IsTrue(field.HasSetter);
             Assert.IsNotNull(field.MemberInfo);
@@ -119,9 +191,63 @@ namespace Skeleton.Tests
 
             var result = method.Invoke(instance);
 
-            Assert.IsTrue((int) result == 2);
+            Assert.IsTrue((int)result == 2);
             Assert.IsNotNull(method.MethodInfo);
             Assert.IsTrue(method.Name == "Method");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void Should_GetMethod_ThrowOnNullInstance()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var method = metadata.GetMethod("Method");
+
+            Assert.IsNotNull(method);
+            Assert.IsTrue(method.Name == "Method");
+            
+            method.Invoke(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void Should_SetField_ThrowOnNullInstance()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var field = metadata.GetField("Field");
+
+            Assert.IsNotNull(field);
+            Assert.IsInstanceOfType(field, typeof(IMemberAccessor));
+
+            field.SetValue(null, 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void Should_SetField_ThrowOnNullValue()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var field = metadata.GetField("Field");
+            var instance = metadata.CreateInstance<MetadataType>();
+
+            Assert.IsNotNull(field);
+            Assert.IsInstanceOfType(field, typeof(IMemberAccessor));
+            Assert.IsNotNull(instance);
+
+            field.SetValue(instance, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void Should_GetField_ThrowOnNullInstance()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var field = metadata.GetField("Field");
+
+            Assert.IsNotNull(field);
+            Assert.IsInstanceOfType(field, typeof(IMemberAccessor));
+
+            field.GetValue(null);
         }
     }
 }
