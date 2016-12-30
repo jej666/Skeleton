@@ -15,6 +15,8 @@ namespace Skeleton.Infrastructure.Repository
 
         public string ForFind(string query)
         {
+            query.ThrowIfNullOrEmpty(() => query);
+
             return "{0}{1}[Find]-{2}".FormatWith(
                 Prefix,
                 typeof(TEntity).FullName,
@@ -23,6 +25,8 @@ namespace Skeleton.Infrastructure.Repository
 
         public string ForFirstOrDefault(object id)
         {
+            id.ThrowIfNull(() => id);
+
             return "{0}{1}[FirstOrDefault]-{2}".FormatWith(
                 Prefix,
                 typeof(TEntity).FullName,
@@ -31,18 +35,13 @@ namespace Skeleton.Infrastructure.Repository
 
         public string ForFirstOrDefault(string query)
         {
+            query.ThrowIfNullOrEmpty(() => query);
+
             return "{0}{1}[FirstOrDefault]-{2}".FormatWith(
                 Prefix,
                 typeof(TEntity).FullName,
                 query);
         }
-
-        //public string ForGetAll()
-        //{
-        //    return "{0}{1}[GetAll]".FormatWith(
-        //        Prefix,
-        //        typeof(TEntity).FullName);
-        //}
 
         public string ForPage(int pageSize, int pageNumber)
         {

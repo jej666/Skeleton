@@ -20,18 +20,18 @@ namespace Skeleton.Infrastructure.Data
             OpenConnection();
         }
 
-        public int Execute(ISqlCommand sqlCommand)
+        public int Execute(ISqlCommand command)
         {
             return WrapRetryPolicy(() =>
-                CreateTextCommand(sqlCommand)
+                CreateTextCommand(command)
                     .ExecuteNonQuery());
         }
 
-        public object ExecuteScalar(ISqlCommand sqlCommand)
+        public object ExecuteScalar(ISqlCommand command)
         {
             return WrapRetryPolicy(() =>
             {
-                var result = CreateTextCommand(sqlCommand)
+                var result = CreateTextCommand(command)
                     .ExecuteScalar();
 
                 return result is DBNull
@@ -40,9 +40,9 @@ namespace Skeleton.Infrastructure.Data
             });
         }
 
-        public TValue ExecuteScalar<TValue>(ISqlCommand sqlCommand)
+        public TValue ExecuteScalar<TValue>(ISqlCommand command)
         {
-            var result = ExecuteScalar(sqlCommand);
+            var result = ExecuteScalar(command);
 
             return result == null
                 ? default(TValue)
@@ -56,23 +56,23 @@ namespace Skeleton.Infrastructure.Data
                     .ExecuteNonQuery());
         }
 
-        public IEnumerable<dynamic> Find(ISqlCommand sqlCommand)
+        public IEnumerable<dynamic> Find(ISqlCommand command)
         {
             return WrapRetryPolicy(() =>
             {
-                var reader = CreateTextCommand(sqlCommand)
+                var reader = CreateTextCommand(command)
                     .ExecuteReader();
 
                 return reader.Map();
             });
         }
 
-        public IEnumerable<TPoco> Find<TPoco>(ISqlCommand sqlCommand)
+        public IEnumerable<TPoco> Find<TPoco>(ISqlCommand command)
             where TPoco : class
         {
             return WrapRetryPolicy(() =>
             {
-                var reader = CreateTextCommand(sqlCommand)
+                var reader = CreateTextCommand(command)
                     .ExecuteReader();
 
                 return MetadataProvider.CreateMapper<TPoco>()
@@ -80,12 +80,12 @@ namespace Skeleton.Infrastructure.Data
             });
         }
 
-        public TPoco FirstOrDefault<TPoco>(ISqlCommand sqlCommand)
+        public TPoco FirstOrDefault<TPoco>(ISqlCommand command)
             where TPoco : class
         {
             return WrapRetryPolicy(() =>
             {
-                var reader = CreateTextCommand(sqlCommand)
+                var reader = CreateTextCommand(command)
                     .ExecuteReader(CommandBehavior.SingleRow);
 
                 return MetadataProvider.CreateMapper<TPoco>()

@@ -70,7 +70,7 @@ namespace Skeleton.Core.Caching
             }
         }
 
-        public bool Contains<T>(string key)
+        public bool Contains(string key)
         {
             return Cache.Contains(key);
         }

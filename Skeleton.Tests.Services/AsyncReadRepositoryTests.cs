@@ -259,7 +259,7 @@ namespace Skeleton.Tests
                     .OrderBy(c => c.CustomerCategoryId)
                     .PageAsync(pageSize, page);
 
-                Assert.AreEqual(pageSize, results.Count());
+                Assert.IsTrue(results.Count() <= pageSize);
             }
         }
 

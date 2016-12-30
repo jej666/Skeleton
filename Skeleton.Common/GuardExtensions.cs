@@ -30,6 +30,8 @@ namespace Skeleton.Common
 
         public static void ThrowIfNotEnum(this Type type)
         {
+            type.ThrowIfNull(() => type);
+
             if (!type.IsEnum)
                 throw new InvalidOperationException("Invalid Enum Type. " + type + "  must be an Enum");
         }

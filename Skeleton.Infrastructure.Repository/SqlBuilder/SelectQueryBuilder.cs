@@ -36,16 +36,20 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context = new QueryContext();
         }
 
-        public void OrderBy(Expression<Func<TEntity, object>> expression)
+        public void OrderBy(LambdaExpression expression)
         {
+            expression.ThrowIfNull(() => expression);
+
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
 
             Context.OrderBy.Add(SqlFormatter.Field(memberNode));
         }
 
-        public void OrderByDescending(Expression<Func<TEntity, object>> expression)
+        public void OrderByDescending(LambdaExpression expression)
         {
+            expression.ThrowIfNull(() => expression);
+
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
 
@@ -62,10 +66,10 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.Selection.Add(SqlFormatter.CountAny);
         }
 
-        public void Aggregate(
-            Expression<Func<TEntity, object>> expression,
-            SelectFunction selectFunction)
+        public void Aggregate(LambdaExpression expression, SelectFunction selectFunction)
         {
+            expression.ThrowIfNull(() => expression);
+
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
 
@@ -75,16 +79,20 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.Selection.Add(selectionString);
         }
 
-        public void GroupBy(Expression<Func<TEntity, object>> expression)
+        public void GroupBy(LambdaExpression expression)
         {
+            expression.ThrowIfNull(() => expression);
+
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
 
             Context.GroupBy.Add(SqlFormatter.Field(memberNode));
         }
 
-        public void Select(Expression<Func<TEntity, object>> expression)
+        public void Select(LambdaExpression expression)
         {
+            expression.ThrowIfNull(() => expression);
+
             var expr = expression.Body;
 
             switch (expr.NodeType)
@@ -132,6 +140,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         public void Join<T1, T2>(
             Expression<Func<T1, T2, bool>> expression, JoinType joinType)
         {
+            expression.ThrowIfNull(() => expression);
+
             var joinExpression = expression.Body.GetBinaryExpression();
             var leftExpression = joinExpression.Left.GetMemberExpression();
             var rightExpression = joinExpression.Right.GetMemberExpression();

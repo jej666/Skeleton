@@ -21,6 +21,9 @@ namespace Skeleton.Infrastructure.Repository
             ILogger logger,
             IMetadataProvider metadataProvider)
         {
+            logger.ThrowIfNull(() => logger);
+            metadataProvider.ThrowIfNull(() => metadataProvider);
+
             _logger = logger;
             _dtoMetadata = metadataProvider.GetMetadata<TDto>();
             _entityMetadata = metadataProvider.GetMetadata<TEntity>();
@@ -63,12 +66,8 @@ namespace Skeleton.Infrastructure.Repository
 
                 foreach (var dtoProperty in _dtoMetadata.GetDeclaredOnlyProperties())
                     foreach (var entityProperty in _entityMetadata.GetDeclaredOnlyProperties())
-                    {
-                        if (!entityProperty.Name.EquivalentTo(dtoProperty.Name))
-                            continue;
-
-                        entityProperty.SetValue(instanceEntity, dtoProperty.GetValue(dto));
-                    }
+                        if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
+                            entityProperty.SetValue(instanceEntity, dtoProperty.GetValue(dto));
 
                 return instanceEntity;
             });
