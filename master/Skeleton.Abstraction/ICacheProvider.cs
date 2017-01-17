@@ -11,6 +11,6 @@ namespace Skeleton.Abstraction
 
         void Remove(string key);
 
-        bool Contains<T>(string key);
+        bool Contains(string key);
     }
 }
