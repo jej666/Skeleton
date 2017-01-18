@@ -1,4 +1,4 @@
-﻿namespace Skeleton.Core.Reflection
+﻿namespace Skeleton.Core.Reflection.Emitter
 {
     internal delegate object ConstructorDelegate(object[] parameters);
 

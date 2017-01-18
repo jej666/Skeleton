@@ -2,6 +2,15 @@
 {
     public class MetadataType
     {
+        public MetadataType()
+        {
+        }
+
+        public MetadataType(int value)
+        {
+            Field = value;
+        }
+
         private int _field;
         public int Property
         {
@@ -11,6 +20,11 @@
         public int Method()
         {
             return _field + Property;
+        }
+
+        public void Method(int value)
+        {
+            Property = value;
         }
 
         public int Field;

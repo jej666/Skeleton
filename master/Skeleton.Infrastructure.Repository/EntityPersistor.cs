@@ -6,6 +6,7 @@ using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository
 {

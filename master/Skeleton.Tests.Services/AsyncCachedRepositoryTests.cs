@@ -94,7 +94,7 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Dispose_Query()
+        public void Cached_Dispose_Query()
         {
             using (_repository.Query)
             {

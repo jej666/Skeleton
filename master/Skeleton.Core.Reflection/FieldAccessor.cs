@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Reflection;
 using Skeleton.Common;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Core.Reflection.Emitter;
 
 namespace Skeleton.Core.Reflection
 {
@@ -21,10 +23,13 @@ namespace Skeleton.Core.Reflection
             MemberType = fieldInfo.FieldType;
             HasSetter = !fieldInfo.IsInitOnly && !fieldInfo.IsLiteral;
 
+            var getEmitter = new GetFieldEmitter(fieldInfo);
             _getDelegate = new LazyRef<GetterDelegate>(() =>
-                    DelegateFactory.CreateGet(fieldInfo));
+                   (GetterDelegate)getEmitter.CreateDelegate());
+
+            var setEmitter = new SetFieldEmitter(fieldInfo);
             _setDelegate = new LazyRef<SetterDelegate>(() =>
-                    DelegateFactory.CreateSet(fieldInfo));
+                    (SetterDelegate)setEmitter.CreateDelegate());
         }
 
         public override bool HasGetter => true;
@@ -54,6 +59,11 @@ namespace Skeleton.Core.Reflection
                     "Field '{0}' does not have a setter.".FormatWith(Name));
 
             _setDelegate.Value?.Invoke(instance, value);
+        }
+
+        public static IMemberAccessor Create(FieldInfo fieldInfo)
+        {
+            return fieldInfo == null ? null : new FieldAccessor(fieldInfo);
         }
     }
 }

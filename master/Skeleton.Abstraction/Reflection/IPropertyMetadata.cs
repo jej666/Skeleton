@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Abstraction.Reflection
 {
     public interface IPropertyMetadata
     {

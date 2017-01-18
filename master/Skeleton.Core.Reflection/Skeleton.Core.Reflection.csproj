@@ -45,13 +45,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DelegateFactory.cs" />
-    <Compile Include="Delegates.cs" />
+    <Compile Include="Emitter\ConstructorEmitter.cs" />
+    <Compile Include="Emitter\EmitExtensions.cs" />
+    <Compile Include="Emitter\SetFieldEmitter.cs" />
+    <Compile Include="Emitter\Delegates.cs" />
+    <Compile Include="Emitter\EmitterBase.cs" />
+    <Compile Include="Emitter\GetFieldEmitter.cs" />
+    <Compile Include="Emitter\GetPropertyEmitter.cs" />
+    <Compile Include="Emitter\MethodEmitter.cs" />
+    <Compile Include="Emitter\SetPropertyEmitter.cs" />
     <Compile Include="FieldAccessor.cs" />
     <Compile Include="MemberAccessorBase.cs" />
-    <Compile Include="MemberAccessorFactory.cs" />
     <Compile Include="Metadata.cs" />
     <Compile Include="MetadataProvider.cs" />
+    <Compile Include="ConstructorAccessor.cs" />
     <Compile Include="MethodAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyAccessor.cs" />

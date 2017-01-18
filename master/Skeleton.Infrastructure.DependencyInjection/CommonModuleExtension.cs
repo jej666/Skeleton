@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Core.Caching;
 using Skeleton.Core.Reflection;
 using Skeleton.Infrastructure.DependencyInjection.LoggerExtension;

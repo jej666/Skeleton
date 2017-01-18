@@ -4,6 +4,7 @@ using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository
 {

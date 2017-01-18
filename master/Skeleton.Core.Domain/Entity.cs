@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Skeleton.Abstraction;
 using Skeleton.Common;
 using Skeleton.Core.Reflection;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Core.Domain
 {

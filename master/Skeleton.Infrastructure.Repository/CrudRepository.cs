@@ -22,6 +22,7 @@ namespace Skeleton.Infrastructure.Repository
 
         protected override void DisposeManagedResources()
         {
+            base.DisposeManagedResources();
             Store.Dispose();
         }
     }

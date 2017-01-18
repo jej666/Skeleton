@@ -9,8 +9,10 @@ namespace Skeleton.Web.Server
     {
         public static void Register(HttpConfiguration config)
         {
-            config.Formatters.JsonFormatter.SupportedMediaTypes
-                .Add(new MediaTypeHeaderValue("text/html"));
+            config.Formatters
+                  .JsonFormatter
+                  .SupportedMediaTypes
+                  .Add(new MediaTypeHeaderValue("text/html"));
 
             config.DependencyResolver = new UnityResolver(Bootstrapper.Container);
 

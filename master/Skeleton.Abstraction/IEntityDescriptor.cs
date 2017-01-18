@@ -1,4 +1,6 @@
-﻿namespace Skeleton.Abstraction
+﻿using Skeleton.Abstraction.Reflection;
+
+namespace Skeleton.Abstraction
 {
     public interface IEntityDescriptor
     {

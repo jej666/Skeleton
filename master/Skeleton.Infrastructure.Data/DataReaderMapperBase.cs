@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Skeleton.Abstraction;
-using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {

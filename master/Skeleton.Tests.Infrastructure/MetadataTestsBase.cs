@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Infrastructure.DependencyInjection;
 
 namespace Skeleton.Tests.Infrastructure
