@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Abstraction.Reflection
 {
     public interface IFieldMetadata
     {

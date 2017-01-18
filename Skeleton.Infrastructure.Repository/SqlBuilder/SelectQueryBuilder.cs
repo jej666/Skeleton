@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using Skeleton.Abstraction;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Repository.ExpressionTree;
+using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {

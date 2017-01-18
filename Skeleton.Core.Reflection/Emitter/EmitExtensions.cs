@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using Skeleton.Common;
 
-namespace Skeleton.Common
+namespace Skeleton.Core.Reflection.Emitter
 {
-    public static class EmitExtensions
+    internal static class EmitExtensions
     {
-        public static void BoxIfNeeded(this ILGenerator generator, Type type)
+        internal static void BoxIfNeeded(this ILGenerator generator, Type type)
         {
             generator.ThrowIfNull(() => generator);
             type.ThrowIfNull(() => type);
@@ -14,7 +15,7 @@ namespace Skeleton.Common
             generator.Emit(type.IsValueType ? OpCodes.Box : OpCodes.Castclass, type);
         }
 
-        public static void CallMethod(this ILGenerator generator, MethodInfo methodInfo)
+        internal static void CallMethod(this ILGenerator generator, MethodInfo methodInfo)
         {
             generator.ThrowIfNull(() => generator);
             methodInfo.ThrowIfNull(() => methodInfo);
@@ -25,7 +26,7 @@ namespace Skeleton.Common
                 generator.Emit(OpCodes.Callvirt, methodInfo);
         }
 
-        public static void FastInt(this ILGenerator generator, int value)
+        internal static void FastInt(this ILGenerator generator, int value)
         {
             generator.ThrowIfNull(() => generator);
 
@@ -78,7 +79,7 @@ namespace Skeleton.Common
                 generator.Emit(OpCodes.Ldc_I4, value);
         }
 
-        public static void PushInstance(this ILGenerator generator, Type type)
+        internal static void PushInstance(this ILGenerator generator, Type type)
         {
             generator.ThrowIfNull(() => generator);
             type.ThrowIfNull(() => type);
@@ -87,7 +88,7 @@ namespace Skeleton.Common
             generator.Emit(type.IsValueType ? OpCodes.Unbox : OpCodes.Castclass, type);
         }
 
-        public static void PushParameters(this ILGenerator generator, Type[] parameterTypes)
+        internal static void PushParameters(this ILGenerator generator, Type[] parameterTypes)
         {
             generator.ThrowIfNull(() => generator);
             parameterTypes.ThrowIfNull(() => parameterTypes);
@@ -101,14 +102,14 @@ namespace Skeleton.Common
             }
         }
 
-        public static void Return(this ILGenerator generator)
+        internal static void Return(this ILGenerator generator)
         {
             generator.ThrowIfNull(() => generator);
 
             generator.Emit(OpCodes.Ret);
         }
 
-        public static void UnboxIfNeeded(this ILGenerator generator, Type type)
+        internal static void UnboxIfNeeded(this ILGenerator generator, Type type)
         {
             generator.ThrowIfNull(() => generator);
             type.ThrowIfNull(() => type);

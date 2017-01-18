@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 
 namespace Skeleton.Core.Reflection

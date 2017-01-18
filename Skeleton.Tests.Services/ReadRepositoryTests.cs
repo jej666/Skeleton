@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Tests.Infrastructure;
+using System;
 
 namespace Skeleton.Tests
 {
@@ -285,7 +286,7 @@ namespace Skeleton.Tests
                 .Find();
 
             Assert.IsNotNull(results);
-            Assert.AreEqual(0, results.Count());
+            Assert.IsTrue(results.Count() == 0);
         }
 
         [TestMethod]
@@ -330,7 +331,7 @@ namespace Skeleton.Tests
         {
             var results = _repository
                 .Query
-                .Where(c => c.Name.StartsWith("Jerome"))
+                .Where(c => c.Name.StartsWith("Jerome", StringComparison.CurrentCultureIgnoreCase))
                 .Find();
 
             Assert.IsFalse(results.Any());
@@ -341,7 +342,7 @@ namespace Skeleton.Tests
         {
             var result = _repository
                 .Query
-                .Where(c => c.Name.StartsWith("Jerome"))
+                .Where(c => c.Name.StartsWith("Jerome", StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault();
 
             Assert.IsNull(result);

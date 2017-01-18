@@ -18,10 +18,5 @@ namespace Skeleton.Infrastructure.Repository
         }
 
         public new ICachedEntityReader<TEntity> Query { get; }
-
-        protected override void DisposeManagedResources()
-        {
-            Query.Dispose();
-        }
     }
 }

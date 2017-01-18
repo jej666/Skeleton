@@ -50,7 +50,6 @@
     <Compile Include="ConvertExtensions.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="EmitExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="ExpressionExtensions.cs" />

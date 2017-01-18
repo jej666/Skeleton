@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Tests.Infrastructure;
 using System;
@@ -35,13 +35,25 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
-        public void Should_CreateInstance_Of_Type()
+        public void Should_CreateInstance_DefaultCtor()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
-            var customer = metadata.CreateInstance<MetadataType>();
+            var instance = metadata.CreateInstance<MetadataType>();
 
-            Assert.IsNotNull(customer);
-            Assert.IsInstanceOfType(customer, typeof(MetadataType));
+            Assert.IsNotNull(instance);
+            Assert.IsInstanceOfType(instance, typeof(MetadataType));
+        }
+
+        [TestMethod]
+        public void Should_CreateInstance_CtorWithParameters()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var instance = metadata.CreateInstance<MetadataType>(new object[] { 3 });
+            var field = metadata.GetField("Field");
+
+            Assert.IsNotNull(instance);
+            Assert.IsInstanceOfType(instance, typeof(MetadataType));
+            Assert.IsTrue((int)field.GetValue(instance) == 3);
         }
 
         [TestMethod]
@@ -52,6 +64,16 @@ namespace Skeleton.Tests
 
             Assert.IsTrue(properties.IsNotNullOrEmpty());
             Assert.IsInstanceOfType(properties.First(), typeof(IMemberAccessor));
+        }
+
+        [TestMethod]
+        public void Should_GetFields()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var fields = metadata.GetFields().ToList();
+
+            Assert.IsTrue(fields.IsNotNullOrEmpty());
+            Assert.IsInstanceOfType(fields.First(), typeof(IMemberAccessor));
         }
 
         [TestMethod]
@@ -197,6 +219,21 @@ namespace Skeleton.Tests
         }
 
         [TestMethod]
+        public void Should_GetMethod_WithParameters()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var instance = metadata.CreateInstance<MetadataType>();
+            var property = metadata.GetProperty("Property");
+            var method = metadata.GetMethod("Method", new[] { typeof(int) });
+
+            method.Invoke(instance, 3);
+
+            Assert.IsNotNull(method.MethodInfo);
+            Assert.IsTrue(method.Name == "Method");
+            Assert.IsTrue((int)property.GetValue(instance) == 3);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
         public void Should_GetMethod_ThrowOnNullInstance()
         {
@@ -205,8 +242,16 @@ namespace Skeleton.Tests
 
             Assert.IsNotNull(method);
             Assert.IsTrue(method.Name == "Method");
-            
+
             method.Invoke(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void Should_CreateMethod_ThrowOnNotFoundMethodName()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var method = metadata.GetMethod("InexistantMethod");
         }
 
         [TestMethod]
@@ -248,6 +293,20 @@ namespace Skeleton.Tests
             Assert.IsInstanceOfType(field, typeof(IMemberAccessor));
 
             field.GetValue(null);
+        }
+
+        [TestMethod]
+        public void Should_Count_CacheContent()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+
+            metadata.GetFields();
+            metadata.GetMethod("Method");
+            metadata.GetProperties();
+
+            Assert.IsTrue(metadata.FieldsCount > 0);
+            Assert.IsTrue(metadata.MethodsCount > 0);
+            Assert.IsTrue(metadata.PropertiesCount > 0);
         }
     }
 }

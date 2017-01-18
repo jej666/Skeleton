@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Repository
 {

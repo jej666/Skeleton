@@ -3,14 +3,16 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using Skeleton.Common;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Core.Reflection.Emitter;
 
 namespace Skeleton.Core.Reflection
 {
     [DebuggerDisplay("Name: {Name}")]
     public sealed class PropertyAccessor : MemberAccessorBase
     {
-        private readonly LazyRef<GetterDelegate> _getDelegate;
         private readonly PropertyInfo _propertyInfo;
+        private readonly LazyRef<GetterDelegate> _getDelegate;
         private readonly LazyRef<SetterDelegate> _setDelegate;
 
         public PropertyAccessor(PropertyInfo propertyInfo)
@@ -23,11 +25,13 @@ namespace Skeleton.Core.Reflection
             HasGetter = propertyInfo.CanRead;
             HasSetter = propertyInfo.CanWrite;
 
+            var getEmitter = new GetPropertyEmitter(propertyInfo);
             _getDelegate = new LazyRef<GetterDelegate>(
-                () => DelegateFactory.CreateGet(propertyInfo));
+                () => (GetterDelegate)getEmitter.CreateDelegate());
 
+            var setEmitter = new SetPropertyEmitter(propertyInfo);
             _setDelegate = new LazyRef<SetterDelegate>(
-                () => DelegateFactory.CreateSet(propertyInfo));
+                () => (SetterDelegate)setEmitter.CreateDelegate());
         }
 
         public override bool HasGetter { get; }
@@ -61,6 +65,13 @@ namespace Skeleton.Core.Reflection
                     string.Format(CultureInfo.CurrentCulture, "Property '{0}' does not have a setter.", Name));
 
             _setDelegate.Value?.Invoke(instance, value);
+        }
+
+        public static IMemberAccessor Create(PropertyInfo propertyInfo)
+        {
+            return propertyInfo == null
+                ? null
+                : new PropertyAccessor(propertyInfo);
         }
     }
 }

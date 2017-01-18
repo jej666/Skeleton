@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Abstraction.Reflection
 {
     public interface IMethodMetadata
     {

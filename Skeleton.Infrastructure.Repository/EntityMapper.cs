@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Skeleton.Infrastructure.Repository
 {
