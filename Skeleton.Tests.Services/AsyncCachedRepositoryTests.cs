@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Tests.Infrastructure;
+using System;
 
 namespace Skeleton.Tests
 {
@@ -22,7 +23,7 @@ namespace Skeleton.Tests
         public async Task Cached_FindAsync_ByExpression()
         {
             var results = await _repository.Query
-                .Where(c => c.Name.StartsWith("Customer"))
+                .Where(c => c.Name.StartsWith("Customer", StringComparison.InvariantCultureIgnoreCase))
                 .FindAsync();
 
             Assert.IsNotNull(results);

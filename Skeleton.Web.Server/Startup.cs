@@ -11,6 +11,8 @@ namespace Skeleton.Web.Server
 {
     public class Startup
     {
+        private const string Started = "Started...";
+
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
@@ -23,7 +25,7 @@ namespace Skeleton.Web.Server
         {
             using (WebApp.Start<Startup>(baseAddress))
             {
-                Console.WriteLine("Started...");
+                Console.WriteLine(Started);
                 Console.ReadKey();
             }
         }

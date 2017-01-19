@@ -4,7 +4,7 @@ using System.Reflection.Emit;
 
 namespace Skeleton.Core.Reflection.Emitter
 {
-    internal class SetPropertyEmitter : EmitterBase
+    internal sealed class SetPropertyEmitter : EmitterBase
     {
         private readonly PropertyInfo _propertyInfo;
 

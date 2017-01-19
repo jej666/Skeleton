@@ -1,10 +1,12 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    public sealed class PagedSelectQueryBuilder<TEntity> : SelectQueryBuilder<TEntity>  
+    public sealed class PagedSelectQueryBuilder<TEntity> : 
+        SelectQueryBuilder<TEntity>  
         where TEntity : class, IEntity<TEntity>
     {
         private string _sqlPagedQueryTemplate =

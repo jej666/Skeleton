@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction.Reflection;
 
-namespace Skeleton.Abstraction
+namespace Skeleton.Abstraction.Domain
 {
     public interface IEntityDescriptor
     {

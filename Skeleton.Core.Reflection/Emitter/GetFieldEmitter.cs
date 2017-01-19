@@ -4,7 +4,7 @@ using System.Reflection.Emit;
 
 namespace Skeleton.Core.Reflection.Emitter
 {
-    internal class GetFieldEmitter: EmitterBase
+    internal sealed class GetFieldEmitter: EmitterBase
     {
         private readonly FieldInfo _fieldInfo;
 

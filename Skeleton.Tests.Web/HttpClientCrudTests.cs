@@ -71,7 +71,7 @@ namespace Skeleton.Web.Tests
         {
             using (var client = new CustomersHttpClient())
             {
-                var result = client.FirstOrDefault(100000);
+                client.FirstOrDefault(100000);
             }
         }
 

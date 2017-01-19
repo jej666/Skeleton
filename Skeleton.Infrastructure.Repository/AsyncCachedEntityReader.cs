@@ -6,6 +6,7 @@ using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Abstraction.Reflection;
+using Skeleton.Abstraction.Domain;
 
 namespace Skeleton.Infrastructure.Repository
 {

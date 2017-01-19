@@ -5,7 +5,7 @@ using Skeleton.Infrastructure.Logging;
 
 namespace Skeleton.Infrastructure.DependencyInjection.LoggerExtension
 {
-    public class LogBuilderStrategy : BuilderStrategy
+    public sealed class LogBuilderStrategy : BuilderStrategy
     {
         public override void PreBuildUp(IBuilderContext context)
         {

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Domain;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
+using Skeleton.Infrastructure.Repository.ExpressionTree;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using Skeleton.Abstraction;
-using Skeleton.Common;
-using Skeleton.Infrastructure.Repository.ExpressionTree;
-using Skeleton.Abstraction.Data;
-using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {

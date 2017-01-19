@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,20 +62,20 @@
     <Compile Include="Data\IDatabaseTransaction.cs" />
     <Compile Include="Data\ISqlCommand.cs" />
     <Compile Include="Reflection\IConstructorAccessor.cs" />
-    <Compile Include="IEntityDescriptor.cs" />
-    <Compile Include="IEntityAuditable.cs" />
+    <Compile Include="Domain\IEntityDescriptor.cs" />
+    <Compile Include="Domain\IEntityAuditable.cs" />
     <Compile Include="ICacheContext.cs" />
     <Compile Include="ICacheProvider.cs" />
     <Compile Include="IDependencyRegistrar.cs" />
     <Compile Include="IDependencyResolver.cs" />
-    <Compile Include="IEntity.cs" />
+    <Compile Include="Domain\IEntity.cs" />
     <Compile Include="Reflection\IFieldMetadata.cs" />
     <Compile Include="IHideObjectMethods.cs" />
     <Compile Include="Reflection\IInstanceCreator.cs" />
     <Compile Include="ILogger.cs" />
-    <Compile Include="IEntityValidatable.cs" />
-    <Compile Include="IEntityValidationResult.cs" />
-    <Compile Include="IEntityValidator.cs" />
+    <Compile Include="Domain\IEntityValidatable.cs" />
+    <Compile Include="Domain\IEntityValidationResult.cs" />
+    <Compile Include="Domain\IEntityValidator.cs" />
     <Compile Include="Reflection\IMemberAccessor.cs" />
     <Compile Include="Reflection\IMemberInfo.cs" />
     <Compile Include="Reflection\IMetadata.cs" />

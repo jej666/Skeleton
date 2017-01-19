@@ -60,12 +60,12 @@ namespace Skeleton.Tests.Benchmarks
 
                 benchmarks.Add(() =>
                 {
-                    var list = repository.Find();
+                    repository.Find();
                 }, "Skeleton.Orm => Cold start");
 
                 benchmarks.Add(() =>
                 {
-                    var list = repository.Find();
+                    repository.Find();
                 }, "Skeleton.Orm => Hot start (benefits of TypeCacheAccessor)");
 
                 var repositoryAsync = Container.Resolve<IAsyncEntityReader<Post>>();

@@ -3,7 +3,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.DependencyInjection.LoggerExtension
 {
-    public class CreationStackTrackerStrategy : BuilderStrategy
+    public sealed class CreationStackTrackerStrategy : BuilderStrategy
     {
         public override void PostBuildUp(IBuilderContext context)
         {

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Repository;
+using Skeleton.Abstraction.Domain;
 
 namespace Skeleton.Web.Server.Controllers
 {

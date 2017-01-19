@@ -2,7 +2,7 @@
 
 namespace Skeleton.Infrastructure.DependencyInjection.LoggerExtension
 {
-    public class PeekableCollection<T>
+    public sealed class PeekableCollection<T>
     {
         private readonly List<T> _list;
 

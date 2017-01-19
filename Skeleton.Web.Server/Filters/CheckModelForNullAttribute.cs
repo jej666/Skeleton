@@ -4,12 +4,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using Skeleton.Common;
 
 namespace Skeleton.Web.Server.Filters
 {
-    public sealed class CheckModelForNullAttribute : ActionFilterAttribute
+        public sealed class CheckModelForNullAttribute : ActionFilterAttribute
     {
-        private readonly Func<Dictionary<string, object>, bool> _validate;
+        private const string Error = "The argument cannot be null";
+        private readonly Func<Dictionary<string, object>, bool> _checkCondition;
 
         public CheckModelForNullAttribute()
             : this(arguments => arguments.ContainsValue(null))
@@ -18,14 +20,22 @@ namespace Skeleton.Web.Server.Filters
 
         public CheckModelForNullAttribute(Func<Dictionary<string, object>, bool> checkCondition)
         {
-            _validate = checkCondition;
+            _checkCondition = checkCondition;
         }
+
+        public Func<Dictionary<string, object>, bool> CheckCondition
+        {
+            get { return _checkCondition; }
+        }
+
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            if (_validate(actionContext.ActionArguments))
+            actionContext.ThrowIfNull(() => actionContext);
+
+            if (CheckCondition(actionContext.ActionArguments))
                 actionContext.Response = actionContext.Request.CreateErrorResponse(
-                    HttpStatusCode.BadRequest, "The argument cannot be null");
+                    HttpStatusCode.BadRequest, Error);
         }
     }
 }

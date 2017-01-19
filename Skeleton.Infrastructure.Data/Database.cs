@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Data;
-using Skeleton.Common;
-using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -76,8 +76,9 @@ namespace Skeleton.Infrastructure.Data
                 var reader = CreateTextCommand(command)
                     .ExecuteReader();
 
-                return MetadataProvider.CreateMapper<TPoco>()
-                    .MapQuery(reader);
+                return MetadataProvider
+                    .CreateMapper<TPoco>(reader)
+                    .MapQuery();
             });
         }
 
@@ -89,8 +90,9 @@ namespace Skeleton.Infrastructure.Data
                 var reader = CreateTextCommand(command)
                     .ExecuteReader(CommandBehavior.SingleRow);
 
-                return MetadataProvider.CreateMapper<TPoco>()
-                    .MapSingle(reader);
+                return MetadataProvider
+                    .CreateMapper<TPoco>(reader)
+                    .MapSingle();
             });
         }
 

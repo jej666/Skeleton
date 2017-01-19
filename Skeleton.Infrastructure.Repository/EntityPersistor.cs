@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Data;
+﻿using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Domain;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
-using Skeleton.Abstraction.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -16,6 +16,7 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
+        private const string Error = "Entity Id is not null. {0} is canceled"; 
 
         public EntityPersistor(
             IMetadataProvider metadataProvider,
@@ -148,12 +149,15 @@ namespace Skeleton.Infrastructure.Repository
         protected override void DisposeManagedResources()
         {
             Database.Dispose();
+            base.DisposeManagedResources();
         }
 
         private object AddCommand(TEntity entity)
         {
             if (entity.Id.IsNotZeroOrEmpty())
-                throw new ArgumentException($"Entity Id is not null. {nameof(AddCommand)} is canceled");
+            {
+                throw new ArgumentException(Error.FormatWith(nameof(AddCommand)));  
+            }
 
             var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
@@ -173,7 +177,7 @@ namespace Skeleton.Infrastructure.Repository
         private int DeleteCommand(TEntity entity)
         {
             if (entity.Id.IsZeroOrEmpty())
-                throw new ArgumentException($"Entity Id is null. {nameof(DeleteCommand)} is canceled");
+                throw new ArgumentException(Error.FormatWith(nameof(DeleteCommand)));
 
             var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
@@ -184,7 +188,7 @@ namespace Skeleton.Infrastructure.Repository
         private int UpdateCommand(TEntity entity)
         {
             if (entity.Id.IsZeroOrEmpty())
-                throw new ArgumentException($"Entity Id is null. {nameof(UpdateCommand)} is canceled");
+                throw new ArgumentException(Error.FormatWith(nameof(UpdateCommand)));
 
             var builder = new UpdateCommandBuilder<TEntity>(
                 _metadataProvider, entity);

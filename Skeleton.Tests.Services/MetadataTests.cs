@@ -251,7 +251,7 @@ namespace Skeleton.Tests
         public void Should_CreateMethod_ThrowOnNotFoundMethodName()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
-            var method = metadata.GetMethod("InexistantMethod");
+            metadata.GetMethod("InexistantMethod");
         }
 
         [TestMethod]

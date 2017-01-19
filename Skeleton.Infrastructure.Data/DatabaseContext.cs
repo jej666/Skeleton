@@ -184,6 +184,7 @@ namespace Skeleton.Infrastructure.Data
                 _transaction.Dispose();
                 _transaction = null;
             }
+            base.DisposeManagedResources();
         }
     }
 }

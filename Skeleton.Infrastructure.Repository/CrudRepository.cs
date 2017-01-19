@@ -1,4 +1,5 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Repository;
 
 namespace Skeleton.Infrastructure.Repository
@@ -22,8 +23,8 @@ namespace Skeleton.Infrastructure.Repository
 
         protected override void DisposeManagedResources()
         {
-            base.DisposeManagedResources();
             Store.Dispose();
+            base.DisposeManagedResources();
         }
     }
 }
