@@ -4,7 +4,7 @@ using System.Reflection.Emit;
 
 namespace Skeleton.Core.Reflection.Emitter
 {
-    internal class MethodEmitter : EmitterBase
+    internal sealed class MethodEmitter : EmitterBase
     {
         private readonly MethodInfo _methodInfo;
 

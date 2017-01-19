@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,6 +43,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Web.Server.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -115,8 +122,13 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Web.Server.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
+      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
+      <Name>Skeleton.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Infrastructure.DependencyInjection\Skeleton.Infrastructure.DependencyInjection.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
       <Name>Skeleton.Infrastructure.DependencyInjection</Name>

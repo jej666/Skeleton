@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using Skeleton.Common;
 
 namespace Skeleton.Tests.Infrastructure
 {
@@ -7,6 +8,8 @@ namespace Skeleton.Tests.Infrastructure
     {
         public static string GetNullableString(this IDataReader reader, int index)
         {
+            reader.ThrowIfNull(() => reader);
+
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
                 return (string) tmp;
@@ -15,6 +18,8 @@ namespace Skeleton.Tests.Infrastructure
 
         public static T? GetNullableValue<T>(this IDataReader reader, int index) where T : struct
         {
+            reader.ThrowIfNull(() => reader);
+
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
                 return (T) tmp;

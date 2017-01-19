@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Skeleton.Abstraction;
+using System.Linq;
 using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
@@ -9,69 +9,24 @@ namespace Skeleton.Infrastructure.Data
             DataReaderMapperBase<TPoco>
         where TPoco : class
     {
-        internal DataReaderMapper(IMetadataProvider accessorCache)
-            : base(accessorCache)
+        internal DataReaderMapper(
+            IMetadataProvider accessorCache, 
+            IDataReader dataReader)
+            : base(accessorCache, dataReader)
         {
         }
 
-        internal IEnumerable<TPoco> MapQuery(IDataReader dataReader)
+        internal IEnumerable<TPoco> MapQuery()
         {
-            try
-            {
-                var list = new List<TPoco>();
+            if (!IsReadable)
+                return new List<TPoco>();
 
-                if ((dataReader == null) || (dataReader.FieldCount == 0))
-                    return list;
-
-                while (dataReader.Read())
-                {
-                    var values = new object[dataReader.FieldCount];
-                    dataReader.GetValues(values);
-
-                    var instance = SetMatchingValues(dataReader, values);
-
-                    list.Add(instance);
-                }
-                while (dataReader.NextResult())
-                {
-                }
-
-                return list;
-            }
-            finally
-            {
-                using (dataReader)
-                {
-                }
-            }
+            return Read(() => SetMatchingValues()).ToList();
         }
 
-        internal TPoco MapSingle(IDataReader dataReader)
+        internal TPoco MapSingle()
         {
-            try
-            {
-                if ((dataReader == null) || (dataReader.FieldCount == 0))
-                    return default(TPoco);
-
-                if (!dataReader.Read())
-                    return default(TPoco);
-
-                var values = new object[dataReader.FieldCount];
-                dataReader.GetValues(values);
-                var instance = SetMatchingValues(dataReader, values);
-
-                while (dataReader.NextResult())
-                {
-                }
-
-                return instance;
-            }
-            finally
-            {
-                using (dataReader)
-                {
-                }
-            }
+            return MapQuery().FirstOrDefault();
         }
     }
 }

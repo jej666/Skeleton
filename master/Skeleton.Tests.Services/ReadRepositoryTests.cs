@@ -46,7 +46,7 @@ namespace Skeleton.Tests
         public void FirstOrDefault_StartWith()
         {
             var result = _repository.Query
-                .Where(c => c.Name.StartsWith("Customer"))
+                .Where(c => c.Name.StartsWith("Customer", StringComparison.OrdinalIgnoreCase))
                 .FirstOrDefault();
 
             Assert.IsNotNull(result);

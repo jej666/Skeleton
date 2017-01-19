@@ -3,7 +3,7 @@ using Microsoft.Practices.Unity.ObjectBuilder;
 
 namespace Skeleton.Infrastructure.DependencyInjection.LoggerExtension
 {
-    public class LoggerConstructorInjectionExtension : UnityContainerExtension
+    public sealed class LoggerConstructorInjectionExtension : UnityContainerExtension
     {
         protected override void Initialize()
         {

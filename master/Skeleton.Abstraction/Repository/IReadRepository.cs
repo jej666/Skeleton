@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skeleton.Abstraction.Domain;
+using System;
 
 namespace Skeleton.Abstraction.Repository
 {

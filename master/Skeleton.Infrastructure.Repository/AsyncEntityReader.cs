@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Data;
+﻿using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Domain;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Repository.SqlBuilder;
-using Skeleton.Abstraction.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Repository
 {
@@ -268,6 +268,7 @@ namespace Skeleton.Infrastructure.Repository
         protected override void DisposeManagedResources()
         {
             Database.Dispose();
+            base.DisposeManagedResources();
         }
 
         private IAsyncEntityReader<TEntity> And(

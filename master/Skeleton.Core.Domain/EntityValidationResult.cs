@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Common;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Skeleton.Core.Domain
 {

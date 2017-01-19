@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System;
 
 namespace Skeleton.Web.Client
 {
@@ -14,7 +15,8 @@ namespace Skeleton.Web.Client
 
         public IEnumerable<TDto> GetAll()
         {
-            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + "GetAll").Result;
+            var requestUri = CreateUri("GetAll");
+            var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content
@@ -24,7 +26,8 @@ namespace Skeleton.Web.Client
 
         public TDto FirstOrDefault(object id)
         {
-            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + "Get/" + id).Result;
+            var requestUri = CreateUri("Get/" + id);
+            var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
@@ -32,21 +35,23 @@ namespace Skeleton.Web.Client
 
         public PagedResult<TDto> Page(int pageSize, int pageNumber)
         {
-            var requestUri = AddressSuffix +
-                             $"Page/?pageSize={pageSize}&pageNumber={pageNumber}";
+            var requestUri = CreateUri(
+                             $"Page/?pageSize={pageSize}&pageNumber={pageNumber}");
             var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             var content = responseMessage.Content
                 .ReadAsStringAsync()
                 .Result;
+
             return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
         }
 
         public TDto Add(TDto dto)
         {
+            var request = CreateUri("Add");
             var objectContent = CreateJsonObjectContent(dto);
-            var responseMessage = JsonHttpClient.PostAsync(AddressSuffix + "Add", objectContent).Result;
+            var responseMessage = JsonHttpClient.PostAsync(request, objectContent).Result;
             responseMessage.EnsureSuccessStatusCode();
 
             return responseMessage.Content.ReadAsAsync<TDto>().Result;
@@ -54,20 +59,22 @@ namespace Skeleton.Web.Client
 
         public IEnumerable<TDto> Add(IEnumerable<TDto> dtos)
         {
-            var objectContent = CreateJsonObjectContent(dtos);
-            var responseMessage = JsonHttpClient.PostAsync(AddressSuffix + "AddMany", objectContent).Result;
-            responseMessage.EnsureSuccessStatusCode();
+            var request = CreateUri("AddMany");
+            var content = CreateJsonObjectContent(dtos);
+            var response = JsonHttpClient.PostAsync(request, content).Result;
+            response.EnsureSuccessStatusCode();
 
-            return responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
+            return response.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
         }
 
         public bool Update(TDto dto)
         {
-            var objectContent = CreateJsonObjectContent(dto);
-            var responseMessage = JsonHttpClient.PostAsync(AddressSuffix + "Update", objectContent).Result;
-            responseMessage.EnsureSuccessStatusCode();
+            var request = CreateUri("Update");
+            var content = CreateJsonObjectContent(dto);
+            var response = JsonHttpClient.PostAsync(request, content).Result;
+            response.EnsureSuccessStatusCode();
 
-            return responseMessage.IsSuccessStatusCode;
+            return response.IsSuccessStatusCode;
         }
 
         public bool Update(IEnumerable<TDto> dtos)
@@ -77,10 +84,11 @@ namespace Skeleton.Web.Client
 
         public bool Delete(object id)
         {
-            var responseMessage = JsonHttpClient.GetAsync(AddressSuffix + "Delete/" + id).Result;
-            responseMessage.EnsureSuccessStatusCode();
+            var request = CreateUri("Delete/" + id);
+            var response = JsonHttpClient.GetAsync(request).Result;
+            response.EnsureSuccessStatusCode();
 
-            return responseMessage.IsSuccessStatusCode;
+            return response.IsSuccessStatusCode;
         }
 
         public bool Delete(IEnumerable<TDto> dtos)
@@ -90,10 +98,11 @@ namespace Skeleton.Web.Client
 
         private bool Post(IEnumerable<TDto> dtos, string action)
         {
-            var responseMessage = JsonHttpClient.PostAsJsonAsync(AddressSuffix + action, dtos).Result;
-            responseMessage.EnsureSuccessStatusCode();
+            var request = CreateUri(action);
+            var response = JsonHttpClient.PostAsJsonAsync(request, dtos).Result;
+            response.EnsureSuccessStatusCode();
 
-            return responseMessage.IsSuccessStatusCode;
+            return response.IsSuccessStatusCode;
         }
     }
 }

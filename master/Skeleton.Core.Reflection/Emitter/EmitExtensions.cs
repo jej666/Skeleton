@@ -93,7 +93,7 @@ namespace Skeleton.Core.Reflection.Emitter
             generator.ThrowIfNull(() => generator);
             parameterTypes.ThrowIfNull(() => parameterTypes);
 
-            for (int i = 0, imax = parameterTypes.Length; i < imax; i++)
+            for (int i = 0; i < parameterTypes.Length; i++)
             {
                 generator.Emit(OpCodes.Ldarg_0); // push args array
                 generator.FastInt(i); // push index

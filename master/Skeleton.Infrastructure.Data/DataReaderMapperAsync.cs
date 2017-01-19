@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
-using Skeleton.Abstraction;
 using Skeleton.Abstraction.Reflection;
+using System.Data;
+using System.Linq;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -10,70 +11,26 @@ namespace Skeleton.Infrastructure.Data
             DataReaderMapperBase<TPoco>
         where TPoco : class
     {
-        internal DataReaderMapperAsync(IMetadataProvider accessorCache)
-            : base(accessorCache)
+        internal DataReaderMapperAsync(
+            IMetadataProvider accessorCache,
+            IDataReader dataReader)
+            : base(accessorCache, dataReader)
         {
         }
 
-        internal async Task<IEnumerable<TPoco>> MapQueryAsync(DbDataReader dataReader)
+        internal async Task<IEnumerable<TPoco>> MapQueryAsync()
         {
-            try
-            {
-                var list = new List<TPoco>();
+            if (!IsReadable)
+                return new List<TPoco>();
 
-                if ((dataReader == null) || (dataReader.FieldCount == 0))
-                    return list;
-
-                while (await dataReader.ReadAsync().ConfigureAwait(false))
-                {
-                    var values = new object[dataReader.FieldCount];
-                    dataReader.GetValues(values);
-
-                    var instance = SetMatchingValues(dataReader, values);
-
-                    list.Add(instance);
-                }
-
-                while (await dataReader.NextResultAsync().ConfigureAwait(false))
-                {
-                }
-
-                return list;
-            }
-            finally
-            {
-                using (dataReader)
-                {
-                }
-            }
+            return await ReadAsync(() => SetMatchingValues())
+                .ContinueWith(list => list.Result.ToList());
         }
 
-        internal async Task<TPoco> MapSingleAsync(DbDataReader dataReader)
+        internal async Task<TPoco> MapSingleAsync()
         {
-            try
-            {
-                if ((dataReader == null) || (dataReader.FieldCount == 0))
-                    return default(TPoco);
-
-                if (!await dataReader.ReadAsync().ConfigureAwait(false))
-                    return default(TPoco);
-
-                var values = new object[dataReader.FieldCount];
-                dataReader.GetValues(values);
-                var instance = SetMatchingValues(dataReader, values);
-
-                while (await dataReader.NextResultAsync().ConfigureAwait(false))
-                {
-                }
-
-                return instance;
-            }
-            finally
-            {
-                using (dataReader)
-                {
-                }
-            }
+            return await MapQueryAsync()
+                .ContinueWith(list => list.Result.FirstOrDefault());
         }
     }
 }

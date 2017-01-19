@@ -33,6 +33,7 @@ namespace Skeleton.Infrastructure.Data
         protected override void DisposeManagedResources()
         {
             _database?.DisposeTransaction();
+            base.DisposeManagedResources();
         }
     }
 }

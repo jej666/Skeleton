@@ -94,7 +94,8 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await reader.Map();
+                return await reader.Map()
+                    .ConfigureAwait(false);
             }
             catch (SqlException e)
             {
@@ -114,8 +115,10 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await MetadataProvider.CreateMapperAsync<TPoco>()
-                    .MapQueryAsync(reader);
+                return await MetadataProvider
+                    .CreateMapperAsync<TPoco>(reader)
+                    .MapQueryAsync()
+                    .ConfigureAwait(false);
             }
             catch (SqlException e)
             {
@@ -135,8 +138,10 @@ namespace Skeleton.Infrastructure.Data
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
-                return await MetadataProvider.CreateMapperAsync<TPoco>()
-                    .MapSingleAsync(reader);
+                return await MetadataProvider
+                    .CreateMapperAsync<TPoco>(reader)
+                    .MapSingleAsync()
+                    .ConfigureAwait(false);
             }
             catch (SqlException e)
             {

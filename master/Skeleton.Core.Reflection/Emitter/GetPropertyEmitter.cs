@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Skeleton.Core.Reflection.Emitter
 {
-    internal class GetPropertyEmitter: EmitterBase
+    internal sealed class GetPropertyEmitter: EmitterBase
     {
         private readonly PropertyInfo _propertyInfo;
 

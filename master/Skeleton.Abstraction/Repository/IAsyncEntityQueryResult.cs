@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Skeleton.Abstraction.Domain;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Skeleton.Abstraction.Repository

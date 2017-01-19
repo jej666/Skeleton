@@ -17,6 +17,9 @@ namespace Skeleton.Core.Caching
 
         public T GetOrAdd<T>(string key, Func<T> valueFactory, Action<ICacheContext> configurator)
         {
+            key.ThrowIfNullOrEmpty(() => key);
+            valueFactory.ThrowIfNull(() => valueFactory);
+
             try
             {
                 if (Cache.Contains(key))
@@ -80,7 +83,7 @@ namespace Skeleton.Core.Caching
             Cache.Remove(key);
         }
 
-        private class CachePolicyFactory
+        private sealed class CachePolicyFactory
         {
             private readonly MemoryCacheContext _cacheContext =
                 new MemoryCacheContext {CreationTime = DateTimeOffset.UtcNow};

@@ -48,7 +48,7 @@ namespace Skeleton.Tests.Benchmarks
             {
                 var property = properties[0];
                 var instance = metadata.CreateInstance<MetadataType>();
-                var value = property.GetValue(instance);
+                property.GetValue(instance);
             }
         }
 
@@ -68,7 +68,7 @@ namespace Skeleton.Tests.Benchmarks
             {
                 var property = typeof(MetadataType).GetProperty("Property");
                 var instance = Activator.CreateInstance(typeof(MetadataType));
-                var value = property.GetValue(instance);
+                property.GetValue(instance);
             }
         }
 
@@ -78,7 +78,7 @@ namespace Skeleton.Tests.Benchmarks
 
             for (var i = 0; i <= Iterations; ++i)
             {
-                var instance = metadata.CreateInstance<MetadataType>();
+                metadata.CreateInstance<MetadataType>();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Skeleton.Tests.Benchmarks
         {
             for (var i = 0; i <= Iterations; ++i)
             {
-                var instance = Activator.CreateInstance(typeof(MetadataType));
+                Activator.CreateInstance(typeof(MetadataType));
             }
         }
     }

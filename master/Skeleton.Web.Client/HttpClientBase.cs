@@ -16,17 +16,16 @@ namespace Skeleton.Web.Client
 
         protected HttpClientBase(string serviceBaseAddress, string addressSuffix)
         {
-            _serviceBaseAddress = serviceBaseAddress;
-            AddressSuffix = addressSuffix;
+            if (!addressSuffix.EndsWith("/", StringComparison.OrdinalIgnoreCase))
+                addressSuffix += "/";
 
-            if (!AddressSuffix.EndsWith("/"))
-                AddressSuffix += "/";
+            ServiceAddress = serviceBaseAddress +addressSuffix;
         }
 
         protected HttpClient JsonHttpClient => _httpClient ??
-                                               (_httpClient = CreateJsonHttpClient(_serviceBaseAddress));
+                                               (_httpClient = CreateJsonHttpClient());
 
-        protected string AddressSuffix { get; }
+        protected string ServiceAddress { get; }
 
         public void Dispose()
         {
@@ -34,9 +33,14 @@ namespace Skeleton.Web.Client
             GC.SuppressFinalize(this);
         }
 
-        private static HttpClient CreateJsonHttpClient(string serviceBaseAddress)
+        public Uri CreateUri(string action)
         {
-            var client = new HttpClient {BaseAddress = new Uri(serviceBaseAddress)};
+            return new Uri(ServiceAddress + action);
+        }
+
+        private static HttpClient CreateJsonHttpClient()
+        {
+            var client = new HttpClient();
 
             client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
             client.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));

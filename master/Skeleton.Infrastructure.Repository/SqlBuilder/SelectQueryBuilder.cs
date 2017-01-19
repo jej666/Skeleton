@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq.Expressions;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction.Domain;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Repository.ExpressionTree;
-using Skeleton.Abstraction.Reflection;
+using System;
+using System.Linq.Expressions;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {

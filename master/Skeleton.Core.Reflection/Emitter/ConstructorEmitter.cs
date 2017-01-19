@@ -3,7 +3,7 @@ using System.Reflection.Emit;
 
 namespace Skeleton.Core.Reflection.Emitter
 {
-    internal class ConstructorEmitter : EmitterBase
+    internal sealed class ConstructorEmitter : EmitterBase
     {
         private readonly Type[] _paramTypes;
 

@@ -38,7 +38,7 @@
             }
         }
 
-        private int _readOnlyProperty;
+        private readonly int _readOnlyProperty;
         public int ReadOnlyProperty
         {
             get

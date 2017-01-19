@@ -1,4 +1,6 @@
-﻿namespace Skeleton.Abstraction.Repository
+﻿using Skeleton.Abstraction.Domain;
+
+namespace Skeleton.Abstraction.Repository
 {
     public interface IAsyncCachedReadRepository<TEntity, TDto> :
             IAsyncReadRepository<TEntity, TDto>

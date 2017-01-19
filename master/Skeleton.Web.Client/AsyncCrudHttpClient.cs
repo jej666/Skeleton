@@ -15,64 +15,70 @@ namespace Skeleton.Web.Client
 
         public async Task<IEnumerable<TDto>> GetAllAsync()
         {
-            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + "GetAll");
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = CreateUri("GetAll");
+            var response = await JsonHttpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
 
-            return await responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>();
+            return await response.Content.ReadAsAsync<IEnumerable<TDto>>();
         }
 
         public async Task<TDto> FirstOrDefaultAsync(object id)
         {
-            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + "Get/" + id);
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = CreateUri("Get/" + id);
+            var response = await JsonHttpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
 
-            return await responseMessage.Content.ReadAsAsync<TDto>();
+            return await response.Content.ReadAsAsync<TDto>();
         }
 
         public async Task<TDto> AddAsync(TDto model)
         {
-            var objectContent = CreateJsonObjectContent(model);
-            var responseMessage = await JsonHttpClient.PostAsync(AddressSuffix + "Add", objectContent);
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = CreateUri("Add");
+            var content = CreateJsonObjectContent(model);
+            var response = await JsonHttpClient.PostAsync(requestUri, content);
+            response.EnsureSuccessStatusCode();
 
-            return await responseMessage.Content.ReadAsAsync<TDto>();
+            return await response.Content.ReadAsAsync<TDto>();
         }
 
         public async Task<bool> UpdateAsync(TDto model)
         {
-            var objectContent = CreateJsonObjectContent(model);
-            var responseMessage = await JsonHttpClient.PostAsync(AddressSuffix + "Update", objectContent);
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = CreateUri("Update");
+            var content = CreateJsonObjectContent(model);
+            var response = await JsonHttpClient.PostAsync(requestUri, content);
+            response.EnsureSuccessStatusCode();
 
-            return responseMessage.IsSuccessStatusCode;
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteAsync(object id)
         {
-            var responseMessage = await JsonHttpClient.GetAsync(AddressSuffix + "Delete/" + id);
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = CreateUri("Delete/" + id);
+            var response = await JsonHttpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
 
-            return responseMessage.IsSuccessStatusCode;
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<PagedResult<TDto>> PageAsync(int pageSize, int pageNumber)
         {
-            var requestUri = AddressSuffix +
-                             $"Page/?pageSize={pageSize}&pageNumber={pageNumber}";
-            var responseMessage = await JsonHttpClient.GetAsync(requestUri);
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = CreateUri(
+                             $"Page/?pageSize={pageSize}&pageNumber={pageNumber}");
+            var response = await JsonHttpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
 
-            var content = await responseMessage.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
         }
 
         public async Task<IEnumerable<TDto>> AddAsync(IEnumerable<TDto> dtos)
         {
-            var responseMessage = await JsonHttpClient.PostAsJsonAsync(AddressSuffix + "AddMany", dtos);
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = CreateUri("AddMany");
+            var response = await JsonHttpClient.PostAsJsonAsync(requestUri, dtos);
+            response.EnsureSuccessStatusCode();
 
-            return responseMessage.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
+            return response.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
         }
 
         public async Task<bool> UpdateAsync(IEnumerable<TDto> dtos)
@@ -87,10 +93,11 @@ namespace Skeleton.Web.Client
 
         private async Task<bool> Post(IEnumerable<TDto> dtos, string action)
         {
-            var responseMessage = await JsonHttpClient.PostAsJsonAsync(AddressSuffix + action, dtos);
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = CreateUri(action);
+            var response = await JsonHttpClient.PostAsJsonAsync(requestUri, dtos);
+            response.EnsureSuccessStatusCode();
 
-            return responseMessage.IsSuccessStatusCode;
+            return response.IsSuccessStatusCode;
         }
     }
 }

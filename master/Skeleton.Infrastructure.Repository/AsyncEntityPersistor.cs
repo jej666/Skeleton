@@ -1,5 +1,5 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Data;
+﻿using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
@@ -145,6 +145,7 @@ namespace Skeleton.Infrastructure.Repository
         protected override void DisposeManagedResources()
         {
             Database.Dispose();
+            base.DisposeManagedResources();
         }
 
         private async Task<object> AddCommand(TEntity entity)

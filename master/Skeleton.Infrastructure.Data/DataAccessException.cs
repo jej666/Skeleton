@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Skeleton.Infrastructure.Data
 {
     [Serializable]
-    public class DataAccessException : DbException
+    public sealed class DataAccessException : DbException
     {
         public DataAccessException()
         {
@@ -26,7 +26,7 @@ namespace Skeleton.Infrastructure.Data
         {
         }
 
-        protected DataAccessException(SerializationInfo info, StreamingContext context)
+        private DataAccessException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

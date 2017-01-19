@@ -1,10 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction.Domain;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Core.Reflection;
-using Skeleton.Abstraction.Reflection;
+using System;
+using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace Skeleton.Core.Domain
 {
