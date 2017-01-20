@@ -1,6 +1,6 @@
 ﻿namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    public enum JoinType
+    internal enum JoinType
     {
         Left = 0,
         Right,

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Common
 {
     public static class MemorySeeder
     {

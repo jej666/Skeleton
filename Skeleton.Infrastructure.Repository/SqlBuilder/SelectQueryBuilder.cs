@@ -7,20 +7,20 @@ using System.Linq.Expressions;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    public class SelectQueryBuilder<TEntity> :
+    internal class SelectQueryBuilder<TEntity> :
             SqlBuilderBase<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        public SelectQueryBuilder(IMetadataProvider metadataProvider)
+        internal SelectQueryBuilder(IMetadataProvider metadataProvider)
             : base(metadataProvider)
         {
         }
 
-        protected override ContextBase ContextBase => Context;
+        protected internal override ContextBase ContextBase => Context;
 
-        protected QueryContext Context { get; private set; } = new QueryContext();
+        internal QueryContext Context { get; private set; } = new QueryContext();
 
-        public override string SqlQuery => SqlQueryTemplate
+        internal override string SqlQuery => SqlQueryTemplate
             .FormatWith(
                 Context.Top,
                 SqlFormatter.SelectedColumns(Context.Selection, TableName),
@@ -30,14 +30,14 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 SqlFormatter.Having(Context.Having),
                 SqlFormatter.OrderBy(Context.OrderBy));
 
-        protected override string SqlQueryTemplate => "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
+        protected internal override string SqlQueryTemplate => "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
 
-        public override void OnNextQuery()
+        internal override void OnNextQuery()
         {
             Context = new QueryContext();
         }
 
-        public void OrderBy(LambdaExpression expression)
+        internal void OrderBy(LambdaExpression expression)
         {
             expression.ThrowIfNull(() => expression);
 
@@ -47,7 +47,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.OrderBy.Add(SqlFormatter.Field(memberNode));
         }
 
-        public void OrderByDescending(LambdaExpression expression)
+        internal void OrderByDescending(LambdaExpression expression)
         {
             expression.ThrowIfNull(() => expression);
 
@@ -57,17 +57,17 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.OrderBy.Add(SqlFormatter.OrderByDescending(memberNode));
         }
 
-        public void Top(int take)
+        internal void Top(int take)
         {
             Context.Top = SqlFormatter.Top(take);
         }
 
-        public void Count()
+        internal void Count()
         {
             Context.Selection.Add(SqlFormatter.CountAny);
         }
 
-        public void Aggregate(LambdaExpression expression, SelectFunction selectFunction)
+        internal void Aggregate(LambdaExpression expression, SelectFunction selectFunction)
         {
             expression.ThrowIfNull(() => expression);
 
@@ -80,7 +80,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.Selection.Add(selectionString);
         }
 
-        public void GroupBy(LambdaExpression expression)
+        internal void GroupBy(LambdaExpression expression)
         {
             expression.ThrowIfNull(() => expression);
 
@@ -90,7 +90,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.GroupBy.Add(SqlFormatter.Field(memberNode));
         }
 
-        public void Select(LambdaExpression expression)
+        internal void Select(LambdaExpression expression)
         {
             expression.ThrowIfNull(() => expression);
 
@@ -138,7 +138,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        public void Join<T1, T2>(
+        internal void Join<T1, T2>(
             Expression<Func<T1, T2, bool>> expression, JoinType joinType)
         {
             expression.ThrowIfNull(() => expression);
@@ -163,7 +163,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Context.Selection.Add(SqlFormatter.SelectAll(tableName));
         }
 
-        protected void OrderByPrimaryKey()
+        internal void OrderByPrimaryKey()
         {
             var memberNode = new MemberNode {TableName = TableName, FieldName = EntityIdName};
             Context.OrderBy.Add(SqlFormatter.Field(memberNode));

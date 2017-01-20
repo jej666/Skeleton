@@ -1,7 +1,8 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Infrastructure.DependencyInjection;
+using Skeleton.Tests.Common;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Services
 {
     public abstract class RepositoryTestBase
     {

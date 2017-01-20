@@ -1,6 +1,6 @@
 ﻿using Skeleton.Core.Domain;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Common
 {
     public class Customer : Entity<Customer>
     {

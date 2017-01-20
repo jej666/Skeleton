@@ -2,7 +2,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Tests.Infrastructure;
+using Skeleton.Tests.Common;
+using Skeleton.Tests.Web.Mock;
 
 namespace Skeleton.Web.Tests
 {

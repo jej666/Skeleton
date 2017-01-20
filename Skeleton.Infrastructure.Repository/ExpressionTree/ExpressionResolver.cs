@@ -7,12 +7,12 @@ namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
     internal static class ExpressionResolver
     {
-        internal static Node Resolve(ConstantExpression constantExpression)
+        private static Node Resolve(ConstantExpression constantExpression)
         {
             return new ValueNode {Value = constantExpression.Value};
         }
 
-        internal static Node Resolve(UnaryExpression unaryExpression)
+        private static Node Resolve(UnaryExpression unaryExpression)
         {
             return new SingleOperationNode
             {
@@ -61,7 +61,7 @@ namespace Skeleton.Infrastructure.Repository.ExpressionTree
             return new ValueNode {Value = value};
         }
 
-        internal static Node Resolve(MemberExpression memberExpression, MemberExpression rootExpression = null)
+        private static Node Resolve(MemberExpression memberExpression, MemberExpression rootExpression = null)
         {
             rootExpression = rootExpression ?? memberExpression;
             switch (memberExpression.Expression.NodeType)

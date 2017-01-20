@@ -2,10 +2,10 @@
 
 namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
-    public sealed class OperationNode : Node
+    internal sealed class OperationNode : Node
     {
-        public Node Left { get; set; }
-        public ExpressionType Operator { get; set; }
-        public Node Right { get; set; }
+        internal Node Left { get; set; }
+        internal ExpressionType Operator { get; set; }
+        internal Node Right { get; set; }
     }
 }

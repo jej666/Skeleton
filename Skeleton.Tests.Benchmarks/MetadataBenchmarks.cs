@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Tests.Infrastructure;
+using Skeleton.Tests.Core;
 
 namespace Skeleton.Tests.Benchmarks
 {

@@ -59,22 +59,37 @@
   <ItemGroup>
     <Compile Include="Benchmark.cs" />
     <Compile Include="Benchmarks.cs" />
+    <Compile Include="DbPostSeeder.cs" />
     <Compile Include="MetadataBenchmarks.cs" />
+    <Compile Include="Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryPerformanceTests.cs" />
+    <Compile Include="SqlDataReaderHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
+      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
+      <Name>Skeleton.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Tests.Infrastructure\Skeleton.Tests.Infrastructure.csproj">
+    <ProjectReference Include="..\Skeleton.Tests.Core\Skeleton.Tests.Core.csproj">
+      <Project>{f0f985cf-a6ef-40db-a332-2a7f2bbfbc47}</Project>
+      <Name>Skeleton.Tests.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Tests.Infrastructure\Skeleton.Tests.Common.csproj">
       <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>
-      <Name>Skeleton.Tests.Infrastructure</Name>
+      <Name>Skeleton.Tests.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Tests.Services\Skeleton.Tests.Services.csproj">
+      <Project>{54063976-2135-4994-a69c-9eace310589c}</Project>
+      <Name>Skeleton.Tests.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

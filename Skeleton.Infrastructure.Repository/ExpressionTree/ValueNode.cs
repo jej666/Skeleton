@@ -1,7 +1,7 @@
 ﻿namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
-    public sealed class ValueNode : Node
+    internal sealed class ValueNode : Node
     {
-        public object Value { get; set; }
+        internal object Value { get; set; }
     }
 }

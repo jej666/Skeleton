@@ -4,7 +4,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class CacheKeyGenerator<TEntity>
+    internal class CacheKeyGenerator<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         public CacheKeyGenerator()
@@ -14,7 +14,7 @@ namespace Skeleton.Infrastructure.Repository
 
         protected string Prefix { get; set; }
 
-        public string ForFind(string query)
+        internal string ForFind(string query)
         {
             query.ThrowIfNullOrEmpty(() => query);
 
@@ -24,7 +24,7 @@ namespace Skeleton.Infrastructure.Repository
                 query);
         }
 
-        public string ForFirstOrDefault(object id)
+        internal string ForFirstOrDefault(object id)
         {
             id.ThrowIfNull(() => id);
 
@@ -34,7 +34,7 @@ namespace Skeleton.Infrastructure.Repository
                 id.ToString());
         }
 
-        public string ForFirstOrDefault(string query)
+        internal string ForFirstOrDefault(string query)
         {
             query.ThrowIfNullOrEmpty(() => query);
 
@@ -44,7 +44,7 @@ namespace Skeleton.Infrastructure.Repository
                 query);
         }
 
-        public string ForPage(int pageSize, int pageNumber)
+        internal string ForPage(int pageSize, int pageNumber)
         {
             return "{0}{1}[Page]-Size{2}-Page{3}".FormatWith(
                 Prefix,

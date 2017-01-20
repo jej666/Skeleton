@@ -2,7 +2,8 @@
 using System.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
-using Skeleton.Tests.Infrastructure;
+using Skeleton.Tests.Common;
+using Skeleton.Tests.Services;
 
 namespace Skeleton.Tests.Benchmarks
 {
@@ -12,7 +13,7 @@ namespace Skeleton.Tests.Benchmarks
         [TestMethod]
         public void Run()
         {
-            SqlDbSeeder.SeedPosts();
+            DbPostSeeder.SeedPosts();
 
             var benchmarks = new Benchmarks();
 

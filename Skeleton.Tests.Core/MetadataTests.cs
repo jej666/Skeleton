@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
-using Skeleton.Tests.Infrastructure;
 using System;
+using System.Linq;
 
-namespace Skeleton.Tests
+namespace Skeleton.Tests.Core
 {
     [TestClass]
     public class MetadataTests : MetadataTestsBase

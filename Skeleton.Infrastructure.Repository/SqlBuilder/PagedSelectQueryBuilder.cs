@@ -5,24 +5,24 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    public sealed class PagedSelectQueryBuilder<TEntity> : 
+    internal sealed class PagedSelectQueryBuilder<TEntity> : 
         SelectQueryBuilder<TEntity>  
         where TEntity : class, IEntity<TEntity>
     {
-        private string _sqlPagedQueryTemplate =
+        private const string _sqlPagedQueryTemplate =
           "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY";
 
         private readonly int _pageSize;
         private readonly int _pageNumber;
 
-        public PagedSelectQueryBuilder(IMetadataProvider metadataProvider, int pageSize, int pageNumber)
+        internal PagedSelectQueryBuilder(IMetadataProvider metadataProvider, int pageSize, int pageNumber)
             : base(metadataProvider)
         {
             _pageSize = pageSize;
             _pageNumber = pageNumber;
         }
 
-        public override string SqlQuery
+        internal override string SqlQuery
         {
             get
             {

@@ -11,35 +11,33 @@ using System.Linq.Expressions;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    [DebuggerDisplay("EntityName = {EntityType.Name}")]
-    public abstract class SqlBuilderBase<TEntity>
+    [DebuggerDisplay("EntityName = {TableName}")]
+    internal abstract class SqlBuilderBase<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadata _metadata;
+        private readonly Type _entityType;
         private string _cacheIdName;
 
-        protected SqlBuilderBase(IMetadataProvider metadataProvider)
+        protected internal SqlBuilderBase(IMetadataProvider metadataProvider)
         {
             metadataProvider.ThrowIfNull(() => metadataProvider);
 
             _metadata = metadataProvider.GetMetadata<TEntity>();
+            _entityType = _metadata.Type;
         }
 
-        public IDictionary<string, object> Parameters => ContextBase.Parameters;
+        internal abstract string SqlQuery { get; }
 
-        public abstract string SqlQuery { get; }
+        protected internal abstract string SqlQueryTemplate { get; }
 
-        protected abstract string SqlQueryTemplate { get; }
+        internal ISqlCommand SqlCommand => new SqlCommand(SqlQuery, ContextBase.Parameters);
 
-        public ISqlCommand SqlCommand => new SqlCommand(SqlQuery, Parameters);
+        protected internal abstract ContextBase ContextBase { get; }
 
-        protected abstract ContextBase ContextBase { get; }
+        protected internal string TableName => _entityType.Name;
 
-        protected Type EntityType => _metadata.Type;
-
-        protected string TableName => EntityType.Name;
-
-        protected string EntityIdName
+        protected internal string EntityIdName
         {
             get
             {
@@ -57,9 +55,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        public abstract void OnNextQuery();
+        internal abstract void OnNextQuery();
 
-        public T OnNextQuery<T>(Func<T> func)
+        internal T OnNextQuery<T>(Func<T> func)
         {
             try
             {
@@ -73,7 +71,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        protected static IEnumerable<IMemberAccessor> GetTableColumns(TEntity entity)
+        protected internal static IEnumerable<IMemberAccessor> GetTableColumns(TEntity entity)
         {
             return entity.TypeAccessor
                 .GetDeclaredOnlyProperties()
@@ -81,7 +79,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 .ToArray();
         }
 
-        public void WhereIsIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
+        internal void WhereIsIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
         {
             var fieldName = TableInfo.GetColumnName(expression);
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
@@ -90,7 +88,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             WhereIsIn(memberNode, values);
         }
 
-        public void WhereNotIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
+        internal void WhereNotIn(Expression<Func<TEntity, object>> expression, IEnumerable<object> values)
         {
             var fieldName = TableInfo.GetColumnName(expression);
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
@@ -112,7 +110,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             ContextBase.Conditions.Add(newCondition);
         }
 
-        public void ResolveQuery(Expression<Func<TEntity, bool>> expression)
+        internal void ResolveQuery(Expression<Func<TEntity, bool>> expression)
         {
             expression.ThrowIfNull(() => expression);
 
@@ -121,7 +119,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Build(expressionTree);
         }
 
-        public void QueryByPrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
+        internal void QueryByPrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
         {
             whereExpression.ThrowIfNull(() => whereExpression);
 
@@ -129,7 +127,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Build(expressionTree);
         }
 
-        public void QueryFieldCondition(MemberNode node, string op, object fieldValue)
+        private void QueryFieldCondition(MemberNode node, string op, object fieldValue)
         {
             var paramId = ContextBase.NextParamId();
             var newCondition = SqlFormatter.FieldCondition(node, op, paramId);
@@ -138,18 +136,18 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             ContextBase.AddParameter(paramId, fieldValue);
         }
 
-        protected void And()
+        private void And()
         {
             if (ContextBase.Conditions.IsNotNullOrEmpty())
                 ContextBase.Conditions.Add(SqlFormatter.AndExpression);
         }
 
-        protected void Not()
+        private void Not()
         {
             ContextBase.Conditions.Add(SqlFormatter.NotExpression);
         }
 
-        protected void Or()
+        private void Or()
         {
             if (ContextBase.Conditions.IsNotNullOrEmpty())
                 ContextBase.Conditions.Add(SqlFormatter.OrExpression);

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
-using Newtonsoft.Json;
-using System;
 
 namespace Skeleton.Web.Client
 {

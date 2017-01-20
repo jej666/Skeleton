@@ -16,6 +16,7 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
+        private readonly IDatabase _database;
         private const string Error = "Entity Id is not null. {0} is canceled"; 
 
         public EntityPersistor(
@@ -23,10 +24,8 @@ namespace Skeleton.Infrastructure.Repository
             IDatabase database)
         {
             _metadataProvider = metadataProvider;
-            Database = database;
+            _database = database;
         }
-
-        protected IDatabase Database { get; }
 
         public virtual bool Add(TEntity entity)
         {
@@ -42,7 +41,7 @@ namespace Skeleton.Infrastructure.Repository
             var enumerable = entities.AsList();
             var count = 0;
 
-            using (var transaction = Database.Transaction)
+            using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
 
@@ -72,7 +71,7 @@ namespace Skeleton.Infrastructure.Repository
             var enumerable = entities.AsList();
             int count = 0, result = 0;
 
-            using (var transaction = Database.Transaction)
+            using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
 
@@ -104,7 +103,7 @@ namespace Skeleton.Infrastructure.Repository
             var enumerable = entities.AsList();
             var result = false;
 
-            using (var transaction = Database.Transaction)
+            using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
 
@@ -130,7 +129,7 @@ namespace Skeleton.Infrastructure.Repository
             var enumerable = entities.AsList();
             int count = 0, result = 0;
 
-            using (var transaction = Database.Transaction)
+            using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
 
@@ -148,7 +147,7 @@ namespace Skeleton.Infrastructure.Repository
 
         protected override void DisposeManagedResources()
         {
-            Database.Dispose();
+            _database.Dispose();
             base.DisposeManagedResources();
         }
 
@@ -162,7 +161,7 @@ namespace Skeleton.Infrastructure.Repository
             var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            var id = Database.ExecuteScalar(builder.SqlCommand);
+            var id = _database.ExecuteScalar(builder.SqlCommand);
 
             if (id != null)
             {
@@ -182,7 +181,7 @@ namespace Skeleton.Infrastructure.Repository
             var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            return Database.Execute(builder.SqlCommand);
+            return _database.Execute(builder.SqlCommand);
         }
 
         private int UpdateCommand(TEntity entity)
@@ -195,7 +194,7 @@ namespace Skeleton.Infrastructure.Repository
 
             entity.LastModifiedDateTime = DateTime.Now;
 
-            return Database.Execute(builder.SqlCommand);
+            return _database.Execute(builder.SqlCommand);
         }
     }
 }

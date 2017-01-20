@@ -13,7 +13,8 @@ namespace Skeleton.Common
             {
                 var toType = typeof(T);
 
-                if (value == null) return default(T);
+                if (value == null)
+                    return default(T);
 
                 var s = value as string;
                 if (s != null)

@@ -1,7 +1,7 @@
 ﻿using System;
 using Skeleton.Core.Domain;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Benchmarks
 {
     public class Post : Entity<Post>
     {

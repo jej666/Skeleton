@@ -16,6 +16,7 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
+        private readonly IDatabase _database;
 
         public EntityReader(
             IMetadataProvider metadataProvider,
@@ -23,17 +24,15 @@ namespace Skeleton.Infrastructure.Repository
         {
             _metadataProvider = metadataProvider;
             Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
-            Database = database;
+            _database = database;
         }
-
-        protected IDatabase Database { get; }
 
         internal SelectQueryBuilder<TEntity> Builder { get; }
 
         public virtual IEnumerable<TEntity> Find()
         {
             return Builder.OnNextQuery(() =>
-                Database.Find<TEntity>(
+                _database.Find<TEntity>(
                     Builder.SqlCommand));
         }
 
@@ -56,7 +55,7 @@ namespace Skeleton.Infrastructure.Repository
             var pagedBuilder= new PagedSelectQueryBuilder<TEntity>(
                 _metadataProvider, pageSize, pageNumber);
 
-            return Database.Find<TEntity>(pagedBuilder.SqlCommand);
+            return _database.Find<TEntity>(pagedBuilder.SqlCommand);
         }
 
         public IEntityReader<TEntity> GroupBy(
@@ -184,7 +183,7 @@ namespace Skeleton.Infrastructure.Repository
             Builder.Count();
 
             return Builder.OnNextQuery(() =>
-                Database.ExecuteScalar<int>(
+                _database.ExecuteScalar<int>(
                     Builder.SqlCommand));
         }
 
@@ -227,13 +226,13 @@ namespace Skeleton.Infrastructure.Repository
         private TEntity FirstOrDefaultCore()
         {
             return Builder.OnNextQuery(() =>
-                Database.FirstOrDefault<TEntity>(
+                _database.FirstOrDefault<TEntity>(
                     Builder.SqlCommand));
         }
 
         protected override void DisposeManagedResources()
         {
-            Database.Dispose();
+            _database.Dispose();
             base.DisposeManagedResources();
         }
 
@@ -249,7 +248,7 @@ namespace Skeleton.Infrastructure.Repository
         private IEnumerable<dynamic> Aggregate()
         {
             return Builder.OnNextQuery(() =>
-                Database.Find(
+                _database.Find(
                     Builder.SqlCommand));
         }
     }

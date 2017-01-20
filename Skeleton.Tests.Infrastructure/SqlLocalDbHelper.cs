@@ -2,9 +2,9 @@
 using System.Data.SqlClient;
 using System.IO;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Common
 {
-    public class SqlLocalDbHelper
+    public static class SqlLocalDbHelper
     {
         private const string LocalDbPath = @"Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB";
 

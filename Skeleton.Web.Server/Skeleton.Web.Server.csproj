@@ -111,8 +111,8 @@
     <Compile Include="Controllers\CachedReadController.cs" />
     <Compile Include="Controllers\AsyncReadController.cs" />
     <Compile Include="Controllers\ReadController.cs" />
-    <Compile Include="Filters\CheckModelForNullAttribute.cs" />
-    <Compile Include="Filters\ValidateModelStateAttribut.cs" />
+    <Compile Include="CheckModelForNullAttribute.cs" />
+    <Compile Include="ValidateModelStateAttribut.cs" />
     <Compile Include="HttpRequestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

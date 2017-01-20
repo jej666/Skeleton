@@ -1,4 +1,4 @@
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Common
 {
     public class CustomerDto
     {

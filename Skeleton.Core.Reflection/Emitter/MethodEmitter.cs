@@ -23,26 +23,10 @@ namespace Skeleton.Core.Reflection.Emitter
 
             var generator = dynamicMethod.GetILGenerator();
             var ps = _methodInfo.GetParameters();
+            var paramTypes = GetParameterTypes(ps);
+            var locals = BuildLocals(generator, paramTypes);
 
-            var paramTypes = new Type[ps.Length];
-            for (var i = 0; i < paramTypes.Length; i++)
-                if (ps[i].ParameterType.IsByRef)
-                    paramTypes[i] = ps[i].ParameterType.GetElementType();
-                else
-                    paramTypes[i] = ps[i].ParameterType;
-
-            var locals = new LocalBuilder[paramTypes.Length];
-            for (var i = 0; i < paramTypes.Length; i++)
-                locals[i] = generator.DeclareLocal(paramTypes[i], true);
-
-            for (var i = 0; i < paramTypes.Length; i++)
-            {
-                generator.Emit(OpCodes.Ldarg_1);
-                generator.FastInt(i);
-                generator.Emit(OpCodes.Ldelem_Ref);
-                generator.UnboxIfNeeded(paramTypes[i]);
-                generator.Emit(OpCodes.Stloc, locals[i]);
-            }
+            EmitParameters(generator, paramTypes, locals);
 
             if (!_methodInfo.IsStatic)
                 generator.Emit(OpCodes.Ldarg_0);
@@ -73,6 +57,38 @@ namespace Skeleton.Core.Reflection.Emitter
             generator.Emit(OpCodes.Ret);
 
             return dynamicMethod.CreateDelegate(typeof(MethodDelegate));
+        }
+
+        private static void EmitParameters(ILGenerator generator, Type[] paramTypes, LocalBuilder[] locals)
+        {
+            for (var i = 0; i < paramTypes.Length; i++)
+            {
+                generator.Emit(OpCodes.Ldarg_1);
+                generator.FastInt(i);
+                generator.Emit(OpCodes.Ldelem_Ref);
+                generator.UnboxIfNeeded(paramTypes[i]);
+                generator.Emit(OpCodes.Stloc, locals[i]);
+            }
+        }
+
+        private static LocalBuilder[] BuildLocals(ILGenerator generator, Type[] paramTypes)
+        {
+            var locals = new LocalBuilder[paramTypes.Length];
+            for (var i = 0; i < paramTypes.Length; i++)
+                locals[i] = generator.DeclareLocal(paramTypes[i], true);
+            return locals;
+        }
+
+        private static Type[] GetParameterTypes(ParameterInfo[] ps)
+        {
+            var paramTypes = new Type[ps.Length];
+            for (var i = 0; i < paramTypes.Length; i++)
+                if (ps[i].ParameterType.IsByRef)
+                    paramTypes[i] = ps[i].ParameterType.GetElementType();
+                else
+                    paramTypes[i] = ps[i].ParameterType;
+
+            return paramTypes;
         }
     }
 }

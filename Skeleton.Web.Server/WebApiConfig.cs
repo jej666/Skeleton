@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Web.Http;
 using Skeleton.Infrastructure.DependencyInjection;
-using Skeleton.Web.Server.Filters;
 
 namespace Skeleton.Web.Server
 {

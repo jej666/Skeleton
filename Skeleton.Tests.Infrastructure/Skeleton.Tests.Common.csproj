@@ -41,45 +41,22 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsyncCachedCustomersController.cs" />
-    <Compile Include="AsyncCachedCustomersHttpClient.cs" />
-    <Compile Include="Benchmark.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerDto.cs" />
-    <Compile Include="CachedCustomersController.cs" />
-    <Compile Include="AsyncCustomersController.cs" />
-    <Compile Include="CustomersController.cs" />
     <Compile Include="CustomerCategory.cs" />
-    <Compile Include="CachedCustomersHttpClient.cs" />
-    <Compile Include="AsyncCustomersHttpClient.cs" />
-    <Compile Include="CustomersHttpClient.cs" />
     <Compile Include="MemorySeeder.cs" />
-    <Compile Include="MetadataTestsBase.cs" />
-    <Compile Include="MetadataType.cs" />
-    <Compile Include="Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryTestBase.cs" />
     <Compile Include="SqlConnectionHelper.cs" />
-    <Compile Include="SqlDataReaderHelper.cs" />
     <Compile Include="SqlDbSeeder.cs" />
     <Compile Include="SqlLocalDbHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">

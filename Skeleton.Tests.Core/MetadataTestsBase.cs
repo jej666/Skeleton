@@ -4,7 +4,7 @@ using System.Linq;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Infrastructure.DependencyInjection;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Core
 {
     public abstract class MetadataTestsBase
     {
