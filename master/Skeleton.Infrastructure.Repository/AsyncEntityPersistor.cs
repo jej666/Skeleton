@@ -17,16 +17,15 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
+        private readonly IDatabaseAsync _database;
 
         public AsyncEntityPersistor(
             IMetadataProvider metadataProvider,
             IDatabaseAsync database)
         {
             _metadataProvider = metadataProvider;
-            Database = database;
+            _database = database;
         }
-
-        protected IDatabaseAsync Database { get; }
 
         public virtual async Task<bool> AddAsync(TEntity entity)
         {
@@ -41,7 +40,7 @@ namespace Skeleton.Infrastructure.Repository
             enumerable.ThrowIfNullOrEmpty(() => enumerable);
             var count = 0;
 
-            using (var transaction = Database.Transaction)
+            using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
 
@@ -70,7 +69,7 @@ namespace Skeleton.Infrastructure.Repository
             enumerable.ThrowIfNullOrEmpty(() => enumerable);
             int count = 0, result = 0;
 
-            using (var transaction = Database.Transaction)
+            using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
 
@@ -100,7 +99,7 @@ namespace Skeleton.Infrastructure.Repository
             enumerable.ThrowIfNullOrEmpty(() => enumerable);
             var result = false;
 
-            using (var transaction = Database.Transaction)
+            using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
 
@@ -126,7 +125,7 @@ namespace Skeleton.Infrastructure.Repository
             enumerable.ThrowIfNullOrEmpty(() => enumerable);
             int count = 0, result = 0;
 
-            using (var transaction = Database.Transaction)
+            using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
 
@@ -144,7 +143,7 @@ namespace Skeleton.Infrastructure.Repository
 
         protected override void DisposeManagedResources()
         {
-            Database.Dispose();
+            _database.Dispose();
             base.DisposeManagedResources();
         }
 
@@ -153,7 +152,7 @@ namespace Skeleton.Infrastructure.Repository
             var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            var id = await Database.ExecuteScalarAsync(
+            var id = await _database.ExecuteScalarAsync(
                     builder.SqlCommand)
                 .ConfigureAwait(false);
 
@@ -172,7 +171,7 @@ namespace Skeleton.Infrastructure.Repository
             var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            return await Database.ExecuteAsync(
+            return await _database.ExecuteAsync(
                     builder.SqlCommand)
                 .ConfigureAwait(false);
         }
@@ -182,7 +181,7 @@ namespace Skeleton.Infrastructure.Repository
             var builder = new UpdateCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
-            return await Database.ExecuteAsync(
+            return await _database.ExecuteAsync(
                     builder.SqlCommand)
                 .ConfigureAwait(false);
         }

@@ -10,7 +10,7 @@ namespace Skeleton.Core.Reflection.Emitter
             Owner = type;
         }
 
-        protected internal Type Owner
+        internal Type Owner
         {
             get;
         }

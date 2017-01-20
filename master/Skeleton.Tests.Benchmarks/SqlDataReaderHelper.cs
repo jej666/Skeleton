@@ -2,7 +2,7 @@
 using System.Data;
 using Skeleton.Common;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Benchmarks
 {
     public static class SqlDataReaderHelper
     {

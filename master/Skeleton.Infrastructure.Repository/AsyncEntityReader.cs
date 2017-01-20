@@ -17,6 +17,7 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
+        private readonly IDatabaseAsync _database;
 
         public AsyncEntityReader(
             IMetadataProvider metadataProvider,
@@ -24,10 +25,8 @@ namespace Skeleton.Infrastructure.Repository
         {
             _metadataProvider = metadataProvider;
             Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
-            Database = database;
+            _database = database;
         }
-
-        protected IDatabaseAsync Database { get; }
 
         internal SelectQueryBuilder<TEntity> Builder { get; }
 
@@ -35,7 +34,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                return await Database.FindAsync<TEntity>(  
+                return await _database.FindAsync<TEntity>(  
                     Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
@@ -69,7 +68,7 @@ namespace Skeleton.Infrastructure.Repository
                 var pagedBuilder = new PagedSelectQueryBuilder<TEntity>(
                     _metadataProvider, pageSize, pageNumber);
 
-                return await Database.FindAsync<TEntity>(
+                return await _database.FindAsync<TEntity>(
                         pagedBuilder.SqlCommand)
                     .ConfigureAwait(false);
             }
@@ -205,7 +204,7 @@ namespace Skeleton.Infrastructure.Repository
             {
                 Builder.Count();
 
-                return await Database.ExecuteScalarAsync<int>(
+                return await _database.ExecuteScalarAsync<int>(
                         Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
@@ -255,7 +254,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                return await Database.FirstOrDefaultAsync<TEntity>(
+                return await _database.FirstOrDefaultAsync<TEntity>(
                         Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
@@ -267,7 +266,7 @@ namespace Skeleton.Infrastructure.Repository
 
         protected override void DisposeManagedResources()
         {
-            Database.Dispose();
+            _database.Dispose();
             base.DisposeManagedResources();
         }
 
@@ -284,7 +283,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                return await Database.FindAsync(
+                return await _database.FindAsync(
                         Builder.SqlCommand)
                     .ConfigureAwait(false);
             }

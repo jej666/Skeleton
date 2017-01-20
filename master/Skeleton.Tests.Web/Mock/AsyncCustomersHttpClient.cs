@@ -1,6 +1,7 @@
-﻿using Skeleton.Web.Client;
+﻿using Skeleton.Tests.Common;
+using Skeleton.Web.Client;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Web.Mock
 {
     public class AsyncCustomersHttpClient : AsyncCrudHttpClient<CustomerDto>
     {

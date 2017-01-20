@@ -10,7 +10,7 @@ namespace Skeleton.Web.Client
         IDisposable
     {
         private const string JsonMediaType = "application/json";
-        private readonly string _serviceBaseAddress;
+        private readonly string _serviceAddress;
         private bool _disposed;
         private HttpClient _httpClient;
 
@@ -19,13 +19,14 @@ namespace Skeleton.Web.Client
             if (!addressSuffix.EndsWith("/", StringComparison.OrdinalIgnoreCase))
                 addressSuffix += "/";
 
-            ServiceAddress = serviceBaseAddress +addressSuffix;
+            _serviceAddress = serviceBaseAddress + addressSuffix;
+            CreateJsonHttpClient();
         }
 
-        protected HttpClient JsonHttpClient => _httpClient ??
-                                               (_httpClient = CreateJsonHttpClient());
-
-        protected string ServiceAddress { get; }
+        protected HttpClient JsonHttpClient
+        {
+            get { return _httpClient; }
+        }
 
         public void Dispose()
         {
@@ -35,20 +36,18 @@ namespace Skeleton.Web.Client
 
         public Uri CreateUri(string action)
         {
-            return new Uri(ServiceAddress + action);
+            return new Uri(_serviceAddress + action);
         }
 
-        private static HttpClient CreateJsonHttpClient()
+        private  void CreateJsonHttpClient()
         {
-            var client = new HttpClient();
+            _httpClient = new HttpClient();
 
-            client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
-            client.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
-            client.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
-            client.DefaultRequestHeaders.UserAgent.Add(
+            _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
+            _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
+            _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
+            _httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue(new ProductHeaderValue("Skeleton_HttpClient", "1.0")));
-
-            return client;
         }
 
         protected virtual ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class

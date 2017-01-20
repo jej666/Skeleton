@@ -3,8 +3,9 @@ using System.Linq;
 using System.Net.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Infrastructure.DependencyInjection;
-using Skeleton.Tests.Infrastructure;
+using Skeleton.Tests.Common;
 using Skeleton.Web.Server;
+using Skeleton.Tests.Web.Mock;
 
 namespace Skeleton.Web.Tests
 {

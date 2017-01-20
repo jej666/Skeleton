@@ -5,19 +5,19 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    public sealed class UpdateCommandBuilder<TEntity> :
+    internal sealed class UpdateCommandBuilder<TEntity> :
             SqlBuilderBase<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private CommandContext _context = new CommandContext();
 
-        public UpdateCommandBuilder(IMetadataProvider metadataProvider, TEntity entity)
+        internal UpdateCommandBuilder(IMetadataProvider metadataProvider, TEntity entity)
             : base(metadataProvider)
         {
             Build(entity);
         }
 
-        public override string SqlQuery => SqlQueryTemplate
+        internal override string SqlQuery => SqlQueryTemplate
             .FormatWith(
                 TableName,
                 UpdateColumnValues,
@@ -27,9 +27,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         private string WhereCondition => SqlFormatter.Conditions(_context.Conditions);
 
-        protected override string SqlQueryTemplate => "UPDATE {0} SET {1} {2}";
+        protected internal override string SqlQueryTemplate => "UPDATE {0} SET {1} {2}";
 
-        protected override ContextBase ContextBase => _context;
+        protected internal override ContextBase ContextBase => _context;
 
         private void Build(TEntity entity)
         {
@@ -53,7 +53,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return SqlFormatter.ColumnValue(TableName, column.Name, value);
         }
 
-        public override void OnNextQuery()
+        internal override void OnNextQuery()
         {
             _context = new CommandContext();
         }

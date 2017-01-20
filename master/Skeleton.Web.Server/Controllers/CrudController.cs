@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Repository;
-using Skeleton.Abstraction.Domain;
+using System.Collections.Generic;
+using System.Web.Http;
 
 namespace Skeleton.Web.Server.Controllers
 {
@@ -11,6 +10,7 @@ namespace Skeleton.Web.Server.Controllers
         where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
+        private const string DefaultRoute = "DefaultApiWithId";
         private readonly ICrudRepository<TEntity, TDto> _repository;
 
         public CrudController(
@@ -56,7 +56,7 @@ namespace Skeleton.Web.Server.Controllers
             var newDto = _repository.Mapper.Map(entity);
 
             return CreatedAtRoute(
-                "DefaultApiWithId",
+                DefaultRoute,
                 new {id = entity.Id},
                 newDto);
         }

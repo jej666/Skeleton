@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 
-namespace Skeleton.Tests.Infrastructure
+namespace Skeleton.Tests.Common
 {
     public sealed class SqlConnectionHelper : IDisposable
     {

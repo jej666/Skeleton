@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
-using Skeleton.Tests.Infrastructure;
+using Skeleton.Tests.Common;
 using System;
 
-namespace Skeleton.Tests
+namespace Skeleton.Tests.Services
 {
     [TestClass]
     public class AsyncCachedRepositoryTests : RepositoryTestBase

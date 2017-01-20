@@ -1,8 +1,8 @@
 ﻿namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
-    public sealed class MemberNode : Node
+    internal sealed class MemberNode : Node
     {
-        public string FieldName { get; set; }
-        public string TableName { get; set; }
+        internal string FieldName { get; set; }
+        internal string TableName { get; set; }
     }
 }

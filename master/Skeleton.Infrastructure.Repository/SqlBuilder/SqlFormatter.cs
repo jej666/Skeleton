@@ -41,7 +41,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return "Top({0})".FormatWith(take);
         }
 
-        internal static string Field(string tableName, string fieldName)
+        private static string Field(string tableName, string fieldName)
         {
             return Field(new MemberNode
             {
@@ -60,7 +60,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             return "@" + parameterId;
         }
 
-        internal static string Table(string tableName)
+        private static string Table(string tableName)
         {
             return "[{0}]".FormatWith(tableName);
         }

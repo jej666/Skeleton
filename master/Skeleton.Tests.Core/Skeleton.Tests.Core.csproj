@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{42AFA67C-3644-438A-BCE3-181D3549481E}</ProjectGuid>
+    <ProjectGuid>{F0F985CF-A6EF-40DB-A332-2A7F2BBFBC47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skeleton.Web.Tests</RootNamespace>
-    <AssemblyName>Skeleton.Web.Tests</AssemblyName>
+    <RootNamespace>Skeleton.Tests.Core</RootNamespace>
+    <AssemblyName>Skeleton.Tests.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -30,7 +30,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,36 +40,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http.Owin, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -85,51 +55,25 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AsyncHttpClientCachedReadTests.cs" />
-    <Compile Include="HttpClientCachedReadTests.cs" />
-    <Compile Include="AsyncHttpClientCrudTests.cs" />
-    <Compile Include="HttpClientCrudTests.cs" />
-    <Compile Include="Mock\AsyncCachedCustomersController.cs" />
-    <Compile Include="Mock\AsyncCachedCustomersHttpClient.cs" />
-    <Compile Include="Mock\AsyncCustomersController.cs" />
-    <Compile Include="Mock\AsyncCustomersHttpClient.cs" />
-    <Compile Include="Mock\CachedCustomersController.cs" />
-    <Compile Include="Mock\CachedCustomersHttpClient.cs" />
-    <Compile Include="Mock\CustomersController.cs" />
-    <Compile Include="Mock\CustomersHttpClient.cs" />
+    <Compile Include="MetadataTests.cs" />
+    <Compile Include="MetadataTestsBase.cs" />
+    <Compile Include="MetadataType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
-      <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
-      <Name>Skeleton.Core.Domain</Name>
+    <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
+      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
+      <Name>Skeleton.Abstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
+      <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
+      <Name>Skeleton.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Infrastructure.DependencyInjection\Skeleton.Infrastructure.DependencyInjection.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
       <Name>Skeleton.Infrastructure.DependencyInjection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">
-      <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
-      <Name>Skeleton.Abstraction</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Tests.Infrastructure\Skeleton.Tests.Common.csproj">
-      <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>
-      <Name>Skeleton.Tests.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Web.Client\Skeleton.Web.Client.csproj">
-      <Project>{0c6fcf97-446e-4ff0-89ae-2b52aa6ba887}</Project>
-      <Name>Skeleton.Web.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Web.Server\Skeleton.Web.Server.csproj">
-      <Project>{baed475c-271c-48af-81c3-b7e4d27bafd0}</Project>
-      <Name>Skeleton.Web.Server</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
