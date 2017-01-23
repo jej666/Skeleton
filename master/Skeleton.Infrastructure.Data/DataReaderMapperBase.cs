@@ -90,9 +90,9 @@ namespace Skeleton.Infrastructure.Data
         protected internal TPoco SetMatchingValues()
         {
             var values = new object[DataReader.FieldCount];
-            var instance = _accessor.CreateInstance<TPoco>();
-            DataReader.GetValues(values);
+            var instance = _accessor.GetConstructor().InstanceCreator(null) as TPoco;
 
+            DataReader.GetValues(values);
             _tableColumns.ForEach(column =>
             {
                 for (var index = 0; index < values.Length; ++index)
@@ -101,7 +101,7 @@ namespace Skeleton.Infrastructure.Data
                         continue;
 
                     if (string.Equals(DataReader.GetName(index), column.Name))
-                        column.SetValue(instance, values[index]);
+                        column.Setter(instance, values[index]);
                 }
             });
 

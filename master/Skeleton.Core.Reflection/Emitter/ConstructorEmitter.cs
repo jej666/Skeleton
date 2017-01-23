@@ -5,15 +5,15 @@ namespace Skeleton.Core.Reflection.Emitter
 {
     internal sealed class ConstructorEmitter : EmitterBase
     {
-        private readonly Type[] _paramTypes;
+        private readonly Type[] _parameterTypes;
 
-        internal ConstructorEmitter(Type type, Type[] paramTypes)
+        internal ConstructorEmitter(Type type, Type[] parameterTypes)
             : base(type)
         {
-            _paramTypes = paramTypes;
+            _parameterTypes = parameterTypes;
         }
 
-        internal override Delegate CreateDelegate()
+        internal Func<object[], object> CreateDelegate()
         {
             var dynamicMethod = CreateDynamicMethod(
                 "Create" + Owner.FullName,
@@ -22,7 +22,7 @@ namespace Skeleton.Core.Reflection.Emitter
 
             var generator = dynamicMethod.GetILGenerator();
 
-            if (Owner.IsValueType && (_paramTypes.Length == 0))
+            if (Owner.IsValueType && (_parameterTypes.Length == 0))
             {
                 generator.DeclareLocal(Owner);
                 generator.Emit(OpCodes.Ldloc_0);
@@ -30,18 +30,18 @@ namespace Skeleton.Core.Reflection.Emitter
             }
             else
             {
-                var constructorInfo = Owner.GetConstructor(_paramTypes);
+                var constructorInfo = Owner.GetConstructor(_parameterTypes);
 
                 if (constructorInfo == null)
                     return null;
 
-                generator.PushParameters(_paramTypes);
+                generator.PushParameters(_parameterTypes);
                 generator.Emit(OpCodes.Newobj, constructorInfo);
             }
 
             generator.Return();
 
-            return dynamicMethod.CreateDelegate(typeof(ConstructorDelegate));
+            return (Func<object[], object>)dynamicMethod.CreateDelegate(typeof(Func<object[], object>));
         }
     }
 }

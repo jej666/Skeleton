@@ -160,7 +160,7 @@ namespace Skeleton.Infrastructure.Repository
             {
                 var destinationType = entity.IdAccessor.MemberType;
                 var convertedId = id.ChangeType(destinationType, CultureInfo.CurrentCulture);
-                entity.IdAccessor.SetValue(entity, convertedId);
+                entity.IdAccessor.Setter(entity, convertedId);
             }
 
             return id;

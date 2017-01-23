@@ -14,7 +14,7 @@ namespace Skeleton.Core.Reflection.Emitter
             _methodInfo = methodInfo;
         }
 
-        internal override Delegate CreateDelegate()
+        internal Func<object, object[], object> CreateDelegate()
         {
             var dynamicMethod = CreateDynamicMethod(
                 "Dynamic" + _methodInfo.Name,
@@ -24,9 +24,9 @@ namespace Skeleton.Core.Reflection.Emitter
             var generator = dynamicMethod.GetILGenerator();
             var ps = _methodInfo.GetParameters();
             var paramTypes = GetParameterTypes(ps);
-            var locals = BuildLocals(generator, paramTypes);
+            var locals = generator.BuildLocals(paramTypes);
 
-            EmitParameters(generator, paramTypes, locals);
+            generator.EmitParameters(paramTypes, locals);
 
             if (!_methodInfo.IsStatic)
                 generator.Emit(OpCodes.Ldarg_0);
@@ -56,27 +56,7 @@ namespace Skeleton.Core.Reflection.Emitter
 
             generator.Emit(OpCodes.Ret);
 
-            return dynamicMethod.CreateDelegate(typeof(MethodDelegate));
-        }
-
-        private static void EmitParameters(ILGenerator generator, Type[] paramTypes, LocalBuilder[] locals)
-        {
-            for (var i = 0; i < paramTypes.Length; i++)
-            {
-                generator.Emit(OpCodes.Ldarg_1);
-                generator.FastInt(i);
-                generator.Emit(OpCodes.Ldelem_Ref);
-                generator.UnboxIfNeeded(paramTypes[i]);
-                generator.Emit(OpCodes.Stloc, locals[i]);
-            }
-        }
-
-        private static LocalBuilder[] BuildLocals(ILGenerator generator, Type[] paramTypes)
-        {
-            var locals = new LocalBuilder[paramTypes.Length];
-            for (var i = 0; i < paramTypes.Length; i++)
-                locals[i] = generator.DeclareLocal(paramTypes[i], true);
-            return locals;
+            return (Func<object, object[], object>)dynamicMethod.CreateDelegate(typeof(Func<object, object[], object>));
         }
 
         private static Type[] GetParameterTypes(ParameterInfo[] ps)

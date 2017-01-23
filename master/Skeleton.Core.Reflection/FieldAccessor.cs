@@ -11,8 +11,8 @@ namespace Skeleton.Core.Reflection
     public sealed class FieldAccessor : MemberAccessorBase
     {
         private readonly FieldInfo _fieldInfo;
-        private readonly LazyRef<GetterDelegate> _getDelegate;
-        private readonly LazyRef<SetterDelegate> _setDelegate;
+        private readonly Func<object, object> _getDelegate;
+        private readonly Action<object, object> _setDelegate;
 
         public FieldAccessor(FieldInfo fieldInfo)
         {
@@ -23,14 +23,14 @@ namespace Skeleton.Core.Reflection
             MemberType = fieldInfo.FieldType;
             HasSetter = !fieldInfo.IsInitOnly && !fieldInfo.IsLiteral;
 
-            var getEmitter = new GetFieldEmitter(fieldInfo);
-            _getDelegate = new LazyRef<GetterDelegate>(() =>
-                   (GetterDelegate)getEmitter.CreateDelegate());
-
-            var setEmitter = new SetFieldEmitter(fieldInfo);
-            _setDelegate = new LazyRef<SetterDelegate>(() =>
-                    (SetterDelegate)setEmitter.CreateDelegate());
+            var emitter = new FieldEmitter(fieldInfo);
+            _getDelegate = emitter.CreateGetter();
+            _setDelegate = emitter.CreateSetter();
         }
+
+        public override Func<object, object> Getter => _getDelegate;
+
+        public override Action<object, object> Setter => _setDelegate;
 
         public override bool HasGetter => true;
 
@@ -41,25 +41,6 @@ namespace Skeleton.Core.Reflection
         public override Type MemberType { get; }
 
         public override string Name { get; }
-
-        public override object GetValue(object instance)
-        {
-            instance.ThrowIfNull(() => instance);
-
-            return _getDelegate.Value?.Invoke(instance);
-        }
-
-        public override void SetValue(object instance, object value)
-        {
-            instance.ThrowIfNull(() => instance);
-            value.ThrowIfNull(() => value);
-
-            if (!HasSetter)
-                throw new InvalidOperationException(
-                    "Field '{0}' does not have a setter.".FormatWith(Name));
-
-            _setDelegate.Value?.Invoke(instance, value);
-        }
 
         public static IMemberAccessor Create(FieldInfo fieldInfo)
         {

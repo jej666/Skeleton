@@ -12,8 +12,8 @@ namespace Skeleton.Core.Reflection
     public sealed class PropertyAccessor : MemberAccessorBase
     {
         private readonly PropertyInfo _propertyInfo;
-        private readonly LazyRef<GetterDelegate> _getDelegate;
-        private readonly LazyRef<SetterDelegate> _setDelegate;
+        private readonly Func<object, object> _getDelegate;
+        private readonly Action<object, object> _setDelegate;
 
         public PropertyAccessor(PropertyInfo propertyInfo)
         {
@@ -25,14 +25,14 @@ namespace Skeleton.Core.Reflection
             HasGetter = propertyInfo.CanRead;
             HasSetter = propertyInfo.CanWrite;
 
-            var getEmitter = new GetPropertyEmitter(propertyInfo);
-            _getDelegate = new LazyRef<GetterDelegate>(
-                () => (GetterDelegate)getEmitter.CreateDelegate());
-
-            var setEmitter = new SetPropertyEmitter(propertyInfo);
-            _setDelegate = new LazyRef<SetterDelegate>(
-                () => (SetterDelegate)setEmitter.CreateDelegate());
+            var emitter = new PropertyEmitter(propertyInfo);
+            _getDelegate = emitter.CreateGetter();
+            _setDelegate = emitter.CreateSetter();
         }
+
+        public override Func<object, object> Getter => _getDelegate;
+
+        public override Action<object, object> Setter => _setDelegate;
 
         public override bool HasGetter { get; }
 
@@ -43,29 +43,6 @@ namespace Skeleton.Core.Reflection
         public override Type MemberType { get; }
 
         public override string Name { get; }
-
-        public override object GetValue(object instance)
-        {
-            instance.ThrowIfNull(() => instance);
-
-            if (!HasGetter)
-                throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture, "Property '{0}' does not have a getter.", Name));
-
-            return _getDelegate.Value?.Invoke(instance);
-        }
-
-        public override void SetValue(object instance, object value)
-        {
-            instance.ThrowIfNull(() => instance);
-            value.ThrowIfNull(() => value);
-
-            if (!HasSetter)
-                throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture, "Property '{0}' does not have a setter.", Name));
-
-            _setDelegate.Value?.Invoke(instance, value);
-        }
 
         public static IMemberAccessor Create(PropertyInfo propertyInfo)
         {

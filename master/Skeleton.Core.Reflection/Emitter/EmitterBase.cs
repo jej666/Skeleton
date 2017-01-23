@@ -15,8 +15,6 @@ namespace Skeleton.Core.Reflection.Emitter
             get;
         }
 
-        internal abstract Delegate CreateDelegate();
-
         internal DynamicMethod CreateDynamicMethod(string name, Type returnType, Type[] parameterTypes)
         {
             return !Owner.IsInterface

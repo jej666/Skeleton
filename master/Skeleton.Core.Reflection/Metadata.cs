@@ -22,21 +22,21 @@ namespace Skeleton.Core.Reflection
         private const BindingFlags AllFlags =
             BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
 
-        private readonly Lazy<ConcurrentDictionary<string, IMemberAccessor>> _fieldCache =
-            new Lazy<ConcurrentDictionary<string, IMemberAccessor>>(() =>
-                    new ConcurrentDictionary<string, IMemberAccessor>());
+        private readonly LazyRef<Dictionary<string, IMemberAccessor>> _fieldCache =
+            new LazyRef<Dictionary<string, IMemberAccessor>>(() =>
+                    new Dictionary<string, IMemberAccessor>());
 
-        private readonly Lazy<ConcurrentDictionary<int, IMethodAccessor>> _methodCache =
-            new Lazy<ConcurrentDictionary<int, IMethodAccessor>>(() =>
-                    new ConcurrentDictionary<int, IMethodAccessor>());
+        private readonly LazyRef<Dictionary<int, IMethodAccessor>> _methodCache =
+            new LazyRef<Dictionary<int, IMethodAccessor>>(() =>
+                    new Dictionary<int, IMethodAccessor>());
 
-        private readonly Lazy<ConcurrentDictionary<string, IMemberAccessor>> _propertyCache =
-            new Lazy<ConcurrentDictionary<string, IMemberAccessor>>(() =>
-                    new ConcurrentDictionary<string, IMemberAccessor>());
+        private readonly LazyRef<Dictionary<string, IMemberAccessor>> _propertyCache =
+            new LazyRef<Dictionary<string, IMemberAccessor>>(() =>
+                    new Dictionary<string, IMemberAccessor>());
 
-        private readonly Lazy<ConcurrentDictionary<int, IConstructorAccessor>> _constructorCache =
-            new Lazy<ConcurrentDictionary<int, IConstructorAccessor>>(() =>
-                    new ConcurrentDictionary<int, IConstructorAccessor>());
+        private readonly LazyRef<Dictionary<int, IInstanceAccessor>> _constructorCache =
+            new LazyRef<Dictionary<int, IInstanceAccessor>>(() =>
+                    new Dictionary<int, IInstanceAccessor>());
 
         public Metadata(Type type)
         {
@@ -45,40 +45,19 @@ namespace Skeleton.Core.Reflection
             Type = type;
         }
 
-        public int FieldsCount => _fieldCache.Value.Count;
-
-        public int MethodsCount => _methodCache.Value.Count;
-
-        public int PropertiesCount => _propertyCache.Value.Count;
-
-        public int ConstructorCount => _constructorCache.Value.Count;
-
         public Type Type { get; }
 
-        public object CreateInstance()
+        public IInstanceAccessor GetConstructor()
         {
-            return CreateInstance(new object[] {});
+            return GetConstructor(Type.EmptyTypes);
         }
 
-        public T CreateInstance<T>()
+        public IInstanceAccessor GetConstructor(Type[] parameterTypes)
         {
-            return (T) CreateInstance();
-        }
+            var key = GetConstructorKey(parameterTypes);
 
-        public object CreateInstance(object[] parameters)
-        {
-            var paramTypes = parameters.ToTypeArray();
-            var key = GetConstructorKey(paramTypes);
-
-            var constructor =  _constructorCache.Value.GetOrAdd(
-                key, ConstructorAccessor.Create(Type, paramTypes));
-
-            return constructor?.Invoke(parameters);
-        }
-
-        public T CreateInstance<T>(object[] parameters)
-        {
-            return (T) CreateInstance(parameters);
+            return _constructorCache.Value.GetOrAdd(
+                key, () => ConstructorAccessor.Create(Type, parameterTypes));
         }
 
         public IEnumerable<IMemberAccessor> GetDeclaredOnlyFields()
@@ -111,9 +90,9 @@ namespace Skeleton.Core.Reflection
             return GetFields(DefaultFlags);
         }
 
-        public IMethodAccessor GetMethod(string name, params object[] parameters)
+        public IMethodAccessor GetMethod(string name)
         {
-            return GetMethod(name, parameters.ToTypeArray());
+            return GetMethod(name, Type.EmptyTypes);
         }
 
         public IMethodAccessor GetMethod(string name, Type[] parameterTypes)
@@ -121,7 +100,7 @@ namespace Skeleton.Core.Reflection
             var key = GetMethodKey(name, parameterTypes);
 
             return _methodCache.Value.GetOrAdd(
-                key, MethodAccessor.Create(Type, name, parameterTypes));
+                key, () => MethodAccessor.Create(Type, name, parameterTypes));
         }
 
         public IEnumerable<IMemberAccessor> GetProperties()
@@ -138,8 +117,11 @@ namespace Skeleton.Core.Reflection
                 return accessor;
 
             var propertyInfo = Type.GetProperty(name);
+            var value = PropertyAccessor.Create(propertyInfo);
 
-            return propertyInfo == null ? null : PropertyAccessor.Create(propertyInfo);
+            _propertyCache.Value.Add(name, value);
+
+            return value;
         }
 
         public IMemberAccessor GetProperty<T>(Expression<Func<T, object>> expression)
@@ -155,7 +137,11 @@ namespace Skeleton.Core.Reflection
             if (_propertyCache.Value.TryGetValue(propertyInfo.Name, out accessor))
                 return accessor;
 
-            return PropertyAccessor.Create(propertyInfo);
+            var value = PropertyAccessor.Create(propertyInfo);
+
+            _propertyCache.Value.Add(propertyInfo.Name, value);
+
+            return value;
         }
 
         private IMemberAccessor GetField(string name, BindingFlags bindings)
@@ -167,26 +153,29 @@ namespace Skeleton.Core.Reflection
                 return accessor;
 
             var fieldInfo = Type.GetField(name, bindings);
+            var value = FieldAccessor.Create(fieldInfo);
 
-            return fieldInfo == null ? null : FieldAccessor.Create(fieldInfo);
+            _fieldCache.Value.Add(name, value);
+
+            return value;
         }
 
         private IEnumerable<IMemberAccessor> GetFields(BindingFlags bindings)
         {
-            if (FieldsCount == 0)
-                Type.GetFields(bindings).ForEach(f =>
-                        _fieldCache.Value.TryAdd(f.Name, FieldAccessor.Create(f)));
-
-            return _fieldCache.Value.Values;
+            var fields = Type.GetFields(bindings);
+            foreach (var fieldInfo in fields)
+                yield return _fieldCache.Value.GetOrAdd(
+                    fieldInfo.Name,
+                    () => FieldAccessor.Create(fieldInfo));
         }
 
         private IEnumerable<IMemberAccessor> GetProperties(BindingFlags bindings)
         {
-            if (PropertiesCount == 0)
-                Type.GetProperties(bindings).ForEach(p =>
-                        _propertyCache.Value.TryAdd(p.Name, PropertyAccessor.Create(p)));
-
-            return _propertyCache.Value.Values;
+            var properties = Type.GetProperties(bindings);
+            foreach (var propertyInfo in properties)
+                yield return _propertyCache.Value.GetOrAdd(
+                    propertyInfo.Name, 
+                    () => PropertyAccessor.Create(propertyInfo));
         }
 
         private static int GetMethodKey(string name, IEnumerable<Type> parameterTypes)
@@ -195,7 +184,7 @@ namespace Skeleton.Core.Reflection
             {
                 var result = name?.GetHashCode() ?? 0;
                 result = parameterTypes.Aggregate(result,
-                    (r, p) => (r*397) ^ (p != null ? p.GetHashCode() : 0));
+                    (r, p) => (r * 397) ^ (p != null ? p.GetHashCode() : 0));
 
                 return result;
             }

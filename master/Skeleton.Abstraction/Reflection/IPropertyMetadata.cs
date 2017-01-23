@@ -5,9 +5,7 @@ using System.Linq.Expressions;
 namespace Skeleton.Abstraction.Reflection
 {
     public interface IPropertyMetadata
-    {
-        int PropertiesCount { get; }
-
+    { 
         IEnumerable<IMemberAccessor> GetDeclaredOnlyProperties();
 
         IEnumerable<IMemberAccessor> GetProperties();
