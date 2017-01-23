@@ -2,83 +2,81 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Tests.Core;
+using Skeleton.Abstraction.Reflection;
+using System.Reflection;
 
 namespace Skeleton.Tests.Benchmarks
 {
     [TestClass]
     public class MetadataBenchmarks : MetadataTestsBase
     {
-        private const int Iterations = 2000000;
+        private const int Iterations = 1000000;
+        private readonly IMetadata _metadata ;
+        private readonly IMemberAccessor _propertyAccessor;
+        private readonly PropertyInfo _propertyInfo;
+        private readonly MetadataType _instance;
+
+        public MetadataBenchmarks()
+        {
+            _instance = new MetadataType();
+            _metadata = MetadataProvider.GetMetadata<MetadataType>();
+            _propertyAccessor = _metadata.GetProperty("Property");
+            _propertyInfo = typeof(MetadataType).GetProperty("Property");
+        }
 
         [TestMethod]
         public void RunBenchmark()
         {
             var benchmarks = new Benchmarks
             {
-                {CreateInstance_Metadata, "CreateInstance (Metadata)"},
                 {CreateInstance_Reflection, "CreateInstance (Static Reflection)"},
-                {SetPropertyValue_Metadata, "SetPropertyValue (Metadata)"},
-                {SetPropertyValue_Reflection, "SetPropertyValue (Static Reflection)"},
-                {GetPropertyValue_Metadata, "GetPropertyValue (Metadata)"},
-                {GetPropertyValue_Reflection, "GetPropertyValue (Static Reflection)"}
+                {Property_SetValue_Reflection, "Property SetValue (Static Reflection)"},
+                {Property_GetValue_Reflection, "Property GetValue (Static Reflection)"},
+                {CreateInstance_Metadata, "CreateInstance (Metadata)"},
+                {Property_Getter_Metadata, "Property Getter (Metadata)" },
+                {Property_Setter_Metadata, "Property Setter (Metadata)"}
             };
 
             benchmarks.Run();
         }
 
-        private static void SetPropertyValue_Metadata()
+        private  void Property_Getter_Metadata()
         {
-            var metadata = MetadataProvider.GetMetadata<MetadataType>();
-            var properties = metadata.GetProperties().ToArray();
-
             for (var i = 0; i <= Iterations; ++i)
             {
-                var property = properties[0];
-                var instance = metadata.CreateInstance<MetadataType>();
-                property.SetValue(instance, i);
+                _propertyAccessor.Getter(_instance);
             }
         }
 
-        private static void GetPropertyValue_Metadata()
+        private void Property_Setter_Metadata()
         {
-            var metadata = MetadataProvider.GetMetadata<MetadataType>();
-            var properties = metadata.GetProperties().ToArray();
-
             for (var i = 0; i <= Iterations; ++i)
             {
-                var property = properties[0];
-                var instance = metadata.CreateInstance<MetadataType>();
-                property.GetValue(instance);
+                _propertyAccessor.Setter(_instance, i);
             }
         }
 
-        private static void SetPropertyValue_Reflection()
+        private void Property_GetValue_Reflection()
         {
             for (var i = 0; i <= Iterations; ++i)
             {
-                var property = typeof(MetadataType).GetProperty("Property");
-                var instance = Activator.CreateInstance(typeof(MetadataType));
-                property.SetValue(instance, i);
+                _propertyInfo.GetValue(_instance);
             }
         }
 
-        private static void GetPropertyValue_Reflection()
+        private void Property_SetValue_Reflection()
         {
             for (var i = 0; i <= Iterations; ++i)
             {
-                var property = typeof(MetadataType).GetProperty("Property");
-                var instance = Activator.CreateInstance(typeof(MetadataType));
-                property.GetValue(instance);
+                _propertyInfo.SetValue(_instance, i);
             }
         }
 
-        private static void CreateInstance_Metadata()
+        private void CreateInstance_Metadata()
         {
-            var metadata = MetadataProvider.GetMetadata<MetadataType>();
-
             for (var i = 0; i <= Iterations; ++i)
             {
-                metadata.CreateInstance<MetadataType>();
+                _metadata.GetConstructor().InstanceCreator(null);
             }
         }
 

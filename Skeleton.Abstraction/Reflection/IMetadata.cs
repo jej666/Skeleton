@@ -3,7 +3,7 @@
 namespace Skeleton.Abstraction.Reflection
 {
     public interface IMetadata :
-        IInstanceCreator,
+        IInstanceMetadata,
         IFieldMetadata,
         IPropertyMetadata,
         IMethodMetadata,

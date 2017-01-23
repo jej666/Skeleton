@@ -1,43 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Skeleton.Common
 {
     public static class DictionaryExtensions
     {
-        public static T GetValue<T>(
-            this IDictionary<string, object> source,
-            string key)
+        public static TValue GetOrAdd<TKey, TValue>(
+            this IDictionary<TKey, TValue> source,
+            TKey key,
+            Func<TValue> valueFactory)
         {
             source.ThrowIfNull(() => source);
-
-            var result = default(T);
-
-            if (!source.ContainsKey(key)) return result;
-
-            var value = source[key];
-
-            if (value == null) return result;
-
-            if (value.GetType() != typeof(T))
-                result = value.ChangeType<T>();
-            else
-                result = (T) value;
-
-            return result;
-        }
-
-        public static void SetValue(
-            this IDictionary<string, object> source,
-            string key,
-            object value)
-        {
-            source.ThrowIfNull(() => source);
+            key.ThrowIfNull(() => key);
+            valueFactory.ThrowIfNull(() => valueFactory);
 
             if (source.ContainsKey(key))
-                source[key] = value;
-            else
-                source.Add(key, value);
+                return source[key];
+
+            var value = valueFactory();
+
+            source.Add(key,value);
+
+            return value;
         }
 
         public static string ToString<TKey, TValue>(

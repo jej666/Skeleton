@@ -41,7 +41,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     (entity.IdAccessor.Name == column.Name))
                     continue;
 
-                var value = column.GetValue(entity);
+                var value = column.Getter(entity);
                 var formattedValue = SqlFormatter.FormattedValue(value);
 
                 _context.Columns.Add(column.Name);

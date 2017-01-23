@@ -44,7 +44,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 if (!_cacheIdName.IsNullOrEmpty())
                     return _cacheIdName;
 
-                var instance = _metadata.CreateInstance<TEntity>();
+                var instance = _metadata.GetConstructor().InstanceCreator(null) as TEntity;
 
                 if (instance == null)
                     return string.Empty;

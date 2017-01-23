@@ -25,7 +25,7 @@ namespace Skeleton.Core.Domain
             CreatedDateTime = DateTime.Now;
         }
 
-        public object Id => IdAccessor.GetValue(this);
+        public object Id => IdAccessor.Getter(this);
 
         public string IdName => IdAccessor.Name;
 

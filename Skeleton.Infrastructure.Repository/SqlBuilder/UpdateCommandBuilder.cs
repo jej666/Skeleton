@@ -39,7 +39,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     (entity.IdAccessor.Name == column.Name))
                     continue;
 
-                var value = column.GetValue(entity);
+                var value = column.Getter(entity);
                 var columnValue = GetUpdateColumnValue(column, value);
 
                 _context.ColumnValues.Add(columnValue);

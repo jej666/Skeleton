@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Skeleton.Abstraction.Reflection
 {
@@ -8,6 +9,6 @@ namespace Skeleton.Abstraction.Reflection
 
         string Name { get; }
 
-        object Invoke(object instance, params object[] arguments);
+        Func<object, object[], object> Invoker { get; }
     }
 }

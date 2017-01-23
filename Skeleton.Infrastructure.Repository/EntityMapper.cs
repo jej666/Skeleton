@@ -42,12 +42,12 @@ namespace Skeleton.Infrastructure.Repository
         {
             return HandleException(() =>
             {
-                var instanceDto = _dtoMetadata.CreateInstance<TDto>();
+                var instanceDto = _dtoMetadata.GetConstructor().InstanceCreator(null) as TDto;
 
                 foreach (var entityProperty in _entityMetadata.GetDeclaredOnlyProperties())
                     foreach (var dtoProperty in _dtoMetadata.GetDeclaredOnlyProperties())
                         if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
-                            dtoProperty.SetValue(instanceDto, entityProperty.GetValue(entity));
+                            dtoProperty.Setter(instanceDto, entityProperty.Getter(entity));
 
                 return instanceDto;
             });
@@ -64,12 +64,12 @@ namespace Skeleton.Infrastructure.Repository
         {
             return HandleException(() =>
             {
-                var instanceEntity = _entityMetadata.CreateInstance<TEntity>();
+                var instanceEntity = _entityMetadata.GetConstructor().InstanceCreator(null) as TEntity;
 
                 foreach (var dtoProperty in _dtoMetadata.GetDeclaredOnlyProperties())
                     foreach (var entityProperty in _entityMetadata.GetDeclaredOnlyProperties())
                         if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
-                            entityProperty.SetValue(instanceEntity, dtoProperty.GetValue(dto));
+                            entityProperty.Setter(instanceEntity, dtoProperty.Getter(dto));
 
                 return instanceEntity;
             });

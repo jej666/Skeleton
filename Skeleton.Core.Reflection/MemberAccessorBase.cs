@@ -19,15 +19,15 @@ namespace Skeleton.Core.Reflection
                    Equals(other.MemberInfo, MemberInfo);
         }
 
+        public abstract Func<object, object> Getter { get; }
+
+        public abstract Action<object, object> Setter { get; }
+
         public abstract bool HasGetter { get; }
         public abstract bool HasSetter { get; }
         public abstract MemberInfo MemberInfo { get; }
         public abstract Type MemberType { get; }
         public abstract string Name { get; }
-
-        public abstract object GetValue(object instance);
-
-        public abstract void SetValue(object instance, object value);
 
         public override bool Equals(object obj)
         {

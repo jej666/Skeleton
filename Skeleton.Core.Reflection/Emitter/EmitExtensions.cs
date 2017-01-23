@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Reflection.Emit;
-using Skeleton.Common;
 
 namespace Skeleton.Core.Reflection.Emitter
 {
@@ -9,17 +8,11 @@ namespace Skeleton.Core.Reflection.Emitter
     {
         internal static void BoxIfNeeded(this ILGenerator generator, Type type)
         {
-            generator.ThrowIfNull(() => generator);
-            type.ThrowIfNull(() => type);
-
             generator.Emit(type.IsValueType ? OpCodes.Box : OpCodes.Castclass, type);
         }
 
         internal static void CallMethod(this ILGenerator generator, MethodInfo methodInfo)
         {
-            generator.ThrowIfNull(() => generator);
-            methodInfo.ThrowIfNull(() => methodInfo);
-
             if (methodInfo.IsFinal || !methodInfo.IsVirtual)
                 generator.Emit(OpCodes.Call, methodInfo);
             else
@@ -28,8 +21,6 @@ namespace Skeleton.Core.Reflection.Emitter
 
         internal static void FastInt(this ILGenerator generator, int value)
         {
-            generator.ThrowIfNull(() => generator);
-
             switch (value)
             {
                 case -1:
@@ -81,18 +72,12 @@ namespace Skeleton.Core.Reflection.Emitter
 
         internal static void PushInstance(this ILGenerator generator, Type type)
         {
-            generator.ThrowIfNull(() => generator);
-            type.ThrowIfNull(() => type);
-
             generator.Emit(OpCodes.Ldarg_0);
             generator.Emit(type.IsValueType ? OpCodes.Unbox : OpCodes.Castclass, type);
         }
 
         internal static void PushParameters(this ILGenerator generator, Type[] parameterTypes)
         {
-            generator.ThrowIfNull(() => generator);
-            parameterTypes.ThrowIfNull(() => parameterTypes);
-
             for (int i = 0; i < parameterTypes.Length; i++)
             {
                 generator.Emit(OpCodes.Ldarg_0); // push args array
@@ -104,17 +89,32 @@ namespace Skeleton.Core.Reflection.Emitter
 
         internal static void Return(this ILGenerator generator)
         {
-            generator.ThrowIfNull(() => generator);
-
             generator.Emit(OpCodes.Ret);
         }
 
         internal static void UnboxIfNeeded(this ILGenerator generator, Type type)
         {
-            generator.ThrowIfNull(() => generator);
-            type.ThrowIfNull(() => type);
-
             generator.Emit(type.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, type);
+        }
+
+        internal static void EmitParameters(this ILGenerator generator, Type[] paramTypes, LocalBuilder[] locals)
+        {
+            for (var i = 0; i < paramTypes.Length; i++)
+            {
+                generator.Emit(OpCodes.Ldarg_1);
+                generator.FastInt(i);
+                generator.Emit(OpCodes.Ldelem_Ref);
+                generator.UnboxIfNeeded(paramTypes[i]);
+                generator.Emit(OpCodes.Stloc, locals[i]);
+            }
+        }
+
+        internal static LocalBuilder[] BuildLocals(this ILGenerator generator, Type[] paramTypes)
+        {
+            var locals = new LocalBuilder[paramTypes.Length];
+            for (var i = 0; i < paramTypes.Length; i++)
+                locals[i] = generator.DeclareLocal(paramTypes[i], true);
+            return locals;
         }
     }
 }

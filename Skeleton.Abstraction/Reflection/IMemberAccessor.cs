@@ -1,9 +1,11 @@
-﻿namespace Skeleton.Abstraction.Reflection
+﻿using System;
+
+namespace Skeleton.Abstraction.Reflection
 {
     public interface IMemberAccessor : IMemberInfo
     {
-        object GetValue(object instance);
+        Func<object, object> Getter { get; }
 
-        void SetValue(object instance, object value);
+        Action<object, object> Setter { get; }
     }
 }
