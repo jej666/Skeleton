@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Tests.Core;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Reflection;
+using Skeleton.Tests.Core;
+using System;
 using System.Reflection;
 
 namespace Skeleton.Tests.Benchmarks
@@ -15,6 +14,7 @@ namespace Skeleton.Tests.Benchmarks
         private readonly IMemberAccessor _propertyAccessor;
         private readonly PropertyInfo _propertyInfo;
         private readonly MetadataType _instance;
+        private readonly IInstanceAccessor _constructorAccessor;
 
         public MetadataBenchmarks()
         {
@@ -22,6 +22,7 @@ namespace Skeleton.Tests.Benchmarks
             _metadata = MetadataProvider.GetMetadata<MetadataType>();
             _propertyAccessor = _metadata.GetProperty("Property");
             _propertyInfo = typeof(MetadataType).GetProperty("Property");
+            _constructorAccessor = _metadata.GetConstructor();
         }
 
         [TestMethod]
@@ -76,7 +77,7 @@ namespace Skeleton.Tests.Benchmarks
         {
             for (var i = 0; i <= Iterations; ++i)
             {
-                _metadata.GetConstructor().InstanceCreator(null);
+                _constructorAccessor.InstanceCreator(null);
             }
         }
 
