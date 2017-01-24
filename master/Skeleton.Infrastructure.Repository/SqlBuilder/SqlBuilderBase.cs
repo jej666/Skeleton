@@ -18,6 +18,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
         private readonly IMetadata _metadata;
         private readonly Type _entityType;
         private string _cacheIdName;
+        private readonly IInstanceAccessor _entityInstanceAccessor;
 
         protected internal SqlBuilderBase(IMetadataProvider metadataProvider)
         {
@@ -25,6 +26,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
             _metadata = metadataProvider.GetMetadata<TEntity>();
             _entityType = _metadata.Type;
+            _entityInstanceAccessor = _metadata.GetConstructor();
         }
 
         internal abstract string SqlQuery { get; }
@@ -44,7 +46,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                 if (!_cacheIdName.IsNullOrEmpty())
                     return _cacheIdName;
 
-                var instance = _metadata.GetConstructor().InstanceCreator(null) as TEntity;
+                var instance = _entityInstanceAccessor.InstanceCreator(null) as TEntity;
 
                 if (instance == null)
                     return string.Empty;

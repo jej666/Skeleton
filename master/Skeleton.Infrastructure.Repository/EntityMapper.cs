@@ -15,8 +15,12 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
+        private readonly IInstanceAccessor _dtoInstanceAccessor;
         private readonly IMetadata _dtoMetadata;
+        private readonly IEnumerable<IMemberAccessor> _dtoProperties;
+        private readonly IInstanceAccessor _entityInstanceAccessor;
         private readonly IMetadata _entityMetadata;
+        private readonly IEnumerable<IMemberAccessor> _entityProperties;
         private readonly ILogger _logger;
 
         public EntityMapper(
@@ -28,7 +32,12 @@ namespace Skeleton.Infrastructure.Repository
 
             _logger = logger;
             _dtoMetadata = metadataProvider.GetMetadata<TDto>();
+            _dtoInstanceAccessor = _dtoMetadata.GetConstructor();
+            _dtoProperties = _dtoMetadata.GetDeclaredOnlyProperties();
+
             _entityMetadata = metadataProvider.GetMetadata<TEntity>();
+            _entityInstanceAccessor = _entityMetadata.GetConstructor();
+            _entityProperties = _entityMetadata.GetDeclaredOnlyProperties();
         }
 
         public IEnumerable<TDto> Map(IEnumerable<TEntity> entities)
@@ -42,10 +51,10 @@ namespace Skeleton.Infrastructure.Repository
         {
             return HandleException(() =>
             {
-                var instanceDto = _dtoMetadata.GetConstructor().InstanceCreator(null) as TDto;
+                var instanceDto = _dtoInstanceAccessor.InstanceCreator(null) as TDto;
 
-                foreach (var entityProperty in _entityMetadata.GetDeclaredOnlyProperties())
-                    foreach (var dtoProperty in _dtoMetadata.GetDeclaredOnlyProperties())
+                foreach (var entityProperty in _entityProperties)
+                    foreach (var dtoProperty in _dtoProperties)
                         if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
                             dtoProperty.Setter(instanceDto, entityProperty.Getter(entity));
 
@@ -64,10 +73,10 @@ namespace Skeleton.Infrastructure.Repository
         {
             return HandleException(() =>
             {
-                var instanceEntity = _entityMetadata.GetConstructor().InstanceCreator(null) as TEntity;
+                var instanceEntity = _entityInstanceAccessor.InstanceCreator(null) as TEntity;
 
-                foreach (var dtoProperty in _dtoMetadata.GetDeclaredOnlyProperties())
-                    foreach (var entityProperty in _entityMetadata.GetDeclaredOnlyProperties())
+                foreach (var dtoProperty in _dtoProperties)
+                    foreach (var entityProperty in _entityProperties)
                         if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
                             entityProperty.Setter(instanceEntity, dtoProperty.Getter(dto));
 

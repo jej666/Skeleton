@@ -22,9 +22,9 @@ namespace Skeleton.Infrastructure.Repository
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
-            _metadataProvider = metadataProvider;
-            Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
+            _metadataProvider = metadataProvider;  
             _database = database;
+            Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
         }
 
         internal SelectQueryBuilder<TEntity> Builder { get; }
