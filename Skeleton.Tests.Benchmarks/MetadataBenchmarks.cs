@@ -9,7 +9,7 @@ namespace Skeleton.Tests.Benchmarks
     [TestClass]
     public class MetadataBenchmarks : MetadataTestsBase
     {
-        private const int Iterations = 1000000;
+        private const int Iterations = 10000000;
         private readonly IMetadata _metadata ;
         private readonly IMemberAccessor _propertyAccessor;
         private readonly PropertyInfo _propertyInfo;

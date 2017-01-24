@@ -14,14 +14,14 @@ namespace Skeleton.Infrastructure.Data
         private readonly IMetadata _accessor;
         private readonly IDataReader _reader;
         private readonly IList<IMemberAccessor> _tableColumns;
-        private readonly Func<IMemberAccessor, bool> _simplePropertiesCondition =
-            x => x.MemberType.IsPrimitiveExtended();
+        private readonly IInstanceAccessor _instanceAccessor;
 
         protected internal DataReaderMapperBase(IMetadataProvider accessorCache, IDataReader reader)
         {
             _accessor = accessorCache.GetMetadata<TPoco>();
+            _instanceAccessor = _accessor.GetConstructor();
             _tableColumns = _accessor.GetDeclaredOnlyProperties()
-                .Where(_simplePropertiesCondition)
+                .Where(x => x.MemberType.IsPrimitiveExtended())
                 .ToList();
             _reader = reader;
         }
@@ -90,7 +90,7 @@ namespace Skeleton.Infrastructure.Data
         protected internal TPoco SetMatchingValues()
         {
             var values = new object[DataReader.FieldCount];
-            var instance = _accessor.GetConstructor().InstanceCreator(null) as TPoco;
+            var instance = _instanceAccessor.InstanceCreator(null) as TPoco;
 
             DataReader.GetValues(values);
             _tableColumns.ForEach(column =>
