@@ -5,7 +5,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
     public sealed class SqlCommand : ISqlCommand
     {
-        public SqlCommand(string sqlQuery, IDictionary<string, object> parameters)
+        internal SqlCommand(string sqlQuery, IDictionary<string, object> parameters)
         {
             SqlQuery = sqlQuery;
             Parameters = parameters;

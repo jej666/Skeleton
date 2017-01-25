@@ -20,7 +20,7 @@ namespace Skeleton.Core.Reflection
 
         public Func<object[], object> InstanceCreator => _constructorDelegate;
 
-        public static IInstanceAccessor Create(Type type, Type[] parameterTypes)
+        internal static IInstanceAccessor Create(Type type, Type[] parameterTypes)
         {
             return new ConstructorAccessor(type, parameterTypes);
         }

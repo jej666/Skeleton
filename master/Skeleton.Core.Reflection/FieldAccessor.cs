@@ -42,7 +42,7 @@ namespace Skeleton.Core.Reflection
 
         public override string Name { get; }
 
-        public static IMemberAccessor Create(FieldInfo fieldInfo)
+        internal static IMemberAccessor Create(FieldInfo fieldInfo)
         {
             return fieldInfo == null ? null : new FieldAccessor(fieldInfo);
         }

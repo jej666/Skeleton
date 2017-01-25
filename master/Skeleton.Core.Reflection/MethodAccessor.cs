@@ -30,7 +30,7 @@ namespace Skeleton.Core.Reflection
 
         public Func<object, object[], object> Invoker => _methodDelegate;
 
-        public static IMethodAccessor Create(Type type, string name, Type[] parameterTypes)
+        internal static IMethodAccessor Create(Type type, string name, Type[] parameterTypes)
         {
             type.ThrowIfNull(() => type);
             name.ThrowIfNullOrEmpty(() => name);
