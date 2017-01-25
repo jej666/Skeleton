@@ -46,7 +46,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Emitter\DefaultConstructorEmitter.cs" />
     <Compile Include="Emitter\ConstructorEmitter.cs" />
     <Compile Include="Emitter\EmitExtensions.cs" />
     <Compile Include="Emitter\EmitterBase.cs" />

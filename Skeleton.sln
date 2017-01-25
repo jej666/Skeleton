@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - Web", "10 - Web", "{0E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Web.Server", "Skeleton.Web.Server\Skeleton.Web.Server.csproj", "{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Common", "Skeleton.Tests.Infrastructure\Skeleton.Tests.Common.csproj", "{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Common", "Skeleton.Tests.Common\Skeleton.Tests.Common.csproj", "{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Web", "Skeleton.Tests.Web\Skeleton.Tests.Web.csproj", "{42AFA67C-3644-438A-BCE3-181D3549481E}"
 EndProject

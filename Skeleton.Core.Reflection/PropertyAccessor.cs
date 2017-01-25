@@ -44,7 +44,7 @@ namespace Skeleton.Core.Reflection
 
         public override string Name { get; }
 
-        public static IMemberAccessor Create(PropertyInfo propertyInfo)
+        internal static IMemberAccessor Create(PropertyInfo propertyInfo)
         {
             return propertyInfo == null
                 ? null

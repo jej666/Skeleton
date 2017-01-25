@@ -112,7 +112,7 @@
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Tests.Infrastructure\Skeleton.Tests.Common.csproj">
+    <ProjectReference Include="..\Skeleton.Tests.Common\Skeleton.Tests.Common.csproj">
       <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>
       <Name>Skeleton.Tests.Common</Name>
     </ProjectReference>
