@@ -114,10 +114,10 @@ namespace Skeleton.Infrastructure.Data
                     Logger.Error("Database error => ", e);
 
                     if (retryCount <= 0)
-                        throw new DataAccessException(e);
+                        throw;
 
                     if ((e.Number != 1205) && (e.Number != -2))
-                        throw new DataAccessException(e);
+                        throw;
 
                     Thread.Sleep(delay);
                 }

@@ -1,7 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
+using Skeleton.Core.Reflection;
+using Skeleton.Infrastructure.DependencyInjection;
+using Skeleton.Tests.Common;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skeleton.Tests.Core
@@ -47,7 +51,8 @@ namespace Skeleton.Tests.Core
         public void Should_CreateInstance_CtorWithParameters()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
-            var instance = metadata.GetConstructor(new Type[] { typeof(int) }).InstanceCreator(new object[] { 3 }) as MetadataType;
+            var instance = metadata.GetConstructor(new Type[] { typeof(int) })
+                .InstanceCreator(new object[] { 3 }) as MetadataType;
             var field = metadata.GetField("Field");
 
             Assert.IsNotNull(instance);
@@ -70,6 +75,26 @@ namespace Skeleton.Tests.Core
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var fields = metadata.GetFields().ToList();
+
+            Assert.IsTrue(fields.IsNotNullOrEmpty());
+            Assert.IsInstanceOfType(fields.First(), typeof(IMemberAccessor));
+        }
+
+        [TestMethod]
+        public void Should_GetAllFields()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var fields = metadata.GetAllFields().ToList();
+
+            Assert.IsTrue(fields.IsNotNullOrEmpty());
+            Assert.IsInstanceOfType(fields.First(), typeof(IMemberAccessor));
+        }
+
+        [TestMethod]
+        public void Should_GetDeclaredOnlyFields()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var fields = metadata.GetDeclaredOnlyFields().ToList();
 
             Assert.IsTrue(fields.IsNotNullOrEmpty());
             Assert.IsInstanceOfType(fields.First(), typeof(IMemberAccessor));
@@ -145,6 +170,14 @@ namespace Skeleton.Tests.Core
 
             Assert.IsNotNull(property);
             Assert.IsInstanceOfType(property, typeof(IMemberAccessor));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Should_GetProperty_ByExpression_ThrowOnNullPropertyInfo()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            metadata.GetProperty<MetadataType>(p => p.Field);
         }
 
         [TestMethod]
@@ -262,6 +295,49 @@ namespace Skeleton.Tests.Core
             Assert.IsInstanceOfType(field, typeof(IMemberAccessor));
 
             field.Getter(null);
+        }
+
+        [TestMethod]
+
+        public void Should_Not_Equals_MemberAccessorBase()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var field = metadata.GetField("Field");
+            var property = metadata.GetProperty("Property");
+
+            Assert.IsNotNull(field);
+            Assert.IsNotNull(property);
+            Assert.IsInstanceOfType(field, typeof(IMemberAccessor));
+            Assert.IsInstanceOfType(property, typeof(IMemberAccessor));
+            EqualityTests.TestUnequalObjects(field as MemberAccessorBase, property as MemberAccessorBase);
+        }
+
+        [TestMethod]
+
+        public void Should_Equals_MemberAccessorBase()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var property1 = metadata.GetProperty("Property");
+            var property2 = metadata.GetProperty("Property");
+
+            Assert.IsNotNull(property1);
+            Assert.IsNotNull(property2);
+            Assert.IsInstanceOfType(property1, typeof(IMemberAccessor));
+            Assert.IsInstanceOfType(property2, typeof(IMemberAccessor));
+            EqualityTests.TestEqualObjects(property1 as MemberAccessorBase, property2 as MemberAccessorBase);
+        }
+
+        [TestMethod]
+
+        public void Should_BeNull_MemberAccessorBase()
+        {
+            var metadata = MetadataProvider.GetMetadata<MetadataType>();
+            var property = metadata.GetProperty("Property");
+
+            Assert.IsNotNull(property);
+            Assert.IsInstanceOfType(property, typeof(IMemberAccessor));
+            
+            EqualityTests.TestAgainstNull(property as MemberAccessorBase);
         }
     }
 }

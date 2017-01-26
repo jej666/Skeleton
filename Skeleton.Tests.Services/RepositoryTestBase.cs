@@ -9,6 +9,7 @@ namespace Skeleton.Tests.Services
         protected RepositoryTestBase()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
+          //  SqlLocalDbHelper.InstallProcStocIfNotExists();
             Bootstrapper.Initialize();
             Bootstrapper.UseDatabase(builder =>
                     builder.UsingConfigConnectionString("Default").Build());

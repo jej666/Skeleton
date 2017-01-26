@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Skeleton.Abstraction.Reflection;
+using System;
 using System.Diagnostics;
 using System.Reflection;
-using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Core.Reflection
 {
@@ -37,12 +37,31 @@ namespace Skeleton.Core.Reflection
                 return true;
 
             return (obj.GetType() == typeof(MemberAccessorBase)) &&
-                   Equals((MemberAccessorBase) obj);
+                   Equals((MemberAccessorBase)obj);
         }
 
         public override int GetHashCode()
         {
             return MemberInfo.GetHashCode();
+        }
+
+        public static bool operator ==(MemberAccessorBase accessorBase, MemberAccessorBase other)
+        {
+            var isAccessorNull = ReferenceEquals(accessorBase, null);
+            var isOtherNull = ReferenceEquals(other, null);
+
+            if (isAccessorNull && isOtherNull)
+                return true;
+
+            if (isAccessorNull)
+                return false;
+
+            return accessorBase.Equals(other);
+        }
+
+        public static bool operator !=(MemberAccessorBase accessorBase, MemberAccessorBase other)
+        {
+            return !(accessorBase == other);
         }
     }
 }

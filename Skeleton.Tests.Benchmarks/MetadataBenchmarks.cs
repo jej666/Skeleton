@@ -1,13 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Tests.Core;
+using Skeleton.Infrastructure.DependencyInjection;
+using Skeleton.Tests.Common;
 using System;
 using System.Reflection;
 
 namespace Skeleton.Tests.Benchmarks
 {
     [TestClass]
-    public class MetadataBenchmarks : MetadataTestsBase
+    public class MetadataBenchmarks 
     {
         private const int Iterations = 10000000;
         private readonly IMetadata _metadata;
@@ -18,12 +19,17 @@ namespace Skeleton.Tests.Benchmarks
 
         public MetadataBenchmarks()
         {
+            Bootstrapper.Initialize();
+            var container = Bootstrapper.Resolver;
+            MetadataProvider = container.Resolve<IMetadataProvider>();
             _instance = new MetadataType();
             _metadata = MetadataProvider.GetMetadata<MetadataType>();
             _propertyAccessor = _metadata.GetProperty("Property");
             _propertyInfo = typeof(MetadataType).GetProperty("Property");
             _constructorAccessor = _metadata.GetConstructor();
         }
+
+        public static IMetadataProvider MetadataProvider { get; private set; }
 
         [TestMethod]
         public void RunBenchmark()
