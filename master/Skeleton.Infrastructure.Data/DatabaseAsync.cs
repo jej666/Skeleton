@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Data;
-using Skeleton.Common;
-using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -25,7 +25,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var dbCommand = (DbCommand)CreateTextCommand(command);
 
                 return await dbCommand.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
@@ -33,7 +33,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw new DataAccessException(e);
+                throw;
             }
         }
 
@@ -43,7 +43,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var dbCommand = (DbCommand)CreateTextCommand(command);
                 var result = await dbCommand.ExecuteScalarAsync()
                     .ConfigureAwait(false);
 
@@ -54,7 +54,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw new DataAccessException(e);
+                throw;
             }
         }
 
@@ -72,7 +72,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand) CreateStoredProcedureCommand(
+                var dbCommand = (DbCommand)CreateStoredProcedureCommand(
                     procStockCommand);
 
                 return await dbCommand.ExecuteNonQueryAsync()
@@ -81,7 +81,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw new DataAccessException(e);
+                throw;
             }
         }
 
@@ -90,7 +90,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var dbCommand = (DbCommand)CreateTextCommand(command);
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -100,7 +100,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw new DataAccessException(e);
+                throw;
             }
         }
 
@@ -111,7 +111,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var dbCommand = (DbCommand)CreateTextCommand(command);
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -123,7 +123,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw new DataAccessException(e);
+                throw;
             }
         }
 
@@ -134,7 +134,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand) CreateTextCommand(command);
+                var dbCommand = (DbCommand)CreateTextCommand(command);
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -146,7 +146,7 @@ namespace Skeleton.Infrastructure.Data
             catch (SqlException e)
             {
                 Logger.Error(e.Message);
-                throw new DataAccessException(e);
+                throw;
             }
         }
     }

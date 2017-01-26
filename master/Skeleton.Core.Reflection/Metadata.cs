@@ -130,9 +130,6 @@ namespace Skeleton.Core.Reflection
 
             var propertyInfo = expression.GetPropertyAccess();
 
-            if (propertyInfo == null)
-                return null;
-
             IMemberAccessor accessor;
             if (_propertyCache.Value.TryGetValue(propertyInfo.Name, out accessor))
                 return accessor;

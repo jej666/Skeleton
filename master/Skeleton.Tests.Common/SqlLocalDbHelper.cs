@@ -31,5 +31,29 @@ namespace Skeleton.Tests.Common
                 command.ExecuteNonQuery();
             }
         }
+
+        public static void InstallProcStocIfNotExists()
+        {
+            var connection = new SqlConnectionHelper();
+            using (var cnn = connection.OpenConnection())
+            {
+                var cmd = cnn.CreateCommand();
+                cmd.CommandText = @"
+                    IF OBJECT_ID('ProcedureSelectCustomerByCategory', 'P') IS NOT NULL
+                        DROP PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]
+                    GO
+
+                    CREATE PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]
+                        @categoryId int
+                    AS
+                        BEGIN
+                            SELECT* FROM[dbo].[Customer]
+                            WHERE[dbo].Customer.CustomerCategoryId = @categoryId
+                        END
+                    GO";
+                cmd.Connection = cnn;
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

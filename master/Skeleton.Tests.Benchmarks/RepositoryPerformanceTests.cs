@@ -1,16 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Skeleton.Abstraction;
 using Skeleton.Abstraction.Repository;
+using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
-using Skeleton.Tests.Services;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Skeleton.Tests.Benchmarks
 {
     [TestClass]
-    public class RepositoryPerformanceTests : RepositoryTestBase
+    public class RepositoryPerformanceTests 
     {
-        [TestMethod]
+        public RepositoryPerformanceTests()
+        {
+            SqlLocalDbHelper.CreateDatabaseIfNotExists();
+            Bootstrapper.Initialize();
+            Bootstrapper.UseDatabase(builder =>
+                    builder.UsingConfigConnectionString("Default").Build());
+        }
+
+    public static IDependencyResolver Container => Bootstrapper.Resolver;
+
+    [TestMethod]
         public void Run()
         {
             DbPostSeeder.SeedPosts();

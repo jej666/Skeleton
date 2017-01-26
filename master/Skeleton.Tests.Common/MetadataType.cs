@@ -1,4 +1,4 @@
-﻿namespace Skeleton.Tests.Core
+﻿namespace Skeleton.Tests.Common
 {
     public class MetadataType
     {

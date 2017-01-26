@@ -8,13 +8,13 @@ using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
 using Skeleton.Common;
 using Skeleton.Abstraction.Reflection;
+using System.Data.SqlClient;
 
 namespace Skeleton.Infrastructure.Data
 {
     [DebuggerDisplay("DatabaseName = {Configuration.Name}")]
     public abstract class DatabaseContext : DisposableBase
     {
-        private readonly DataAdapter _adapter;
         private IDbCommand _command;
         private IDbConnection _connection;
         private IDbTransaction _transaction;
@@ -27,7 +27,6 @@ namespace Skeleton.Infrastructure.Data
             Logger = logger;
             Configuration = configuration;
             MetadataProvider = metadataProvider;
-            _adapter = new DataAdapter(configuration);
         }
 
         public IDatabaseConfiguration Configuration { get; }
@@ -56,7 +55,8 @@ namespace Skeleton.Infrastructure.Data
 
         internal void DisposeTransaction()
         {
-            if (_transaction == null) return;
+            if (_transaction == null)
+                return;
 
             _transaction.Dispose();
             _transaction = null;
@@ -89,7 +89,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 if (_connection == null)
-                    _connection = _adapter.CreateConnection();
+                    _connection = new SqlConnection();
 
                 if (_connection.ConnectionString.IsNullOrEmpty())
                     _connection.ConnectionString = Configuration.ConnectionString;
@@ -102,7 +102,7 @@ namespace Skeleton.Infrastructure.Data
                 _connection?.Close();
 
                 Logger.Error(ex.Message);
-                throw new DataAccessException(ex.Message, ex.InnerException);
+                throw;
             }
         }
 
@@ -111,7 +111,10 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 if (_connection == null)
-                    _connection = _adapter.CreateConnection();
+                    _connection = new SqlConnection();
+
+                if (_connection.ConnectionString.IsNullOrEmpty())
+                    _connection.ConnectionString = Configuration.ConnectionString;
 
                 if (_connection.State != ConnectionState.Open)
                     await ((DbConnection) _connection).OpenAsync()
@@ -122,7 +125,7 @@ namespace Skeleton.Infrastructure.Data
                 _connection?.Close();
 
                 Logger.Error(ex.Message);
-                throw new DataAccessException(ex.Message, ex.InnerException);
+                throw;
             }
         }
 
@@ -130,7 +133,7 @@ namespace Skeleton.Infrastructure.Data
         {
             foreach (var param in parameters)
             {
-                var parameter = _adapter.CreateParameter();
+                var parameter = new SqlParameter();
 
                 parameter.DbType = DbTypeMapper.Map[param.Value.GetType()];
                 parameter.Direction = ParameterDirection.Input;
@@ -147,7 +150,7 @@ namespace Skeleton.Infrastructure.Data
         {
             sqlCommand.SqlQuery.ThrowIfNullOrEmpty(() => sqlCommand.SqlQuery);
 
-            _command = _adapter.CreateCommand();
+            _command = new SqlCommand();
             _command.Connection = _connection;
             _command.CommandText = sqlCommand.SqlQuery;
             _command.CommandType = commandType;

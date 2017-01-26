@@ -79,17 +79,13 @@
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Tests.Core\Skeleton.Tests.Core.csproj">
-      <Project>{f0f985cf-a6ef-40db-a332-2a7f2bbfbc47}</Project>
-      <Name>Skeleton.Tests.Core</Name>
+    <ProjectReference Include="..\Skeleton.Infrastructure.DependencyInjection\Skeleton.Infrastructure.DependencyInjection.csproj">
+      <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
+      <Name>Skeleton.Infrastructure.DependencyInjection</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Tests.Common\Skeleton.Tests.Common.csproj">
       <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>
       <Name>Skeleton.Tests.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Tests.Services\Skeleton.Tests.Services.csproj">
-      <Project>{54063976-2135-4994-a69c-9eace310589c}</Project>
-      <Name>Skeleton.Tests.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

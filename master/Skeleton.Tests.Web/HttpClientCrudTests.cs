@@ -7,7 +7,7 @@ using Skeleton.Tests.Common;
 using Skeleton.Web.Server;
 using Skeleton.Tests.Web.Mock;
 
-namespace Skeleton.Web.Tests
+namespace Skeleton.Tests.Web
 {
     [TestClass]
     public class HttpClientCrudTests
