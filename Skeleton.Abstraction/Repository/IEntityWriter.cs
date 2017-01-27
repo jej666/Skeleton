@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IEntityPersitor<in TEntity> :
+    public interface IEntityWriter<in TEntity> :
             IDisposable,
             IHideObjectMethods
         where TEntity : class, IEntity<TEntity>

@@ -10,11 +10,12 @@ namespace Skeleton.Infrastructure.DependencyInjection
         {
             Container
                 .RegisterType(typeof(IAsyncEntityReader<>), typeof(AsyncEntityReader<>))
-                .RegisterType(typeof(IAsyncEntityPersistor<>), typeof(AsyncEntityPersistor<>))
+                .RegisterType(typeof(IAsyncEntityWriter<>), typeof(AsyncEntityPersistor<>))
                 .RegisterType(typeof(IAsyncCachedEntityReader<>), typeof(AsyncCachedEntityReader<>))
                 .RegisterType(typeof(IAsyncReadRepository<,>), typeof(AsyncReadRepository<,>))
                 .RegisterType(typeof(IAsyncCrudRepository<,>), typeof(AsyncCrudRepository<,>))
-                .RegisterType(typeof(IAsyncCachedReadRepository<,>), typeof(AsyncCachedReadRepository<,>));
+                .RegisterType(typeof(IAsyncCachedReadRepository<,>), typeof(AsyncCachedReadRepository<,>))
+                .RegisterType<IAsyncStoredProcedureExecutor, AsyncStoredProcedureExecutor>();
         }
     }
 }

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Data
 {
-    public sealed class DatabaseAsync : DatabaseContext, IDatabaseAsync
+    public sealed class AsyncDatabase : DatabaseContext, IAsyncDatabase
     {
-        public DatabaseAsync(
+        public AsyncDatabase(
             ILogger logger,
             IDatabaseConfiguration configuration,
             IMetadataProvider metadataProvider)

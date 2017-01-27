@@ -38,20 +38,20 @@ namespace Skeleton.Tests.Common
             using (var cnn = connection.OpenConnection())
             {
                 var cmd = cnn.CreateCommand();
+                cmd.Connection = cnn;
                 cmd.CommandText = @"
                     IF OBJECT_ID('ProcedureSelectCustomerByCategory', 'P') IS NOT NULL
-                        DROP PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]
-                    GO
-
-                    CREATE PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]
-                        @categoryId int
-                    AS
-                        BEGIN
-                            SELECT* FROM[dbo].[Customer]
-                            WHERE[dbo].Customer.CustomerCategoryId = @categoryId
-                        END
-                    GO";
-                cmd.Connection = cnn;
+                        DROP PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]";
+                     
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = @"
+                CREATE PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]
+                    @categoryId int
+                AS
+                   BEGIN
+                     SELECT* FROM[dbo].[Customer]
+                     WHERE[dbo].Customer.CustomerCategoryId = @categoryId
+                   END";
                 cmd.ExecuteNonQuery();
             }
         }

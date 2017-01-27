@@ -13,15 +13,15 @@ namespace Skeleton.Infrastructure.Repository
 {
     public class AsyncEntityPersistor<TEntity> :
             DisposableBase,
-            IAsyncEntityPersistor<TEntity>
+            IAsyncEntityWriter<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
-        private readonly IDatabaseAsync _database;
+        private readonly IAsyncDatabase _database;
 
         public AsyncEntityPersistor(
             IMetadataProvider metadataProvider,
-            IDatabaseAsync database)
+            IAsyncDatabase database)
         {
             _metadataProvider = metadataProvider;
             _database = database;

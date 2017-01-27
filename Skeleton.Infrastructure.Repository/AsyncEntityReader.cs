@@ -17,11 +17,11 @@ namespace Skeleton.Infrastructure.Repository
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
-        private readonly IDatabaseAsync _database;
+        private readonly IAsyncDatabase _database;
 
         public AsyncEntityReader(
             IMetadataProvider metadataProvider,
-            IDatabaseAsync database)
+            IAsyncDatabase database)
         {
             _metadataProvider = metadataProvider;
             Builder = new SelectQueryBuilder<TEntity>(metadataProvider);

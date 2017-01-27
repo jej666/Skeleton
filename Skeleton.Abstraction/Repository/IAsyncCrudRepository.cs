@@ -7,6 +7,6 @@ namespace Skeleton.Abstraction.Repository
         where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        IAsyncEntityPersistor<TEntity> Store { get; }
+        IAsyncEntityWriter<TEntity> Store { get; }
     }
 }

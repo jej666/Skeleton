@@ -51,16 +51,15 @@
   <ItemGroup>
     <Compile Include="DatabaseConfigurationBuilder.cs" />
     <Compile Include="DatabaseConfiguration.cs" />
-    <Compile Include="DatabaseAsync.cs" />
+    <Compile Include="AsyncDatabase.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="DatabaseFactory.cs" />
     <Compile Include="DatabaseTransaction.cs" />
     <Compile Include="DataReaderMapper.cs" />
-    <Compile Include="DataReaderMapperAsync.cs" />
+    <Compile Include="AsyncDataReaderMapper.cs" />
     <Compile Include="DataReaderMapperBase.cs" />
-    <Compile Include="DataReaderDynamicMapper.cs" />
-    <Compile Include="DataProviderType.cs" />
+    <Compile Include="DynamicDataReaderMapper.cs" />
     <Compile Include="DataReaderMapperFactory.cs" />
     <Compile Include="DbTypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

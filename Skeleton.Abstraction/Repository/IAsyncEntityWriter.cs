@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Abstraction.Repository
 {
-    public interface IAsyncEntityPersistor<in TEntity> :
+    public interface IAsyncEntityWriter<in TEntity> :
             IDisposable,
             IHideObjectMethods
         where TEntity : class, IEntity<TEntity>

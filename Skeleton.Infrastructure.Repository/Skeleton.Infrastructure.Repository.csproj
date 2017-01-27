@@ -59,7 +59,7 @@
     <Compile Include="AsyncEntityReader.cs" />
     <Compile Include="EntityMapper.cs" />
     <Compile Include="AsyncEntityPersistor.cs" />
-    <Compile Include="EntityPersistor.cs" />
+    <Compile Include="EntityWriter.cs" />
     <Compile Include="EntityReader.cs" />
     <Compile Include="ExpressionTree\LikeMethod.cs" />
     <Compile Include="SqlBuilder\JoinType.cs" />
@@ -85,6 +85,8 @@
     <Compile Include="SqlBuilder\SqlFormatter.cs" />
     <Compile Include="ExpressionTree\TableInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AsyncStoredProcedureExecutor.cs" />
+    <Compile Include="StoredProcedureExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">

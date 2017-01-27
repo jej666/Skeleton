@@ -19,7 +19,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public AsyncCachedEntityReader(
             IMetadataProvider metadataProvider,
-            IDatabaseAsync database,
+            IAsyncDatabase database,
             ICacheProvider cacheProvider)
             : base(metadataProvider, database)
         {

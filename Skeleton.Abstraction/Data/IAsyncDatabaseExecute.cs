@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Skeleton.Abstraction.Data
 {
-    public interface IDatabaseExecuteAsync
+    public interface IAsyncDatabaseExecute
     {
         Task<int> ExecuteAsync(ISqlCommand command);
 
@@ -11,6 +10,6 @@ namespace Skeleton.Abstraction.Data
 
         Task<TValue> ExecuteScalarAsync<TValue>(ISqlCommand command);
 
-        Task<int> ExecuteStoredProcedureAsync(ISqlCommand procStockCommand);
+        Task<int> ExecuteStoredProcedureAsync(ISqlCommand command);
     }
 }

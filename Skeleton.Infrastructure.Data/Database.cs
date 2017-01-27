@@ -50,10 +50,10 @@ namespace Skeleton.Infrastructure.Data
                 : result.ChangeType<TValue>();
         }
 
-        public int ExecuteStoredProcedure(ISqlCommand procStockCommand)
+        public int ExecuteStoredProcedure(ISqlCommand command)
         {
             return WrapRetryPolicy(() =>
-                CreateStoredProcedureCommand(procStockCommand)
+                CreateStoredProcedureCommand(command)
                     .ExecuteNonQuery());
         }
 

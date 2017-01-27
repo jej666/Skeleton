@@ -17,8 +17,8 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
     {
         private readonly IMetadata _metadata;
         private readonly Type _entityType;
-        private string _cacheIdName;
         private readonly IInstanceAccessor _entityInstanceAccessor;
+        private string _cacheIdName;
 
         protected internal SqlBuilderBase(IMetadataProvider metadataProvider)
         {

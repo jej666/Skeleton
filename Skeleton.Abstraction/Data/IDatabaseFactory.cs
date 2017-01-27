@@ -7,7 +7,7 @@ namespace Skeleton.Abstraction.Data
         IDatabase CreateDatabase(
             Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator);
 
-        IDatabaseAsync CreateDatabaseForAsyncOperations(
+        IAsyncDatabase CreateDatabaseForAsyncOperations(
             Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator);
     }
 }

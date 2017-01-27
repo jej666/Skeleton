@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\IDatabase.cs" />
-    <Compile Include="Data\IDatabaseAsync.cs" />
+    <Compile Include="Data\IAsyncDatabase.cs" />
     <Compile Include="Data\IDatabaseConfiguration.cs" />
     <Compile Include="Data\IDatabaseConfigurationBuilder.cs" />
     <Compile Include="Data\IDatabaseConfigurationProperties.cs" />
@@ -55,10 +55,10 @@
     <Compile Include="Data\IDatabaseConfigurationRetryPolicyEnd.cs" />
     <Compile Include="Data\IDatabaseConfigurationSettings.cs" />
     <Compile Include="Data\IDatabaseExecute.cs" />
-    <Compile Include="Data\IDatabaseExecuteAsync.cs" />
+    <Compile Include="Data\IAsyncDatabaseExecute.cs" />
     <Compile Include="Data\IDatabaseFactory.cs" />
     <Compile Include="Data\IDatabaseQuery.cs" />
-    <Compile Include="Data\IDatabaseQueryAsync.cs" />
+    <Compile Include="Data\IAsyncDatabaseQuery.cs" />
     <Compile Include="Data\IDatabaseTransaction.cs" />
     <Compile Include="Data\ISqlCommand.cs" />
     <Compile Include="Domain\IEntityDescriptor.cs" />
@@ -88,7 +88,7 @@
     <Compile Include="Repository\IAsyncCachedReadRepository.cs" />
     <Compile Include="Repository\IAsyncCrudRepository.cs" />
     <Compile Include="Repository\IAsyncEntityAggregateResult.cs" />
-    <Compile Include="Repository\IAsyncEntityPersistor.cs" />
+    <Compile Include="Repository\IAsyncEntityWriter.cs" />
     <Compile Include="Repository\IAsyncEntityQueryResult.cs" />
     <Compile Include="Repository\IAsyncEntityReader.cs" />
     <Compile Include="Repository\IAsyncReadRepository.cs" />
@@ -97,9 +97,11 @@
     <Compile Include="Repository\ICrudRepository.cs" />
     <Compile Include="Repository\IEntityAggregateResult.cs" />
     <Compile Include="Repository\IEntityMapper.cs" />
-    <Compile Include="Repository\IEntityPersitor.cs" />
+    <Compile Include="Repository\IEntityWriter.cs" />
     <Compile Include="Repository\IEntityQueryResult.cs" />
     <Compile Include="Repository\IEntityReader.cs" />
+    <Compile Include="Repository\IAsyncStoredProcedureExecutor.cs" />
+    <Compile Include="Repository\IStoredProcedureExecutor.cs" />
     <Compile Include="Repository\IReadRepository.cs" />
   </ItemGroup>
   <ItemGroup>
