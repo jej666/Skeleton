@@ -7,7 +7,7 @@ using Skeleton.Common;
 using Skeleton.Tests.Common;
 using System;
 
-namespace Skeleton.Tests.Services
+namespace Skeleton.Tests.Repository
 {
     [TestClass]
     public class AsyncCachedRepositoryTests : RepositoryTestBase

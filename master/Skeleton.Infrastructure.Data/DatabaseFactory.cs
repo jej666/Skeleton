@@ -29,12 +29,12 @@ namespace Skeleton.Infrastructure.Data
                 _typeAccessorCache);
         }
 
-        public IDatabaseAsync CreateDatabaseForAsyncOperations(
+        public IAsyncDatabase CreateDatabaseForAsyncOperations(
             Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
         {
             configurator.ThrowIfNull(() => configurator);
 
-            return new DatabaseAsync(_logger,
+            return new AsyncDatabase(_logger,
                 configurator.Invoke(_configurationBuilder),
                 _typeAccessorCache);
         }

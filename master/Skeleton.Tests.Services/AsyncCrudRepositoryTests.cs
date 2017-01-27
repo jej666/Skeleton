@@ -5,7 +5,7 @@ using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Tests.Common;
 
-namespace Skeleton.Tests.Services
+namespace Skeleton.Tests.Repository
 {
     [TestClass]
     public class AsyncCrudRepositoryTests : RepositoryTestBase

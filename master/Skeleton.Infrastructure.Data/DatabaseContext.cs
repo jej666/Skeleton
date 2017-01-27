@@ -74,9 +74,9 @@ namespace Skeleton.Infrastructure.Data
                 _connection.Close();
         }
 
-        internal IDbCommand CreateStoredProcedureCommand(ISqlCommand procStockCommand)
+        internal IDbCommand CreateStoredProcedureCommand(ISqlCommand command)
         {
-            return CreateCommand(CommandType.StoredProcedure, procStockCommand);
+            return CreateCommand(CommandType.StoredProcedure, command);
         }
 
         internal IDbCommand CreateTextCommand(ISqlCommand sqlCommand)

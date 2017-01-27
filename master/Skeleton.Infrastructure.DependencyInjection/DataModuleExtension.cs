@@ -11,7 +11,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
             Container.RegisterType<IDatabaseConfigurationBuilder, DatabaseConfigurationBuilder>();
             Container.RegisterType<IDatabaseFactory, DatabaseFactory>();
             Container.RegisterType<IDatabase, Database>();
-            Container.RegisterType<IDatabaseAsync, DatabaseAsync>();
+            Container.RegisterType<IAsyncDatabase, AsyncDatabase>();
         }
     }
 }

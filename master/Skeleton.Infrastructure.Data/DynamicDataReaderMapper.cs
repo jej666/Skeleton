@@ -8,7 +8,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {
-    internal static class DataReaderDynamicMapper
+    internal static class DynamicDataReaderMapper
     {
         internal static IEnumerable<dynamic> Map(this IDataReader dataReader)
         {

@@ -12,11 +12,11 @@ namespace Skeleton.Infrastructure.Data
             return new DataReaderMapper<TResult>(accessorCache, dataReader);
         }
 
-        internal static DataReaderMapperAsync<TResult> CreateMapperAsync<TResult>(
+        internal static AsyncDataReaderMapper<TResult> CreateMapperAsync<TResult>(
             this IMetadataProvider accessorCache, IDataReader dataReader)
             where TResult : class
         {
-            return new DataReaderMapperAsync<TResult>(accessorCache, dataReader);
+            return new AsyncDataReaderMapper<TResult>(accessorCache, dataReader);
         }
     }
 }

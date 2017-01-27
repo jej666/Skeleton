@@ -13,13 +13,13 @@ namespace Skeleton.Infrastructure.Repository
         public CrudRepository(
             IEntityMapper<TEntity, TDto> mapper,
             IEntityReader<TEntity> reader,
-            IEntityPersitor<TEntity> persistor)
+            IEntityWriter<TEntity> persistor)
             : base(mapper, reader)
         {
             Store = persistor;
         }
 
-        public IEntityPersitor<TEntity> Store { get; }
+        public IEntityWriter<TEntity> Store { get; }
 
         protected override void DisposeManagedResources()
         {

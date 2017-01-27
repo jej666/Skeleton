@@ -2,11 +2,11 @@
 
 namespace Skeleton.Abstraction.Data
 {
-    public interface IDatabaseAsync :
+    public interface IAsyncDatabase :
         IHideObjectMethods,
         IDisposable,
-        IDatabaseExecuteAsync,
-        IDatabaseQueryAsync
+        IAsyncDatabaseExecute,
+        IAsyncDatabaseQuery
     {
         IDatabaseConfiguration Configuration { get; }
 

@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Dep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Domain", "Skeleton.Core.Domain\Skeleton.Core.Domain.csproj", "{3E857F30-96F5-4A3D-B10F-CCF89BF4D467}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Services", "Skeleton.Tests.Services\Skeleton.Tests.Services.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Repository", "Skeleton.Tests.Services\Skeleton.Tests.Repository.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Core", "02 - Core", "{4ECC01D5-6996-4DB4-ACB8-4952D96D1982}"
 EndProject
@@ -138,7 +138,7 @@ Global
 		{F0F985CF-A6EF-40DB-A332-2A7F2BBFBC47} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 17
+		SccNumberOfProjects = 18
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://jej666.visualstudio.com/
 		SccLocalPath0 = .
@@ -166,45 +166,49 @@ Global
 		SccProjectTopLevelParentUniqueName6 = Skeleton.sln
 		SccProjectName6 = Skeleton.Web.Server
 		SccLocalPath6 = Skeleton.Web.Server
-		SccProjectUniqueName7 = Skeleton.Tests.Services\\Skeleton.Tests.Services.csproj
+		SccProjectUniqueName7 = Skeleton.Tests.Web\\Skeleton.Tests.Web.csproj
 		SccProjectTopLevelParentUniqueName7 = Skeleton.sln
-		SccProjectName7 = Skeleton.Tests.Services
-		SccLocalPath7 = Skeleton.Tests.Services
-		SccProjectUniqueName8 = Skeleton.Tests.Web\\Skeleton.Tests.Web.csproj
+		SccProjectName7 = Skeleton.Tests.Web
+		SccLocalPath7 = Skeleton.Tests.Web
+		SccProjectUniqueName8 = Skeleton.Abstraction\\Skeleton.Abstraction.csproj
 		SccProjectTopLevelParentUniqueName8 = Skeleton.sln
-		SccProjectName8 = Skeleton.Tests.Web
-		SccLocalPath8 = Skeleton.Tests.Web
-		SccProjectUniqueName9 = Skeleton.Abstraction\\Skeleton.Abstraction.csproj
+		SccProjectName8 = Skeleton.Abstraction
+		SccLocalPath8 = Skeleton.Abstraction
+		SccProjectUniqueName9 = Skeleton.Common\\Skeleton.Common.csproj
 		SccProjectTopLevelParentUniqueName9 = Skeleton.sln
-		SccProjectName9 = Skeleton.Abstraction
-		SccLocalPath9 = Skeleton.Abstraction
-		SccProjectUniqueName10 = Skeleton.Common\\Skeleton.Common.csproj
+		SccProjectName9 = Skeleton.Common
+		SccLocalPath9 = Skeleton.Common
+		SccProjectUniqueName10 = Skeleton.Core.Reflection\\Skeleton.Core.Reflection.csproj
 		SccProjectTopLevelParentUniqueName10 = Skeleton.sln
-		SccProjectName10 = Skeleton.Common
-		SccLocalPath10 = Skeleton.Common
-		SccProjectUniqueName11 = Skeleton.Core.Reflection\\Skeleton.Core.Reflection.csproj
+		SccProjectName10 = Skeleton.Core.Reflection
+		SccLocalPath10 = Skeleton.Core.Reflection
+		SccProjectUniqueName11 = Skeleton.Core.Caching\\Skeleton.Core.Caching.csproj
 		SccProjectTopLevelParentUniqueName11 = Skeleton.sln
-		SccProjectName11 = Skeleton.Core.Reflection
-		SccLocalPath11 = Skeleton.Core.Reflection
-		SccProjectUniqueName12 = Skeleton.Core.Caching\\Skeleton.Core.Caching.csproj
+		SccProjectName11 = Skeleton.Core.Caching
+		SccLocalPath11 = Skeleton.Core.Caching
+		SccProjectUniqueName12 = Skeleton.Infrastructure.DependencyInjection\\Skeleton.Infrastructure.DependencyInjection.csproj
 		SccProjectTopLevelParentUniqueName12 = Skeleton.sln
-		SccProjectName12 = Skeleton.Core.Caching
-		SccLocalPath12 = Skeleton.Core.Caching
-		SccProjectUniqueName13 = Skeleton.Infrastructure.DependencyInjection\\Skeleton.Infrastructure.DependencyInjection.csproj
+		SccProjectName12 = Skeleton.Infrastructure.DependencyInjection
+		SccLocalPath12 = Skeleton.Infrastructure.DependencyInjection
+		SccProjectUniqueName13 = Skeleton.Tests.Benchmarks\\Skeleton.Tests.Benchmarks.csproj
 		SccProjectTopLevelParentUniqueName13 = Skeleton.sln
-		SccProjectName13 = Skeleton.Infrastructure.DependencyInjection
-		SccLocalPath13 = Skeleton.Infrastructure.DependencyInjection
-		SccProjectUniqueName14 = Skeleton.Tests.Benchmarks\\Skeleton.Tests.Benchmarks.csproj
+		SccProjectName13 = Skeleton.Tests.Benchmarks
+		SccLocalPath13 = Skeleton.Tests.Benchmarks
+		SccProjectUniqueName14 = Skeleton.Tests.Core\\Skeleton.Tests.Core.csproj
 		SccProjectTopLevelParentUniqueName14 = Skeleton.sln
-		SccProjectName14 = Skeleton.Tests.Benchmarks
-		SccLocalPath14 = Skeleton.Tests.Benchmarks
-		SccProjectUniqueName15 = Skeleton.Tests.Core\\Skeleton.Tests.Core.csproj
+		SccProjectName14 = Skeleton.Tests.Core
+		SccLocalPath14 = Skeleton.Tests.Core
+		SccProjectUniqueName15 = Skeleton.Tests.Infrastructure\\Skeleton.Tests.Common.csproj
 		SccProjectTopLevelParentUniqueName15 = Skeleton.sln
-		SccProjectName15 = Skeleton.Tests.Core
-		SccLocalPath15 = Skeleton.Tests.Core
-		SccProjectUniqueName16 = Skeleton.Tests.Infrastructure\\Skeleton.Tests.Common.csproj
+		SccProjectName15 = Skeleton.Tests.Infrastructure
+		SccLocalPath15 = Skeleton.Tests.Infrastructure
+		SccProjectUniqueName16 = Skeleton.Tests.Common\\Skeleton.Tests.Common.csproj
 		SccProjectTopLevelParentUniqueName16 = Skeleton.sln
-		SccProjectName16 = Skeleton.Tests.Infrastructure
-		SccLocalPath16 = Skeleton.Tests.Infrastructure
+		SccProjectName16 = Skeleton.Tests.Common
+		SccLocalPath16 = Skeleton.Tests.Common
+		SccProjectUniqueName17 = Skeleton.Tests.Services\\Skeleton.Tests.Repository.csproj
+		SccProjectTopLevelParentUniqueName17 = Skeleton.sln
+		SccProjectName17 = Skeleton.Tests.Services
+		SccLocalPath17 = Skeleton.Tests.Services
 	EndGlobalSection
 EndGlobal

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Abstraction.Data
 {
-    public interface IDatabaseQueryAsync
+    public interface IAsyncDatabaseQuery
     {
         Task<IEnumerable<dynamic>> FindAsync(ISqlCommand command);
 

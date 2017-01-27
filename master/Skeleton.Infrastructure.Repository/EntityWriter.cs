@@ -7,19 +7,20 @@ using Skeleton.Infrastructure.Repository.SqlBuilder;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public class EntityPersistor<TEntity> :
+    public class EntityWriter<TEntity> :
             DisposableBase,
-            IEntityPersitor<TEntity>
+            IEntityWriter<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadataProvider _metadataProvider;
         private readonly IDatabase _database;
         private const string Error = "Entity Id is not null. {0} is canceled"; 
 
-        public EntityPersistor(
+        public EntityWriter(
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
@@ -154,9 +155,7 @@ namespace Skeleton.Infrastructure.Repository
         private object AddCommand(TEntity entity)
         {
             if (entity.Id.IsNotZeroOrEmpty())
-            {
-                throw new ArgumentException(Error.FormatWith(nameof(AddCommand)));  
-            }
+                throw new ArgumentException(Error.FormatWith(nameof(AddCommand)));
 
             var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
@@ -175,8 +174,7 @@ namespace Skeleton.Infrastructure.Repository
 
         private int DeleteCommand(TEntity entity)
         {
-            if (entity.Id.IsZeroOrEmpty())
-                throw new ArgumentException(Error.FormatWith(nameof(DeleteCommand)));
+            EnsureEntityIdExists(entity);
 
             var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
@@ -186,8 +184,7 @@ namespace Skeleton.Infrastructure.Repository
 
         private int UpdateCommand(TEntity entity)
         {
-            if (entity.Id.IsZeroOrEmpty())
-                throw new ArgumentException(Error.FormatWith(nameof(UpdateCommand)));
+            EnsureEntityIdExists(entity);
 
             var builder = new UpdateCommandBuilder<TEntity>(
                 _metadataProvider, entity);
@@ -195,6 +192,12 @@ namespace Skeleton.Infrastructure.Repository
             entity.LastModifiedDateTime = DateTime.Now;
 
             return _database.Execute(builder.SqlCommand);
+        }
+
+        private static void EnsureEntityIdExists(TEntity entity, [CallerMemberName] string name = "")
+        {
+            if (entity.Id.IsZeroOrEmpty())
+                throw new ArgumentException(Error.FormatWith(name));
         }
     }
 }

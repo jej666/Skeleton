@@ -10,6 +10,6 @@ namespace Skeleton.Abstraction.Data
 
         TValue ExecuteScalar<TValue>(ISqlCommand command);
 
-        int ExecuteStoredProcedure(ISqlCommand procStockCommand);
+        int ExecuteStoredProcedure(ISqlCommand command);
     }
 }

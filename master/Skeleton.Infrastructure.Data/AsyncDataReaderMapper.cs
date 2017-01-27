@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Data.Common;
-using System.Threading.Tasks;
-using Skeleton.Abstraction.Reflection;
+﻿using Skeleton.Abstraction.Reflection;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Data
 {
-    internal sealed class DataReaderMapperAsync<TPoco> :
+    internal sealed class AsyncDataReaderMapper<TPoco> :
             DataReaderMapperBase<TPoco>
         where TPoco : class
     {
-        internal DataReaderMapperAsync(
+        internal AsyncDataReaderMapper(
             IMetadataProvider accessorCache,
             IDataReader dataReader)
             : base(accessorCache, dataReader)

@@ -13,13 +13,13 @@ namespace Skeleton.Infrastructure.Repository
         public AsyncCrudRepository(
             IEntityMapper<TEntity, TDto> mapper,
             IAsyncEntityReader<TEntity> reader,
-            IAsyncEntityPersistor<TEntity> persistor)
+            IAsyncEntityWriter<TEntity> persistor)
             : base(mapper, reader)
         {
             Store = persistor;
         }
 
-        public IAsyncEntityPersistor<TEntity> Store { get; }
+        public IAsyncEntityWriter<TEntity> Store { get; }
 
         protected override void DisposeManagedResources()
         {

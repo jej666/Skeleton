@@ -2,14 +2,14 @@
 using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
 
-namespace Skeleton.Tests.Services
+namespace Skeleton.Tests.Repository
 {
     public abstract class RepositoryTestBase
     {
         protected RepositoryTestBase()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
-          //  SqlLocalDbHelper.InstallProcStocIfNotExists();
+            
             Bootstrapper.Initialize();
             Bootstrapper.UseDatabase(builder =>
                     builder.UsingConfigConnectionString("Default").Build());
