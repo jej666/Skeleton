@@ -8,7 +8,7 @@ using System.Reflection;
 namespace Skeleton.Tests.Benchmarks
 {
     [TestClass]
-    public class MetadataBenchmarks 
+    public class MetadataBenchmarks
     {
         private const int Iterations = 10000000;
         private readonly IMetadata _metadata;
@@ -20,8 +20,8 @@ namespace Skeleton.Tests.Benchmarks
         public MetadataBenchmarks()
         {
             Bootstrapper.Initialize();
-            var container = Bootstrapper.Resolver;
-            MetadataProvider = container.Resolve<IMetadataProvider>();
+            MetadataProvider = Bootstrapper.Resolver.Resolve<IMetadataProvider>();
+
             _instance = new MetadataType();
             _metadata = MetadataProvider.GetMetadata<MetadataType>();
             _propertyAccessor = _metadata.GetProperty("Property");
@@ -32,7 +32,7 @@ namespace Skeleton.Tests.Benchmarks
         public static IMetadataProvider MetadataProvider { get; private set; }
 
         [TestMethod]
-        public void RunBenchmark()
+        public void RunBenchmarks()
         {
             var benchmarks = new Benchmarks
             {
@@ -52,73 +52,68 @@ namespace Skeleton.Tests.Benchmarks
 
         private void CreateInstance_Direct()
         {
-            for (var i = 0; i <= Iterations; ++i)
+            Iterate(() =>
             {
                 var instance = new MetadataType();
-            }
+            });
         }
 
         private void Property_Get_Direct()
         {
-            for (var i = 0; i <= Iterations; ++i)
+            Iterate(() =>
             {
                 var value = _instance.Property;
-            }
+            });
         }
 
         private void Property_Set_Direct()
         {
-            for (var i = 0; i <= Iterations; ++i)
-            {
-                _instance.Property = i;
-            }
+            Iterate(i => _instance.Property = i);
         }
 
         private void Property_Getter_Metadata()
         {
-            for (var i = 0; i <= Iterations; ++i)
-            {
-                _propertyAccessor.Getter(_instance);
-            }
+            Iterate(() => _propertyAccessor.Getter(_instance));
         }
 
         private void Property_Setter_Metadata()
         {
-            for (var i = 0; i <= Iterations; ++i)
-            {
-                _propertyAccessor.Setter(_instance, i);
-            }
+            Iterate(i => _propertyAccessor.Setter(_instance, i));
         }
 
         private void Property_GetValue_Reflection()
         {
-            for (var i = 0; i <= Iterations; ++i)
-            {
-                _propertyInfo.GetValue(_instance);
-            }
+            Iterate(() => _propertyInfo.GetValue(_instance));
         }
 
         private void Property_SetValue_Reflection()
         {
-            for (var i = 0; i <= Iterations; ++i)
-            {
-                _propertyInfo.SetValue(_instance, i);
-            }
+            Iterate(i => _propertyInfo.SetValue(_instance, i));
         }
 
         private void CreateInstance_Metadata()
         {
-            for (var i = 0; i <= Iterations; ++i)
-            {
-                _constructorAccessor.InstanceCreator(null);
-            }
+            Iterate(() => _constructorAccessor.InstanceCreator(null));
         }
 
-        private static void CreateInstance_Reflection()
+        private void CreateInstance_Reflection()
+        {
+            Iterate(() => Activator.CreateInstance(typeof(MetadataType)));
+        }
+
+        private void Iterate(Action action)
         {
             for (var i = 0; i <= Iterations; ++i)
             {
-                Activator.CreateInstance(typeof(MetadataType));
+                action();
+            }
+        }
+
+        private void Iterate(Action<int> action)
+        {
+            for (var i = 0; i <= Iterations; ++i)
+            {
+                action(i);
             }
         }
     }

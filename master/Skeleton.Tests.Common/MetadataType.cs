@@ -2,6 +2,8 @@
 {
     public class MetadataType
     {
+        private int _field;
+
         public MetadataType()
         {
         }
@@ -10,8 +12,7 @@
         {
             Field = value;
         }
-
-        private int _field;
+        
         public int Property
         {
             get; set;
@@ -28,23 +29,5 @@
         }
 
         public int Field;
-
-        private int _writeOnlyProperty;
-        public int WriteOnlyProperty
-        {
-            set
-            {
-                _writeOnlyProperty = value;
-            }
-        }
-
-        private readonly int _readOnlyProperty;
-        public int ReadOnlyProperty
-        {
-            get
-            {
-                return _readOnlyProperty;
-            }
-        }
     }
 }

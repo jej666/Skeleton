@@ -65,7 +65,7 @@ namespace Skeleton.Core.Reflection.Emitter
             }
 
             if ((value > -129) && (value < 128))
-                generator.Emit(OpCodes.Ldc_I4_S, (sbyte) value);
+                generator.Emit(OpCodes.Ldc_I4_S, (sbyte)value);
             else
                 generator.Emit(OpCodes.Ldc_I4, value);
         }

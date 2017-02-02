@@ -15,7 +15,7 @@ namespace Skeleton.Common
             enumType.ThrowIfNotEnum();
 
             if (Enum.IsDefined(enumType, value))
-                return (int) Enum.ToObject(enumType, value);
+                return (int)Enum.ToObject(enumType, value);
 
             return 0;
         }
@@ -40,12 +40,12 @@ namespace Skeleton.Common
             if (int.TryParse(value, out num))
             {
                 if (Enum.IsDefined(typeof(T), num))
-                    return (T) Enum.ToObject(typeof(T), num);
+                    return (T)Enum.ToObject(typeof(T), num);
             }
             else
             {
                 if (Enum.IsDefined(typeof(T), value))
-                    return (T) Enum.Parse(typeof(T), value, true);
+                    return (T)Enum.Parse(typeof(T), value, true);
             }
 
             return defaultValue;
@@ -58,7 +58,7 @@ namespace Skeleton.Common
             enumType.ThrowIfNotEnum();
 
             if (Enum.IsDefined(enumType, value))
-                return (T) Enum.ToObject(enumType, value);
+                return (T)Enum.ToObject(enumType, value);
 
             return defaultValue;
         }

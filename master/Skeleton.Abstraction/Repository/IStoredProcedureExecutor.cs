@@ -7,6 +7,6 @@ namespace Skeleton.Abstraction.Repository
             IDisposable,
             IHideObjectMethods
     {
-        int Execute(string storedProcedureName, IDictionary<string,object> parameters);
+        int Execute(string storedProcedureName, IDictionary<string, object> parameters);
     }
 }

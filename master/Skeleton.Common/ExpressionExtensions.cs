@@ -155,7 +155,7 @@ namespace Skeleton.Common
             while ((expression != null)
                    && ((expression.NodeType == ExpressionType.Convert)
                        || (expression.NodeType == ExpressionType.ConvertChecked)))
-                expression = RemoveConvert(((UnaryExpression) expression).Operand);
+                expression = RemoveConvert(((UnaryExpression)expression).Operand);
 
             return expression;
         }

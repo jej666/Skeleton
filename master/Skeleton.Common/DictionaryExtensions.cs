@@ -20,7 +20,7 @@ namespace Skeleton.Common
 
             var value = valueFactory();
 
-            source.Add(key,value);
+            source.Add(key, value);
 
             return value;
         }

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using System;
 using System.ComponentModel;
-using Skeleton.Abstraction;
 
 namespace Skeleton.Common
 {
