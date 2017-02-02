@@ -23,7 +23,7 @@ namespace Skeleton.Common
         public static List<T> AsList<T>(this IEnumerable<T> source)
         {
             return (source == null) || source is List<T>
-                ? (List<T>) source
+                ? (List<T>)source
                 : source.ToList();
         }
 
@@ -72,7 +72,8 @@ namespace Skeleton.Common
             var enumerable = source as IList<TSource> ?? source.ToList();
 
             foreach (var item in enumerable)
-                if (!action(item)) break;
+                if (!action(item))
+                    break;
         }
 
         public static IEnumerable<TSource> IgnoreNulls<TSource>(this IEnumerable<TSource> source)

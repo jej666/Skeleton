@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Skeleton.Abstraction.Data
+﻿namespace Skeleton.Abstraction.Data
 {
     public interface IDatabaseExecute
     {

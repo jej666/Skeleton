@@ -5,10 +5,10 @@ using System;
 
 namespace Skeleton.Core.Reflection
 {
-    public sealed class ConstructorAccessor: IInstanceAccessor
+    public sealed class ConstructorAccessor : IInstanceAccessor
     {
         private readonly Func<object[], object> _constructorDelegate;
-       
+
         public ConstructorAccessor(Type type, Type[] paramTypes)
         {
             type.ThrowIfNull(() => type);

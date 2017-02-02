@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
 
 namespace Skeleton.Core.Reflection
 {
@@ -171,7 +170,7 @@ namespace Skeleton.Core.Reflection
             var properties = Type.GetProperties(bindings);
             foreach (var propertyInfo in properties)
                 yield return _propertyCache.Value.GetOrAdd(
-                    propertyInfo.Name, 
+                    propertyInfo.Name,
                     () => PropertyAccessor.Create(propertyInfo));
         }
 

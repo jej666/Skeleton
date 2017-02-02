@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using Skeleton.Abstraction.Reflection;
+﻿using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Core.Reflection.Emitter;
 using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.Reflection;
 
 namespace Skeleton.Core.Reflection
 {
@@ -34,7 +34,7 @@ namespace Skeleton.Core.Reflection
         {
             type.ThrowIfNull(() => type);
             name.ThrowIfNullOrEmpty(() => name);
-           
+
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance;
 
             var methodInfo = type.GetMethod(name,

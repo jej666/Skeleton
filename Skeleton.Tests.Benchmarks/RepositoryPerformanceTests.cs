@@ -22,7 +22,7 @@ namespace Skeleton.Tests.Benchmarks
     public static IDependencyResolver Container => Bootstrapper.Resolver;
 
     [TestMethod]
-        public void Run()
+        public void RunBenchmarks()
         {
             DbPostSeeder.SeedPosts();
 

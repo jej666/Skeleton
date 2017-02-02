@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using Skeleton.Common;
+using System;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
-using Skeleton.Abstraction;
-using Skeleton.Common;
 
 namespace Skeleton.Core.Caching
 {
@@ -23,7 +23,7 @@ namespace Skeleton.Core.Caching
             try
             {
                 if (Cache.Contains(key))
-                    return (T) Cache[key];
+                    return (T)Cache[key];
 
                 if (configurator == null)
                     configurator = _defaultCacheContext;
@@ -52,7 +52,7 @@ namespace Skeleton.Core.Caching
 
             var policy = new CachePolicyFactory().Create(configurator);
             var asyncLazyValue = new LazyAsync<T>(valueFactory);
-            var existingValue = (LazyAsync<T>) Cache.AddOrGetExisting(key, asyncLazyValue, policy);
+            var existingValue = (LazyAsync<T>)Cache.AddOrGetExisting(key, asyncLazyValue, policy);
 
             if (existingValue != null)
                 asyncLazyValue = existingValue;
@@ -86,7 +86,7 @@ namespace Skeleton.Core.Caching
         private sealed class CachePolicyFactory
         {
             private readonly MemoryCacheContext _cacheContext =
-                new MemoryCacheContext {CreationTime = DateTimeOffset.UtcNow};
+                new MemoryCacheContext { CreationTime = DateTimeOffset.UtcNow };
 
             internal CacheItemPolicy Create(Action<ICacheContext> configurator)
             {

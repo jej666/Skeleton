@@ -48,8 +48,8 @@ namespace Skeleton.Common
                 try
                 {
                     if (canConvert)
-                        return (T) Convert.ChangeType(value, toType, provider);
-                    return (T) value;
+                        return (T)Convert.ChangeType(value, toType, provider);
+                    return (T)value;
                 }
                 catch
                 {
@@ -65,7 +65,8 @@ namespace Skeleton.Common
 
             while (true)
             {
-                if (value == null) return null;
+                if (value == null)
+                    return null;
 
                 var s = value as string;
                 if (s != null)

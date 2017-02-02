@@ -24,7 +24,7 @@ namespace Skeleton.Tests.Repository
         public void Cached_Find_ByExpression()
         {
             var results = _repository.Query
-                .Where(c => c.Name.StartsWith("Customer"))
+                .Where(c => c.Name.StartsWith("Customer", StringComparison.OrdinalIgnoreCase))
                 .Find();
 
             Assert.IsNotNull(results);

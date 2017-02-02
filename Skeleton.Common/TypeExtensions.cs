@@ -27,7 +27,8 @@ namespace Skeleton.Common
             type.ThrowIfNull(() => type);
 
             type = type.GetNonNullableType();
-            if (type.IsEnum) return false;
+            if (type.IsEnum)
+                return false;
             switch (Type.GetTypeCode(type))
             {
                 case TypeCode.Decimal:

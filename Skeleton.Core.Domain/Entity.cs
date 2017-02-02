@@ -67,12 +67,12 @@ namespace Skeleton.Core.Domain
             return (Id == null) || Id.Equals(default(object));
         }
 
-        //public IValidationResult Validate(IEntityValidator<TEntity, TIdentity> validator)
-        //{
-        //    validator.ThrowIfNull(() => validator);
+        public IValidationResult Validate(IEntityValidator<TEntity> validator)
+        {
+            validator.ThrowIfNull(() => validator);
 
-        //    return new ValidationResult(validator.BrokenRules((TEntity)this));
-        //}
+            return new EntityValidationResult(validator.BrokenRules((TEntity)this));
+        }
 
         public static bool operator !=(
             Entity<TEntity> entity1,
@@ -119,7 +119,7 @@ namespace Skeleton.Core.Domain
                 unchecked
                 {
                     var hashCode = GetType().GetHashCode();
-                    _cachedHashcode = (hashCode*HashMultiplier) ^ Id.GetHashCode();
+                    _cachedHashcode = (hashCode * HashMultiplier) ^ Id.GetHashCode();
                 }
             return _cachedHashcode.Value;
         }

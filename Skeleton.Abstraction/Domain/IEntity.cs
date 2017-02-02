@@ -5,7 +5,7 @@ namespace Skeleton.Abstraction.Domain
     public interface IEntity<TEntity> :
             IComparable<TEntity>,
             IEquatable<TEntity>,
-            //  IEntityValidatable<TEntity, TIdentity>,
+            IEntityValidatable<TEntity>,
             IEntityDescriptor,
             IEntityAuditable
         where TEntity : class, IEntity<TEntity>

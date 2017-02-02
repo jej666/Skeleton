@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Tests.Common;
+using System;
 
 namespace Skeleton.Tests.Repository
 {
@@ -45,7 +46,7 @@ namespace Skeleton.Tests.Repository
         public async Task FirstOrDefaultAsync_StartWith()
         {
             var result = await _repository.Query
-                .Where(c => c.Name.StartsWith("Customer"))
+                .Where(c => c.Name.StartsWith("Customer", StringComparison.OrdinalIgnoreCase))
                 .FirstOrDefaultAsync();
 
             Assert.IsNotNull(result);
