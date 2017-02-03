@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skeleton.Common;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -16,6 +17,8 @@ namespace Skeleton.Web.Client
 
         protected HttpClientBase(string serviceBaseAddress, string addressSuffix)
         {
+            addressSuffix.ThrowIfNullOrEmpty(() => addressSuffix);
+
             if (!addressSuffix.EndsWith("/", StringComparison.OrdinalIgnoreCase))
                 addressSuffix += "/";
 

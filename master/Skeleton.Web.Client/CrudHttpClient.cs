@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
 namespace Skeleton.Web.Client
@@ -12,6 +13,7 @@ namespace Skeleton.Web.Client
         {
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public IEnumerable<TDto> GetAll()
         {
             var requestUri = CreateUri("GetAll");

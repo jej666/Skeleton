@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Abstraction
 {
@@ -11,6 +12,7 @@ namespace Skeleton.Abstraction
         [EditorBrowsable(EditorBrowsableState.Never)]
         int GetHashCode();
 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         Type GetType();
 

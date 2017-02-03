@@ -72,8 +72,8 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand)CreateStoredProcedureCommand(
-                    procStockCommand);
+                var dbCommand = CreateStoredProcedureCommand(
+                    procStockCommand) as DbCommand;
 
                 return await dbCommand.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
@@ -90,7 +90,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand)CreateTextCommand(command);
+                var dbCommand = CreateTextCommand(command) as DbCommand;
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -111,7 +111,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand)CreateTextCommand(command);
+                var dbCommand = CreateTextCommand(command) as DbCommand;
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 
@@ -134,7 +134,7 @@ namespace Skeleton.Infrastructure.Data
             try
             {
                 await OpenConnectionAsync();
-                var dbCommand = (DbCommand)CreateTextCommand(command);
+                var dbCommand = CreateTextCommand(command) as DbCommand;
                 var reader = await dbCommand.ExecuteReaderAsync()
                     .ConfigureAwait(false);
 

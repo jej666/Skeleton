@@ -17,7 +17,12 @@ namespace Skeleton.Tests.Common
                 yield return SeedCustomerDto(i);
         }
 
-        public static Customer SeedCustomer(int index = 0)
+        public static Customer SeedCustomer()
+        {
+            return SeedCustomer(0);
+        }
+
+        public static Customer SeedCustomer(int index)
         {
             return new Customer
             {
@@ -26,8 +31,12 @@ namespace Skeleton.Tests.Common
             };
         }
 
+        public static CustomerDto SeedCustomerDto()
+        {
+            return SeedCustomerDto(0);
+        }
 
-        public static CustomerDto SeedCustomerDto(int index = 0)
+        public static CustomerDto SeedCustomerDto(int index)
         {
             return new CustomerDto
             {

@@ -6,6 +6,7 @@ using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using Skeleton.Tests.Common;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Tests.Repository
 {
@@ -65,6 +66,7 @@ namespace Skeleton.Tests.Repository
             Assert.AreEqual(customer1, customer2);
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [TestMethod]
         public async Task GetAllAsync()
         {

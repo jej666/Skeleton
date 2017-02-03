@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace Skeleton.Common
         {
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public TaskAwaiter<T> GetAwaiter()
         {
             return Value.GetAwaiter();
