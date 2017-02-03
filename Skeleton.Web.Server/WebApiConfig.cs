@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Web.Http;
 using Skeleton.Infrastructure.DependencyInjection;
+using Skeleton.Common;
 
 namespace Skeleton.Web.Server
 {
@@ -8,6 +9,8 @@ namespace Skeleton.Web.Server
     {
         public static void Register(HttpConfiguration config)
         {
+            config.ThrowIfNull(() => config);
+
             config.Formatters
                   .JsonFormatter
                   .SupportedMediaTypes

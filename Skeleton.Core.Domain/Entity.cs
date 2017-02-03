@@ -14,7 +14,6 @@ namespace Skeleton.Core.Domain
         where TEntity : class, IEntity<TEntity>
     {
         private const int HashMultiplier = 31;
-        private int? _cachedHashcode;
 
         protected Entity(Expression<Func<TEntity, object>> idExpression)
         {
@@ -67,23 +66,19 @@ namespace Skeleton.Core.Domain
             return (Id == null) || Id.Equals(default(object));
         }
 
-        public IValidationResult Validate(IEntityValidator<TEntity> validator)
+        public IEntityValidationResult Validate(IEntityValidator<TEntity> validator)
         {
             validator.ThrowIfNull(() => validator);
 
-            return new EntityValidationResult(validator.BrokenRules((TEntity)this));
+            return new EntityValidationResult(validator.BrokenRules(this as TEntity));
         }
 
-        public static bool operator !=(
-            Entity<TEntity> entity1,
-            Entity<TEntity> entity2)
+        public static bool operator !=(Entity<TEntity> entity1, Entity<TEntity> entity2)
         {
             return !(entity1 == entity2);
         }
 
-        public static bool operator ==(
-            Entity<TEntity> entity1,
-            Entity<TEntity> entity2)
+        public static bool operator ==(Entity<TEntity> entity1, Entity<TEntity> entity2)
         {
             return Equals(entity1, entity2);
         }
@@ -110,18 +105,14 @@ namespace Skeleton.Core.Domain
 
         public override int GetHashCode()
         {
-            if (_cachedHashcode != null)
-                return _cachedHashcode.Value;
-
             if (IsTransient())
-                _cachedHashcode = base.GetHashCode();
-            else
-                unchecked
-                {
-                    var hashCode = GetType().GetHashCode();
-                    _cachedHashcode = (hashCode * HashMultiplier) ^ Id.GetHashCode();
-                }
-            return _cachedHashcode.Value;
+                return base.GetHashCode();
+
+            unchecked
+            {
+                var hashCode = GetType().GetHashCode();
+                return (hashCode * HashMultiplier) ^ Id.GetHashCode();
+            }
         }
     }
 }

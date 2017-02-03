@@ -118,8 +118,8 @@ namespace Skeleton.Common
                 yield return t;
         }
 
-        public static IEnumerable<TSource> WhereNotNull<TSource>(
-            this IEnumerable<TSource> source) where TSource : class
+        public static IEnumerable<TSource> WhereNotNull<TSource>(this IEnumerable<TSource> source)
+            where TSource : class
         {
             return source?.Where(x => x != null) ??
                    Enumerable.Empty<TSource>();

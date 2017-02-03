@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Tests.Web
 {
@@ -15,6 +16,7 @@ namespace Skeleton.Tests.Web
             SqlDbSeeder.SeedCustomers();
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [TestMethod]
         public async Task GetAllAsync()
         {

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Web.Client
 {
@@ -13,6 +14,7 @@ namespace Skeleton.Web.Client
         {
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public async Task<IEnumerable<TDto>> GetAllAsync()
         {
             var requestUri = CreateUri("GetAll");

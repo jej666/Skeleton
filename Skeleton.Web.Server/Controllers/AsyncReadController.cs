@@ -4,6 +4,7 @@ using System.Web.Http;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Repository;
 using Skeleton.Abstraction.Domain;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Web.Server.Controllers
 {
@@ -30,6 +31,7 @@ namespace Skeleton.Web.Server.Controllers
             return Ok(_repository.Mapper.Map(result));
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [HttpGet]
         public virtual async Task<IHttpActionResult> GetAll()
         {

@@ -52,6 +52,7 @@
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EnumExtensions.cs" />
+    <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="GuardExtensions.cs" />
     <Compile Include="LazyAsync.cs" />
