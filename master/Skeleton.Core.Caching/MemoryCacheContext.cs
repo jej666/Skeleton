@@ -4,7 +4,7 @@ using System;
 
 namespace Skeleton.Core.Caching
 {
-    public sealed class MemoryCacheContext : HideObjectMethods, ICacheContext
+    public sealed class MemoryCacheContext : HideObjectMethodsBase, ICacheContext
     {
         public DateTimeOffset? AbsoluteExpiration { get; private set; }
         public DateTimeOffset CreationTime { get; set; }

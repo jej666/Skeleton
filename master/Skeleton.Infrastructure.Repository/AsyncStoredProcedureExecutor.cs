@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class AsyncStoredProcedureExecutor : 
-        DisposableBase, 
+    public sealed class AsyncStoredProcedureExecutor :
+        DisposableBase,
         IAsyncStoredProcedureExecutor
     {
         private readonly IAsyncDatabase _database;

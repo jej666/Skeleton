@@ -6,8 +6,8 @@ using System.Collections.Generic;
 
 namespace Skeleton.Infrastructure.Repository
 {
-    public sealed class StoredProcedureExecutor : 
-        DisposableBase, 
+    public sealed class StoredProcedureExecutor :
+        DisposableBase,
         IStoredProcedureExecutor
     {
         private readonly IDatabase _database;

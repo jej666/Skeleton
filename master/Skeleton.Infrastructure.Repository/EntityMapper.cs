@@ -10,7 +10,7 @@ using System.Linq;
 namespace Skeleton.Infrastructure.Repository
 {
     public sealed class EntityMapper<TEntity, TDto> :
-            HideObjectMethods,
+            HideObjectMethodsBase,
             IEntityMapper<TEntity, TDto>
         where TEntity : class, IEntity<TEntity>
         where TDto : class

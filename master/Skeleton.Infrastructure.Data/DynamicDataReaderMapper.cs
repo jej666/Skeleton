@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Skeleton.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Dynamic;
 using System.Threading.Tasks;
-using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -79,7 +79,7 @@ namespace Skeleton.Infrastructure.Data
                 if ((values[index] == null) || values[index] is DBNull)
                     continue;
 
-                dynamicDictionary.Add(reader.GetName(index), values[index].TrimIfNeeded());
+                dynamicDictionary.Add(reader.GetName(index), values[index]);
             }
 
             return dynamicDictionary;

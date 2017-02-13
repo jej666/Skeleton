@@ -30,7 +30,6 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         protected internal override string SqlQueryTemplate => "INSERT INTO {0} ({1}) VALUES ({2}); {3};";
 
-
         protected internal override ContextBase ContextBase => _context;
 
         private void Build(TEntity entity)

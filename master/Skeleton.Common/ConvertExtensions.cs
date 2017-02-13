@@ -144,19 +144,5 @@ namespace Skeleton.Common
 
             return false;
         }
-
-        public static object TrimIfNeeded(this object item)
-        {
-            return item is string
-                ? item.SafeTrimEnd()
-                : item;
-        }
-
-        private static string SafeTrimEnd(this object value)
-        {
-            return value == null
-                ? string.Empty
-                : Convert.ToString(value, CultureInfo.InvariantCulture).TrimEnd();
-        }
     }
 }

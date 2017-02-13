@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Abstraction
 {
@@ -10,8 +11,10 @@ namespace Skeleton.Abstraction
 
         IDependencyRegistrar RegisterType(Type type);
 
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "To")]
         IDependencyRegistrar RegisterType(Type from, Type to);
 
+        [SuppressMessage("Microsoft.Design", "CA1004: GenericMethodsShouldProvideTypeParameter")]
         IDependencyRegistrar RegisterType<TFrom, TTo>() where TTo : TFrom;
     }
 }

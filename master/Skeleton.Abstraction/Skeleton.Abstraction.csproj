@@ -63,6 +63,7 @@
     <Compile Include="Data\ISqlCommand.cs" />
     <Compile Include="Domain\IEntityDescriptor.cs" />
     <Compile Include="Domain\IEntityAuditable.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ICacheContext.cs" />
     <Compile Include="ICacheProvider.cs" />
     <Compile Include="IDependencyRegistrar.cs" />

@@ -6,7 +6,7 @@ using Skeleton.Common;
 namespace Skeleton.Infrastructure.DependencyInjection
 {
     public sealed class DependencyRegistrar :
-        HideObjectMethods,
+        HideObjectMethodsBase,
         IDependencyRegistrar
     {
         private readonly IUnityContainer _unityContainer;

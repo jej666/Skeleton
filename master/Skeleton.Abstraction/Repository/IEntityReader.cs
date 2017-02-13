@@ -1,6 +1,7 @@
 ﻿using Skeleton.Abstraction.Domain;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace Skeleton.Abstraction.Repository
@@ -33,6 +34,7 @@ namespace Skeleton.Abstraction.Repository
         IEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression);
 
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Select")]
         IEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions);
 

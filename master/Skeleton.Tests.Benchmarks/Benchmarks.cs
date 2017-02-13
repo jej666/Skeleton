@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Skeleton.Tests.Benchmarks
 {
-    public class Benchmarks : List<Benchmark>
+    public class BenchmarkCollection : List<Benchmark>
     {
         public void Add(Action executor, string name)
         {

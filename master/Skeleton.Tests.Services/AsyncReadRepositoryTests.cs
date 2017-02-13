@@ -8,7 +8,7 @@ using Skeleton.Tests.Common;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Skeleton.Tests.Repository
+namespace Skeleton.Tests.Infrastructure
 {
     [TestClass]
     public class AsyncReadRepositoryTests : RepositoryTestBase

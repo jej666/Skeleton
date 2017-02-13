@@ -18,7 +18,7 @@ namespace Skeleton.Infrastructure.Repository
     {
         private readonly IMetadataProvider _metadataProvider;
         private readonly IDatabase _database;
-        private const string Error = "Entity Id is not null. {0} is canceled"; 
+        private const string Error = "Entity Id is not null. {0} is canceled";
 
         public EntityWriter(
             IMetadataProvider metadataProvider,

@@ -33,6 +33,7 @@ namespace Skeleton.Abstraction.Repository
         IAsyncEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Select")]
         IAsyncEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions);
 

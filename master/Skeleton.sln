@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Dep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Domain", "Skeleton.Core.Domain\Skeleton.Core.Domain.csproj", "{3E857F30-96F5-4A3D-B10F-CCF89BF4D467}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Repository", "Skeleton.Tests.Services\Skeleton.Tests.Repository.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Infrastructure", "Skeleton.Tests.Services\Skeleton.Tests.Infrastructure.csproj", "{54063976-2135-4994-A69C-9EACE310589C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Core", "02 - Core", "{4ECC01D5-6996-4DB4-ACB8-4952D96D1982}"
 EndProject
@@ -138,7 +138,7 @@ Global
 		{F0F985CF-A6EF-40DB-A332-2A7F2BBFBC47} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 18
+		SccNumberOfProjects = 17
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://jej666.visualstudio.com/
 		SccLocalPath0 = .
@@ -198,17 +198,13 @@ Global
 		SccProjectTopLevelParentUniqueName14 = Skeleton.sln
 		SccProjectName14 = Skeleton.Tests.Core
 		SccLocalPath14 = Skeleton.Tests.Core
-		SccProjectUniqueName15 = Skeleton.Tests.Infrastructure\\Skeleton.Tests.Common.csproj
+		SccProjectUniqueName15 = Skeleton.Tests.Common\\Skeleton.Tests.Common.csproj
 		SccProjectTopLevelParentUniqueName15 = Skeleton.sln
-		SccProjectName15 = Skeleton.Tests.Infrastructure
-		SccLocalPath15 = Skeleton.Tests.Infrastructure
-		SccProjectUniqueName16 = Skeleton.Tests.Common\\Skeleton.Tests.Common.csproj
+		SccProjectName15 = Skeleton.Tests.Common
+		SccLocalPath15 = Skeleton.Tests.Common
+		SccProjectUniqueName16 = Skeleton.Tests.Services\\Skeleton.Tests.Infrastructure.csproj
 		SccProjectTopLevelParentUniqueName16 = Skeleton.sln
-		SccProjectName16 = Skeleton.Tests.Common
-		SccLocalPath16 = Skeleton.Tests.Common
-		SccProjectUniqueName17 = Skeleton.Tests.Services\\Skeleton.Tests.Repository.csproj
-		SccProjectTopLevelParentUniqueName17 = Skeleton.sln
-		SccProjectName17 = Skeleton.Tests.Services
-		SccLocalPath17 = Skeleton.Tests.Services
+		SccProjectName16 = Skeleton.Tests.Services
+		SccLocalPath16 = Skeleton.Tests.Services
 	EndGlobalSection
 EndGlobal

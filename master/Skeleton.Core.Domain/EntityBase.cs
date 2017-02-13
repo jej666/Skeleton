@@ -9,13 +9,13 @@ using System.Linq.Expressions;
 namespace Skeleton.Core.Domain
 {
     [DebuggerDisplay(" Id = {ToString()}")]
-    public abstract class Entity<TEntity> :
+    public abstract class EntityBase<TEntity> :
             IEntity<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private const int HashMultiplier = 31;
 
-        protected Entity(Expression<Func<TEntity, object>> idExpression)
+        protected EntityBase(Expression<Func<TEntity, object>> idExpression)
         {
             idExpression.ThrowIfNull(() => idExpression);
 
@@ -39,14 +39,6 @@ namespace Skeleton.Core.Domain
         public string LastModifiedBy { get; set; }
 
         public DateTime? LastModifiedDateTime { get; set; }
-
-        public virtual int CompareTo(TEntity other)
-        {
-            if (other.GetType() != GetType())
-                throw new InvalidOperationException("Invalid type");
-
-            return Equals(other) ? 0 : 1;
-        }
 
         public virtual bool Equals(TEntity other)
         {
@@ -73,19 +65,14 @@ namespace Skeleton.Core.Domain
             return new EntityValidationResult(validator.BrokenRules(this as TEntity));
         }
 
-        public static bool operator !=(Entity<TEntity> entity1, Entity<TEntity> entity2)
+        public static bool operator !=(EntityBase<TEntity> entity1, EntityBase<TEntity> entity2)
         {
             return !(entity1 == entity2);
         }
 
-        public static bool operator ==(Entity<TEntity> entity1, Entity<TEntity> entity2)
+        public static bool operator ==(EntityBase<TEntity> entity1, EntityBase<TEntity> entity2)
         {
             return Equals(entity1, entity2);
-        }
-
-        public int CompareTo(object other)
-        {
-            return CompareTo(other as TEntity);
         }
 
         public override bool Equals(object obj)

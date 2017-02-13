@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Skeleton.Common;
+﻿using Skeleton.Common;
+using System.Collections.Generic;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {

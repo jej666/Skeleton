@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Skeleton.Abstraction.Reflection;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Skeleton.Abstraction.Reflection;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -10,7 +10,7 @@ namespace Skeleton.Infrastructure.Data
         where TPoco : class
     {
         internal DataReaderMapper(
-            IMetadataProvider accessorCache, 
+            IMetadataProvider accessorCache,
             IDataReader dataReader)
             : base(accessorCache, dataReader)
         {

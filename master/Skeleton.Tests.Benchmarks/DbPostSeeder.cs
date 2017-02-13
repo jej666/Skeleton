@@ -6,7 +6,7 @@ namespace Skeleton.Tests.Benchmarks
     {
         public static void SeedPosts()
         {
-            var connection = new SqlConnectionHelper();
+            using (var connection = new SqlConnectionHelper())
             using (var cnn = connection.OpenConnection())
             {
                 var cmd = cnn.CreateCommand();

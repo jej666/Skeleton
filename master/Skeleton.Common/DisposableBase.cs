@@ -4,7 +4,7 @@ namespace Skeleton.Common
 {
     [Serializable]
     public abstract class DisposableBase :
-        HideObjectMethods,
+        HideObjectMethodsBase,
         IDisposable
     {
         private bool _disposed;

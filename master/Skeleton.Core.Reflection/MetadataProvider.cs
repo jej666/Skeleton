@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Skeleton.Core.Reflection
 {
     public sealed class MetadataProvider :
-        HideObjectMethods,
+        HideObjectMethodsBase,
         IMetadataProvider
     {
         private static readonly ConcurrentDictionary<Type, IMetadata> TypeCache =

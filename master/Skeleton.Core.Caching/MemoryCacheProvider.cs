@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Skeleton.Core.Caching
 {
     public sealed class MemoryCacheProvider :
-        HideObjectMethods,
+        HideObjectMethodsBase,
         ICacheProvider
     {
         private static readonly ObjectCache Cache = MemoryCache.Default;

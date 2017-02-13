@@ -1,11 +1,11 @@
-﻿using System.Configuration;
-using Skeleton.Abstraction.Data;
+﻿using Skeleton.Abstraction.Data;
 using Skeleton.Common;
+using System.Configuration;
 
 namespace Skeleton.Infrastructure.Data
 {
     public sealed class DatabaseConfigurationBuilder :
-        HideObjectMethods,
+        HideObjectMethodsBase,
         IDatabaseConfigurationBuilder,
         IDatabaseConfigurationProperties,
         IDatabaseConfigurationSettings,
@@ -31,7 +31,7 @@ namespace Skeleton.Infrastructure.Data
         {
             connectionString.ThrowIfNullOrEmpty(() => connectionString);
 
-            var settings = new ConnectionStringSettings {ConnectionString = connectionString};
+            var settings = new ConnectionStringSettings { ConnectionString = connectionString };
             Initialize(settings);
 
             return this;

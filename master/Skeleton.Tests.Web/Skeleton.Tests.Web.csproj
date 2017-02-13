@@ -92,6 +92,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AsyncHttpClientCachedReadTests.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpClientCachedReadTests.cs" />
     <Compile Include="AsyncHttpClientCrudTests.cs" />
     <Compile Include="HttpClientCrudTests.cs" />

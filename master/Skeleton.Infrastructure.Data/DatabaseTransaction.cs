@@ -1,6 +1,6 @@
-﻿using System.Data;
-using Skeleton.Abstraction.Data;
+﻿using Skeleton.Abstraction.Data;
 using Skeleton.Common;
+using System.Data;
 
 namespace Skeleton.Infrastructure.Data
 {

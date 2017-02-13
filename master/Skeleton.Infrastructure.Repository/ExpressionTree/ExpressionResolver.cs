@@ -1,42 +1,42 @@
-﻿using System;
+﻿using Skeleton.Common;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
     internal static class ExpressionResolver
     {
-        private static Node Resolve(ConstantExpression constantExpression)
+        private static NodeBase Resolve(ConstantExpression constantExpression)
         {
-            return new ValueNode {Value = constantExpression.Value};
+            return new ValueNode { Value = constantExpression.Value };
         }
 
-        private static Node Resolve(UnaryExpression unaryExpression)
+        private static NodeBase Resolve(UnaryExpression unaryExpression)
         {
             return new SingleOperationNode
             {
                 Operator = unaryExpression.NodeType,
-                Child = Resolve((dynamic) unaryExpression.Operand)
+                Child = Resolve((dynamic)unaryExpression.Operand)
             };
         }
 
-        internal static Node Resolve(BinaryExpression binaryExpression)
+        internal static NodeBase Resolve(BinaryExpression binaryExpression)
         {
             return new OperationNode
             {
-                Left = Resolve((dynamic) binaryExpression.Left),
+                Left = Resolve((dynamic)binaryExpression.Left),
                 Operator = binaryExpression.NodeType,
-                Right = Resolve((dynamic) binaryExpression.Right)
+                Right = Resolve((dynamic)binaryExpression.Right)
             };
         }
 
-        internal static Node Resolve(MethodCallExpression callExpression)
+        internal static NodeBase Resolve(MethodCallExpression callExpression)
         {
             return Resolve(callExpression, TableInfo.GetColumnName(callExpression.Object));
         }
 
-        internal static Node Resolve(MethodCallExpression callExpression, string columnName)
+        internal static NodeBase Resolve(MethodCallExpression callExpression, string columnName)
         {
             LikeMethod callFunction;
             if (Enum.TryParse(callExpression.Method.Name, true, out callFunction))
@@ -58,10 +58,10 @@ namespace Skeleton.Infrastructure.Repository.ExpressionTree
             }
 
             var value = callExpression.InvokeMethodCall();
-            return new ValueNode {Value = value};
+            return new ValueNode { Value = value };
         }
 
-        private static Node Resolve(MemberExpression memberExpression, MemberExpression rootExpression = null)
+        private static NodeBase Resolve(MemberExpression memberExpression, MemberExpression rootExpression = null)
         {
             rootExpression = rootExpression ?? memberExpression;
             switch (memberExpression.Expression.NodeType)
@@ -78,7 +78,7 @@ namespace Skeleton.Infrastructure.Repository.ExpressionTree
 
                 case ExpressionType.Call:
                 case ExpressionType.Constant:
-                    return new ValueNode {Value = rootExpression.GetExpressionValue()};
+                    return new ValueNode { Value = rootExpression.GetExpressionValue() };
 
                 default:
                     throw new ArgumentException("Expected member expression");

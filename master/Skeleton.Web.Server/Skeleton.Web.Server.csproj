@@ -112,6 +112,7 @@
     <Compile Include="Controllers\AsyncReadController.cs" />
     <Compile Include="Controllers\ReadController.cs" />
     <Compile Include="CheckModelForNullAttribute.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ValidateModelStateAttribut.cs" />
     <Compile Include="HttpRequestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

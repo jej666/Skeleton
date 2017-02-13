@@ -49,8 +49,10 @@ namespace Skeleton.Core.Reflection.Emitter
                 generator.Emit(OpCodes.Ldarg_1);
                 generator.FastInt(i);
                 generator.Emit(OpCodes.Ldloc, locals[i]);
+
                 if (locals[i].LocalType.IsValueType)
                     generator.Emit(OpCodes.Box, locals[i].LocalType);
+
                 generator.Emit(OpCodes.Stelem_Ref);
             }
 

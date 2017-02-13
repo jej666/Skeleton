@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpClientBase.cs" />
     <Compile Include="CrudHttpClient.cs" />
     <Compile Include="AsyncCrudHttpClient.cs" />

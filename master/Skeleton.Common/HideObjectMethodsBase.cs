@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Skeleton.Common
 {
-    public abstract class HideObjectMethods : IHideObjectMethods
+    public abstract class HideObjectMethodsBase : IHideObjectMethods
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)

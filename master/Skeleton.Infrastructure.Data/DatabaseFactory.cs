@@ -1,8 +1,8 @@
-﻿using System;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
-using Skeleton.Common;
 using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
+using System;
 
 namespace Skeleton.Infrastructure.Data
 {

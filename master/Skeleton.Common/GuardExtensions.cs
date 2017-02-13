@@ -27,13 +27,5 @@ namespace Skeleton.Common
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentException("Argument cannot be null", reference.GetMemberExpression().Member.Name);
         }
-
-        public static void ThrowIfNotEnum(this Type type)
-        {
-            type.ThrowIfNull(() => type);
-
-            if (!type.IsEnum)
-                throw new InvalidOperationException("Invalid Enum Type. " + type + "  must be an Enum");
-        }
     }
 }
