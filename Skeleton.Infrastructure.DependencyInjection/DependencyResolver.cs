@@ -7,7 +7,7 @@ using Skeleton.Common;
 namespace Skeleton.Infrastructure.DependencyInjection
 {
     public sealed class DependencyResolver :
-        HideObjectMethods,
+        HideObjectMethodsBase,
         IDependencyResolver
     {
         private readonly IUnityContainer _unityContainer;

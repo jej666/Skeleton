@@ -34,7 +34,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             try
             {
-                return await _database.FindAsync<TEntity>(  
+                return await _database.FindAsync<TEntity>(
                     Builder.SqlCommand)
                     .ConfigureAwait(false);
             }

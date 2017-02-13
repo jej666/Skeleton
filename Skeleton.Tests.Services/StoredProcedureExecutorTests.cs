@@ -4,7 +4,7 @@ using Skeleton.Tests.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Skeleton.Tests.Repository
+namespace Skeleton.Tests.Infrastructure
 {
     [TestClass]
     public class StoredProcedureExecutorTests : RepositoryTestBase

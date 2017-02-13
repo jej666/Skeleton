@@ -42,7 +42,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             expression.ThrowIfNull(() => expression);
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
-            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
+            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
 
             Context.OrderBy.Add(SqlFormatter.Field(memberNode));
         }
@@ -52,7 +52,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             expression.ThrowIfNull(() => expression);
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
-            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
+            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
 
             Context.OrderBy.Add(SqlFormatter.OrderByDescending(memberNode));
         }
@@ -72,7 +72,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             expression.ThrowIfNull(() => expression);
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
-            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
+            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
 
             var selectionString =
                 SqlFormatter.SelectAggregate(memberNode, selectFunction.ToString());
@@ -85,7 +85,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             expression.ThrowIfNull(() => expression);
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
-            var memberNode = new MemberNode {TableName = TableName, FieldName = fieldName};
+            var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
 
             Context.GroupBy.Add(SqlFormatter.Field(memberNode));
         }
@@ -112,7 +112,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                     if (newExpression != null)
                         foreach (var e in newExpression.Arguments)
                         {
-                            var memberExp = (MemberExpression) e;
+                            var memberExp = (MemberExpression)e;
                             Select(memberExp);
                         }
                     break;
@@ -165,7 +165,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         internal void OrderByPrimaryKey()
         {
-            var memberNode = new MemberNode {TableName = TableName, FieldName = EntityIdName};
+            var memberNode = new MemberNode { TableName = TableName, FieldName = EntityIdName };
             Context.OrderBy.Add(SqlFormatter.Field(memberNode));
         }
     }

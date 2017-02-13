@@ -7,17 +7,6 @@ namespace Skeleton.Common
 {
     public static class EnumerableExtensions
     {
-        public static IEnumerable<TSource> And<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> other)
-        {
-            if (source == null)
-                return other;
-
-            if (other == null)
-                return source;
-
-            return source.Concat(other);
-        }
-
         [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists")]
         public static List<T> AsList<T>(this IEnumerable<T> source)
@@ -25,14 +14,6 @@ namespace Skeleton.Common
             return (source == null) || source is List<T>
                 ? (List<T>)source
                 : source.ToList();
-        }
-
-        public static IEnumerable<TSource> Distinct<TSource, TKey>(
-            this IEnumerable<TSource> source,
-            Func<TSource, TKey> expression)
-        {
-            return source?.GroupBy(expression).Select(i => i.First())
-                   ?? Enumerable.Empty<TSource>();
         }
 
         public static bool FastAny<TSource>(this IEnumerable<TSource> source)
@@ -64,27 +45,6 @@ namespace Skeleton.Common
                 action(value);
         }
 
-        public static void ForEachWhileTrue<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> action)
-        {
-            source.ThrowIfNull(() => source);
-            action.ThrowIfNull(() => action);
-
-            var enumerable = source as IList<TSource> ?? source.ToList();
-
-            foreach (var item in enumerable)
-                if (!action(item))
-                    break;
-        }
-
-        public static IEnumerable<TSource> IgnoreNulls<TSource>(this IEnumerable<TSource> source)
-        {
-            if (ReferenceEquals(source, null))
-                yield break;
-
-            foreach (var item in source.Where(item => !ReferenceEquals(item, null)))
-                yield return item;
-        }
-
         public static bool IsNotNullOrEmpty<TSource>(this IEnumerable<TSource> source)
         {
             return (source != null) && source.FastAny();
@@ -93,44 +53,6 @@ namespace Skeleton.Common
         public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> source)
         {
             return (source == null) || !source.FastAny();
-        }
-
-        public static IEnumerable<TSource> Only<TSource>(
-            this IEnumerable<TSource> source,
-            IEnumerable<TSource> allowed)
-        {
-            foreach (var item in source)
-            {
-                var enumerable = allowed.AsList();
-                if (enumerable.Contains(item))
-                    yield return item;
-            }
-        }
-
-        public static IEnumerable<TSource> RemoveWhere<TSource>(
-            this IEnumerable<TSource> source,
-            Func<TSource, bool> predicate)
-        {
-            if (source == null)
-                yield break;
-
-            foreach (var t in source.Where(t => !predicate(t)))
-                yield return t;
-        }
-
-        public static IEnumerable<TSource> WhereNotNull<TSource>(this IEnumerable<TSource> source)
-            where TSource : class
-        {
-            return source?.Where(x => x != null) ??
-                   Enumerable.Empty<TSource>();
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
-        public static IEnumerable<TSource> WhereNotNull<TSource>(this IEnumerable<TSource?> source)
-            where TSource : struct
-        {
-            return source?.Where(x => x.HasValue).Select(x => x.Value)
-                   ?? Enumerable.Empty<TSource>();
         }
     }
 }

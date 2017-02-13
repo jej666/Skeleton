@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Data;
-using Skeleton.Common;
-using Skeleton.Abstraction.Reflection;
-using System.Data.SqlClient;
 
 namespace Skeleton.Infrastructure.Data
 {
@@ -39,7 +39,8 @@ namespace Skeleton.Infrastructure.Data
 
         internal void BeginTransaction(IsolationLevel? isolationLevel)
         {
-            if (_transaction != null) return;
+            if (_transaction != null)
+                return;
 
             OpenConnection();
 
@@ -88,11 +89,7 @@ namespace Skeleton.Infrastructure.Data
         {
             try
             {
-                if (_connection == null)
-                    _connection = new SqlConnection();
-
-                if (_connection.ConnectionString.IsNullOrEmpty())
-                    _connection.ConnectionString = Configuration.ConnectionString;
+                EnsureConnectionConfigured();
 
                 if (_connection.State != ConnectionState.Open)
                     _connection.Open();
@@ -110,14 +107,10 @@ namespace Skeleton.Infrastructure.Data
         {
             try
             {
-                if (_connection == null)
-                    _connection = new SqlConnection();
-
-                if (_connection.ConnectionString.IsNullOrEmpty())
-                    _connection.ConnectionString = Configuration.ConnectionString;
+                EnsureConnectionConfigured();
 
                 if (_connection.State != ConnectionState.Open)
-                    await ((DbConnection) _connection).OpenAsync()
+                    await ((DbConnection)_connection).OpenAsync()
                         .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -127,6 +120,15 @@ namespace Skeleton.Infrastructure.Data
                 Logger.Error(ex.Message);
                 throw;
             }
+        }
+
+        private void EnsureConnectionConfigured()
+        {
+            if (_connection == null)
+                _connection = new SqlConnection();
+
+            if (_connection.ConnectionString.IsNullOrEmpty())
+                _connection.ConnectionString = Configuration.ConnectionString;
         }
 
         private void AttachParameters(IDictionary<string, object> parameters)
@@ -144,6 +146,7 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Vérifier si les requêtes SQL présentent des failles de sécurité")]
         private IDbCommand CreateCommand(
             CommandType commandType,
             ISqlCommand sqlCommand)

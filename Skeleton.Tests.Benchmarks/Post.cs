@@ -3,7 +3,7 @@ using Skeleton.Core.Domain;
 
 namespace Skeleton.Tests.Benchmarks
 {
-    public class Post : Entity<Post>
+    public class Post : EntityBase<Post>
     {
         public Post()
             : base(e => e.PostId)

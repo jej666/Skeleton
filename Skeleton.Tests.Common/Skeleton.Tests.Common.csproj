@@ -57,6 +57,7 @@
     <Compile Include="CustomerDto.cs" />
     <Compile Include="CustomerCategory.cs" />
     <Compile Include="EqualityTests.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MemorySeeder.cs" />
     <Compile Include="MetadataType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,6 +8,7 @@ using Skeleton.Common;
 
 namespace Skeleton.Web.Server
 {
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
         public sealed class CheckModelForNullAttribute : ActionFilterAttribute
     {
         private const string Error = "The argument cannot be null";

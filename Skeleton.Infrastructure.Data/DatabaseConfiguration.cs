@@ -1,12 +1,12 @@
-﻿using System.Diagnostics;
-using Skeleton.Abstraction.Data;
+﻿using Skeleton.Abstraction.Data;
 using Skeleton.Common;
+using System.Diagnostics;
 
 namespace Skeleton.Infrastructure.Data
 {
     [DebuggerDisplay("DatabaseName = {Name")]
     public sealed class DatabaseConfiguration :
-        HideObjectMethods,
+        HideObjectMethodsBase,
         IDatabaseConfiguration
     {
         private const int DefaultRetryPolicyCount = 5;

@@ -6,7 +6,7 @@ namespace Skeleton.Infrastructure.Data
 {
     internal static class DbTypeMapper
     {
-        internal static IDictionary<Type, DbType> Map { get; } = new Dictionary<Type, DbType>
+        internal static IDictionary<Type, DbType> Map => new Dictionary<Type, DbType>
         {
             {typeof(byte), DbType.Byte},
             {typeof(sbyte), DbType.SByte},

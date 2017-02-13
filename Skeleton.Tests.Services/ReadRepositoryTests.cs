@@ -6,7 +6,7 @@ using Skeleton.Common;
 using Skeleton.Tests.Common;
 using System;
 
-namespace Skeleton.Tests.Repository
+namespace Skeleton.Tests.Infrastructure
 {
     [TestClass]
     public class ReadRepositoryTests : RepositoryTestBase

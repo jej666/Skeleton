@@ -2,7 +2,7 @@
 
 namespace Skeleton.Tests.Common
 {
-    public class Customer : Entity<Customer>
+    public class Customer : EntityBase<Customer>
     {
         // Need an empty ctor
         public Customer()

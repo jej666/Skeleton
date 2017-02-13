@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Abstraction
 {
@@ -12,6 +13,7 @@ namespace Skeleton.Abstraction
 
         void Error(object message);
 
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Error")]
         void Error(object message, Exception ex);
 
         void ErrorFormat(string format, params object[] args);

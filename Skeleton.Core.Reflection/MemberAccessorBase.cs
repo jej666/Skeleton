@@ -45,6 +45,7 @@ namespace Skeleton.Core.Reflection
             return MemberInfo.GetHashCode();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Valider les arguments de méthodes publiques", MessageId = "0")]
         public static bool operator ==(MemberAccessorBase accessorBase, MemberAccessorBase other)
         {
             var isAccessorNull = ReferenceEquals(accessorBase, null);

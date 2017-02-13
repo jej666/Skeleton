@@ -37,7 +37,6 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-
         public async Task<object> ExecuteScalarAsync(ISqlCommand command)
         {
             try
@@ -67,13 +66,13 @@ namespace Skeleton.Infrastructure.Data
                 : result.ChangeType<TValue>();
         }
 
-        public async Task<int> ExecuteStoredProcedureAsync(ISqlCommand procStockCommand)
+        public async Task<int> ExecuteStoredProcedureAsync(ISqlCommand command)
         {
             try
             {
                 await OpenConnectionAsync();
                 var dbCommand = CreateStoredProcedureCommand(
-                    procStockCommand) as DbCommand;
+                    command) as DbCommand;
 
                 return await dbCommand.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);

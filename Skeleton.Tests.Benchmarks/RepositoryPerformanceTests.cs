@@ -5,6 +5,7 @@ using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Tests.Benchmarks
 {
@@ -21,12 +22,13 @@ namespace Skeleton.Tests.Benchmarks
 
     public static IDependencyResolver Container => Bootstrapper.Resolver;
 
-    [TestMethod]
+        [SuppressMessage("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "list")]
+        [TestMethod]
         public void RunBenchmarks()
         {
             DbPostSeeder.SeedPosts();
 
-            var benchmarks = new Benchmarks();
+            var benchmarks = new BenchmarkCollection();
 
             using (var connection = new SqlConnectionHelper().OpenConnection())
             {

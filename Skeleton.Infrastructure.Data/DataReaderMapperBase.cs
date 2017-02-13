@@ -11,42 +11,37 @@ namespace Skeleton.Infrastructure.Data
 {
     internal abstract class DataReaderMapperBase<TPoco> where TPoco : class
     {
-        private readonly IMetadata _accessor;
-        private readonly IDataReader _reader;
+        private readonly IMetadata _metadata;
+        private readonly IDataReader _dataReader;
         private readonly IList<IMemberAccessor> _tableColumns;
         private readonly IInstanceAccessor _instanceAccessor;
 
-        protected internal DataReaderMapperBase(IMetadataProvider accessorCache, IDataReader reader)
+        protected internal DataReaderMapperBase(IMetadataProvider accessorCache, IDataReader dataReader)
         {
-            _accessor = accessorCache.GetMetadata<TPoco>();
-            _instanceAccessor = _accessor.GetConstructor();
-            _tableColumns = _accessor.GetDeclaredOnlyProperties()
+            _metadata = accessorCache.GetMetadata<TPoco>();
+            _instanceAccessor = _metadata.GetConstructor();
+            _tableColumns = _metadata.GetDeclaredOnlyProperties()
                 .Where(x => x.MemberType.IsPrimitiveExtended())
                 .ToList();
-            _reader = reader;
-        }
-
-        protected internal IDataReader DataReader
-        {
-            get { return _reader; }
+            _dataReader = dataReader;
         }
 
         protected internal IEnumerable<TPoco> Read(Func<TPoco> func)
         {
             try
             {
-                while (DataReader.Read())
+                while (_dataReader.Read())
                 {
                     yield return func();
                 }
 
-                while (DataReader.NextResult())
+                while (_dataReader.NextResult())
                 {
                 }
             }
             finally
             {
-                using (DataReader)
+                using (_dataReader)
                 {
                 }
             }
@@ -56,7 +51,7 @@ namespace Skeleton.Infrastructure.Data
         {
             try
             {
-                var dbDataReader = (DbDataReader)DataReader;
+                var dbDataReader = (DbDataReader)_dataReader;
                 var list = new List<TPoco>();
 
                 while (await dbDataReader.ReadAsync().ConfigureAwait(false))
@@ -71,7 +66,7 @@ namespace Skeleton.Infrastructure.Data
             }
             finally
             {
-                using (DataReader)
+                using (_dataReader)
                 {
                 }
             }
@@ -82,17 +77,17 @@ namespace Skeleton.Infrastructure.Data
             get
             {
                 return
-                    DataReader != null &&
-                    !DataReader.IsClosed;
+                    _dataReader != null &&
+                    !_dataReader.IsClosed;
             }
         }
 
         protected internal TPoco SetMatchingValues()
         {
-            var values = new object[DataReader.FieldCount];
+            var values = new object[_dataReader.FieldCount];
             var instance = _instanceAccessor.InstanceCreator(null) as TPoco;
 
-            DataReader.GetValues(values);
+            _dataReader.GetValues(values);
             _tableColumns.ForEach(column =>
             {
                 for (var index = 0; index < values.Length; ++index)
@@ -100,7 +95,7 @@ namespace Skeleton.Infrastructure.Data
                     if ((values[index] == null) || values[index] is DBNull)
                         continue;
 
-                    if (string.Equals(DataReader.GetName(index), column.Name))
+                    if (string.Equals(_dataReader.GetName(index), column.Name))
                         column.Setter(instance, values[index]);
                 }
             });

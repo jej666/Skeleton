@@ -1,12 +1,11 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Domain;
+﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Repository.SqlBuilder
 {
-    internal sealed class PagedSelectQueryBuilder<TEntity> : 
-        SelectQueryBuilder<TEntity>  
+    internal sealed class PagedSelectQueryBuilder<TEntity> :
+        SelectQueryBuilder<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private const string _sqlPagedQueryTemplate =
@@ -39,6 +38,5 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
                         _pageSize);
             }
         }
-
     }
 }

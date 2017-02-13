@@ -1,6 +1,6 @@
 ﻿namespace Skeleton.Infrastructure.Repository.ExpressionTree
 {
-    internal abstract class Node
+    internal abstract class NodeBase
     {
     }
 }

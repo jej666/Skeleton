@@ -2,7 +2,7 @@
 
 namespace Skeleton.Common
 {
-    public sealed class LazyRef<T> : HideObjectMethods
+    public sealed class LazyRef<T> : HideObjectMethodsBase
     {
         private Func<T> _initializer;
         private T _value;

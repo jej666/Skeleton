@@ -62,6 +62,7 @@
     <Compile Include="EntityWriter.cs" />
     <Compile Include="EntityReader.cs" />
     <Compile Include="ExpressionTree\LikeMethod.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="SqlBuilder\JoinType.cs" />
     <Compile Include="ReadRepository.cs" />
     <Compile Include="SqlBuilder\CommandContext.cs" />

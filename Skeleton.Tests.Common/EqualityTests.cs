@@ -138,8 +138,10 @@ namespace Skeleton.Tests.Common
         private static TestResult TestEqualsOfT<T>(T obj1, T obj2, bool expectedEqual)
         {
             if (obj1 is IEquatable<T>)
-                return TestEqualsOfTOnIEquatable<T>(obj1 as IEquatable<T>,
-                                                    obj2, expectedEqual);
+                return TestEqualsOfTOnIEquatable<T>(
+                    obj1 as IEquatable<T>,
+                    obj2, expectedEqual);
+
             return TestResult.CreateSuccess();
         }
 
@@ -233,7 +235,7 @@ namespace Skeleton.Tests.Common
         private static void ThrowIfAnyIsNull(params object[] objects)
         {
             if (objects.Any(o => ReferenceEquals(o, null)))
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(objects));
         }
 
         private static TestResult SafeCall(string functionName, Func<TestResult> test)

@@ -19,6 +19,7 @@ namespace Skeleton.Web.Server.Controllers
             _repository = repository;
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
         [HttpGet]
         public virtual IHttpActionResult Get(string id)
         {

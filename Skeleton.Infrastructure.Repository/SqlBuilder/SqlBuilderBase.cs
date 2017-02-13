@@ -37,9 +37,9 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
 
         protected internal abstract ContextBase ContextBase { get; }
 
-        protected internal string TableName => _entityType.Name;
+        internal string TableName => _entityType.Name;
 
-        protected internal string EntityIdName
+        internal string EntityIdName
         {
             get
             {
@@ -73,7 +73,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             }
         }
 
-        protected internal static IEnumerable<IMemberAccessor> GetTableColumns(TEntity entity)
+        internal static IEnumerable<IMemberAccessor> GetTableColumns(TEntity entity)
         {
             return entity.TypeAccessor
                 .GetDeclaredOnlyProperties()
@@ -227,20 +227,20 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             Build(memberNode, valueNode, op);
         }
 
-        private void Build(SingleOperationNode leftMember, Node rightMember, ExpressionType op)
+        private void Build(SingleOperationNode leftMember, NodeBase rightMember, ExpressionType op)
         {
             if (leftMember.Operator == ExpressionType.Not)
-                Build(leftMember as Node, rightMember, op);
+                Build(leftMember as NodeBase, rightMember, op);
             else
                 Build((dynamic)leftMember.Child, (dynamic)rightMember, op);
         }
 
-        private void Build(Node leftMember, SingleOperationNode rightMember, ExpressionType op)
+        private void Build(NodeBase leftMember, SingleOperationNode rightMember, ExpressionType op)
         {
             Build(rightMember, leftMember, op);
         }
 
-        private void Build(Node leftNode, Node rightNode, ExpressionType op)
+        private void Build(NodeBase leftNode, NodeBase rightNode, ExpressionType op)
         {
             ContextBase.Conditions.Add(SqlFormatter.BeginExpression);
             Build((dynamic)leftNode);
@@ -259,7 +259,7 @@ namespace Skeleton.Infrastructure.Repository.SqlBuilder
             ContextBase.Conditions.Add(newCondition);
         }
 
-        private void Build(Node node)
+        private void Build(NodeBase node)
         {
             Build((dynamic)node);
         }

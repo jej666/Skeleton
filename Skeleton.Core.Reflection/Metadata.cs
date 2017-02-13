@@ -9,8 +9,9 @@ using System.Reflection;
 
 namespace Skeleton.Core.Reflection
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
     [DebuggerDisplay("Type = {Type}")]
-    public sealed class Metadata : HideObjectMethods, IMetadata
+    public sealed class Metadata : HideObjectMethodsBase, IMetadata
     {
         private const BindingFlags DeclaredOnlyFlags =
             BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance;

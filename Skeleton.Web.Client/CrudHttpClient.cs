@@ -36,8 +36,7 @@ namespace Skeleton.Web.Client
 
         public PagedResult<TDto> Page(int pageSize, int pageNumber)
         {
-            var requestUri = CreateUri(
-                             $"Page/?pageSize={pageSize}&pageNumber={pageNumber}");
+            var requestUri = CreateUri($"Page/?pageSize={pageSize}&pageNumber={pageNumber}");
             var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
             responseMessage.EnsureSuccessStatusCode();
 

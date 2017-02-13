@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Repository
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
-            _metadataProvider = metadataProvider;  
+            _metadataProvider = metadataProvider;
             _database = database;
             Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
         }
@@ -52,7 +52,7 @@ namespace Skeleton.Infrastructure.Repository
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
-            var pagedBuilder= new PagedSelectQueryBuilder<TEntity>(
+            var pagedBuilder = new PagedSelectQueryBuilder<TEntity>(
                 _metadataProvider, pageSize, pageNumber);
 
             return _database.Find<TEntity>(pagedBuilder.SqlCommand);

@@ -65,6 +65,7 @@
     <Compile Include="CommonModuleExtension.cs" />
     <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="DataModuleExtension.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LoggerExtension\LoggerConstructorInjectionExtension.cs" />
     <Compile Include="LoggerExtension\LogBuilderStrategy.cs" />
     <Compile Include="LoggerExtension\CreationStackTrackerPolicy.cs" />

@@ -27,14 +27,14 @@ namespace Skeleton.Tests.Common
                        NAME=TestDb,
                        FILENAME = '{fullPath}')";
 
-                var command = new SqlCommand(sql, connection);
-                command.ExecuteNonQuery();
+                using (var command = new SqlCommand(sql, connection))
+                    command.ExecuteNonQuery();
             }
         }
 
         public static void InstallProcStocIfNotExists()
         {
-            var connection = new SqlConnectionHelper();
+            using (var connection = new SqlConnectionHelper())
             using (var cnn = connection.OpenConnection())
             {
                 var cmd = cnn.CreateCommand();
@@ -42,7 +42,7 @@ namespace Skeleton.Tests.Common
                 cmd.CommandText = @"
                     IF OBJECT_ID('ProcedureSelectCustomerByCategory', 'P') IS NOT NULL
                         DROP PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]";
-                     
+
                 cmd.ExecuteNonQuery();
                 cmd.CommandText = @"
                 CREATE PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]

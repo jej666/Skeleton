@@ -34,7 +34,7 @@ namespace Skeleton.Tests.Benchmarks
         [TestMethod]
         public void RunBenchmarks()
         {
-            var benchmarks = new Benchmarks
+            var benchmarks = new BenchmarkCollection
             {
                 {CreateInstance_Direct, "CreateInstance (Direct Call)"},
                 {Property_Set_Direct, "Property SetValue (Direct Call)"},
@@ -50,6 +50,7 @@ namespace Skeleton.Tests.Benchmarks
             benchmarks.Run();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "instance")]
         private void CreateInstance_Direct()
         {
             Iterate(() =>
@@ -58,6 +59,7 @@ namespace Skeleton.Tests.Benchmarks
             });
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "value")]
         private void Property_Get_Direct()
         {
             Iterate(() =>
@@ -96,12 +98,12 @@ namespace Skeleton.Tests.Benchmarks
             Iterate(() => _constructorAccessor.InstanceCreator(null));
         }
 
-        private void CreateInstance_Reflection()
+        private static void CreateInstance_Reflection()
         {
             Iterate(() => Activator.CreateInstance(typeof(MetadataType)));
         }
 
-        private void Iterate(Action action)
+        private static void Iterate(Action action)
         {
             for (var i = 0; i <= Iterations; ++i)
             {
@@ -109,7 +111,7 @@ namespace Skeleton.Tests.Benchmarks
             }
         }
 
-        private void Iterate(Action<int> action)
+        private static void Iterate(Action<int> action)
         {
             for (var i = 0; i <= Iterations; ++i)
             {

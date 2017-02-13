@@ -2,7 +2,7 @@
 
 namespace Skeleton.Tests.Common
 {
-    public class CustomerCategory : Entity<CustomerCategory>
+    public class CustomerCategory : EntityBase<CustomerCategory>
     {
         // Need an empty ctor
         public CustomerCategory()
