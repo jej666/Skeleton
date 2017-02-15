@@ -1,9 +1,9 @@
-﻿using System;
-using System.Web.Http;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Microsoft.Owin.Hosting;
 using Owin;
 using Skeleton.Web.Server;
+using System;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(Startup))]
 

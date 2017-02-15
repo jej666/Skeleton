@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Skeleton.Common;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using Skeleton.Common;
 
 namespace Skeleton.Web.Server
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-        public sealed class CheckModelForNullAttribute : ActionFilterAttribute
+    public sealed class CheckModelForNullAttribute : ActionFilterAttribute
     {
         private const string Error = "The argument cannot be null";
         private readonly Func<Dictionary<string, object>, bool> _checkCondition;
@@ -28,7 +28,6 @@ namespace Skeleton.Web.Server
         {
             get { return _checkCondition; }
         }
-
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {

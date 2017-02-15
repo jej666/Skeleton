@@ -1,9 +1,9 @@
-﻿using System.Net;
+﻿using Skeleton.Common;
+using System;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using Skeleton.Common;
-using System;
 
 namespace Skeleton.Web.Server
 {

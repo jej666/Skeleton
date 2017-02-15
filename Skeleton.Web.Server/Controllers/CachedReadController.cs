@@ -1,7 +1,6 @@
-﻿using System.Web.Http;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Repository;
-using Skeleton.Abstraction.Domain;
+using System.Web.Http;
 
 namespace Skeleton.Web.Server.Controllers
 {
@@ -22,7 +21,6 @@ namespace Skeleton.Web.Server.Controllers
         {
             return base.Get(id);
         }
-
 
         // ReSharper disable once RedundantOverriddenMember
         [HttpGet]
