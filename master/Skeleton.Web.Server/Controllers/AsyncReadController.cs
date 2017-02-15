@@ -1,10 +1,9 @@
-﻿using System.Linq;
+﻿using Skeleton.Abstraction.Domain;
+using Skeleton.Abstraction.Repository;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Skeleton.Abstraction;
-using Skeleton.Abstraction.Repository;
-using Skeleton.Abstraction.Domain;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Web.Server.Controllers
 {

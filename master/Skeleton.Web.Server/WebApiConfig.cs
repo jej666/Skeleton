@@ -1,7 +1,8 @@
-﻿using System.Net.Http.Headers;
-using System.Web.Http;
+﻿using Skeleton.Common;
 using Skeleton.Infrastructure.DependencyInjection;
-using Skeleton.Common;
+using Swashbuckle.Application;
+using System.Net.Http.Headers;
+using System.Web.Http;
 
 namespace Skeleton.Web.Server
 {
@@ -24,7 +25,10 @@ namespace Skeleton.Web.Server
             config.Routes.MapHttpRoute(
                 "DefaultApiWithId",
                 "api/{controller}/{action}/{id}",
-                new {id = RouteParameter.Optional});
+                new { id = RouteParameter.Optional });
+
+            config.EnableSwagger(c => c.SingleApiVersion("v1", "Skeleton API"))
+                  .EnableSwaggerUi();
         }
     }
 }
