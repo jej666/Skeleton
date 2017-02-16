@@ -10,7 +10,6 @@ namespace Skeleton.Tests.Infrastructure
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
             
-            Bootstrapper.Initialize();
             Bootstrapper.UseDatabase(builder =>
                     builder.UsingConfigConnectionString("Default").Build());
         }

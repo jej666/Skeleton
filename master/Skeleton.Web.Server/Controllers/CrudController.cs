@@ -10,7 +10,6 @@ namespace Skeleton.Web.Server.Controllers
         where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        private const string DefaultRoute = "DefaultApiWithId";
         private readonly ICrudRepository<TEntity, TDto> _repository;
 
         public CrudController(
@@ -56,7 +55,7 @@ namespace Skeleton.Web.Server.Controllers
             var newDto = _repository.Mapper.Map(entity);
 
             return CreatedAtRoute(
-                DefaultRoute,
+                GlobalConstants.DefaultHttpRoute,
                 new { id = entity.Id },
                 newDto);
         }

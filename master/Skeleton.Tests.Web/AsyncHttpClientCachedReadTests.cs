@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class AsyncHttpClientCachedReadTests : HttpClientTestBase
+    public class AsyncHttpClientCachedReadTests : HttpTestBase
     {
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [TestMethod]

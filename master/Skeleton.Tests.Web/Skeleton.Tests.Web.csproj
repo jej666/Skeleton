@@ -94,7 +94,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -103,7 +105,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpClientCachedReadTests.cs" />
     <Compile Include="AsyncHttpClientCrudTests.cs" />
-    <Compile Include="HttpClientTestBase.cs" />
+    <Compile Include="HttpTestBase.cs" />
     <Compile Include="Mock\Constants.cs" />
     <Compile Include="HttpClientCrudTests.cs" />
     <Compile Include="Mock\AsyncCachedCustomersController.cs" />

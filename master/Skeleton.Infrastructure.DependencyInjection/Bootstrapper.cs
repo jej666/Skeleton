@@ -23,10 +23,8 @@ namespace Skeleton.Infrastructure.DependencyInjection
 
         public static IUnityContainer Container => UnityContainer.Value;
 
-        public static void Initialize()
+        static Bootstrapper()
         {
-            UnityContainer.Value.RegisterInstance(Resolver);
-
             UnityContainer.Value
                 .AddExtension(new CommonModuleExtension())
                 .AddExtension(new DataModuleExtension())

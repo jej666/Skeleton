@@ -19,7 +19,6 @@ namespace Skeleton.Tests.Benchmarks
 
         public MetadataBenchmarks()
         {
-            Bootstrapper.Initialize();
             MetadataProvider = Bootstrapper.Resolver.Resolve<IMetadataProvider>();
 
             _instance = new MetadataType();

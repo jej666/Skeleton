@@ -7,7 +7,7 @@ using Skeleton.Tests.Web.Mock;
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class HttpClientCachedReadTests: HttpClientTestBase
+    public class HttpClientCachedReadTests: HttpTestBase
     {
         [TestMethod]
         public void GetAll()

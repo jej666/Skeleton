@@ -11,23 +11,12 @@ namespace Skeleton.Web.Server
 {
     public class Startup
     {
-        private const string Started = "Started...";
-
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
 
-            WebApiConfig.Register(config);
+            config.Register();
             app.UseWebApi(config);
-        }
-
-        public static void StartConsoleServer(string baseAddress)
-        {
-            using (WebApp.Start<Startup>(baseAddress))
-            {
-                Console.WriteLine(Started);
-                Console.ReadKey();
-            }
         }
 
         public static IDisposable StartServer(string baseAddress)
