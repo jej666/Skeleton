@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using System.Linq;
@@ -8,14 +7,8 @@ using System.Net.Http;
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class HttpClientCrudTests: HttpClientTestBase
+    public class HttpClientCrudTests: HttpTestBase
     {
-        public HttpClientCrudTests()
-        {
-            
-            
-        }
-
         [TestMethod]
         public void GetAll()
         {

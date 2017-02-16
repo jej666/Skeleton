@@ -9,6 +9,7 @@ namespace Skeleton.Web.Server
     {
         private readonly IUnityContainer _container;
 
+
         public UnityResolver(IUnityContainer container)
         {
             if (container == null)

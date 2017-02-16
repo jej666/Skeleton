@@ -56,7 +56,7 @@ namespace Skeleton.Web.Server.Controllers
             var newDto = _repository.Mapper.Map(entity);
 
             return CreatedAtRoute(
-                "DefaultApiWithId",
+                GlobalConstants.DefaultHttpRoute,
                 new { id = entity.Id },
                 newDto);
         }

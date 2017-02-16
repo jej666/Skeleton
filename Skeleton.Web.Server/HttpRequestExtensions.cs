@@ -16,12 +16,8 @@ namespace Skeleton.Web.Server
         {
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var urlHelper = new UrlHelper(request);
-            var prevLink = pageNumber > 0
-                ? urlHelper.Link("DefaultApiWithId", new { page = pageNumber - 1, pageSize })
-                : "";
-            var nextLink = pageNumber < totalPages - 1
-                ? urlHelper.Link("DefaultApiWithId", new { page = pageNumber + 1, pageSize })
-                : "";
+            var prevLink = urlHelper.GetPrevLink(pageNumber, pageSize);
+            var nextLink = urlHelper.GetNextLink(pageNumber, pageSize, totalPages);
 
             return new
             {
@@ -31,6 +27,20 @@ namespace Skeleton.Web.Server
                 NextPageLink = nextLink,
                 Results = pagedData
             };
+        }
+
+        private static string GetNextLink(this UrlHelper urlHelper, int pageNumber, int pageSize, int totalPages)
+        {
+            return pageNumber < totalPages - 1
+                ? urlHelper.Link(GlobalConstants.DefaultHttpRoute, new { page = pageNumber + 1, pageSize })
+                : string.Empty;
+        }
+
+        private static string GetPrevLink(this UrlHelper urlHelper, int pageNumber, int pageSize )
+        {
+            return pageNumber > 0
+                ? urlHelper.Link(GlobalConstants.DefaultHttpRoute, new { page = pageNumber - 1, pageSize })
+                : string.Empty;
         }
     }
 }

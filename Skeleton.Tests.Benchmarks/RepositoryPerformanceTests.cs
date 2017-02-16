@@ -15,7 +15,7 @@ namespace Skeleton.Tests.Benchmarks
         public RepositoryPerformanceTests()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
-            Bootstrapper.Initialize();
+            
             Bootstrapper.UseDatabase(builder =>
                     builder.UsingConfigConnectionString("Default").Build());
         }

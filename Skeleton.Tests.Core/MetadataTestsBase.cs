@@ -10,9 +10,7 @@ namespace Skeleton.Tests.Core
     {
         protected MetadataTestsBase()
         {
-            Bootstrapper.Initialize();
-            var container = Bootstrapper.Resolver;
-            MetadataProvider = container.Resolve<IMetadataProvider>();
+            MetadataProvider = Bootstrapper.Resolver.Resolve<IMetadataProvider>();
         }
 
         public static IMetadataProvider MetadataProvider { get; private set; }
