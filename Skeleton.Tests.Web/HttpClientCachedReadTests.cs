@@ -7,13 +7,8 @@ using Skeleton.Tests.Web.Mock;
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class HttpClientCachedReadTests
+    public class HttpClientCachedReadTests: HttpClientTestBase
     {
-        public HttpClientCachedReadTests()
-        {
-            SqlDbSeeder.SeedCustomers();
-        }
-
         [TestMethod]
         public void GetAll()
         {

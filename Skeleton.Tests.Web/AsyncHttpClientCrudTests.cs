@@ -9,13 +9,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class AsyncHttpClientCrudTests
+    public class AsyncHttpClientCrudTests : HttpClientTestBase
     {
-        public AsyncHttpClientCrudTests()
-        {
-            SqlDbSeeder.SeedCustomers();
-        }
-
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [TestMethod]
         public async Task GetAllAsync()
@@ -116,7 +111,7 @@ namespace Skeleton.Tests.Web
         {
             using (var client = new AsyncCustomersHttpClient())
             {
-                var customer = new CustomerDto {Name = "Customer"};
+                var customer = new CustomerDto { Name = "Customer" };
                 var result = await client.AddAsync(customer);
 
                 Assert.IsNotNull(result);

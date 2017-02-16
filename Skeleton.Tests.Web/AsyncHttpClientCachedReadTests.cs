@@ -9,13 +9,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class AsyncHttpClientCachedReadTests
+    public class AsyncHttpClientCachedReadTests : HttpClientTestBase
     {
-        public AsyncHttpClientCachedReadTests()
-        {
-            SqlDbSeeder.SeedCustomers();
-        }
-
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [TestMethod]
         public async Task GetAllAsync()
