@@ -1,41 +1,19 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
-using Skeleton.Web.Server;
 using Skeleton.Tests.Web.Mock;
+using System.Linq;
+using System.Net.Http;
 
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class HttpClientCrudTests
+    public class HttpClientCrudTests: HttpClientTestBase
     {
-        private static IDisposable _owinServer;
-
         public HttpClientCrudTests()
         {
-            SqlDbSeeder.SeedCustomers();
-        }
-
-        [AssemblyInitialize]
-        public static void AssemblyInit(TestContext context)
-        {
-            SqlLocalDbHelper.CreateDatabaseIfNotExists();
-
-            Bootstrapper.Initialize();
-            Bootstrapper.UseDatabase(
-                builder => builder.UsingConfigConnectionString("Default").Build());
-            Bootstrapper.Registrar.RegisterType(typeof(CustomersController));
-
-            _owinServer = Startup.StartServer("http://localhost:8081/");
-        }
-
-        [AssemblyCleanup]
-        public static void TearDown()
-        {
-            _owinServer.Dispose();
+            
+            
         }
 
         [TestMethod]
