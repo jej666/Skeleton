@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Abstraction;
-using Skeleton.Infrastructure.Logging;
+using Skeleton.Infrastructure.DependencyInjection;
 using System;
 
 namespace Skeleton.Tests
@@ -8,13 +8,7 @@ namespace Skeleton.Tests
     [TestClass]
     public class LoggingTests
     {
-        private readonly ILogger _logger = LoggerFactory.GetLogger(typeof(LoggingTests));
-
-        [AssemblyInitialize]
-        public static void AssemblyInit(TestContext context)
-        {
-            LoggerConfiguration.Configure();
-        }
+        private readonly ILogger _logger = Bootstrapper.Resolver.Resolve<ILoggerFactory>().GetLogger(typeof(LoggingTests));
 
         [TestMethod]
         public void Log_Debug()

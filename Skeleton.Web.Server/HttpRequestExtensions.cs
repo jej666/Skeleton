@@ -32,14 +32,14 @@ namespace Skeleton.Web.Server
         private static string GetNextLink(this UrlHelper urlHelper, int pageNumber, int pageSize, int totalPages)
         {
             return pageNumber < totalPages - 1
-                ? urlHelper.Link(GlobalConstants.DefaultHttpRoute, new { page = pageNumber + 1, pageSize })
+                ? urlHelper.Link(Constants.DefaultHttpRoute, new { page = pageNumber + 1, pageSize })
                 : string.Empty;
         }
 
         private static string GetPrevLink(this UrlHelper urlHelper, int pageNumber, int pageSize )
         {
             return pageNumber > 0
-                ? urlHelper.Link(GlobalConstants.DefaultHttpRoute, new { page = pageNumber - 1, pageSize })
+                ? urlHelper.Link(Constants.DefaultHttpRoute, new { page = pageNumber - 1, pageSize })
                 : string.Empty;
         }
     }

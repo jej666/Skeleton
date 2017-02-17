@@ -49,9 +49,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InstanceLoggerFactory.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="LoggerConfiguration.cs" />
-    <Compile Include="LoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

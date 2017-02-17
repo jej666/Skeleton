@@ -12,7 +12,7 @@ namespace Skeleton.Infrastructure.Logging
                 new FileInfo(
                     Path.GetDirectoryName(
                         Assembly.GetAssembly(typeof(LoggerConfiguration)).Location)
-                    + @"\" + "log4net.config"));
+                            + @"\" + "log4net.config"));
         }
     }
 }

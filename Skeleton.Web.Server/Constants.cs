@@ -1,6 +1,6 @@
 ﻿namespace Skeleton.Web.Server
 {
-    internal static class GlobalConstants
+    internal static class Constants
     {
         internal const string DefaultHttpRoute = "DefaultApiRoute";
     }
