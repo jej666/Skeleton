@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
             LoggerConfiguration.Configure();
 
             Container.AddExtension(new LoggerConstructorInjectionExtension())
-                .RegisterInstance<ILoggerFactory>(new InstanceLoggerFactory())
+                .RegisterInstance<ILoggerFactory>(new LoggerFactory())
                 .RegisterType<ICacheProvider, MemoryCacheProvider>()
                 .RegisterType<IMetadataProvider, MetadataProvider>();
         }

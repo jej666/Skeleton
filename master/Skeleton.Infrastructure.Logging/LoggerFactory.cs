@@ -3,7 +3,7 @@ using System;
 
 namespace Skeleton.Infrastructure.Logging
 {
-    public sealed class InstanceLoggerFactory: ILoggerFactory
+    public sealed class LoggerFactory: ILoggerFactory
     { 
         public ILogger GetLogger(Type type)
         {

@@ -1,4 +1,6 @@
-﻿using Skeleton.Common;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Skeleton.Common;
 using Skeleton.Infrastructure.DependencyInjection;
 using Swashbuckle.Application;
 using System.Net.Http.Formatting;
@@ -11,7 +13,7 @@ namespace Skeleton.Web.Server
         public static void Register(this HttpConfiguration configuration)
         {
             configuration.ThrowIfNull(() => configuration);
-
+            
             configuration.RegisterDependencies();
             configuration.RegisterFormatters();
             configuration.RegisterFilters();
@@ -61,8 +63,17 @@ namespace Skeleton.Web.Server
 
         private static void RegisterFormatters(this HttpConfiguration configuration)
         {
+            var defaultSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()   
+            };
+
+            JsonConvert.DefaultSettings = () => { return defaultSettings; };
+
             configuration.Formatters.Clear();
             configuration.Formatters.Add(new JsonMediaTypeFormatter());
+            configuration.Formatters.JsonFormatter.SerializerSettings = defaultSettings;
         }
     }
 }
