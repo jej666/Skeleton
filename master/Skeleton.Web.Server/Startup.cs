@@ -1,6 +1,9 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Hosting;
 using Owin;
+using Skeleton.Abstraction;
+using Skeleton.Infrastructure.DependencyInjection;
+using Skeleton.Infrastructure.Logging;
 using Skeleton.Web.Server;
 using System;
 using System.Web.Http;
@@ -14,8 +17,10 @@ namespace Skeleton.Web.Server
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
-
             config.Register();
+
+            var loggerFactory = config.DependencyResolver.GetService(typeof(ILoggerFactory));
+            app.Use<RequestLoggingMiddleware>(loggerFactory);
             app.UseWebApi(config);
         }
 

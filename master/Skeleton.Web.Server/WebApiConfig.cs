@@ -1,48 +1,49 @@
 ﻿using Skeleton.Common;
 using Skeleton.Infrastructure.DependencyInjection;
 using Swashbuckle.Application;
-using System.Linq;
-using System.Net.Http.Headers;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 namespace Skeleton.Web.Server
 {
     public static class WebApiConfig
     {
-        public static void Register(this HttpConfiguration config)
+        public static void Register(this HttpConfiguration configuration)
         {
-            config.ThrowIfNull(() => config);
+            configuration.ThrowIfNull(() => configuration);
 
-            config.RegisterDependencies();
-            config.RegisterFormatters();
-            config.RegisterFilters();
-            config.RegisterRoutes();
-            config.EnsureInitialized();
-            config.EnableSwagger();
+            configuration.RegisterDependencies();
+            configuration.RegisterFormatters();
+            configuration.RegisterFilters();
+            configuration.RegisterRoutes();
+            configuration.EnsureInitialized();
+            configuration.EnableSwagger();
         }
 
-        private static void RegisterFilters(this HttpConfiguration config)
+        private static void RegisterFilters(this HttpConfiguration configuration)
         {
-            config.Filters.Add(new CheckModelForNullAttribute());
-            config.Filters.Add(new ValidateModelStateAttribute());
+            configuration.Filters.Add(new CheckModelForNullAttribute());
+            configuration.Filters.Add(new ValidateModelStateAttribute());
         }
 
-        private static void RegisterRoutes(this HttpConfiguration config)
+        private static void RegisterRoutes(this HttpConfiguration configuration)
         {
-            config.Routes.MapHttpRoute(
-                            GlobalConstants.DefaultHttpRoute,
+            configuration.MapHttpAttributeRoutes();
+
+            configuration.Routes.MapHttpRoute(
+                            Constants.DefaultHttpRoute,
                             "api/{controller}/{action}/{id}",
                             new { id = RouteParameter.Optional });
         }
 
-        private static void RegisterDependencies(this HttpConfiguration config)
+        private static void RegisterDependencies(this HttpConfiguration configuration)
         {
-            config.DependencyResolver = new UnityResolver(Bootstrapper.Container);     
+            configuration.DependencyResolver = new UnityResolver(Bootstrapper.Container);     
         }
 
-        private static void EnableSwagger(this HttpConfiguration config)
+        private static void EnableSwagger(this HttpConfiguration configuration)
         {
-            config.EnableSwagger(c =>
+            configuration.EnableSwagger(c =>
             {
                 c.SingleApiVersion("v1", "Skeleton Api")
                  .Description("Skeleton API for coding REST operations")
@@ -58,23 +59,10 @@ namespace Skeleton.Web.Server
                   .EnableSwaggerUi();
         }
 
-        private static void RegisterFormatters(this HttpConfiguration config)
+        private static void RegisterFormatters(this HttpConfiguration configuration)
         {
-            // Remove application/ x - www - form - urlencoded formatters
-            var mediaTypeFormatters = config.Formatters
-                .Where(y => y.SupportedMediaTypes
-                .Any(c => c.MediaType == "application/x-www-form-urlencoded"))
-                .ToList();
-            mediaTypeFormatters.ForEach(x => config.Formatters.Remove(x));
-
-            // Remove Xml Formatter
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
-
-            // Json formatter
-            config.Formatters
-                  .JsonFormatter
-                  .SupportedMediaTypes
-                  .Add(new MediaTypeHeaderValue("text/html"));
+            configuration.Formatters.Clear();
+            configuration.Formatters.Add(new JsonMediaTypeFormatter());
         }
     }
 }

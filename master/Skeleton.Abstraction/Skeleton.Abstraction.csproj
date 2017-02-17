@@ -69,6 +69,7 @@
     <Compile Include="IDependencyRegistrar.cs" />
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="Domain\IEntity.cs" />
+    <Compile Include="ILoggerFactory.cs" />
     <Compile Include="Reflection\IInstanceAccessor.cs" />
     <Compile Include="Reflection\IFieldMetadata.cs" />
     <Compile Include="IHideObjectMethods.cs" />
