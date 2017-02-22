@@ -109,6 +109,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachingSwaggerProvider.cs" />
     <Compile Include="Controllers\AsyncCrudController.cs" />
     <Compile Include="Controllers\AsyncCachedReadController.cs" />
     <Compile Include="Controllers\CrudController.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="RequestLoggingMiddleware.cs" />
+    <Compile Include="SwaggerConfig.cs" />
     <Compile Include="ValidateModelStateAttribut.cs" />
     <Compile Include="HttpRequestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

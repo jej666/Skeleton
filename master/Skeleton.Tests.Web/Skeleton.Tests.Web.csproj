@@ -116,6 +116,7 @@
     <Compile Include="Mock\CachedCustomersHttpClient.cs" />
     <Compile Include="Mock\CustomersController.cs" />
     <Compile Include="Mock\CustomersHttpClient.cs" />
+    <Compile Include="OwinServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
