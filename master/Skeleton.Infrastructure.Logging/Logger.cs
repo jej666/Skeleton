@@ -15,11 +15,6 @@ namespace Skeleton.Infrastructure.Logging
             _log = LogManager.GetLogger(type);
         }
 
-        public Logger(string name)
-        {
-            _log = LogManager.GetLogger(name);
-        }
-
         public void Debug(object message)
         {
             _log.Debug(message);

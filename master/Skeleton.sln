@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Benchmarks",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Core", "Skeleton.Tests.Core\Skeleton.Tests.Core.csproj", "{F0F985CF-A6EF-40DB-A332-2A7F2BBFBC47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Swagger", "Skeleton.Tests.ConsoleApplication\Skeleton.Tests.Swagger.csproj", "{4A5157E1-ED78-4BCA-8A42-C782CB96BFCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Swagger", "Skeleton.Tests.Swagger\Skeleton.Tests.Swagger.csproj", "{4A5157E1-ED78-4BCA-8A42-C782CB96BFCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
