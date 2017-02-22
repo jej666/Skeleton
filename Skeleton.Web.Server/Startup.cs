@@ -17,7 +17,8 @@ namespace Skeleton.Web.Server
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
-            config.Register();
+            config.RegisterWebApi();
+            config.RegisterSwagger();
 
             var loggerFactory = config.DependencyResolver.GetService(typeof(ILoggerFactory));
             app.Use<RequestLoggingMiddleware>(loggerFactory);
