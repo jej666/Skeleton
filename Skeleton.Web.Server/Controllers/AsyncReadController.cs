@@ -1,5 +1,6 @@
 ﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Repository;
+using Skeleton.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace Skeleton.Web.Server.Controllers
 
         public AsyncReadController(IAsyncReadRepository<TEntity, TDto> repository)
         {
+            repository.ThrowIfNull(() => repository);
+
             _repository = repository;
         }
 

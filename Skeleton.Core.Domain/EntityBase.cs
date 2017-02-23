@@ -4,6 +4,7 @@ using Skeleton.Common;
 using Skeleton.Core.Reflection;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace Skeleton.Core.Domain
@@ -15,6 +16,7 @@ namespace Skeleton.Core.Domain
     {
         private const int HashMultiplier = 31;
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         protected EntityBase(Expression<Func<TEntity, object>> idExpression)
         {
             idExpression.ThrowIfNull(() => idExpression);

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Owin;
 using Skeleton.Abstraction;
-using Skeleton.Infrastructure.DependencyInjection;
-using Skeleton.Infrastructure.Logging;
+using Skeleton.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -11,9 +10,11 @@ namespace Skeleton.Web.Server
     {
         private readonly ILogger _log;
 
-        public RequestLoggingMiddleware(OwinMiddleware next, ILoggerFactory loggerFactory) 
+        public RequestLoggingMiddleware(OwinMiddleware next, ILoggerFactory loggerFactory)
             : base(next)
         {
+            loggerFactory.ThrowIfNull(() => loggerFactory);
+
             _log = loggerFactory.GetLogger(this.GetType());
         }
 

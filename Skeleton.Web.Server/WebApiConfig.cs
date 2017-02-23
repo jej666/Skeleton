@@ -12,7 +12,7 @@ namespace Skeleton.Web.Server
         public static void RegisterWebApi(this HttpConfiguration configuration)
         {
             configuration.ThrowIfNull(() => configuration);
-            
+
             configuration.RegisterDependencies();
             configuration.RegisterFormatters();
             configuration.RegisterFilters();
@@ -38,7 +38,7 @@ namespace Skeleton.Web.Server
 
         private static void RegisterDependencies(this HttpConfiguration configuration)
         {
-            configuration.DependencyResolver = new UnityResolver(Bootstrapper.Container);     
+            configuration.DependencyResolver = new UnityResolver(Bootstrapper.Container);
         }
 
         private static void RegisterFormatters(this HttpConfiguration configuration)
@@ -46,7 +46,7 @@ namespace Skeleton.Web.Server
             var defaultSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()   
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 
             JsonConvert.DefaultSettings = () => { return defaultSettings; };

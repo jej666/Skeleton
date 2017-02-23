@@ -2,6 +2,7 @@
 using Skeleton.Abstraction;
 using Skeleton.Infrastructure.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Tests
 {
@@ -22,6 +23,7 @@ namespace Skeleton.Tests
             _logger.DebugFormat("This is a debug test {0}", "with format");
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
         [TestMethod]
         public void Log_DebugException()
         {
@@ -40,6 +42,7 @@ namespace Skeleton.Tests
             _logger.ErrorFormat("This is a error test {0}", "with format");
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
         [TestMethod]
         public void Log_ErrorException()
         {
@@ -58,6 +61,7 @@ namespace Skeleton.Tests
             _logger.FatalFormat("This is a fatal test {0}", "with format");
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
         [TestMethod]
         public void Log_FatalException()
         {
@@ -76,6 +80,7 @@ namespace Skeleton.Tests
             _logger.InfoFormat("This is a info test {0}", "with format");
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
         [TestMethod]
         public void Log_InfoException()
         {
@@ -94,6 +99,7 @@ namespace Skeleton.Tests
             _logger.WarnFormat("This is a warn test {0}", "with format");
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
         [TestMethod]
         public void Log_WarnException()
         {

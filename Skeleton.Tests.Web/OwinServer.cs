@@ -6,7 +6,7 @@ using System;
 
 namespace Skeleton.Tests.Web
 {
-    public class OwinServer: IDisposable
+    public sealed class OwinServer : IDisposable
     {
         private IDisposable _server;
 
@@ -24,8 +24,7 @@ namespace Skeleton.Tests.Web
                 builder => builder.UsingConfigConnectionString("Default")
                 .Build());
 
-            if (_server == null)
-                _server = Startup.StartServer(Constants.BaseAddress);
+            _server = Startup.StartServer(Constants.BaseAddress);
         }
     }
 }
