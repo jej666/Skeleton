@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using Skeleton.Common;
 using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
@@ -9,11 +10,9 @@ namespace Skeleton.Web.Server
     {
         private readonly IUnityContainer _container;
 
-
         public UnityResolver(IUnityContainer container)
         {
-            if (container == null)
-                throw new ArgumentNullException(nameof(container));
+            container.ThrowIfNull(() => container);
 
             _container = container;
         }

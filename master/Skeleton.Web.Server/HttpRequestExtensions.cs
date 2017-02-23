@@ -36,7 +36,7 @@ namespace Skeleton.Web.Server
                 : string.Empty;
         }
 
-        private static string GetPrevLink(this UrlHelper urlHelper, int pageNumber, int pageSize )
+        private static string GetPrevLink(this UrlHelper urlHelper, int pageNumber, int pageSize)
         {
             return pageNumber > 0
                 ? urlHelper.Link(Constants.DefaultHttpRoute, new { page = pageNumber - 1, pageSize })

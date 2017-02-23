@@ -109,12 +109,14 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppBuilderExtensions.cs" />
     <Compile Include="CachingSwaggerProvider.cs" />
     <Compile Include="Controllers\AsyncCrudController.cs" />
     <Compile Include="Controllers\AsyncCachedReadController.cs" />
     <Compile Include="Controllers\CrudController.cs" />
     <Compile Include="Controllers\CachedReadController.cs" />
     <Compile Include="Controllers\AsyncReadController.cs" />
+    <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\ReadController.cs" />
     <Compile Include="CheckModelForNullAttribute.cs" />
     <Compile Include="Constants.cs" />

@@ -1,4 +1,5 @@
-﻿using Swashbuckle.Application;
+﻿using Skeleton.Common;
+using Swashbuckle.Application;
 using System.Linq;
 using System.Web.Http;
 
@@ -8,7 +9,7 @@ namespace Skeleton.Web.Server
     {
         public static void RegisterSwagger(this HttpConfiguration configuration)
         {
-            var thisAssembly = typeof(SwaggerConfig).Assembly;
+            configuration.ThrowIfNull(() => configuration);
 
             configuration
                 .EnableSwagger(c =>
