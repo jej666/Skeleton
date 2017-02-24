@@ -3,7 +3,7 @@ using Swashbuckle.Application;
 using System.Linq;
 using System.Web.Http;
 
-namespace Skeleton.Web.Server
+namespace Skeleton.Web.Server.Configuration
 {
     public static class SwaggerConfig
     {

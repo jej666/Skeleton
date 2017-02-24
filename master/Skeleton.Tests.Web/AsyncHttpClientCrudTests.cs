@@ -9,8 +9,22 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class AsyncHttpClientCrudTests : HttpTestBase
+    public class AsyncHttpClientCrudTests 
     {
+        private static OwinServer Server = new OwinServer();
+
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
+        {
+            Server.Start();
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            Server.Dispose();
+        }
+
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [TestMethod]
         public async Task GetAllAsync()

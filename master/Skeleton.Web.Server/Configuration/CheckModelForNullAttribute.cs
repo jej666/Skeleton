@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace Skeleton.Web.Server
+namespace Skeleton.Web.Server.Configuration
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class CheckModelForNullAttribute : ActionFilterAttribute

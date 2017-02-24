@@ -2,6 +2,7 @@
 using Microsoft.Owin.Hosting;
 using Owin;
 using Skeleton.Web.Server;
+using Skeleton.Web.Server.Configuration;
 using System;
 using System.Web.Http;
 
@@ -18,8 +19,7 @@ namespace Skeleton.Web.Server
             config.RegisterWebApi();
             config.RegisterSwagger();
 
-           
-
+            app.UseCompression();
             app.UseRequestLogger(config);
             app.UseWebApi(config);
         }

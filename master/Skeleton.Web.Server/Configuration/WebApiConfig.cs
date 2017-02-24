@@ -5,7 +5,7 @@ using Skeleton.Infrastructure.DependencyInjection;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 
-namespace Skeleton.Web.Server
+namespace Skeleton.Web.Server.Configuration
 {
     public static class WebApiConfig
     {
@@ -13,35 +13,42 @@ namespace Skeleton.Web.Server
         {
             configuration.ThrowIfNull(() => configuration);
 
-            configuration.RegisterDependencies();
-            configuration.RegisterFormatters();
-            configuration.RegisterFilters();
-            configuration.RegisterRoutes();
-            configuration.EnsureInitialized();
+            configuration
+                .RegisterDependencies()
+                .RegisterFormatters()
+                .RegisterFilters()
+                .RegisterRoutes()
+                .EnsureInitialized();
         }
 
-        private static void RegisterFilters(this HttpConfiguration configuration)
+        private static HttpConfiguration RegisterFilters(this HttpConfiguration configuration)
         {
             configuration.Filters.Add(new CheckModelForNullAttribute());
             configuration.Filters.Add(new ValidateModelStateAttribute());
+
+            return configuration;
         }
 
-        private static void RegisterRoutes(this HttpConfiguration configuration)
+        private static HttpConfiguration RegisterRoutes(this HttpConfiguration configuration)
         {
             configuration.MapHttpAttributeRoutes();
 
             configuration.Routes.MapHttpRoute(
-                            Constants.DefaultHttpRoute,
-                            "api/{controller}/{action}/{id}",
-                            new { id = RouteParameter.Optional });
+                            name: Constants.DefaultHttpRoute,
+                            routeTemplate: "api/{controller}/{action}/{id}",
+                            defaults: new { id = RouteParameter.Optional });
+
+            return configuration;
         }
 
-        private static void RegisterDependencies(this HttpConfiguration configuration)
+        private static HttpConfiguration RegisterDependencies(this HttpConfiguration configuration)
         {
             configuration.DependencyResolver = new UnityResolver(Bootstrapper.Container);
+
+            return configuration;
         }
 
-        private static void RegisterFormatters(this HttpConfiguration configuration)
+        private static HttpConfiguration RegisterFormatters(this HttpConfiguration configuration)
         {
             var defaultSettings = new JsonSerializerSettings
             {
@@ -54,6 +61,8 @@ namespace Skeleton.Web.Server
             configuration.Formatters.Clear();
             configuration.Formatters.Add(new JsonMediaTypeFormatter());
             configuration.Formatters.JsonFormatter.SerializerSettings = defaultSettings;
+
+            return configuration;
         }
     }
 }

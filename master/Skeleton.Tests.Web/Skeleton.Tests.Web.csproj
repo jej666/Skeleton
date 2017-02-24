@@ -101,7 +101,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpClientCachedReadTests.cs" />
     <Compile Include="AsyncHttpClientCrudTests.cs" />
-    <Compile Include="HttpTestBase.cs" />
     <Compile Include="Mock\Constants.cs" />
     <Compile Include="HttpClientCrudTests.cs" />
     <Compile Include="Mock\AsyncCachedCustomersController.cs" />

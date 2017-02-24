@@ -1,7 +1,7 @@
 ﻿using Swashbuckle.Swagger;
 using System.Collections.Concurrent;
 
-namespace Skeleton.Web.Server
+namespace Skeleton.Web.Server.Configuration
 {
     public class CachingSwaggerProvider : ISwaggerProvider
     {
