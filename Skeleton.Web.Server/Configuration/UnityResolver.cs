@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
 
-namespace Skeleton.Web.Server
+namespace Skeleton.Web.Server.Configuration
 {
     public sealed class UnityResolver : IDependencyResolver
     {

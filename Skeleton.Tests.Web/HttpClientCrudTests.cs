@@ -7,8 +7,22 @@ using System.Net.Http;
 namespace Skeleton.Tests.Web
 {
     [TestClass]
-    public class HttpClientCrudTests: HttpTestBase
+    public class HttpClientCrudTests
     {
+        private static OwinServer Server = new OwinServer();
+
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
+        {
+            Server.Start();
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            Server.Dispose();
+        }
+
         [TestMethod]
         public void GetAll()
         {
