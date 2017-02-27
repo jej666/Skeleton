@@ -45,7 +45,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Benchmarks",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Core", "Skeleton.Tests.Core\Skeleton.Tests.Core.csproj", "{F0F985CF-A6EF-40DB-A332-2A7F2BBFBC47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Swagger", "Skeleton.Tests.Swagger\Skeleton.Tests.Swagger.csproj", "{4A5157E1-ED78-4BCA-8A42-C782CB96BFCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Demo.Swagger", "Skeleton.Tests.Swagger\Skeleton.Demo.Swagger.csproj", "{4A5157E1-ED78-4BCA-8A42-C782CB96BFCF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "80 - Demo", "80 - Demo", "{CBBD94CA-5332-4A06-971A-75817F0F2878}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -142,7 +144,7 @@ Global
 		{E86A7537-4A96-4344-94E6-BF5FD4155A1A} = {4ECC01D5-6996-4DB4-ACB8-4952D96D1982}
 		{C3A6CF1E-201F-4A5D-BC4E-02255709FA75} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
 		{F0F985CF-A6EF-40DB-A332-2A7F2BBFBC47} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
-		{4A5157E1-ED78-4BCA-8A42-C782CB96BFCF} = {872ED20B-A2F4-45E6-8179-4E8CE0B3F183}
+		{4A5157E1-ED78-4BCA-8A42-C782CB96BFCF} = {CBBD94CA-5332-4A06-971A-75817F0F2878}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 18
@@ -213,9 +215,9 @@ Global
 		SccProjectTopLevelParentUniqueName16 = Skeleton.sln
 		SccProjectName16 = Skeleton.Tests.Services
 		SccLocalPath16 = Skeleton.Tests.Services
-		SccProjectUniqueName17 = Skeleton.Tests.ConsoleApplication\\Skeleton.Tests.Swagger.csproj
+		SccProjectUniqueName17 = Skeleton.Tests.Swagger\\Skeleton.Demo.Swagger.csproj
 		SccProjectTopLevelParentUniqueName17 = Skeleton.sln
-		SccProjectName17 = Skeleton.Tests.ConsoleApplication
-		SccLocalPath17 = Skeleton.Tests.ConsoleApplication
+		SccProjectName17 = Skeleton.Tests.Swagger
+		SccLocalPath17 = Skeleton.Tests.Swagger
 	EndGlobalSection
 EndGlobal

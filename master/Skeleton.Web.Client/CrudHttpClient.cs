@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
@@ -8,99 +9,89 @@ namespace Skeleton.Web.Client
     public class CrudHttpClient<TDto> :
         HttpClientBase where TDto : class
     {
-        public CrudHttpClient(string serviceBaseAddress, string addressSuffix)
-            : base(serviceBaseAddress, addressSuffix)
+        public CrudHttpClient(string host, string path)
+            : this (host, path, 80)
+        {
+        }
+
+        public CrudHttpClient(string host, string path, int port)
+           : base(new RestUriBuilder(host, path, port))
         {
         }
 
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public IEnumerable<TDto> GetAll()
         {
-            var requestUri = CreateUri("GetAll");
-            var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = UriBuilder.GetAll();
+            var content = Get(requestUri).Content;
 
-            return responseMessage.Content
+            return content
                 .ReadAsAsync<IEnumerable<TDto>>()
                 .Result;
         }
 
         public TDto FirstOrDefault(object id)
         {
-            var requestUri = CreateUri("Get/" + id);
-            var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
-            responseMessage.EnsureSuccessStatusCode();
+            var requestUri = UriBuilder.FirstOrDefault(id);
+            var content = Get(requestUri).Content;
 
-            return responseMessage.Content.ReadAsAsync<TDto>().Result;
+            return content
+                .ReadAsAsync<TDto>()
+                .Result;
         }
 
         public PagedResult<TDto> Page(int pageSize, int pageNumber)
         {
-            var requestUri = CreateUri($"Page/?pageSize={pageSize}&pageNumber={pageNumber}");
-            var responseMessage = JsonHttpClient.GetAsync(requestUri).Result;
-            responseMessage.EnsureSuccessStatusCode();
-
-            var content = responseMessage.Content
-                .ReadAsStringAsync()
-                .Result;
+            var requestUri = UriBuilder.Page(pageSize, pageNumber);
+            var content = Get(requestUri).Content.ReadAsStringAsync().Result;
 
             return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
         }
 
         public TDto Add(TDto dto)
         {
-            var request = CreateUri("Add");
-            var objectContent = CreateJsonObjectContent(dto);
-            var responseMessage = JsonHttpClient.PostAsync(request, objectContent).Result;
-            responseMessage.EnsureSuccessStatusCode();
-
-            return responseMessage.Content.ReadAsAsync<TDto>().Result;
+            var requestUri = UriBuilder.Add();
+            var content = Post(requestUri, dto).Content;
+            
+            return content.ReadAsAsync<TDto>().Result;
         }
 
         public IEnumerable<TDto> Add(IEnumerable<TDto> dtos)
         {
-            var request = CreateUri("AddMany");
-            var content = CreateJsonObjectContent(dtos);
-            var response = JsonHttpClient.PostAsync(request, content).Result;
-            response.EnsureSuccessStatusCode();
+            var requestUri = UriBuilder.AddMany();
+            var content = Post(requestUri, dtos).Content;
 
-            return response.Content.ReadAsAsync<IEnumerable<TDto>>().Result;
+            return content.ReadAsAsync<IEnumerable<TDto>>().Result;
         }
 
         public bool Update(TDto dto)
         {
-            var request = CreateUri("Update");
-            var content = CreateJsonObjectContent(dto);
-            var response = JsonHttpClient.PostAsync(request, content).Result;
-            response.EnsureSuccessStatusCode();
-
+            var requestUri = UriBuilder.Update();
+            var response = Post(requestUri, dto);
+            
             return response.IsSuccessStatusCode;
         }
 
         public bool Update(IEnumerable<TDto> dtos)
         {
-            return Post(dtos, "UpdateMany");
+            var requestUri = UriBuilder.UpdateMany();
+            var response = Post(requestUri, dtos);
+
+            return response.IsSuccessStatusCode;
         }
 
         public bool Delete(object id)
         {
-            var request = CreateUri("Delete/" + id);
-            var response = JsonHttpClient.GetAsync(request).Result;
-            response.EnsureSuccessStatusCode();
-
+            var requestUri = UriBuilder.Delete(id);          
+            var response = Get(requestUri);
+            
             return response.IsSuccessStatusCode;
         }
 
         public bool Delete(IEnumerable<TDto> dtos)
         {
-            return Post(dtos, "DeleteMany");
-        }
-
-        private bool Post(IEnumerable<TDto> dtos, string action)
-        {
-            var request = CreateUri(action);
-            var response = JsonHttpClient.PostAsJsonAsync(request, dtos).Result;
-            response.EnsureSuccessStatusCode();
+            var requestUri = UriBuilder.DeleteMany();
+            var response = Post(requestUri, dtos);
 
             return response.IsSuccessStatusCode;
         }

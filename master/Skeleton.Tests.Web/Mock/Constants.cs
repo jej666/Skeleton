@@ -2,7 +2,8 @@
 {
     internal static class Constants
     {
-        internal const string BaseAddress = "http://localhost:8081/";
+        internal const string Url = "http://localhost:8081";
+        internal const string BaseAddress = "localhost";
         internal const string CustomersUrl = "api/customers";
     }
 }

@@ -24,9 +24,9 @@ namespace Skeleton.Web.Server
             app.UseWebApi(config);
         }
 
-        public static IDisposable StartServer(string baseAddress)
+        public static IDisposable StartServer(string url)
         {
-            return WebApp.Start<Startup>(baseAddress);
+            return WebApp.Start<Startup>(url);
         }
     }
 }
