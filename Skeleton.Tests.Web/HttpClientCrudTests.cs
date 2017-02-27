@@ -11,14 +11,14 @@ namespace Skeleton.Tests.Web
     {
         private static OwinServer Server = new OwinServer();
 
-        [ClassInitialize]
-        public static void ClassInit(TestContext context)
+        [AssemblyInitialize]
+        public static void AssemblyInit(TestContext context)
         {
             Server.Start();
         }
 
-        [ClassCleanup]
-        public static void ClassCleanup()
+        [AssemblyCleanup]
+        public static void AssemblyCleanup()
         {
             Server.Dispose();
         }

@@ -6,7 +6,7 @@ namespace Skeleton.Tests.Web.Mock
     public class CustomersHttpClient : CrudHttpClient<CustomerDto>
     {
         public CustomersHttpClient()
-            : base(Constants.BaseAddress, Constants.CustomersUrl)
+            : base(Constants.BaseAddress, Constants.CustomersUrl, 8081)
         {
         }
     }

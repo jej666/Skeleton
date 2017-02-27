@@ -9,20 +9,6 @@ namespace Skeleton.Tests.Web
     [TestClass]
     public class HttpClientCachedReadTests
     {
-        private static OwinServer Server = new OwinServer();
-
-        [ClassInitialize]
-        public static void ClassInit(TestContext context)
-        {
-            Server.Start();
-        }
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            Server.Dispose();
-        }
-
         [TestMethod]
         public void GetAll()
         {

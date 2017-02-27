@@ -1,9 +1,10 @@
-﻿using Skeleton.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
@@ -11,24 +12,68 @@ namespace Skeleton.Web.Client
         IDisposable
     {
         private const string JsonMediaType = "application/json";
-        private readonly string _serviceAddress;
+        private readonly IRestUriBuilder _uriBuilder;
         private bool _disposed;
         private HttpClient _httpClient;
 
-        protected HttpClientBase(string serviceBaseAddress, string addressSuffix)
+        protected HttpClientBase(IRestUriBuilder uriBuilder)
         {
-            addressSuffix.ThrowIfNullOrEmpty(() => addressSuffix);
-
-            if (!addressSuffix.EndsWith("/", StringComparison.OrdinalIgnoreCase))
-                addressSuffix += "/";
-
-            _serviceAddress = serviceBaseAddress + addressSuffix;
-            CreateJsonHttpClient();
+            _uriBuilder = uriBuilder;
+            CreateHttpClient();
         }
 
-        protected HttpClient JsonHttpClient
+        protected IRestUriBuilder UriBuilder => _uriBuilder;
+
+        protected HttpResponseMessage Get(Uri requestUri) 
         {
-            get { return _httpClient; }
+            var response = _httpClient.GetAsync(requestUri).Result;
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        protected async Task<HttpResponseMessage> GetAsync(Uri requestUri)
+        {
+            var response = await _httpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        protected HttpResponseMessage Post<TDto>(Uri requestUri, TDto dto) where TDto : class
+        {
+            var content = CreateJsonObjectContent(dto);
+            var response = _httpClient.PostAsync(requestUri, content).Result;
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        protected HttpResponseMessage Post<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
+        {
+            var content = CreateJsonObjectContent(dtos);
+            var response = _httpClient.PostAsync(requestUri, content).Result;
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        protected async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
+        {
+            var content = CreateJsonObjectContent(dto);
+            var response = await _httpClient.PostAsync(requestUri, content);
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        protected async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
+        {
+            var content = CreateJsonObjectContent(dtos);
+            var response = await _httpClient.PostAsync(requestUri, content);
+            response.EnsureSuccessStatusCode();
+
+            return response;
         }
 
         public void Dispose()
@@ -37,14 +82,14 @@ namespace Skeleton.Web.Client
             GC.SuppressFinalize(this);
         }
 
-        public Uri CreateUri(string action)
+        private  void CreateHttpClient()
         {
-            return new Uri(_serviceAddress + action);
-        }
-
-        private  void CreateJsonHttpClient()
-        {
-            _httpClient = new HttpClient();
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+            }
+            _httpClient = new HttpClient(handler);
 
             _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
             _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
@@ -53,17 +98,17 @@ namespace Skeleton.Web.Client
                 new ProductInfoHeaderValue(new ProductHeaderValue("Skeleton_HttpClient", "1.0")));
         }
 
-        protected virtual ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
+        private ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
         {
             return new ObjectContent<TDto>(dto, new JsonMediaTypeFormatter());
         }
 
-        protected virtual ObjectContent CreateJsonObjectContent<TDto>(IEnumerable<TDto> dtos) where TDto : class
+        private ObjectContent CreateJsonObjectContent<TDto>(IEnumerable<TDto> dtos) where TDto : class
         {
             return new ObjectContent<IEnumerable<TDto>>(dtos, new JsonMediaTypeFormatter());
         }
 
-        private void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (_disposed || !disposing)
                 return;

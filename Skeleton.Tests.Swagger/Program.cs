@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Skeleton.Tests.ConsoleApplication
+namespace Skeleton.Demo.Swagger
 {
     class Program
     {
