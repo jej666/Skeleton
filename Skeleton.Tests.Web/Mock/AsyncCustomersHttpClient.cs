@@ -6,7 +6,7 @@ namespace Skeleton.Tests.Web.Mock
     public class AsyncCustomersHttpClient : AsyncCrudHttpClient<CustomerDto>
     {
         public AsyncCustomersHttpClient()
-            : base(Constants.BaseAddress, "api/asynccustomers")
+            : base(Constants.BaseAddress, Constants.AsyncCustomersUrl, 8081)
         {
         }
     }
