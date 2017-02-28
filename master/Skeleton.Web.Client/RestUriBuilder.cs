@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Skeleton.Web.Client
@@ -10,26 +11,18 @@ namespace Skeleton.Web.Client
 
         public RestUriBuilder(string host, string path, int port)
         {
-            Host = host; 
+            Host = host;
             Port = port;
             Path = EnsureEndsWithSlash(path);
             _initialPath = Path;
         }
 
         public RestUriBuilder(string host, string path)
-            : this (host, path, 80)
+            : this(host, path, 80)
         {
         }
 
-        private string EnsureEndsWithSlash(string value)
-        {
-            if (!value.EndsWith("/", StringComparison.OrdinalIgnoreCase))
-                value += "/";
-
-            return value;
-        }
-
-        public IRestUriBuilder New()
+        public IRestUriBuilder StartNew()
         {
             Path = _initialPath;
             Fragment = string.Empty;
@@ -78,35 +71,55 @@ namespace Skeleton.Web.Client
 
         public IRestUriBuilder AppendAction(object parameter)
         {
+            if (parameter == null)
+                throw new ArgumentNullException(nameof(parameter));
+
             if (!string.IsNullOrEmpty(Path))
                 Path = EnsureEndsWithSlash(Path);
 
             Path += parameter.ToString();
-           
+
             return this;
         }
 
         public IRestUriBuilder SetQueryParameter(string key, object value)
         {
-            Query += string.Format("{0}={1}", key, value);
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentException(nameof(key));
+
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            Query += string.Format(CultureInfo.InvariantCulture, "{0}={1}", key, value);
 
             return this;
         }
 
         public IRestUriBuilder SetQueryParameters(IDictionary<string, object> parameters)
         {
+            if (parameters == null)
+                throw new ArgumentNullException(nameof(parameters));
+
             var stringBuilder = new StringBuilder();
             foreach (var param in parameters)
             {
                 if (stringBuilder.Length > 0)
                     stringBuilder.Append("&");
 
-                stringBuilder.AppendFormat("{0}={1}", param.Key, param.Value);
+                stringBuilder.AppendFormat(CultureInfo.InvariantCulture, "{0}={1}", param.Key, param.Value);
             }
 
             Query = stringBuilder.ToString();
 
             return this;
+        }
+
+        private static string EnsureEndsWithSlash(string value)
+        {
+            if (!value.EndsWith("/", StringComparison.OrdinalIgnoreCase))
+                value += "/";
+
+            return value;
         }
 
         private static class ActionConstants

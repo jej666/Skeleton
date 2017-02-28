@@ -53,7 +53,7 @@ namespace Skeleton.Web.Server
                     from e in request.Headers.GetCommaSeparatedValues(AcceptEncoding)
                                      .Select(x => StringWithQualityHeaderValue.Parse(x))
                     orderby e.Quality descending
-                    where string.Compare(c.ContentEncoding, e.Value, StringComparison.InvariantCultureIgnoreCase) == 0
+                    where string.Compare(c.ContentEncoding, e.Value, StringComparison.OrdinalIgnoreCase) == 0
                     select c)
                     .FirstOrDefault();
         }
