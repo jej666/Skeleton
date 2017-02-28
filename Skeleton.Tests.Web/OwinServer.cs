@@ -24,7 +24,7 @@ namespace Skeleton.Tests.Web
                 builder => builder.UsingConfigConnectionString("Default")
                 .Build());
 
-            _server = Startup.StartServer(Constants.Url);
+            _server = Startup.StartServer(new Uri(Constants.Url));
         }
     }
 }

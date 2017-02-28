@@ -9,7 +9,7 @@ namespace Skeleton.Web.Client
 
         IRestUriBuilder AppendAction(RestAction action);
         IRestUriBuilder AppendAction(object parameter);
-        IRestUriBuilder New();
+        IRestUriBuilder StartNew();
         IRestUriBuilder SetQueryParameter(string key, object value);
         IRestUriBuilder SetQueryParameters(IDictionary<string, object> parameters);
     }

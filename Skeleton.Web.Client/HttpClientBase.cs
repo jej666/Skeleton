@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
-    public abstract class HttpClientBase :  IDisposable
+    public abstract class HttpClientBase : IDisposable
     {
         private const string JsonMediaType = "application/json";
-
+        private const string ProductHeader = "SkeletonHttpClient";
         private readonly IRestUriBuilder _uriBuilder;
-        private bool _disposed;
         private HttpClient _httpClient;
+        private bool _disposed;
 
         protected HttpClientBase(IRestUriBuilder uriBuilder)
         {
@@ -24,7 +24,7 @@ namespace Skeleton.Web.Client
 
         protected IRestUriBuilder UriBuilder => _uriBuilder;
 
-        protected HttpResponseMessage Get(Uri requestUri) 
+        protected HttpResponseMessage Get(Uri requestUri)
         {
             var response = _httpClient.GetAsync(requestUri).Result;
             response.EnsureSuccessStatusCode();
@@ -82,20 +82,22 @@ namespace Skeleton.Web.Client
             GC.SuppressFinalize(this);
         }
 
-        private  void CreateHttpClient()
+        private void CreateHttpClient()
         {
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
+            using (var handler = new HttpClientHandler())
             {
-                handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-            }
-            _httpClient = new HttpClient(handler);
+                if (handler.SupportsAutomaticDecompression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                }
+                _httpClient = new HttpClient(handler);
 
-            _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
-            _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
-            _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
-            _httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue(new ProductHeaderValue("Skeleton_HttpClient", "1.0")));
+                _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
+                _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
+                _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
+                _httpClient.DefaultRequestHeaders.UserAgent.Add(
+                    new ProductInfoHeaderValue(new ProductHeaderValue(ProductHeader, "1.0")));
+            }
         }
 
         private ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class

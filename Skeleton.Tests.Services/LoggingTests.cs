@@ -4,7 +4,7 @@ using Skeleton.Infrastructure.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Skeleton.Tests
+namespace Skeleton.Tests.Infrastructure
 {
     [TestClass]
     public class LoggingTests
