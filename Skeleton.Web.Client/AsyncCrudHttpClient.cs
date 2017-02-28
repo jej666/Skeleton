@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Diagnostics.CodeAnalysis;
-using System;
 
 namespace Skeleton.Web.Client
 {
@@ -26,7 +24,9 @@ namespace Skeleton.Web.Client
             var requestUri = UriBuilder.GetAll();
             var response = await GetAsync(requestUri);
 
-            return await response.Content.ReadAsAsync<IEnumerable<TDto>>();
+            return await response
+                .Content
+                .ReadAsAsync<IEnumerable<TDto>>();
         }
 
         public async Task<TDto> FirstOrDefaultAsync(object id)
@@ -34,7 +34,9 @@ namespace Skeleton.Web.Client
             var requestUri = UriBuilder.FirstOrDefault(id);
             var response = await GetAsync(requestUri);
 
-            return await response.Content.ReadAsAsync<TDto>();
+            return await response
+                .Content
+                .ReadAsAsync<TDto>();
         }
 
         public async Task<TDto> AddAsync(TDto dto)
@@ -42,7 +44,9 @@ namespace Skeleton.Web.Client
             var requestUri = UriBuilder.Add();
             var response = await PostAsync(requestUri, dto);
 
-            return await response.Content.ReadAsAsync<TDto>();
+            return await response
+                .Content
+                .ReadAsAsync<TDto>();
         }
 
         public async Task<bool> UpdateAsync(TDto dto)
@@ -66,7 +70,9 @@ namespace Skeleton.Web.Client
             var requestUri = UriBuilder.Page(pageSize, pageNumber);
             var response = await GetAsync(requestUri);
 
-            return await response.Content.ReadAsAsync<PagedResult<TDto>>();
+            return await response
+                .Content
+                .ReadAsAsync<PagedResult<TDto>>();
         }
 
         public async Task<IEnumerable<TDto>> AddAsync(IEnumerable<TDto> dtos)
@@ -74,7 +80,9 @@ namespace Skeleton.Web.Client
             var requestUri = UriBuilder.AddMany();
             var response = await PostAsync(requestUri, dtos);
 
-            return await response.Content.ReadAsAsync<IEnumerable<TDto>>();
+            return await response
+                .Content
+                .ReadAsAsync<IEnumerable<TDto>>();
         }
 
         public async Task<bool> UpdateAsync(IEnumerable<TDto> dtos)

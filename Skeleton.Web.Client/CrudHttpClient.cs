@@ -43,9 +43,11 @@ namespace Skeleton.Web.Client
         public PagedResult<TDto> Page(int pageSize, int pageNumber)
         {
             var requestUri = UriBuilder.Page(pageSize, pageNumber);
-            var content = Get(requestUri).Content.ReadAsStringAsync().Result;
-
-            return JsonConvert.DeserializeObject<PagedResult<TDto>>(content);
+            var content = Get(requestUri).Content;
+            
+            return content
+                .ReadAsAsync<PagedResult<TDto>>()
+                .Result;
         }
 
         public TDto Add(TDto dto)
@@ -53,7 +55,9 @@ namespace Skeleton.Web.Client
             var requestUri = UriBuilder.Add();
             var content = Post(requestUri, dto).Content;
             
-            return content.ReadAsAsync<TDto>().Result;
+            return content
+                .ReadAsAsync<TDto>()
+                .Result;
         }
 
         public IEnumerable<TDto> Add(IEnumerable<TDto> dtos)
@@ -61,7 +65,9 @@ namespace Skeleton.Web.Client
             var requestUri = UriBuilder.AddMany();
             var content = Post(requestUri, dtos).Content;
 
-            return content.ReadAsAsync<IEnumerable<TDto>>().Result;
+            return content
+                .ReadAsAsync<IEnumerable<TDto>>()
+                .Result;
         }
 
         public bool Update(TDto dto)
