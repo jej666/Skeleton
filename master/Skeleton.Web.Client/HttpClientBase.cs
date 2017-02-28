@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
-    public abstract class HttpClientBase :
-        IDisposable
+    public abstract class HttpClientBase :  IDisposable
     {
         private const string JsonMediaType = "application/json";
+
         private readonly IRestUriBuilder _uriBuilder;
         private bool _disposed;
         private HttpClient _httpClient;
