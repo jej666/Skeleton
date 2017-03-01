@@ -84,20 +84,19 @@ namespace Skeleton.Web.Client
 
         private void CreateHttpClient()
         {
-            using (var handler = new HttpClientHandler())
-            {
-                if (handler.SupportsAutomaticDecompression)
-                {
-                    handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-                }
-                _httpClient = new HttpClient(handler);
+            var handler = new HttpClientHandler();
 
-                _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
-                _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
-                _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
-                _httpClient.DefaultRequestHeaders.UserAgent.Add(
-                    new ProductInfoHeaderValue(new ProductHeaderValue(ProductHeader, "1.0")));
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
             }
+            _httpClient = new HttpClient(handler);
+            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
+            _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
+            _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
+            _httpClient.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue(new ProductHeaderValue(ProductHeader, "1.0")));
         }
 
         private ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
@@ -116,11 +115,8 @@ namespace Skeleton.Web.Client
                 return;
 
             if (_httpClient != null)
-            {
-                var hc = _httpClient;
-                _httpClient = null;
-                hc.Dispose();
-            }
+                _httpClient .Dispose();
+           
             _disposed = true;
         }
     }

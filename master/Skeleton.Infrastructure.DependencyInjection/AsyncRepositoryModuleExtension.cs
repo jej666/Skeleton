@@ -12,9 +12,9 @@ namespace Skeleton.Infrastructure.DependencyInjection
                 .RegisterType(typeof(IAsyncEntityReader<>), typeof(AsyncEntityReader<>))
                 .RegisterType(typeof(IAsyncEntityWriter<>), typeof(AsyncEntityPersistor<>))
                 .RegisterType(typeof(IAsyncCachedEntityReader<>), typeof(AsyncCachedEntityReader<>))
-                .RegisterType(typeof(IAsyncReadRepository<,>), typeof(AsyncReadRepository<,>))
-                .RegisterType(typeof(IAsyncCrudRepository<,>), typeof(AsyncCrudRepository<,>))
-                .RegisterType(typeof(IAsyncCachedReadRepository<,>), typeof(AsyncCachedReadRepository<,>))
+                .RegisterType(typeof(IAsyncReadRepository<,>), typeof(AsyncReadRepository<,>), new HierarchicalLifetimeManager())
+                .RegisterType(typeof(IAsyncCrudRepository<,>), typeof(AsyncCrudRepository<,>), new HierarchicalLifetimeManager())
+                .RegisterType(typeof(IAsyncCachedReadRepository<,>), typeof(AsyncCachedReadRepository<,>), new HierarchicalLifetimeManager())
                 .RegisterType<IAsyncStoredProcedureExecutor, AsyncStoredProcedureExecutor>();
         }
     }
