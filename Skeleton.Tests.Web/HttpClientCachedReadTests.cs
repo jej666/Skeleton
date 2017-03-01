@@ -9,42 +9,35 @@ namespace Skeleton.Tests.Web
     [TestClass]
     public class HttpClientCachedReadTests
     {
+        private static CachedCustomersHttpClient Client = new CachedCustomersHttpClient();
+
         [TestMethod]
         public void GetAll()
         {
-            using (var client = new CachedCustomersHttpClient())
-            {
-                var results = client.GetAll();
+            var results = Client.GetAll();
 
-                Assert.IsNotNull(results);
-                Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
-            }
+            Assert.IsNotNull(results);
+            Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
         }
 
         [TestMethod]
         public void FirstOrDefault_ById()
         {
-            using (var client = new CachedCustomersHttpClient())
-            {
-                var data = client.Page(1, 1).Results.FirstOrDefault();
+            var data = Client.Page(1, 1).Results.FirstOrDefault();
 
-                Assert.IsNotNull(data);
+            Assert.IsNotNull(data);
 
-                var result = client.FirstOrDefault(data.CustomerId);
+            var result = Client.FirstOrDefault(data.CustomerId);
 
-                Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(CustomerDto));
-            }
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(CustomerDto));
         }
 
         [TestMethod]
         [ExpectedException(typeof(HttpRequestException))]
         public void FirstOrDefault_With_Wrong_Id()
         {
-            using (var client = new CachedCustomersHttpClient())
-            {
-                client.FirstOrDefault(1000000);
-            }
+            Client.FirstOrDefault(1000000);
         }
 
         [TestMethod]
@@ -53,13 +46,10 @@ namespace Skeleton.Tests.Web
             const int pageSize = 50;
             const int numberOfPages = 5;
 
-            using (var client = new CachedCustomersHttpClient())
+            for (var page = 1; page < numberOfPages; ++page)
             {
-                for (var page = 1; page < numberOfPages; ++page)
-                {
-                    var response = client.Page(pageSize, page);
-                    Assert.IsTrue(response.Results.Count() <= pageSize);
-                }
+                var response = Client.Page(pageSize, page);
+                Assert.IsTrue(response.Results.Count() <= pageSize);
             }
         }
     }

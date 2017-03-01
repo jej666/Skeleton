@@ -8,13 +8,14 @@ namespace Skeleton.Infrastructure.DependencyInjection
     {
         protected override void Initialize()
         {
-            Container.RegisterType(typeof(IEntityReader<>), typeof(EntityReader<>))
+            Container
+                .RegisterType(typeof(IEntityReader<>), typeof(EntityReader<>))
                 .RegisterType(typeof(IEntityWriter<>), typeof(EntityWriter<>))
                 .RegisterType(typeof(ICachedEntityReader<>), typeof(CachedEntityReader<>))
                 .RegisterType(typeof(IEntityMapper<,>), typeof(EntityMapper<,>))
-                .RegisterType(typeof(IReadRepository<,>), typeof(ReadRepository<,>))
-                .RegisterType(typeof(ICrudRepository<,>), typeof(CrudRepository<,>))
-                .RegisterType(typeof(ICachedReadRepository<,>), typeof(CachedReadRepository<,>))
+                .RegisterType(typeof(IReadRepository<,>), typeof(ReadRepository<,>), new HierarchicalLifetimeManager())
+                .RegisterType(typeof(ICrudRepository<,>), typeof(CrudRepository<,>), new HierarchicalLifetimeManager())
+                .RegisterType(typeof(ICachedReadRepository<,>), typeof(CachedReadRepository<,>), new HierarchicalLifetimeManager())
                 .RegisterType<IStoredProcedureExecutor, StoredProcedureExecutor>();
         }
     }

@@ -331,7 +331,7 @@ namespace Skeleton.Tests.Infrastructure
         {
             var results = _repository
                 .Query
-                .Where(c => c.Name.StartsWith("Jerome", StringComparison.CurrentCultureIgnoreCase))
+                .Where(c => c.Name.StartsWith("Jerome", StringComparison.OrdinalIgnoreCase))
                 .Find();
 
             Assert.IsFalse(results.Any());
@@ -342,7 +342,7 @@ namespace Skeleton.Tests.Infrastructure
         {
             var result = _repository
                 .Query
-                .Where(c => c.Name.StartsWith("Jerome", StringComparison.CurrentCultureIgnoreCase))
+                .Where(c => c.Name.StartsWith("Jerome", StringComparison.OrdinalIgnoreCase))
                 .FirstOrDefault();
 
             Assert.IsNull(result);

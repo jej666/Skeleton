@@ -19,6 +19,9 @@ namespace Skeleton.Web.Server
             config.RegisterWebApi();
             config.RegisterSwagger();
 
+#if DEBUG
+            app.UseErrorPage();
+#endif
             app.UseCompression();
             app.UseRequestLogger(config);
             app.UseWebApi(config);

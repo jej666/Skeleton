@@ -10,6 +10,7 @@ namespace Skeleton.Tests.Web
     public class HttpClientCrudTests
     {
         private static OwinServer Server = new OwinServer();
+        private static CustomersHttpClient Client = new CustomersHttpClient();
 
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
@@ -26,39 +27,30 @@ namespace Skeleton.Tests.Web
         [TestMethod]
         public void GetAll()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                var results = client.GetAll();
+            var results = Client.GetAll();
 
-                Assert.IsNotNull(results);
-                Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
-            }
+            Assert.IsNotNull(results);
+            Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
         }
 
         [TestMethod]
         public void FirstOrDefault_ById()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                var data = client.GetAll().FirstOrDefault();
+            var data = Client.GetAll().FirstOrDefault();
 
-                Assert.IsNotNull(data);
+            Assert.IsNotNull(data);
 
-                var result = client.FirstOrDefault(data.CustomerId);
+            var result = Client.FirstOrDefault(data.CustomerId);
 
-                Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(CustomerDto));
-            }
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(CustomerDto));
         }
 
         [TestMethod]
         [ExpectedException(typeof(HttpRequestException))]
         public void FirstOrDefault_With_Wrong_Id()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                client.FirstOrDefault(100000);
-            }
+            Client.FirstOrDefault(100000);
         }
 
         [TestMethod]
@@ -67,140 +59,110 @@ namespace Skeleton.Tests.Web
             const int pageSize = 50;
             const int numberOfPages = 5;
 
-            using (var client = new CustomersHttpClient())
+            for (var page = 1; page < numberOfPages; ++page)
             {
-                for (var page = 1; page < numberOfPages; ++page)
-                {
-                    var response = client.Page(pageSize, page);
-                    Assert.IsTrue(response.Results.Count() <= pageSize);
-                }
+                var response = Client.Page(pageSize, page);
+                Assert.IsTrue(response.Results.Count() <= pageSize);
             }
         }
 
         [TestMethod]
         public void Update()
         {
-            using (var client = new CustomersHttpClient())
+            var data = Client.GetAll().FirstOrDefault();
+
+            Assert.IsNotNull(data);
+
+            var customer = new CustomerDto
             {
-                var data = client.GetAll().FirstOrDefault();
+                CustomerId = data.CustomerId,
+                Name = "CustomerUpdated" + data.CustomerId,
+                CustomerCategoryId = data.CustomerCategoryId
+            };
+            var result = Client.Update(customer);
 
-                Assert.IsNotNull(data);
-
-                var customer = new CustomerDto
-                {
-                    CustomerId = data.CustomerId,
-                    Name = "CustomerUpdated" + data.CustomerId,
-                    CustomerCategoryId = data.CustomerCategoryId
-                };
-                var result = client.Update(customer);
-
-                Assert.IsTrue(result);
-            }
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
         [ExpectedException(typeof(HttpRequestException))]
         public void Update_With_Wrong_Id()
         {
-            using (var client = new CustomersHttpClient())
+            var customer = new CustomerDto
             {
-                var customer = new CustomerDto
-                {
-                    CustomerId = 100000,
-                    Name = "CustomerUpdated"
-                };
+                CustomerId = 100000,
+                Name = "CustomerUpdated"
+            };
 
-                client.Update(customer);
-            }
+            Client.Update(customer);
         }
 
         [TestMethod]
         public void Update_Multiple()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                var customers = client.Page(5, 1).Results.ToList();
-                Assert.IsNotNull(customers);
+            var customers = Client.Page(5, 1).Results.ToList();
+            Assert.IsNotNull(customers);
 
-                foreach (var customer in customers)
-                    customer.Name = "CustomerUpdated" + customer.CustomerId;
+            foreach (var customer in customers)
+                customer.Name = "CustomerUpdated" + customer.CustomerId;
 
-                var result = client.Update(customers);
-                Assert.IsTrue(result);
-            }
+            var result = Client.Update(customers);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
         public void Add()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                var customer = MemorySeeder.SeedCustomerDto();
-                var result = client.Add(customer);
+            var customer = MemorySeeder.SeedCustomerDto();
+            var result = Client.Add(customer);
 
-                Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(CustomerDto));
-            }
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(CustomerDto));
         }
 
         [TestMethod]
         [ExpectedException(typeof(HttpRequestException))]
         public void Add_With_Id()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                var customer = MemorySeeder.SeedCustomerDto();
-                customer.CustomerId = 100000;
-                client.Add(customer);
-            }
+            var customer = MemorySeeder.SeedCustomerDto();
+            customer.CustomerId = 100000;
+            Client.Add(customer);
         }
 
         [TestMethod]
         public void Add_Multiple()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
-                var results = client.Add(customers);
+            var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
+            var results = Client.Add(customers);
 
-                Assert.IsNotNull(results);
-                Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
-            }
+            Assert.IsNotNull(results);
+            Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
         }
 
         [TestMethod]
         public void Delete()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                var data = client.Page(1, 1).Results.FirstOrDefault();
-                var result = (data != null) && client.Delete(data.CustomerId);
+            var data = Client.Page(1, 1).Results.FirstOrDefault();
+            var result = (data != null) && Client.Delete(data.CustomerId);
 
-                Assert.IsTrue(result);
-            }
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
         public void Delete_Multiple()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                var customers = client.Page(5, 1).Results;
-                Assert.IsNotNull(customers);
+            var customers = Client.Page(5, 1).Results;
+            Assert.IsNotNull(customers);
 
-                var result = client.Delete(customers);
-                Assert.IsTrue(result);
-            }
+            var result = Client.Delete(customers);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
         [ExpectedException(typeof(HttpRequestException))]
         public void Delete_With_Wrong_Id()
         {
-            using (var client = new CustomersHttpClient())
-            {
-                client.Delete(100000);
-            }
+            Client.Delete(100000);
         }
     }
 }
