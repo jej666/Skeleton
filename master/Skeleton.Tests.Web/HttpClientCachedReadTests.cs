@@ -9,7 +9,7 @@ namespace Skeleton.Tests.Web
     [TestClass]
     public class HttpClientCachedReadTests
     {
-        private static CachedCustomersHttpClient Client = new CachedCustomersHttpClient();
+        private readonly static CachedCustomersHttpClient Client = new CachedCustomersHttpClient();
 
         [TestMethod]
         public void GetAll()

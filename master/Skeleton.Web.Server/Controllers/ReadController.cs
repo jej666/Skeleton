@@ -54,7 +54,7 @@ namespace Skeleton.Web.Server.Controllers
                 .Page(pageSize, pageNumber)
                 .Select(_repository.Mapper.Map)
                 .ToList();
-            var pagedResult = Request.SetPagedResult(
+            var pagedResult = Request.ToPagedResult(
                 totalCount, pageNumber, pageSize, pagedData);
 
             return Ok(pagedResult);

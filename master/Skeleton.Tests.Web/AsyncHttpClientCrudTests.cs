@@ -11,7 +11,7 @@ namespace Skeleton.Tests.Web
     [TestClass]
     public class AsyncHttpClientCrudTests
     {
-        private static AsyncCustomersHttpClient Client = new AsyncCustomersHttpClient();
+        private readonly static AsyncCustomersHttpClient Client = new AsyncCustomersHttpClient();
 
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [TestMethod]

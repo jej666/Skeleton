@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
@@ -100,6 +98,6 @@ namespace Skeleton.Web.Client
             var response = Post(requestUri, dtos);
 
             return response.IsSuccessStatusCode;
-        }
+        } 
     }
 }

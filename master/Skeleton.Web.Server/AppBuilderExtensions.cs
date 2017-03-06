@@ -1,5 +1,6 @@
 ﻿using Owin;
 using Skeleton.Abstraction;
+using Skeleton.Web.Server.Middlewares;
 using System.Web.Http;
 
 namespace Skeleton.Web.Server
@@ -21,5 +22,14 @@ namespace Skeleton.Web.Server
 
             return app;
         }
+
+        //public static IAppBuilder UseExceptionHandler(this IAppBuilder app, HttpConfiguration config)
+        //{
+        //    var loggerFactory = config.DependencyResolver.GetService(typeof(ILoggerFactory));
+
+        //    app.Use<ExceptionHandlerMiddleware>(loggerFactory);
+
+        //    return app;
+        //}
     }
 }

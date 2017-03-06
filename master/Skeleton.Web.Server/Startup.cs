@@ -20,10 +20,10 @@ namespace Skeleton.Web.Server
             config.RegisterSwagger();
 
 #if DEBUG
-            app.UseErrorPage();
-#endif
-            app.UseCompression();
             app.UseRequestLogger(config);
+#endif
+            
+            app.UseCompression();
             app.UseWebApi(config);
         }
 

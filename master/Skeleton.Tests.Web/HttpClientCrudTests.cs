@@ -9,8 +9,8 @@ namespace Skeleton.Tests.Web
     [TestClass]
     public class HttpClientCrudTests
     {
-        private static OwinServer Server = new OwinServer();
-        private static CustomersHttpClient Client = new CustomersHttpClient();
+        private readonly static OwinServer Server = new OwinServer();
+        private readonly static CustomersHttpClient Client = new CustomersHttpClient();
 
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
@@ -163,6 +163,15 @@ namespace Skeleton.Tests.Web
         public void Delete_With_Wrong_Id()
         {
             Client.Delete(100000);
+        }
+
+        [TestMethod]
+        public void GetException()
+        {
+            var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
+            var data = Client.Get(uri);
+
+            Assert.IsNotNull(data);
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Skeleton.Abstraction;
 using Skeleton.Common;
 using Skeleton.Infrastructure.DependencyInjection;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace Skeleton.Web.Server.Configuration
 {
@@ -15,6 +17,7 @@ namespace Skeleton.Web.Server.Configuration
 
             configuration
                 .RegisterDependencies()
+                .RegisterExceptionHandling()
                 .RegisterFormatters()
                 .RegisterFilters()
                 .RegisterRoutes()
@@ -48,6 +51,16 @@ namespace Skeleton.Web.Server.Configuration
             return configuration;
         }
 
+        private static HttpConfiguration RegisterExceptionHandling(this HttpConfiguration configuration)
+        {
+            var loggerFactory = configuration.DependencyResolver.GetService(typeof(ILoggerFactory)) as ILoggerFactory;
+
+            configuration.Services.Add(typeof(IExceptionLogger), new GlobalExceptionLogger(loggerFactory));
+            configuration.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
+
+            return configuration;
+        }
+
         private static HttpConfiguration RegisterFormatters(this HttpConfiguration configuration)
         {
             var defaultSettings = new JsonSerializerSettings
@@ -61,6 +74,7 @@ namespace Skeleton.Web.Server.Configuration
             configuration.Formatters.Clear();
             configuration.Formatters.Add(new JsonMediaTypeFormatter());
             configuration.Formatters.JsonFormatter.SerializerSettings = defaultSettings;
+            configuration.Formatters.Add(new ProtoBufFormatter());
 
             return configuration;
         }

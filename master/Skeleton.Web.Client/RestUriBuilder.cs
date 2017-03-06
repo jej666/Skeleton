@@ -90,8 +90,8 @@ namespace Skeleton.Web.Client
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            Query += string.Format(CultureInfo.InvariantCulture, "{0}={1}", key, value);
-
+            Query += EncodeUriParameter(new KeyValuePair<string, object>(key, value));
+            
             return this;
         }
 
@@ -101,17 +101,27 @@ namespace Skeleton.Web.Client
                 throw new ArgumentNullException(nameof(parameters));
 
             var stringBuilder = new StringBuilder();
-            foreach (var param in parameters)
+            foreach (var parameter in parameters)
             {
                 if (stringBuilder.Length > 0)
                     stringBuilder.Append("&");
 
-                stringBuilder.AppendFormat(CultureInfo.InvariantCulture, "{0}={1}", param.Key, param.Value);
+                var encodedParameter= EncodeUriParameter(parameter);
+
+                stringBuilder.Append(encodedParameter);
             }
 
             Query = stringBuilder.ToString();
 
             return this;
+        }
+
+        private static string EncodeUriParameter(KeyValuePair<string, object> parameter)
+        {
+            var key = Uri.EscapeDataString(parameter.Key);
+            var value = Uri.EscapeDataString(parameter.Value.ToString());
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}={1}", key, value);
         }
 
         private static string EnsureEndsWithSlash(string value)
