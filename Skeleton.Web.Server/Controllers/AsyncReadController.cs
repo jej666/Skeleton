@@ -57,7 +57,7 @@ namespace Skeleton.Web.Server.Controllers
             var totalCount = await _repository.Query.CountAsync();
             var pagedData = await _repository.Query
                 .PageAsync(pageSize, pageNumber);
-            var pagedResult = Request.SetPagedResult(
+            var pagedResult = Request.ToPagedResult(
                 totalCount,
                 pageNumber,
                 pageSize,

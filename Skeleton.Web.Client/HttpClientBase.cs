@@ -22,9 +22,9 @@ namespace Skeleton.Web.Client
             CreateHttpClient();
         }
 
-        protected IRestUriBuilder UriBuilder => _uriBuilder;
+        public IRestUriBuilder UriBuilder => _uriBuilder;
 
-        protected HttpResponseMessage Get(Uri requestUri)
+        public HttpResponseMessage Get(Uri requestUri)
         {
             var response = _httpClient.GetAsync(requestUri).Result;
             response.EnsureSuccessStatusCode();
@@ -32,7 +32,7 @@ namespace Skeleton.Web.Client
             return response;
         }
 
-        protected async Task<HttpResponseMessage> GetAsync(Uri requestUri)
+        public async Task<HttpResponseMessage> GetAsync(Uri requestUri)
         {
             var response = await _httpClient.GetAsync(requestUri);
             response.EnsureSuccessStatusCode();
@@ -40,7 +40,7 @@ namespace Skeleton.Web.Client
             return response;
         }
 
-        protected HttpResponseMessage Post<TDto>(Uri requestUri, TDto dto) where TDto : class
+        public HttpResponseMessage Post<TDto>(Uri requestUri, TDto dto) where TDto : class
         {
             var content = CreateJsonObjectContent(dto);
             var response = _httpClient.PostAsync(requestUri, content).Result;
@@ -49,7 +49,7 @@ namespace Skeleton.Web.Client
             return response;
         }
 
-        protected HttpResponseMessage Post<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
+        public HttpResponseMessage Post<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
         {
             var content = CreateJsonObjectContent(dtos);
             var response = _httpClient.PostAsync(requestUri, content).Result;
@@ -58,7 +58,7 @@ namespace Skeleton.Web.Client
             return response;
         }
 
-        protected async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
+        public async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
         {
             var content = CreateJsonObjectContent(dto);
             var response = await _httpClient.PostAsync(requestUri, content);
@@ -67,7 +67,7 @@ namespace Skeleton.Web.Client
             return response;
         }
 
-        protected async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
+        public async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
         {
             var content = CreateJsonObjectContent(dtos);
             var response = await _httpClient.PostAsync(requestUri, content);

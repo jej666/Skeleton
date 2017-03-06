@@ -7,7 +7,7 @@ namespace Skeleton.Tests.Web.Mock
     {
         public CustomersHttpClient()
             : base(Constants.BaseAddress, Constants.CustomersUrl, 8081)
-        {
+        { 
         }
     }
 }

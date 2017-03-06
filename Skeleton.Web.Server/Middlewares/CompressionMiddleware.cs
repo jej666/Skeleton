@@ -6,9 +6,9 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace Skeleton.Web.Server
+namespace Skeleton.Web.Server.Middlewares
 {
-    // Adapted for https://github.com/mikegore1000/SqueezeMe
+    // Adapted from https://github.com/mikegore1000/SqueezeMe
     public class CompressionMiddleware
     {
         private const string AcceptEncoding = "Accept-Encoding";
