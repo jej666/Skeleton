@@ -166,12 +166,11 @@ namespace Skeleton.Tests.Web
         }
 
         [TestMethod]
+        [ExpectedException(typeof(HttpRequestException))]
         public void GetException()
         {
             var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
-            var data = Client.Get(uri);
-
-            Assert.IsNotNull(data);
+            Client.Get(uri);
         }
     }
 }

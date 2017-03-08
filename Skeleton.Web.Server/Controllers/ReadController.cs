@@ -3,6 +3,9 @@ using Skeleton.Abstraction.Repository;
 using Skeleton.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 namespace Skeleton.Web.Server.Controllers

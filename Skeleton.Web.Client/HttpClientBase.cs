@@ -11,7 +11,7 @@ namespace Skeleton.Web.Client
     public abstract class HttpClientBase : IDisposable
     {
         private const string JsonMediaType = "application/json";
-        private const string ProductHeader = "SkeletonHttpClient";
+                private const string ProductHeader = "SkeletonHttpClient";
         private readonly IRestUriBuilder _uriBuilder;
         private HttpClient _httpClient;
         private bool _disposed;
