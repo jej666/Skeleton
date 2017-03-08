@@ -17,6 +17,8 @@ namespace Skeleton.Web.Server.Configuration
             if (!actionContext.ModelState.IsValid)
                 actionContext.Response = actionContext.Request.CreateErrorResponse(
                     HttpStatusCode.BadRequest, actionContext.ModelState);
+
+            base.OnActionExecuting(actionContext);
         }
     }
 }

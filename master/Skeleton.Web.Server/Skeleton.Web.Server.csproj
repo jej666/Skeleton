@@ -91,10 +91,6 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="protobuf-net, Version=2.1.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <HintPath>..\packages\protobuf-net.2.1.0\lib\net451\protobuf-net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.5.3\lib\net40\Swashbuckle.Core.dll</HintPath>
       <Private>True</Private>
@@ -124,7 +120,6 @@
     <Compile Include="Configuration\CachingSwaggerProvider.cs" />
     <Compile Include="Configuration\GlobalExceptionHandler.cs" />
     <Compile Include="Configuration\GlobalExceptionLogger.cs" />
-    <Compile Include="Configuration\ProtoBufFormatter.cs" />
     <Compile Include="Middlewares\CompressionMiddleware.cs" />
     <Compile Include="Controllers\AsyncCrudController.cs" />
     <Compile Include="Controllers\AsyncCachedReadController.cs" />

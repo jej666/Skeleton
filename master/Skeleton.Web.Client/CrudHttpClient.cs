@@ -21,9 +21,9 @@ namespace Skeleton.Web.Client
         public IEnumerable<TDto> GetAll()
         {
             var requestUri = UriBuilder.GetAll();
-            var content = Get(requestUri).Content;
+            var response = Get(requestUri);
 
-            return content
+            return response.Content
                 .ReadAsAsync<IEnumerable<TDto>>()
                 .Result;
         }

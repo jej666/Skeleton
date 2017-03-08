@@ -16,6 +16,9 @@ namespace Skeleton.Web.Server.Configuration
             configuration.ThrowIfNull(() => configuration);
 
             configuration
+                .IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+           
+            configuration
                 .RegisterDependencies()
                 .RegisterExceptionHandling()
                 .RegisterFormatters()
@@ -74,7 +77,6 @@ namespace Skeleton.Web.Server.Configuration
             configuration.Formatters.Clear();
             configuration.Formatters.Add(new JsonMediaTypeFormatter());
             configuration.Formatters.JsonFormatter.SerializerSettings = defaultSettings;
-            configuration.Formatters.Add(new ProtoBufFormatter());
 
             return configuration;
         }
