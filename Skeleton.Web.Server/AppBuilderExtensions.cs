@@ -22,14 +22,5 @@ namespace Skeleton.Web.Server
 
             return app;
         }
-
-        //public static IAppBuilder UseExceptionHandler(this IAppBuilder app, HttpConfiguration config)
-        //{
-        //    var loggerFactory = config.DependencyResolver.GetService(typeof(ILoggerFactory));
-
-        //    app.Use<ExceptionHandlerMiddleware>(loggerFactory);
-
-        //    return app;
-        //}
     }
 }

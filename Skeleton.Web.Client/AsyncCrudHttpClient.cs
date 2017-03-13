@@ -9,7 +9,7 @@ namespace Skeleton.Web.Client
         HttpClientBase where TDto : class
     {
         public AsyncCrudHttpClient(string host, string path)
-            : this(host, path, 80)
+            : this(host, path, Constants.DefaultHttpPort)
         {
         }
 
@@ -52,7 +52,7 @@ namespace Skeleton.Web.Client
         public async Task<bool> UpdateAsync(TDto dto)
         {
             var requestUri = UriBuilder.Update();
-            var response = await PostAsync(requestUri, dto);
+            var response = await PutAsync(requestUri, dto);
 
             return response.IsSuccessStatusCode;
         }
@@ -60,7 +60,7 @@ namespace Skeleton.Web.Client
         public async Task<bool> DeleteAsync(object id)
         {
             var requestUri = UriBuilder.Delete(id);
-            var response = await GetAsync(requestUri);
+            var response = await base.DeleteAsync(requestUri);
 
             return response.IsSuccessStatusCode;
         }

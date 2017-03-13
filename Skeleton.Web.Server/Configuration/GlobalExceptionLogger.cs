@@ -1,5 +1,4 @@
 ﻿using Skeleton.Abstraction;
-using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 
 namespace Skeleton.Web.Server.Configuration

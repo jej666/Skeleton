@@ -21,7 +21,8 @@ namespace Skeleton.Web.Server
 
 #if DEBUG
             app.UseRequestLogger(config);
-#endif   
+#endif
+
             app.UseCompression();
             app.UseWebApi(config);
         }

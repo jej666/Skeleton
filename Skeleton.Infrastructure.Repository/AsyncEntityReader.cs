@@ -24,8 +24,8 @@ namespace Skeleton.Infrastructure.Repository
             IAsyncDatabase database)
         {
             _metadataProvider = metadataProvider;
-            Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
             _database = database;
+            Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
         }
 
         internal SelectQueryBuilder<TEntity> Builder { get; }

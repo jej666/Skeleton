@@ -10,8 +10,6 @@ namespace Skeleton.Web.Client
 {
     public abstract class HttpClientBase : IDisposable
     {
-        private const string JsonMediaType = "application/json";
-                private const string ProductHeader = "SkeletonHttpClient";
         private readonly IRestUriBuilder _uriBuilder;
         private HttpClient _httpClient;
         private bool _disposed;
@@ -35,6 +33,40 @@ namespace Skeleton.Web.Client
         public async Task<HttpResponseMessage> GetAsync(Uri requestUri)
         {
             var response = await _httpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        public HttpResponseMessage Delete(Uri requestUri)
+        {
+            var response = _httpClient.DeleteAsync(requestUri).Result;
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
+        {
+            var response = await _httpClient.DeleteAsync(requestUri);
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        public HttpResponseMessage Put<TDto>(Uri requestUri, TDto dto) where TDto : class
+        {
+            var content = CreateJsonObjectContent(dto);
+            var response = _httpClient.PutAsync(requestUri, content).Result;
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> PutAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
+        {
+            var content = CreateJsonObjectContent(dto);
+            var response = await _httpClient.PutAsync(requestUri, content);
             response.EnsureSuccessStatusCode();
 
             return response;
@@ -92,11 +124,11 @@ namespace Skeleton.Web.Client
             }
             _httpClient = new HttpClient(handler);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(JsonMediaType));
+            _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(Constants.JsonMediaType));
             _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
             _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
             _httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue(new ProductHeaderValue(ProductHeader, "1.0")));
+                new ProductInfoHeaderValue(new ProductHeaderValue(Constants.ProductHeader, "1.0")));
         }
 
         private ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
@@ -115,8 +147,8 @@ namespace Skeleton.Web.Client
                 return;
 
             if (_httpClient != null)
-                _httpClient .Dispose();
-           
+                _httpClient.Dispose();
+
             _disposed = true;
         }
     }

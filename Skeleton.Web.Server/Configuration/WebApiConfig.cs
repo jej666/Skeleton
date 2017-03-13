@@ -17,7 +17,7 @@ namespace Skeleton.Web.Server.Configuration
 
             configuration
                 .IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-           
+
             configuration
                 .RegisterDependencies()
                 .RegisterExceptionHandling()
@@ -41,7 +41,7 @@ namespace Skeleton.Web.Server.Configuration
 
             configuration.Routes.MapHttpRoute(
                             name: Constants.DefaultHttpRoute,
-                            routeTemplate: "api/{controller}/{action}/{id}",
+                            routeTemplate: Constants.DefaultRouteTemplate,
                             defaults: new { id = RouteParameter.Optional });
 
             return configuration;

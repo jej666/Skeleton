@@ -27,6 +27,7 @@ namespace Skeleton.Infrastructure.Data
             Logger = logger;
             Configuration = configuration;
             MetadataProvider = metadataProvider;
+            RetryPolicy = new ExponentialRetryPolicy(configuration, logger);
         }
 
         public IDatabaseConfiguration Configuration { get; }
@@ -36,6 +37,8 @@ namespace Skeleton.Infrastructure.Data
         internal ILogger Logger { get; }
 
         internal IMetadataProvider MetadataProvider { get; }
+
+        internal ExponentialRetryPolicy RetryPolicy { get; }
 
         internal void BeginTransaction(IsolationLevel? isolationLevel)
         {
@@ -87,39 +90,50 @@ namespace Skeleton.Infrastructure.Data
 
         internal void OpenConnection()
         {
-            try
+            RetryPolicy.Execute(() =>
             {
-                EnsureConnectionConfigured();
+                try
+                {
+                    EnsureConnectionConfigured();
 
-                if (_connection.State != ConnectionState.Open)
-                    _connection.Open();
-            }
-            catch (Exception ex)
-            {
-                _connection?.Close();
+                    if (_connection.State != ConnectionState.Open)
+                        _connection.Open();
 
-                Logger.Error(ex.Message);
-                throw;
-            }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    _connection?.Close();
+
+                    Logger.Error(ex.Message);
+                    throw;
+                }
+            });
         }
 
         internal async Task OpenConnectionAsync()
         {
-            try
+            await RetryPolicy.Execute(async () =>
             {
-                EnsureConnectionConfigured();
+                try
+                {
+                    EnsureConnectionConfigured();
 
-                if (_connection.State != ConnectionState.Open)
-                    await ((DbConnection)_connection).OpenAsync()
-                        .ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _connection?.Close();
+                    if (_connection.State != ConnectionState.Open)
+                        await ((DbConnection)_connection)
+                                   .OpenAsync()
+                                   .ConfigureAwait(false);
 
-                Logger.Error(ex.Message);
-                throw;
-            }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    _connection?.Close();
+
+                    Logger.Error(ex.Message);
+                    throw;
+                }
+            });
         }
 
         private void EnsureConnectionConfigured()

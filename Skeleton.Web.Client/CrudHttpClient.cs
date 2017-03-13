@@ -8,7 +8,7 @@ namespace Skeleton.Web.Client
         HttpClientBase where TDto : class
     {
         public CrudHttpClient(string host, string path)
-            : this (host, path, 80)
+            : this (host, path, Constants.DefaultHttpPort)
         {
         }
 
@@ -71,7 +71,7 @@ namespace Skeleton.Web.Client
         public bool Update(TDto dto)
         {
             var requestUri = UriBuilder.Update();
-            var response = Post(requestUri, dto);
+            var response = Put(requestUri, dto);
             
             return response.IsSuccessStatusCode;
         }
@@ -87,7 +87,7 @@ namespace Skeleton.Web.Client
         public bool Delete(object id)
         {
             var requestUri = UriBuilder.Delete(id);          
-            var response = Get(requestUri);
+            var response = base.Delete(requestUri);
             
             return response.IsSuccessStatusCode;
         }
