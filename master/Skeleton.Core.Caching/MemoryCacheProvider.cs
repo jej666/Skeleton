@@ -22,7 +22,7 @@ namespace Skeleton.Core.Caching
 
             try
             {
-                if (Cache.Contains(key))
+                if (Contains(key))
                     return (T)Cache[key];
 
                 if (configurator == null)
@@ -31,7 +31,7 @@ namespace Skeleton.Core.Caching
                 var policy = new CachePolicyFactory().Create(configurator);
                 var value = valueFactory();
 
-                if (value == null)
+                if (!typeof(T).IsValueType && value == null)
                     return default(T);
 
                 Cache.Add(key, value, policy);
@@ -68,7 +68,7 @@ namespace Skeleton.Core.Caching
             }
             catch (Exception)
             {
-                Cache.Remove(key);
+                Remove(key);
                 throw;
             }
         }
@@ -86,7 +86,10 @@ namespace Skeleton.Core.Caching
         private sealed class CachePolicyFactory
         {
             private readonly MemoryCacheContext _cacheContext =
-                new MemoryCacheContext { CreationTime = DateTimeOffset.UtcNow };
+                new MemoryCacheContext
+                {
+                    CreationTime = DateTimeOffset.UtcNow
+                };
 
             internal CacheItemPolicy Create(Action<ICacheContext> configurator)
             {

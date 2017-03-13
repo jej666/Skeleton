@@ -1,4 +1,6 @@
-﻿namespace Skeleton.Abstraction.Data
+﻿using System;
+
+namespace Skeleton.Abstraction.Data
 {
     public interface IDatabaseConfiguration : IHideObjectMethods
     {
@@ -6,7 +8,7 @@
         string ConnectionString { get; }
         string Name { get; }
         string ProviderName { get; }
-        int RetryPolicyCount { get; set; }
-        int RetryPolicyInterval { get; set; }
+        int RetryCount { get; set; }
+        int RetryInterval { get; set; }
     }
 }

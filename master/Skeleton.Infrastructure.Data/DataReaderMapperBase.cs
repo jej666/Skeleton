@@ -16,9 +16,9 @@ namespace Skeleton.Infrastructure.Data
         private readonly IList<IMemberAccessor> _tableColumns;
         private readonly IInstanceAccessor _instanceAccessor;
 
-        protected internal DataReaderMapperBase(IMetadataProvider accessorCache, IDataReader dataReader)
+        protected internal DataReaderMapperBase(IMetadataProvider metadataProvider, IDataReader dataReader)
         {
-            _metadata = accessorCache.GetMetadata<TPoco>();
+            _metadata = metadataProvider.GetMetadata<TPoco>();
             _instanceAccessor = _metadata.GetConstructor();
             _tableColumns = _metadata.GetDeclaredOnlyProperties()
                 .Where(x => x.MemberType.IsPrimitiveExtended())

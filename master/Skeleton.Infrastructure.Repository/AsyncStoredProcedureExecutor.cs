@@ -20,6 +20,9 @@ namespace Skeleton.Infrastructure.Repository
 
         public async Task<int> ExecuteAsync(string storedProcedureName, IDictionary<string, object> parameters)
         {
+            storedProcedureName.ThrowIfNullOrEmpty(() => storedProcedureName);
+            parameters.ThrowIfNull(() => parameters);
+
             var command = new SqlCommand(storedProcedureName, parameters);
 
             return await _database.ExecuteStoredProcedureAsync(command);

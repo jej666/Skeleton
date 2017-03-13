@@ -5,12 +5,11 @@ using Skeleton.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Threading;
 
 namespace Skeleton.Infrastructure.Data
 {
-    public sealed class Database : DatabaseContext, IDatabase
+    public sealed class Database :
+        DatabaseContext, IDatabase
     {
         public Database(
             ILogger logger,
@@ -18,20 +17,25 @@ namespace Skeleton.Infrastructure.Data
             IMetadataProvider metadataProvider)
             : base(logger, configuration, metadataProvider)
         {
-            OpenConnection();
         }
 
         public int Execute(ISqlCommand command)
         {
-            return WrapRetryPolicy(() =>
-                CreateTextCommand(command)
-                    .ExecuteNonQuery());
+            return RetryPolicy.Execute(() =>
+            {
+                OpenConnection();
+
+                return CreateTextCommand(command)
+                    .ExecuteNonQuery();
+            });
         }
 
         public object ExecuteScalar(ISqlCommand command)
         {
-            return WrapRetryPolicy(() =>
+            return RetryPolicy.Execute(() =>
             {
+                OpenConnection();
+
                 var result = CreateTextCommand(command)
                     .ExecuteScalar();
 
@@ -52,15 +56,21 @@ namespace Skeleton.Infrastructure.Data
 
         public int ExecuteStoredProcedure(ISqlCommand command)
         {
-            return WrapRetryPolicy(() =>
-                CreateStoredProcedureCommand(command)
-                    .ExecuteNonQuery());
+            return RetryPolicy.Execute(() =>
+            {
+                OpenConnection();
+
+                return CreateStoredProcedureCommand(command)
+                    .ExecuteNonQuery();
+            });
         }
 
         public IEnumerable<dynamic> Find(ISqlCommand command)
         {
-            return WrapRetryPolicy(() =>
+            return RetryPolicy.Execute(() =>
             {
+                OpenConnection();
+
                 var reader = CreateTextCommand(command)
                     .ExecuteReader();
 
@@ -71,8 +81,10 @@ namespace Skeleton.Infrastructure.Data
         public IEnumerable<TPoco> Find<TPoco>(ISqlCommand command)
             where TPoco : class
         {
-            return WrapRetryPolicy(() =>
+            return RetryPolicy.Execute(() =>
             {
+                OpenConnection();
+
                 var reader = CreateTextCommand(command)
                     .ExecuteReader();
 
@@ -85,8 +97,10 @@ namespace Skeleton.Infrastructure.Data
         public TPoco FirstOrDefault<TPoco>(ISqlCommand command)
             where TPoco : class
         {
-            return WrapRetryPolicy(() =>
+            return RetryPolicy.Execute(() =>
             {
+                OpenConnection();
+
                 var reader = CreateTextCommand(command)
                     .ExecuteReader(CommandBehavior.SingleRow);
 
@@ -94,33 +108,6 @@ namespace Skeleton.Infrastructure.Data
                     .CreateMapper<TPoco>(reader)
                     .MapSingle();
             });
-        }
-
-        private T WrapRetryPolicy<T>(Func<T> func)
-        {
-            var retryCount = Configuration.RetryPolicyCount;
-            var retryInterval = Configuration.RetryPolicyInterval;
-            var delay = TimeSpan.FromSeconds(retryInterval);
-
-            while (true)
-                try
-                {
-                    return func();
-                }
-                catch (SqlException e)
-                {
-                    --retryCount;
-
-                    Logger.Error("Database error => ", e);
-
-                    if (retryCount <= 0)
-                        throw;
-
-                    if ((e.Number != 1205) && (e.Number != -2))
-                        throw;
-
-                    Thread.Sleep(delay);
-                }
         }
     }
 }

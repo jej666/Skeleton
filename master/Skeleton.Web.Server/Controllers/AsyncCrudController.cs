@@ -20,7 +20,7 @@ namespace Skeleton.Web.Server.Controllers
             _repository = repository;
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IHttpActionResult> Update(TDto dto)
         {
             var entity = _repository.Mapper.Map(dto);
@@ -73,8 +73,8 @@ namespace Skeleton.Web.Server.Controllers
             return NotFound();
         }
 
-        [HttpGet]
-        public async Task<IHttpActionResult> Delete(string id)
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete(object id)
         {
             var entity = await _repository.Query.FirstOrDefaultAsync(id);
 

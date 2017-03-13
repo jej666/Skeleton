@@ -9,8 +9,6 @@ namespace Skeleton.Web.Server.Configuration
 {
     public class GlobalExceptionHandler : IExceptionHandler
     {
-        private const string ErrorMessage = "Oops! Sorry! Something went wrong.";
-
         public virtual Task HandleAsync(
             ExceptionHandlerContext context,
             CancellationToken cancellationToken)
@@ -36,7 +34,7 @@ namespace Skeleton.Web.Server.Configuration
             context.Result = new TextPlainErrorResult
             {
                 Request = context.ExceptionContext.Request,
-                Content = ErrorMessage
+                Content = Constants.DefaultErrorMessage
             };
         }
 

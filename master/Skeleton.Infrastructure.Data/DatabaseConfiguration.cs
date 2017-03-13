@@ -9,13 +9,13 @@ namespace Skeleton.Infrastructure.Data
         HideObjectMethodsBase,
         IDatabaseConfiguration
     {
-        private const int DefaultRetryPolicyCount = 5;
-        private const int DefaultRetryPolicyInterval = 1;
-        private const int DefaultTimeout = 300;
+        public static readonly int DefaultTimeout = 300;
+        public static readonly int DefaultRetryCount = 10;
+        public static readonly int DefaultRetryInterval = 1;
 
         private int _commandTimeout;
-        private int _retryPolicyCount;
-        private int _retryPolicyInterval;
+        private int _retryCount;
+        private int _retryInterval;
 
         public int CommandTimeout
         {
@@ -24,19 +24,21 @@ namespace Skeleton.Infrastructure.Data
         }
 
         public string ConnectionString { get; set; }
+
         public string Name { get; set; }
+
         public string ProviderName { get; set; }
 
-        public int RetryPolicyCount
+        public int RetryCount
         {
-            get { return _retryPolicyCount; }
-            set { _retryPolicyCount = value == 0 ? DefaultRetryPolicyCount : value; }
+            get { return _retryCount; }
+            set { _retryCount = value == 0 ? DefaultRetryCount : value; }
         }
 
-        public int RetryPolicyInterval
+        public int RetryInterval
         {
-            get { return _retryPolicyInterval; }
-            set { _retryPolicyInterval = value == 0 ? DefaultRetryPolicyInterval : value; }
+            get { return _retryInterval; }
+            set { _retryInterval = value == 0 ? DefaultRetryInterval : value; }
         }
     }
 }

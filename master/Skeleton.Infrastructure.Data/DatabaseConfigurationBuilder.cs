@@ -12,6 +12,7 @@ namespace Skeleton.Infrastructure.Data
         IDatabaseConfigurationRetryPolicy,
         IDatabaseConfigurationRetryPolicyEnd
     {
+        private const string NoConnectionStringInConfigFile = "No connection settings found in config file";
         private readonly DatabaseConfiguration _configuration = new DatabaseConfiguration();
 
         public IDatabaseConfigurationProperties UsingConfigConnectionString(string connectionStringConfigName)
@@ -19,7 +20,7 @@ namespace Skeleton.Infrastructure.Data
             var connectionSettings = ConfigurationManager.ConnectionStrings;
 
             if (connectionSettings?[connectionStringConfigName] == null)
-                throw new ConfigurationErrorsException("No connection settings found in config file");
+                throw new ConfigurationErrorsException(NoConnectionStringInConfigFile);
 
             var namedDatabase = connectionSettings[connectionStringConfigName];
             Initialize(namedDatabase);
@@ -42,7 +43,7 @@ namespace Skeleton.Infrastructure.Data
             var connectionSettings = ConfigurationManager.ConnectionStrings;
 
             if (connectionSettings?[0] == null)
-                throw new ConfigurationErrorsException("No connection settings found in config file");
+                throw new ConfigurationErrorsException(NoConnectionStringInConfigFile);
 
             var defaultDatabase = connectionSettings[0];
             Initialize(defaultDatabase);
@@ -62,14 +63,14 @@ namespace Skeleton.Infrastructure.Data
 
         public IDatabaseConfigurationRetryPolicyEnd SetRetryPolicyCount(int value)
         {
-            _configuration.RetryPolicyCount = value;
+            _configuration.RetryCount = value;
 
             return this;
         }
 
         public IDatabaseConfiguration SetRetryPolicyInterval(int value)
         {
-            _configuration.RetryPolicyInterval = value;
+            _configuration.RetryInterval = value;
 
             return _configuration;
         }

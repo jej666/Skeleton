@@ -17,7 +17,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             query.ThrowIfNullOrEmpty(() => query);
 
-            return "{0}{1}[Find]-{2}".FormatWith(
+            return Template.Find.FormatWith(
                 Prefix,
                 typeof(TEntity).FullName,
                 query);
@@ -27,7 +27,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             id.ThrowIfNull(() => id);
 
-            return "{0}{1}[FirstOrDefault]-{2}".FormatWith(
+            return Template.FirstOrDefault.FormatWith(
                 Prefix,
                 typeof(TEntity).FullName,
                 id.ToString());
@@ -37,7 +37,7 @@ namespace Skeleton.Infrastructure.Repository
         {
             query.ThrowIfNullOrEmpty(() => query);
 
-            return "{0}{1}[FirstOrDefault]-{2}".FormatWith(
+            return Template.FirstOrDefault.FormatWith(
                 Prefix,
                 typeof(TEntity).FullName,
                 query);
@@ -45,11 +45,18 @@ namespace Skeleton.Infrastructure.Repository
 
         internal string ForPage(int pageSize, int pageNumber)
         {
-            return "{0}{1}[Page]-Size{2}-Page{3}".FormatWith(
+            return Template.Page.FormatWith(
                 Prefix,
                 typeof(TEntity).FullName,
                 pageSize,
                 pageNumber);
         }
+
+        private static class Template
+        {
+            internal const string Find = "{0}{1}[Find]-{2}";
+            internal const string FirstOrDefault = "{0}{1}[FirstOrDefault]-{2}";
+            internal const string Page = "{0}{1}[Page]-Size{2}-Page{3}";
+        } 
     }
 }

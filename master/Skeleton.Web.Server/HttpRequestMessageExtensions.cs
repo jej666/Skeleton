@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Routing;
-using System.Net.Http.Headers;
 
 namespace Skeleton.Web.Server
 {
@@ -58,16 +57,6 @@ namespace Skeleton.Web.Server
 
             return keys.First();
         }
-
-
-        //public static string GetCookie(this HttpRequestMessage request, string cookieName)
-        //{
-        //    CookieHeaderValue cookie = request.Headers.GetCookies(cookieName).FirstOrDefault();
-        //    if (cookie != null)
-        //        return cookie[cookieName].Value;
-
-        //    return null;
-        //}
 
         private static string GetNextLink(this UrlHelper urlHelper, int pageNumber, int pageSize, int totalPages)
         {

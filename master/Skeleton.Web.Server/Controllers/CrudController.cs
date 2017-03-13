@@ -19,7 +19,7 @@ namespace Skeleton.Web.Server.Controllers
             _repository = repository;
         }
 
-        [HttpPost]
+        [HttpPut]
         public IHttpActionResult Update(TDto dto)
         {
             var entity = _repository.Mapper.Map(dto);
@@ -72,8 +72,8 @@ namespace Skeleton.Web.Server.Controllers
             return NotFound();
         }
 
-        [HttpGet]
-        public IHttpActionResult Delete(string id)
+        [HttpDelete]
+        public IHttpActionResult Delete(object id)
         {
             var entity = _repository.Query.FirstOrDefault(id);
 

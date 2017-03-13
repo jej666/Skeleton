@@ -10,33 +10,35 @@ namespace Skeleton.Infrastructure.Data
     {
         private readonly IDatabaseConfigurationBuilder _configurationBuilder;
         private readonly ILogger _logger;
-        private readonly IMetadataProvider _typeAccessorCache;
+        private readonly IMetadataProvider _metadataProvider;
 
-        public DatabaseFactory(IMetadataProvider typeAccessorCache, ILogger logger)
+        public DatabaseFactory(IMetadataProvider metadataProvider, ILogger logger)
         {
             _configurationBuilder = new DatabaseConfigurationBuilder();
-            _typeAccessorCache = typeAccessorCache;
+            _metadataProvider = metadataProvider;
             _logger = logger;
         }
 
         public IDatabase CreateDatabase(
-            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
+                Func<IDatabaseConfigurationBuilder,
+                IDatabaseConfiguration> configurator)
         {
             configurator.ThrowIfNull(() => configurator);
 
             return new Database(_logger,
                 configurator.Invoke(_configurationBuilder),
-                _typeAccessorCache);
+                _metadataProvider);
         }
 
         public IAsyncDatabase CreateDatabaseForAsyncOperations(
-            Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
+                Func<IDatabaseConfigurationBuilder,
+                IDatabaseConfiguration> configurator)
         {
             configurator.ThrowIfNull(() => configurator);
 
             return new AsyncDatabase(_logger,
                 configurator.Invoke(_configurationBuilder),
-                _typeAccessorCache);
+                _metadataProvider);
         }
     }
 }

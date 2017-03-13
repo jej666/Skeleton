@@ -19,6 +19,9 @@ namespace Skeleton.Infrastructure.Repository
 
         public int Execute(string storedProcedureName, IDictionary<string, object> parameters)
         {
+            storedProcedureName.ThrowIfNullOrEmpty(() => storedProcedureName);
+            parameters.ThrowIfNull(() => parameters);
+
             var command = new SqlCommand(storedProcedureName, parameters);
 
             return _database.ExecuteStoredProcedure(command);
@@ -26,8 +29,8 @@ namespace Skeleton.Infrastructure.Repository
 
         protected override void DisposeManagedResources()
         {
-            base.DisposeManagedResources();
             _database.Dispose();
+            base.DisposeManagedResources();
         }
     }
 }

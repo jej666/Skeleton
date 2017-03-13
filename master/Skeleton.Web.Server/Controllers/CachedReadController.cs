@@ -1,6 +1,5 @@
 ﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Repository;
-using System.Web.Http;
 
 namespace Skeleton.Web.Server.Controllers
 {
@@ -13,27 +12,6 @@ namespace Skeleton.Web.Server.Controllers
             ICachedReadRepository<TEntity, TDto> repository)
             : base(repository)
         {
-        }
-
-        // ReSharper disable once RedundantOverriddenMember
-        [HttpGet]
-        public override IHttpActionResult Get(string id)
-        {
-            return base.Get(id);
-        }
-
-        // ReSharper disable once RedundantOverriddenMember
-        [HttpGet]
-        public override IHttpActionResult GetAll()
-        {
-            return base.GetAll();
-        }
-
-        // GET api/<controller>/?pageSize=20&pageNumber=1
-        [HttpGet]
-        public override IHttpActionResult Page(int pageSize, int pageNumber)
-        {
-            return base.Page(pageSize, pageNumber);
         }
     }
 }

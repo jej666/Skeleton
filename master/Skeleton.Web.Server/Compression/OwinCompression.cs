@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Web.Server.Compression
 {
-    internal class OwinCompression 
+    internal class OwinCompression
     {
         private const int BufferSize = 8192;
 

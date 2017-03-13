@@ -19,7 +19,7 @@ namespace Skeleton.Web.Server.Configuration
         {
             var cacheKey = string.Format("{0}_{1}", rootUrl, apiVersion);
 
-            return _cache.GetOrAdd(cacheKey, (key) => 
+            return _cache.GetOrAdd(cacheKey, (key) =>
                 _swaggerProvider.GetSwagger(rootUrl, apiVersion));
         }
     }
