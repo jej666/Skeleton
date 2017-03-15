@@ -44,25 +44,25 @@ namespace Skeleton.Web.Client
                .Uri;
         }
 
-        public static Uri Add(this IRestUriBuilder uriBuilder)
+        public static Uri Create(this IRestUriBuilder uriBuilder)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
 
             return uriBuilder
                 .StartNew()
-                .AppendAction(RestAction.Add)
+                .AppendAction(RestAction.Create)
                 .Uri;
         }
 
-        public static Uri AddMany(this IRestUriBuilder uriBuilder)
+        public static Uri BatchCreate(this IRestUriBuilder uriBuilder)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
 
             return uriBuilder
                .StartNew()
-               .AppendAction(RestAction.AddMany)
+               .AppendAction(RestAction.BatchCreate)
                .Uri;
         }
 
@@ -77,14 +77,14 @@ namespace Skeleton.Web.Client
              .Uri;
         }
 
-        public static Uri UpdateMany(this IRestUriBuilder uriBuilder)
+        public static Uri BatchUpdate(this IRestUriBuilder uriBuilder)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
 
             return uriBuilder
              .StartNew()
-             .AppendAction(RestAction.UpdateMany)
+             .AppendAction(RestAction.BatchUpdate)
              .Uri;
         }
 
@@ -100,14 +100,14 @@ namespace Skeleton.Web.Client
               .Uri;
         }
 
-        public static Uri DeleteMany(this IRestUriBuilder uriBuilder)
+        public static Uri BatchDelete(this IRestUriBuilder uriBuilder)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
 
             return uriBuilder
                .StartNew()
-               .AppendAction(RestAction.DeleteMany)
+               .AppendAction(RestAction.BatchDelete)
                .Uri;
         }
     }

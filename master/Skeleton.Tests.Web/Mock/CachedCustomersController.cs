@@ -1,14 +1,15 @@
-﻿using Skeleton.Abstraction.Repository;
+﻿using Skeleton.Abstraction.Orm;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Server.Controllers;
 
 namespace Skeleton.Tests.Web.Mock
 {
-    public class CachedCustomersController : CachedReadController<Customer, CustomerDto>
+    public class CachedCustomersController : CachedEntityReaderController<Customer, CustomerDto>
     {
         public CachedCustomersController(
-            ICachedReadRepository<Customer, CustomerDto> repository)
-            : base(repository)
+            ICachedEntityReader<Customer> reader,
+            IEntityMapper<Customer, CustomerDto> mapper)
+            : base(reader, mapper)
         {
         }
     }

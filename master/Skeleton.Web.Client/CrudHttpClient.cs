@@ -13,7 +13,12 @@ namespace Skeleton.Web.Client
         }
 
         public CrudHttpClient(string host, string path, int port)
-           : base(new RestUriBuilder(host, path, port))
+            : this(new RestUriBuilder(host, path, port))
+        {
+        }
+
+        public CrudHttpClient(RestUriBuilder uriBuilder)
+            : base(uriBuilder)
         {
         }
 
@@ -42,25 +47,25 @@ namespace Skeleton.Web.Client
         {
             var requestUri = UriBuilder.Page(pageSize, pageNumber);
             var content = Get(requestUri).Content;
-            
+
             return content
                 .ReadAsAsync<PagedResult<TDto>>()
                 .Result;
         }
 
-        public TDto Add(TDto dto)
+        public TDto Create(TDto dto)
         {
-            var requestUri = UriBuilder.Add();
+            var requestUri = UriBuilder.Create();
             var content = Post(requestUri, dto).Content;
-            
+
             return content
                 .ReadAsAsync<TDto>()
                 .Result;
         }
 
-        public IEnumerable<TDto> Add(IEnumerable<TDto> dtos)
+        public IEnumerable<TDto> Create(IEnumerable<TDto> dtos)
         {
-            var requestUri = UriBuilder.AddMany();
+            var requestUri = UriBuilder.BatchCreate();
             var content = Post(requestUri, dtos).Content;
 
             return content
@@ -72,13 +77,13 @@ namespace Skeleton.Web.Client
         {
             var requestUri = UriBuilder.Update();
             var response = Put(requestUri, dto);
-            
+
             return response.IsSuccessStatusCode;
         }
 
         public bool Update(IEnumerable<TDto> dtos)
         {
-            var requestUri = UriBuilder.UpdateMany();
+            var requestUri = UriBuilder.BatchUpdate();
             var response = Post(requestUri, dtos);
 
             return response.IsSuccessStatusCode;
@@ -86,18 +91,18 @@ namespace Skeleton.Web.Client
 
         public bool Delete(object id)
         {
-            var requestUri = UriBuilder.Delete(id);          
+            var requestUri = UriBuilder.Delete(id);
             var response = base.Delete(requestUri);
-            
+
             return response.IsSuccessStatusCode;
         }
 
         public bool Delete(IEnumerable<TDto> dtos)
         {
-            var requestUri = UriBuilder.DeleteMany();
+            var requestUri = UriBuilder.BatchDelete();
             var response = Post(requestUri, dtos);
 
             return response.IsSuccessStatusCode;
-        } 
+        }
     }
 }

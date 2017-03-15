@@ -28,8 +28,8 @@ namespace Skeleton.Infrastructure.DependencyInjection
             UnityContainer.Value
                 .AddExtension(new CommonModuleExtension())
                 .AddExtension(new DataModuleExtension())
-                .AddExtension(new RepositoryModuleExtension())
-                .AddExtension(new AsyncRepositoryModuleExtension());
+                .AddExtension(new OrmModuleExtension())
+                .AddExtension(new AsyncOrmModuleExtension());
         }
 
         public static void UseDatabase(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)

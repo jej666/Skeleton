@@ -14,7 +14,12 @@ namespace Skeleton.Web.Client
         }
 
         public AsyncCrudHttpClient(string host, string path, int port)
-            : base(new RestUriBuilder(host, path, port))
+            : this(new RestUriBuilder(host, path, port))
+        {
+        }
+
+        public AsyncCrudHttpClient(RestUriBuilder uriBuilder)
+            : base(uriBuilder)
         {
         }
 
@@ -39,9 +44,19 @@ namespace Skeleton.Web.Client
                 .ReadAsAsync<TDto>();
         }
 
-        public async Task<TDto> AddAsync(TDto dto)
+        public async Task<PagedResult<TDto>> PageAsync(int pageSize, int pageNumber)
         {
-            var requestUri = UriBuilder.Add();
+            var requestUri = UriBuilder.Page(pageSize, pageNumber);
+            var response = await GetAsync(requestUri);
+
+            return await response
+                .Content
+                .ReadAsAsync<PagedResult<TDto>>();
+        }
+
+        public async Task<TDto> CreateAsync(TDto dto)
+        {
+            var requestUri = UriBuilder.Create();
             var response = await PostAsync(requestUri, dto);
 
             return await response
@@ -65,19 +80,9 @@ namespace Skeleton.Web.Client
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<PagedResult<TDto>> PageAsync(int pageSize, int pageNumber)
+        public async Task<IEnumerable<TDto>> CreateAsync(IEnumerable<TDto> dtos)
         {
-            var requestUri = UriBuilder.Page(pageSize, pageNumber);
-            var response = await GetAsync(requestUri);
-
-            return await response
-                .Content
-                .ReadAsAsync<PagedResult<TDto>>();
-        }
-
-        public async Task<IEnumerable<TDto>> AddAsync(IEnumerable<TDto> dtos)
-        {
-            var requestUri = UriBuilder.AddMany();
+            var requestUri = UriBuilder.BatchCreate();
             var response = await PostAsync(requestUri, dtos);
 
             return await response
@@ -87,7 +92,7 @@ namespace Skeleton.Web.Client
 
         public async Task<bool> UpdateAsync(IEnumerable<TDto> dtos)
         {
-            var requestUri = UriBuilder.UpdateMany();
+            var requestUri = UriBuilder.BatchUpdate();
             var response = await PostAsync(requestUri, dtos);
 
             return response.IsSuccessStatusCode;
@@ -95,7 +100,7 @@ namespace Skeleton.Web.Client
 
         public async Task<bool> DeleteAsync(IEnumerable<TDto> dtos)
         {
-            var requestUri = UriBuilder.DeleteMany();
+            var requestUri = UriBuilder.BatchDelete();
             var response = await PostAsync(requestUri, dtos);
 
             return response.IsSuccessStatusCode;

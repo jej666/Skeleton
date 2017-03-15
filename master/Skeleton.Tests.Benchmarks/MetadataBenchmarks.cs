@@ -31,7 +31,7 @@ namespace Skeleton.Tests.Benchmarks
         public static IMetadataProvider MetadataProvider { get; private set; }
 
         [TestMethod]
-        public void RunBenchmarks()
+        public void Metadata_RunBenchmarks()
         {
             var benchmarks = new BenchmarkCollection
             {

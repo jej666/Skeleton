@@ -4,12 +4,12 @@
     {
         GetAll,
         Get,
-        Add,
-        AddMany,
+        Create,
+        BatchCreate,
         Page,
         Update,
-        UpdateMany,
+        BatchUpdate,
         Delete,
-        DeleteMany
+        BatchDelete
     }
 }
