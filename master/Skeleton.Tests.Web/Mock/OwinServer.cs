@@ -4,7 +4,7 @@ using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Server;
 using System;
 
-namespace Skeleton.Tests.Web
+namespace Skeleton.Tests.Web.Mock
 {
     public sealed class OwinServer : IDisposable
     {

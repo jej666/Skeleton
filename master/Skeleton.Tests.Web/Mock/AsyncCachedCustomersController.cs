@@ -4,7 +4,8 @@ using Skeleton.Web.Server.Controllers;
 
 namespace Skeleton.Tests.Web.Mock
 {
-    public class AsyncCachedCustomersController : AsyncCachedReadController<Customer, CustomerDto>
+    public class AsyncCachedCustomersController : 
+        AsyncCachedReadController<Customer, CustomerDto>
     {
         public AsyncCachedCustomersController(
             IAsyncCachedEntityReader<Customer> reader,

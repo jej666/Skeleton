@@ -103,13 +103,13 @@
     <Compile Include="HttpClientCachedEntityReaderTests.cs" />
     <Compile Include="HttpClientAsyncEntityReaderTests.cs" />
     <Compile Include="HttpClientEntityWriterTests.cs" />
-    <Compile Include="Mock\AsyncCustomerCrudController.cs" />
+    <Compile Include="Mock\AsyncCustomersController.cs" />
     <Compile Include="Mock\Constants.cs" />
     <Compile Include="HttpClientEntityReaderTests.cs" />
     <Compile Include="Mock\AsyncCachedCustomersController.cs" />
     <Compile Include="Mock\CachedCustomersController.cs" />
     <Compile Include="Mock\CustomersController.cs" />
-    <Compile Include="OwinServer.cs" />
+    <Compile Include="Mock\OwinServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
