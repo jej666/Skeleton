@@ -41,11 +41,11 @@ namespace Skeleton.Web.Client
                 case RestAction.Get:
                     Path += ActionConstants.Get;
                     break;
-                case RestAction.Add:
-                    Path += ActionConstants.Add;
+                case RestAction.Create:
+                    Path += ActionConstants.Create;
                     break;
-                case RestAction.AddMany:
-                    Path += ActionConstants.AddMany;
+                case RestAction.BatchCreate:
+                    Path += ActionConstants.BatchCreate;
                     break;
                 case RestAction.Page:
                     Path += ActionConstants.Page;
@@ -53,14 +53,14 @@ namespace Skeleton.Web.Client
                 case RestAction.Update:
                     Path += ActionConstants.Update;
                     break;
-                case RestAction.UpdateMany:
-                    Path += ActionConstants.UpdateMany;
+                case RestAction.BatchUpdate:
+                    Path += ActionConstants.BatchUpdate;
                     break;
                 case RestAction.Delete:
                     Path += ActionConstants.Delete;
                     break;
-                case RestAction.DeleteMany:
-                    Path += ActionConstants.DeleteMany;
+                case RestAction.BatchDelete:
+                    Path += ActionConstants.BatchDelete;
                     break;
                 default:
                     break;
@@ -134,15 +134,15 @@ namespace Skeleton.Web.Client
 
         private static class ActionConstants
         {
-            internal const string GetAll = "GetAll";
-            internal const string Get = "Get";
-            internal const string Add = "Add";
-            internal const string AddMany = "AddMany";
-            internal const string Page = "Page";
-            internal const string Update = "Update";
-            internal const string UpdateMany = "UpdateMany";
-            internal const string Delete = "Delete";
-            internal const string DeleteMany = "DeleteMany";
+            internal const string GetAll = "getall";
+            internal const string Get = "get";
+            internal const string Create = "create";
+            internal const string BatchCreate = "batchcreate";
+            internal const string Page = "page";
+            internal const string Update = "update";
+            internal const string BatchUpdate = "batchupdate";
+            internal const string Delete = "delete";
+            internal const string BatchDelete = "batchdelete";
         }
     }
 }

@@ -16,6 +16,9 @@ namespace Skeleton.Web.Client
 
         protected HttpClientBase(IRestUriBuilder uriBuilder)
         {
+            if (uriBuilder == null)
+                throw new ArgumentNullException(nameof(uriBuilder));
+
             _uriBuilder = uriBuilder;
             CreateHttpClient();
         }

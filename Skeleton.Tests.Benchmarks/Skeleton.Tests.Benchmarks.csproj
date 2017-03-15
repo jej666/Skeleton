@@ -70,7 +70,7 @@
     <Compile Include="MetadataBenchmarks.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryPerformanceTests.cs" />
+    <Compile Include="OrmPerformanceTests.cs" />
     <Compile Include="SqlDataReaderHelper.cs" />
   </ItemGroup>
   <ItemGroup>

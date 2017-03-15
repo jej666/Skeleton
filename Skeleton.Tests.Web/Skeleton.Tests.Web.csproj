@@ -97,20 +97,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AsyncHttpClientCachedReadTests.cs" />
+    <Compile Include="HttpClientAsyncEntityWriterTests.cs" />
+    <Compile Include="HttpClientAsyncCachedEntityReaderTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HttpClientCachedReadTests.cs" />
-    <Compile Include="AsyncHttpClientCrudTests.cs" />
+    <Compile Include="HttpClientCachedEntityReaderTests.cs" />
+    <Compile Include="HttpClientAsyncEntityReaderTests.cs" />
+    <Compile Include="HttpClientEntityWriterTests.cs" />
+    <Compile Include="Mock\AsyncCustomerCrudController.cs" />
     <Compile Include="Mock\Constants.cs" />
-    <Compile Include="HttpClientCrudTests.cs" />
+    <Compile Include="HttpClientEntityReaderTests.cs" />
     <Compile Include="Mock\AsyncCachedCustomersController.cs" />
-    <Compile Include="Mock\AsyncCachedCustomersHttpClient.cs" />
-    <Compile Include="Mock\AsyncCustomersController.cs" />
-    <Compile Include="Mock\AsyncCustomersHttpClient.cs" />
     <Compile Include="Mock\CachedCustomersController.cs" />
-    <Compile Include="Mock\CachedCustomersHttpClient.cs" />
     <Compile Include="Mock\CustomersController.cs" />
-    <Compile Include="Mock\CustomersHttpClient.cs" />
     <Compile Include="OwinServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -12,7 +12,7 @@ namespace Skeleton.Tests.Core
     public class MetadataTests : MetadataTestsBase
     {
         [TestMethod]
-        public void Cache_Type()
+        public void Metadata_Can_Cache_Type()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var matchingInCache = MatchingInCache(metadata);
@@ -21,7 +21,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void Cache_Type_And_Remove_It()
+        public void Metadata_Can_Cache_Type_And_Remove_It()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var matchingInCache = MatchingInCache(metadata);
@@ -36,7 +36,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void CreateInstance_DefaultCtor()
+        public void Metadata_CreateInstance_DefaultCtor()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var instance = metadata.GetConstructor().InstanceCreator(null) as MetadataType;
@@ -46,7 +46,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void CreateInstance_CtorWithParameters()
+        public void Metadata_CreateInstance_CtorWithParameters()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var instance = metadata.GetConstructor(new Type[] { typeof(int) })
@@ -59,7 +59,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void GetProperties()
+        public void Metadata_GetProperties()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var properties = metadata.GetProperties().ToList();
@@ -69,7 +69,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void GetFields()
+        public void Metadata_GetFields()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var fields = metadata.GetFields().ToList();
@@ -79,7 +79,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void GetAllFields()
+        public void Metadata_GetAllFields()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var fields = metadata.GetAllFields().ToList();
@@ -89,7 +89,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void GetDeclaredOnlyFields()
+        public void Metadata_GetDeclaredOnlyFields()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var fields = metadata.GetDeclaredOnlyFields().ToList();
@@ -99,7 +99,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void GetProperty()
+        public void Metadata_GetProperty()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var property = metadata.GetProperty("Property");
@@ -121,7 +121,7 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void SetProperty_ThrowOnNullInstance()
+        public void Metadata_SetProperty_ThrowOnNullInstance()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var property = metadata.GetProperty("Property");
@@ -134,7 +134,7 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void SetProperty_ThrowOnNullValue()
+        public void Metadata_SetProperty_ThrowOnNullValue()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var property = metadata.GetProperty("Property");
@@ -149,7 +149,7 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void GetProperty_ThrowOnNullInstance()
+        public void Metadata_GetProperty_ThrowOnNullInstance()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var property = metadata.GetProperty("Property");
@@ -161,7 +161,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void GetProperty_ByExpression()
+        public void Metadata_GetProperty_ByExpression()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var property = metadata.GetProperty<MetadataType>(p => p.Property);
@@ -172,14 +172,14 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void GetProperty_ByExpression_ThrowOnNullPropertyInfo()
+        public void Metadata_GetProperty_ByExpression_ThrowOnNullPropertyInfo()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             metadata.GetProperty<MetadataType>(p => p.Field);
         }
 
         [TestMethod]
-        public void GetPrivateField()
+        public void Metadata_GetPrivateField()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var field = metadata.GetPrivateField("_field");
@@ -200,7 +200,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void GetMethod()
+        public void Metadata_GetMethod()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var instance = metadata.GetConstructor().InstanceCreator(null);
@@ -219,7 +219,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-        public void GetMethod_WithParameters()
+        public void Metadata_GetMethod_WithParameters()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var instance = metadata.GetConstructor().InstanceCreator(null);
@@ -235,7 +235,7 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void GetMethod_ThrowOnNullInstance()
+        public void Metadata_GetMethod_ThrowOnNullInstance()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var method = metadata.GetMethod("Method");
@@ -248,7 +248,7 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void CreateMethod_ThrowOnNotFoundMethodName()
+        public void Metadata_CreateMethod_ThrowOnNotFoundMethodName()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             metadata.GetMethod("InexistantMethod");
@@ -256,7 +256,7 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void SetField_ThrowOnNullInstance()
+        public void Metadata_SetField_ThrowOnNullInstance()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var field = metadata.GetField("Field");
@@ -269,7 +269,7 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void SetField_ThrowOnNullValue()
+        public void Metadata_SetField_ThrowOnNullValue()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var field = metadata.GetField("Field");
@@ -284,7 +284,7 @@ namespace Skeleton.Tests.Core
 
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
-        public void GetField_ThrowOnNullInstance()
+        public void Metadata_GetField_ThrowOnNullInstance()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var field = metadata.GetField("Field");
@@ -296,8 +296,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-
-        public void MemberAccessorBase_NotEquals()
+        public void Metadata_MemberAccessorBase_NotEquals()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var field = metadata.GetField("Field");
@@ -311,8 +310,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-
-        public void MemberAccessorBase_Equals()
+        public void Metadata_MemberAccessorBase_Equals()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var property1 = metadata.GetProperty("Property");
@@ -326,8 +324,7 @@ namespace Skeleton.Tests.Core
         }
 
         [TestMethod]
-
-        public void MemberAccessorBase_NotNull()
+        public void Metadata_MemberAccessorBase_NotNull()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
             var property = metadata.GetProperty("Property");
