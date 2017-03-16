@@ -31,10 +31,15 @@ namespace Skeleton.Web.Server.Configuration
 
         public virtual void HandleCore(ExceptionHandlerContext context)
         {
+            var content = Constants.DefaultErrorMessage;
+#if DEBUG
+            content = context.Exception.Message;
+#endif
+
             context.Result = new TextPlainErrorResult
             {
                 Request = context.ExceptionContext.Request,
-                Content = Constants.DefaultErrorMessage
+                Content = content
             };
         }
 
