@@ -1,5 +1,6 @@
 ﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
+using Skeleton.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -44,9 +45,9 @@ namespace Skeleton.Web.Server.Controllers
             if (result == null)
                 return NotFound();
 
-            var dtoData = result
+            var dtoData = await result
                 .Select(Mapper.Map)
-                .ToList();
+                .ToListAsync();
 
             return Ok(dtoData);
         }
@@ -57,11 +58,14 @@ namespace Skeleton.Web.Server.Controllers
             var totalCount = await Reader.CountAsync();
             var pagedData = await Reader
                 .PageAsync(pageSize, pageNumber);
+            var dtoData = await pagedData
+                .Select(Mapper.Map)
+                .ToListAsync();
             var pagedResult = Request.ToPagedResult(
                 totalCount,
                 pageNumber,
                 pageSize,
-                pagedData.Select(Mapper.Map).ToList());
+                dtoData);
 
             return Ok(pagedResult);
         }
