@@ -58,9 +58,9 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HttpClientBase.cs" />
-    <Compile Include="CrudHttpClient.cs" />
-    <Compile Include="AsyncCrudHttpClient.cs" />
+    <Compile Include="JsonHttpClientBase.cs" />
+    <Compile Include="JsonCrudHttpClient.cs" />
+    <Compile Include="AsyncJsonCrudHttpClient.cs" />
     <Compile Include="IRestUriBuilder.cs" />
     <Compile Include="PagedResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,17 +4,19 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
-    public abstract class HttpClientBase : IDisposable
+    public abstract class JsonHttpClientBase : IDisposable
     {
+        private static int Version = Assembly.GetAssembly(typeof(JsonHttpClientBase)).GetName().Version.Major;
         private readonly IRestUriBuilder _uriBuilder;
         private HttpClient _httpClient;
         private bool _disposed;
-
-        protected HttpClientBase(IRestUriBuilder uriBuilder)
+        
+        protected JsonHttpClientBase(IRestUriBuilder uriBuilder)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
@@ -35,7 +37,7 @@ namespace Skeleton.Web.Client
 
         public async Task<HttpResponseMessage> GetAsync(Uri requestUri)
         {
-            var response = await _httpClient.GetAsync(requestUri);
+            var response = await _httpClient.GetAsync(requestUri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
             return response;
@@ -51,7 +53,7 @@ namespace Skeleton.Web.Client
 
         public async Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
         {
-            var response = await _httpClient.DeleteAsync(requestUri);
+            var response = await _httpClient.DeleteAsync(requestUri).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
             return response;
@@ -69,7 +71,7 @@ namespace Skeleton.Web.Client
         public async Task<HttpResponseMessage> PutAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
         {
             var content = CreateJsonObjectContent(dto);
-            var response = await _httpClient.PutAsync(requestUri, content);
+            var response = await _httpClient.PutAsync(requestUri, content).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
             return response;
@@ -96,7 +98,7 @@ namespace Skeleton.Web.Client
         public async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
         {
             var content = CreateJsonObjectContent(dto);
-            var response = await _httpClient.PostAsync(requestUri, content);
+            var response = await _httpClient.PostAsync(requestUri, content).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
             return response;
@@ -105,7 +107,7 @@ namespace Skeleton.Web.Client
         public async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
         {
             var content = CreateJsonObjectContent(dtos);
-            var response = await _httpClient.PostAsync(requestUri, content);
+            var response = await _httpClient.PostAsync(requestUri, content).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
 
             return response;
@@ -119,19 +121,38 @@ namespace Skeleton.Web.Client
 
         private void CreateHttpClient()
         {
-            var handler = new HttpClientHandler();
+            var handler = GetCompressionHandler();
 
+            _httpClient = new HttpClient(handler);
+
+            SetDefaultRequestHeaders();
+        }
+
+        private static HttpClientHandler GetCompressionHandler()
+        {
+            var handler = new HttpClientHandler();
             if (handler.SupportsAutomaticDecompression)
             {
                 handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
             }
-            _httpClient = new HttpClient(handler);
+
+            return handler;
+        }
+
+        private void SetDefaultRequestHeaders()
+        {
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(Constants.JsonMediaType));
             _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
             _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
-            _httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue(new ProductHeaderValue(Constants.ProductHeader, "1.0")));
+            _httpClient.DefaultRequestHeaders.UserAgent.Add(GetUserAgent());
+        }
+
+        private ProductInfoHeaderValue GetUserAgent()
+        {
+            return new ProductInfoHeaderValue(
+                new ProductHeaderValue(
+                    string.Format(Constants.ProductHeader, Version)));
         }
 
         private ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class

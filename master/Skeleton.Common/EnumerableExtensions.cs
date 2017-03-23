@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skeleton.Common
 {
@@ -53,6 +54,13 @@ namespace Skeleton.Common
         public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> source)
         {
             return (source == null) || !source.FastAny();
+        }
+
+        public static Task<List<TSource>> ToListAsync<TSource>(this IEnumerable<TSource> source)
+        {
+            source.ThrowIfNull(() => source);
+
+            return Task.Run(() => source.ToList());
         }
     }
 }

@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
     public class CrudHttpClient<TDto> :
-        HttpClientBase where TDto : class
+        JsonHttpClientBase where TDto : class
     {
         public CrudHttpClient(string host, string path)
-            : this (host, path, Constants.DefaultHttpPort)
+            : this(host, path, Constants.DefaultHttpPort)
         {
         }
 
