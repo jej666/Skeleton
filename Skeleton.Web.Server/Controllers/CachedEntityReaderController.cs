@@ -1,4 +1,5 @@
-﻿using Skeleton.Abstraction.Domain;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
 
 namespace Skeleton.Web.Server.Controllers
@@ -9,9 +10,10 @@ namespace Skeleton.Web.Server.Controllers
         where TDto : class
     {
         public CachedEntityReaderController(
+            ILogger logger,
             ICachedEntityReader<TEntity> reader,
             IEntityMapper<TEntity, TDto> mapper)
-            : base(reader, mapper)
+            : base(logger, reader, mapper)
         {
         }
     }

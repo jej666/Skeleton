@@ -1,4 +1,5 @@
-﻿using Skeleton.Abstraction.Domain;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Common;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Web.Http;
 
 namespace Skeleton.Web.Server.Controllers
 {
-    public class AsyncEntityReaderController<TEntity, TDto> : ApiController
+    public class AsyncEntityReaderController<TEntity, TDto> : ControllerBase
         where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
@@ -15,59 +16,70 @@ namespace Skeleton.Web.Server.Controllers
         private readonly IAsyncEntityReader<TEntity> _reader;
 
         public AsyncEntityReaderController(
+            ILogger logger,
             IAsyncEntityReader<TEntity> reader,
-            IEntityMapper<TEntity, TDto> mapper)
+            IEntityMapper<TEntity, TDto> mapper) :
+            base(logger)
         {
             _reader = reader;
             _mapper = mapper;
         }
 
-        public virtual IAsyncEntityReader<TEntity> Reader => _reader;
+        public IAsyncEntityReader<TEntity> Reader => _reader;
 
         public IEntityMapper<TEntity, TDto> Mapper => _mapper;
 
         [HttpGet]
         public virtual async Task<IHttpActionResult> Get(string id)
         {
-            var result = await Reader.FirstOrDefaultAsync(id);
+            return await HandleExceptionAsync(async () =>
+            {
+                var result = await Reader.FirstOrDefaultAsync(id);
 
-            if (result == null)
-                return NotFound();
+                if (result == null)
+                    return NotFound();
 
-            return Ok(Mapper.Map(result));
+                return Ok(Mapper.Map(result));
+            });
         }
 
         [HttpGet]
         public virtual async Task<IHttpActionResult> GetAll()
         {
-            var result = await Reader.FindAsync();
+            return await HandleExceptionAsync(async () =>
+            {
+                var result = await Reader.FindAsync();
 
-            if (result == null)
-                return NotFound();
+                if (result == null)
+                    return NotFound();
 
-            var dtoData = await result
-                .Select(Mapper.Map)
-                .ToListAsync();
+                var dtoData = await result
+                    .Select(Mapper.Map)
+                    .ToListAsync();
 
-            return Ok(dtoData);
+                return Ok(dtoData);
+            });
         }
 
         [HttpGet]
         public virtual async Task<IHttpActionResult> Page(int pageSize, int pageNumber)
         {
-            var totalCount = await Reader.CountAsync();
-            var pagedData = await Reader
-                .PageAsync(pageSize, pageNumber);
-            var dtoData = await pagedData
-                .Select(Mapper.Map)
-                .ToListAsync();
-            var pagedResult = Request.ToPagedResult(
-                totalCount,
-                pageNumber,
-                pageSize,
-                dtoData);
+            return await HandleExceptionAsync(async () =>
+            {
+                var totalCount = await Reader.CountAsync();
+                var pagedData = await Reader
+                    .PageAsync(pageSize, pageNumber);
+                var dtoData = await pagedData
+                    .Select(Mapper.Map)
+                    .ToListAsync();
+                var pagedResult = Request.ToPagedResult(
+                    totalCount,
+                    pageNumber,
+                    pageSize,
+                    dtoData);
 
-            return Ok(pagedResult);
+                return Ok(pagedResult);
+            });
         }
 
         protected override void Dispose(bool disposing)

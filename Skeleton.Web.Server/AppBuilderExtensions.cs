@@ -1,6 +1,5 @@
 ﻿using Owin;
 using Skeleton.Abstraction;
-using Skeleton.Web.Server.Middlewares;
 using System.Web.Http;
 
 namespace Skeleton.Web.Server

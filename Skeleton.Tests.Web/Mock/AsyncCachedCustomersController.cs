@@ -1,4 +1,5 @@
-﻿using Skeleton.Abstraction.Orm;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Orm;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Server.Controllers;
 
@@ -8,9 +9,10 @@ namespace Skeleton.Tests.Web.Mock
         AsyncCachedReadController<Customer, CustomerDto>
     {
         public AsyncCachedCustomersController(
+            ILogger logger,
             IAsyncCachedEntityReader<Customer> reader,
             IEntityMapper<Customer,CustomerDto> mapper)
-            : base(reader, mapper)
+            : base(logger, reader, mapper)
         {
         }
     }

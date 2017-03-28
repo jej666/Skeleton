@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Net.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
+using System.Linq;
 
 namespace Skeleton.Tests.Web
 {
@@ -36,7 +35,7 @@ namespace Skeleton.Tests.Web
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpRequestException))]
+        [ExpectedException(typeof(CustomHttpException))]
         public void CachedEntityReader_FirstOrDefault_With_Wrong_Id()
         {
             Client.FirstOrDefault(1000000);

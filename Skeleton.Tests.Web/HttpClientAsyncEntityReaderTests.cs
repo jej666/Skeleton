@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
-using System.Diagnostics.CodeAnalysis;
 using Skeleton.Web.Client;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Web
 {
@@ -40,7 +39,7 @@ namespace Skeleton.Tests.Web
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpRequestException))]
+        [ExpectedException(typeof(CustomHttpException))]
         public async Task AsyncEntityReader_FirstOrDefault_With_Wrong_Id()
         {
             await Client.FirstOrDefaultAsync(100000);

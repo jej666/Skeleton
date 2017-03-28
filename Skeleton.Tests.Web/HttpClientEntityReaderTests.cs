@@ -3,7 +3,6 @@ using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
 using System.Linq;
-using System.Net.Http;
 
 namespace Skeleton.Tests.Web
 {
@@ -49,7 +48,7 @@ namespace Skeleton.Tests.Web
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpRequestException))]
+        [ExpectedException(typeof(CustomHttpException))]
         public void EntityReader_FirstOrDefault_With_Wrong_Id()
         {
             Client.FirstOrDefault(100000);
@@ -68,12 +67,12 @@ namespace Skeleton.Tests.Web
             }
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(HttpRequestException))]
-        public void EntityReader_GetException()
-        {
-            var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
-            Client.Get(uri);
-        }
+        //[TestMethod]
+        //[ExpectedException(typeof(CustomHttpException))]
+        //public void EntityReader_GetException()
+        //{
+        //    var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
+        //    Client.Get(uri);
+        //}
     }
 }

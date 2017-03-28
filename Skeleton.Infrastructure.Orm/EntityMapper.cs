@@ -1,9 +1,7 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Domain;
-using Skeleton.Abstraction.Reflection;
+﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,22 +13,17 @@ namespace Skeleton.Infrastructure.Orm
         where TEntity : class, IEntity<TEntity>
         where TDto : class
     {
-        private readonly IInstanceAccessor _dtoInstanceAccessor;
         private readonly IMetadata _dtoMetadata;
-        private readonly IEnumerable<IMemberAccessor> _dtoProperties;
-        private readonly IInstanceAccessor _entityInstanceAccessor;
         private readonly IMetadata _entityMetadata;
+        private readonly IInstanceAccessor _entityInstanceAccessor;
+        private readonly IInstanceAccessor _dtoInstanceAccessor;
         private readonly IEnumerable<IMemberAccessor> _entityProperties;
-        private readonly ILogger _logger;
+        private readonly IEnumerable<IMemberAccessor> _dtoProperties;
 
-        public EntityMapper(
-            ILogger logger,
-            IMetadataProvider metadataProvider)
+        public EntityMapper(IMetadataProvider metadataProvider)
         {
-            logger.ThrowIfNull(() => logger);
             metadataProvider.ThrowIfNull(() => metadataProvider);
 
-            _logger = logger;
             _dtoMetadata = metadataProvider.GetMetadata<TDto>();
             _dtoInstanceAccessor = _dtoMetadata.GetConstructor();
             _dtoProperties = _dtoMetadata.GetDeclaredOnlyProperties();
@@ -49,17 +42,14 @@ namespace Skeleton.Infrastructure.Orm
 
         public TDto Map(TEntity entity)
         {
-            return HandleException(() =>
-            {
-                var instanceDto = _dtoInstanceAccessor.InstanceCreator(null) as TDto;
+            var instanceDto = _dtoInstanceAccessor.InstanceCreator(null) as TDto;
 
-                foreach (var entityProperty in _entityProperties)
-                    foreach (var dtoProperty in _dtoProperties)
-                        if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
-                            dtoProperty.Setter(instanceDto, entityProperty.Getter(entity));
+            foreach (var entityProperty in _entityProperties)
+                foreach (var dtoProperty in _dtoProperties)
+                    if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
+                        dtoProperty.Setter(instanceDto, entityProperty.Getter(entity));
 
-                return instanceDto;
-            });
+            return instanceDto;
         }
 
         public IEnumerable<TEntity> Map(IEnumerable<TDto> dtos)
@@ -71,30 +61,14 @@ namespace Skeleton.Infrastructure.Orm
 
         public TEntity Map(TDto dto)
         {
-            return HandleException(() =>
-            {
-                var instanceEntity = _entityInstanceAccessor.InstanceCreator(null) as TEntity;
+            var instanceEntity = _entityInstanceAccessor.InstanceCreator(null) as TEntity;
 
-                foreach (var dtoProperty in _dtoProperties)
-                    foreach (var entityProperty in _entityProperties)
-                        if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
-                            entityProperty.Setter(instanceEntity, dtoProperty.Getter(dto));
+            foreach (var dtoProperty in _dtoProperties)
+                foreach (var entityProperty in _entityProperties)
+                    if (entityProperty.Name.EquivalentTo(dtoProperty.Name))
+                        entityProperty.Setter(instanceEntity, dtoProperty.Getter(dto));
 
-                return instanceEntity;
-            });
-        }
-
-        private T HandleException<T>(Func<T> handler)
-        {
-            try
-            {
-                return handler();
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e.Message);
-                throw;
-            }
+            return instanceEntity;
         }
     }
 }

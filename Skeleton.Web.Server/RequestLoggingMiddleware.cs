@@ -4,7 +4,7 @@ using Skeleton.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Skeleton.Web.Server.Middlewares
+namespace Skeleton.Web.Server
 {
     public sealed class RequestLoggingMiddleware : OwinMiddleware
     {
@@ -20,10 +20,10 @@ namespace Skeleton.Web.Server.Middlewares
 
         public override async Task Invoke(IOwinContext context)
         {
-            await Measure(context).ConfigureAwait(false);
+            await MeasureRequestExecutionTime(context).ConfigureAwait(false);
         }
 
-        private async Task Measure(IOwinContext context)
+        private async Task MeasureRequestExecutionTime(IOwinContext context)
         {
             var stopWath = Stopwatch.StartNew();
             await Next.Invoke(context).ConfigureAwait(false);

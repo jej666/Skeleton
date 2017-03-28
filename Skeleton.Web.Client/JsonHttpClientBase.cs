@@ -12,10 +12,11 @@ namespace Skeleton.Web.Client
     public abstract class JsonHttpClientBase : IDisposable
     {
         private static int Version = Assembly.GetAssembly(typeof(JsonHttpClientBase)).GetName().Version.Major;
+        private readonly ExponentialRetryPolicy _retryPolicy = new ExponentialRetryPolicy();
         private readonly IRestUriBuilder _uriBuilder;
         private HttpClient _httpClient;
         private bool _disposed;
-        
+
         protected JsonHttpClientBase(IRestUriBuilder uriBuilder)
         {
             if (uriBuilder == null)
@@ -29,88 +30,146 @@ namespace Skeleton.Web.Client
 
         public HttpResponseMessage Get(Uri requestUri)
         {
-            var response = _httpClient.GetAsync(requestUri).Result;
-            response.EnsureSuccessStatusCode();
+            return _retryPolicy.Execute(() =>
+            {
+                var response = _httpClient
+                    .GetAsync(requestUri)
+                    .Result;
 
-            return response;
+                response.HandleException();
+
+                return response;
+            });
         }
 
         public async Task<HttpResponseMessage> GetAsync(Uri requestUri)
         {
-            var response = await _httpClient.GetAsync(requestUri).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            return await _retryPolicy.ExecuteAsync(async () =>
+           {
+               var response = await _httpClient
+                    .GetAsync(requestUri)
+                    .ConfigureAwait(false);
 
-            return response;
+               response.HandleException();
+
+               return response;
+           });
         }
 
         public HttpResponseMessage Delete(Uri requestUri)
         {
-            var response = _httpClient.DeleteAsync(requestUri).Result;
-            response.EnsureSuccessStatusCode();
+            return _retryPolicy.Execute(() =>
+            {
+                var response = _httpClient
+                    .DeleteAsync(requestUri)
+                    .Result;
 
-            return response;
+                response.HandleException();
+
+                return response;
+            });
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
         {
-            var response = await _httpClient.DeleteAsync(requestUri).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            return await _retryPolicy.ExecuteAsync(async () =>
+            {
+                var response = await _httpClient
+                    .DeleteAsync(requestUri)
+                    .ConfigureAwait(false);
 
-            return response;
+                response.HandleException();
+
+                return response;
+            });
         }
 
         public HttpResponseMessage Put<TDto>(Uri requestUri, TDto dto) where TDto : class
         {
-            var content = CreateJsonObjectContent(dto);
-            var response = _httpClient.PutAsync(requestUri, content).Result;
-            response.EnsureSuccessStatusCode();
+            return _retryPolicy.Execute(() =>
+            {
+                var content = CreateJsonObjectContent(dto);
+                var response = _httpClient
+                    .PutAsync(requestUri, content)
+                    .Result;
 
-            return response;
+                response.HandleException();
+
+                return response;
+            });
         }
 
         public async Task<HttpResponseMessage> PutAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
         {
-            var content = CreateJsonObjectContent(dto);
-            var response = await _httpClient.PutAsync(requestUri, content).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            return await _retryPolicy.ExecuteAsync(async () =>
+            {
+                var content = CreateJsonObjectContent(dto);
+                var response = await _httpClient
+                    .PutAsync(requestUri, content)
+                    .ConfigureAwait(false);
 
-            return response;
+                response.HandleException();
+
+                return response;
+            });
         }
 
         public HttpResponseMessage Post<TDto>(Uri requestUri, TDto dto) where TDto : class
         {
-            var content = CreateJsonObjectContent(dto);
-            var response = _httpClient.PostAsync(requestUri, content).Result;
-            response.EnsureSuccessStatusCode();
+            return _retryPolicy.Execute(() =>
+            {
+                var content = CreateJsonObjectContent(dto);
+                var response = _httpClient
+                    .PostAsync(requestUri, content)
+                    .Result;
 
-            return response;
+                response.HandleException();
+
+                return response;
+            });
         }
 
         public HttpResponseMessage Post<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
         {
-            var content = CreateJsonObjectContent(dtos);
-            var response = _httpClient.PostAsync(requestUri, content).Result;
-            response.EnsureSuccessStatusCode();
+            return _retryPolicy.Execute(() =>
+            {
+                var content = CreateJsonObjectContent(dtos);
+                var response = _httpClient
+                    .PostAsync(requestUri, content)
+                    .Result;
+                response.HandleException();
 
-            return response;
+                return response;
+            });
         }
 
         public async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
         {
-            var content = CreateJsonObjectContent(dto);
-            var response = await _httpClient.PostAsync(requestUri, content).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            return await _retryPolicy.ExecuteAsync(async () =>
+           {
+               var content = CreateJsonObjectContent(dto);
+               var response = await _httpClient
+                   .PostAsync(requestUri, content)
+                   .ConfigureAwait(false);
 
-            return response;
+               response.HandleException();
+
+               return response;
+           });
         }
 
         public async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
         {
-            var content = CreateJsonObjectContent(dtos);
-            var response = await _httpClient.PostAsync(requestUri, content).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            return await _retryPolicy.ExecuteAsync(async () =>
+            {
+                var content = CreateJsonObjectContent(dtos);
+                var response = await _httpClient
+                    .PostAsync(requestUri, content)
+                    .ConfigureAwait(false);
+                response.HandleException();
 
-            return response;
+                return response;
+            });
         }
 
         public void Dispose()
@@ -122,9 +181,7 @@ namespace Skeleton.Web.Client
         private void CreateHttpClient()
         {
             var handler = GetCompressionHandler();
-
             _httpClient = new HttpClient(handler);
-
             SetDefaultRequestHeaders();
         }
 
@@ -132,9 +189,7 @@ namespace Skeleton.Web.Client
         {
             var handler = new HttpClientHandler();
             if (handler.SupportsAutomaticDecompression)
-            {
                 handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-            }
 
             return handler;
         }
@@ -157,11 +212,17 @@ namespace Skeleton.Web.Client
 
         private ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
         {
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
             return new ObjectContent<TDto>(dto, new JsonMediaTypeFormatter());
         }
 
         private ObjectContent CreateJsonObjectContent<TDto>(IEnumerable<TDto> dtos) where TDto : class
         {
+            if (dtos == null)
+                throw new ArgumentNullException(nameof(dtos));
+
             return new ObjectContent<IEnumerable<TDto>>(dtos, new JsonMediaTypeFormatter());
         }
 
