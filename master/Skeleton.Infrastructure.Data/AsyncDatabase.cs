@@ -21,11 +21,11 @@ namespace Skeleton.Infrastructure.Data
 
         public async Task<int> ExecuteAsync(ISqlCommand command)
         {
-            return await RetryPolicy.Execute(async () =>
+            return await RetryPolicy.ExecuteAsync(async () =>
             {
                 await OpenConnectionAsync();
 
-                var dbCommand = (DbCommand)CreateTextCommand(command);
+                var dbCommand = CreateTextCommand(command) as DbCommand;
 
                 return await dbCommand.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
@@ -34,11 +34,11 @@ namespace Skeleton.Infrastructure.Data
 
         public async Task<object> ExecuteScalarAsync(ISqlCommand command)
         {
-            return await RetryPolicy.Execute(async () =>
+            return await RetryPolicy.ExecuteAsync(async () =>
             {
                 await OpenConnectionAsync();
 
-                var dbCommand = (DbCommand)CreateTextCommand(command);
+                var dbCommand = CreateTextCommand(command) as DbCommand;
                 var result = await dbCommand
                     .ExecuteScalarAsync()
                     .ConfigureAwait(false);
@@ -60,11 +60,10 @@ namespace Skeleton.Infrastructure.Data
 
         public async Task<int> ExecuteStoredProcedureAsync(ISqlCommand command)
         {
-            return await RetryPolicy.Execute(async () =>
+            return await RetryPolicy.ExecuteAsync(async () =>
             {
                 await OpenConnectionAsync();
-                var dbCommand = CreateStoredProcedureCommand(
-                    command) as DbCommand;
+                var dbCommand = CreateStoredProcedureCommand(command) as DbCommand;
 
                 return await dbCommand.ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
@@ -73,7 +72,7 @@ namespace Skeleton.Infrastructure.Data
 
         public async Task<IEnumerable<dynamic>> FindAsync(ISqlCommand command)
         {
-            return await RetryPolicy.Execute(async () =>
+            return await RetryPolicy.ExecuteAsync(async () =>
             {
                 await OpenConnectionAsync();
 
@@ -89,7 +88,7 @@ namespace Skeleton.Infrastructure.Data
         public async Task<IEnumerable<TPoco>> FindAsync<TPoco>(ISqlCommand command)
             where TPoco : class
         {
-            return await RetryPolicy.Execute(async () =>
+            return await RetryPolicy.ExecuteAsync(async () =>
             {
                 await OpenConnectionAsync();
 
@@ -107,7 +106,7 @@ namespace Skeleton.Infrastructure.Data
         public async Task<TPoco> FirstOrDefaultAsync<TPoco>(ISqlCommand command)
             where TPoco : class
         {
-            return await RetryPolicy.Execute(async () =>
+            return await RetryPolicy.ExecuteAsync(async () =>
             {
                 await OpenConnectionAsync();
 

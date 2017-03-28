@@ -1,12 +1,11 @@
 ﻿using Microsoft.Owin;
-using Skeleton.Web.Server.Compression;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace Skeleton.Web.Server.Middlewares
+namespace Skeleton.Web.Server
 {
     // Adapted from https://github.com/mikegore1000/SqueezeMe
     public class CompressionMiddleware

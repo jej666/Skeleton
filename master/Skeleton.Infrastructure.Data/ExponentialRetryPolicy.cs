@@ -11,8 +11,10 @@ namespace Skeleton.Infrastructure.Data
         private readonly IDatabaseConfiguration _configuration;
         private readonly ILogger _logger;
 
-        public static readonly TimeSpan DefaultMaxBackoff = TimeSpan.FromSeconds(30.0);
-        public static readonly TimeSpan DefaultMinBackoff = TimeSpan.FromSeconds(1.0);
+        internal static readonly TimeSpan DefaultMaxBackoff = TimeSpan.FromSeconds(30.0);
+        internal static readonly TimeSpan DefaultMinBackoff = TimeSpan.FromSeconds(1.0);
+        internal static readonly bool FirstFastRetry = true;
+        private int _currentRetry;
 
         internal ExponentialRetryPolicy(IDatabaseConfiguration configuration, ILogger logger)
         {
@@ -22,10 +24,9 @@ namespace Skeleton.Infrastructure.Data
 
         internal T Execute<T>(Func<T> func)
         {
-            var retryCount = _configuration.RetryCount;
-            var exponentialInterval = CalculateExponentialRetryInterval();
+            _currentRetry = 0;
 
-            while (true)
+            for(;;)
             {
                 try
                 {
@@ -33,11 +34,13 @@ namespace Skeleton.Infrastructure.Data
                 }
                 catch (SqlException e)
                 {
-                    --retryCount;
+                    var exponentialInterval = CalculateExponentialBackoff();
+
+                    _currentRetry++;
 
                     _logger.Error("Database error => ", e);
 
-                    if (retryCount <= 0)
+                    if (_currentRetry == _configuration.RetryCount)
                         throw;
 
                     if ((e.Number != 1205) && (e.Number != -2))
@@ -48,24 +51,25 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        internal async Task<T> Execute<T>(Func<Task<T>> func)
+        internal async Task<T> ExecuteAsync<T>(Func<Task<T>> func)
         {
-            var retryCount = _configuration.RetryCount;
-            var exponentialInterval = CalculateExponentialRetryInterval();
+            _currentRetry = 0;
 
-            while (true)
-            {
+            for(;;)
+            { 
                 try
                 {
                     return await func();
                 }
                 catch (SqlException e)
                 {
-                    --retryCount;
+                    var exponentialInterval = CalculateExponentialBackoff();
+
+                    _currentRetry++;
 
                     _logger.Error("Database error => ", e);
 
-                    if (retryCount <= 0)
+                    if (_currentRetry == _configuration.RetryCount)
                         throw;
 
                     if ((e.Number != 1205) && (e.Number != -2))
@@ -76,17 +80,27 @@ namespace Skeleton.Infrastructure.Data
             }
         }
 
-        private TimeSpan CalculateExponentialRetryInterval()
+        private TimeSpan CalculateExponentialBackoff()
         {
-            var random = new Random();
-            var retryInterval = TimeSpan.FromSeconds(_configuration.RetryInterval);
-            var delta = (int)((Math.Pow(2.0, _configuration.RetryCount) - 1.0) *
-                random.Next((int)(retryInterval.TotalMilliseconds * 0.8),
-                (int)(retryInterval.TotalMilliseconds * 1.2)));
-            var interval = (int)Math.Min(checked(DefaultMinBackoff.TotalMilliseconds + delta),
-                DefaultMaxBackoff.TotalMilliseconds);
+            var defaultInterval = TimeSpan.FromSeconds(_configuration.RetryInterval);
+
+            if (FirstFastRetry && _currentRetry == 0)
+                return defaultInterval;
+
+            int randomInterval = GetRandomInterval(defaultInterval);
+            var delta = (int)(Math.Pow(2.0, _currentRetry) * randomInterval);
+            var interval = (int)Math.Min(checked(DefaultMinBackoff.TotalMilliseconds + delta), DefaultMaxBackoff.TotalMilliseconds);
 
             return TimeSpan.FromMilliseconds(interval);
+        }
+
+        private static int GetRandomInterval(TimeSpan defaultInterval)
+        {
+            var random = new Random();
+            var randomInterval = random.Next((int)(defaultInterval.TotalMilliseconds * 0.8),
+                (int)(defaultInterval.TotalMilliseconds * 1.2));
+
+            return randomInterval;
         }
     }
 }

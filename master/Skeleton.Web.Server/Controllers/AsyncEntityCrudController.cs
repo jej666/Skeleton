@@ -1,4 +1,5 @@
-﻿using Skeleton.Abstraction.Domain;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,10 +15,11 @@ namespace Skeleton.Web.Server.Controllers
         private readonly IAsyncEntityWriter<TEntity> _writer;
 
         public AsyncEntityCrudController(
+            ILogger logger,
             IAsyncEntityReader<TEntity> reader,
-            IAsyncEntityWriter<TEntity> writer,
-            IEntityMapper<TEntity, TDto> mapper) :
-            base(reader, mapper)
+            IEntityMapper<TEntity, TDto> mapper,
+            IAsyncEntityWriter<TEntity> writer) :
+            base(logger, reader, mapper)
         {
             _writer = writer;
         }
@@ -27,82 +29,100 @@ namespace Skeleton.Web.Server.Controllers
         [HttpPut]
         public async Task<IHttpActionResult> Update(TDto dto)
         {
-            var entity = Mapper.Map(dto);
-            var result = await Writer.UpdateAsync(entity);
+            return await HandleExceptionAsync(async () =>
+            {
+                var entity = Mapper.Map(dto);
+                var result = await Writer.UpdateAsync(entity);
 
-            if (result)
-                return Ok();
+                if (result)
+                    return Ok();
 
-            return NotFound();
+                return NotFound();
+            });
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> BatchUpdate(IEnumerable<TDto> dtos)
         {
-            var entities = Mapper.Map(dtos);
-            var result = await Writer.UpdateAsync(entities);
+            return await HandleExceptionAsync(async () =>
+            {
+                var entities = Mapper.Map(dtos);
+                var result = await Writer.UpdateAsync(entities);
 
-            if (result)
-                return Ok();
+                if (result)
+                    return Ok();
 
-            return NotFound();
+                return NotFound();
+            });
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> Create(TDto dto)
         {
-            var entity = Mapper.Map(dto);
-            var result = await Writer.AddAsync(entity);
+            return await HandleExceptionAsync(async () =>
+            {
+                var entity = Mapper.Map(dto);
+                var result = await Writer.AddAsync(entity);
 
-            if (!result)
-                return NotFound();
+                if (!result)
+                    return Conflict();
 
-            var newDto = Mapper.Map(entity);
+                var newDto = Mapper.Map(entity);
 
-            return CreatedAtRoute(
-                Constants.DefaultHttpRoute,
-                new { id = entity.Id },
-                newDto);
+                return CreatedAtRoute(
+                    Constants.DefaultHttpRoute,
+                    new { id = entity.Id },
+                    newDto);
+            });
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> BatchCreate(IEnumerable<TDto> dtos)
         {
-            var entities = Mapper.Map(dtos);
-            var result = await Writer.AddAsync(entities);
+            return await HandleExceptionAsync(async () =>
+            {
+                var entities = Mapper.Map(dtos);
+                var result = await Writer.AddAsync(entities);
 
-            if (result)
-                return Ok(Mapper.Map(entities));
+                if (result)
+                    return Ok(Mapper.Map(entities));
 
-            return NotFound();
+                return Conflict();
+            });
         }
 
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(string id)
         {
-            var entity = await Reader.FirstOrDefaultAsync(id);
+            return await HandleExceptionAsync(async () =>
+            {
+                var entity = await Reader.FirstOrDefaultAsync(id);
 
-            if (entity == null)
-                return NotFound();
+                if (entity == null)
+                    return NotFound();
 
-            var result = await Writer.DeleteAsync(entity);
+                var result = await Writer.DeleteAsync(entity);
 
-            if (result)
-                return Ok();
+                if (result)
+                    return Ok();
 
-            return BadRequest();
+                return BadRequest();
+            });
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> BatchDelete(IEnumerable<TDto> dtos)
         {
-            var entities = Mapper.Map(dtos);
-            var result = await Writer.DeleteAsync(entities);
+            return await HandleExceptionAsync(async () =>
+            {
+                var entities = Mapper.Map(dtos);
+                var result = await Writer.DeleteAsync(entities);
 
-            if (result)
-                return Ok();
+                if (result)
+                    return Ok();
 
-            return BadRequest();
+                return BadRequest();
+            });
         }
 
         protected override void Dispose(bool disposing)

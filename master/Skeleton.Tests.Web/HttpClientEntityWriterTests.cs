@@ -3,7 +3,6 @@ using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
 using System.Linq;
-using System.Net.Http;
 
 namespace Skeleton.Tests.Web
 {
@@ -32,7 +31,7 @@ namespace Skeleton.Tests.Web
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpRequestException))]
+        [ExpectedException(typeof(CustomHttpException))]
         public void EntityWriter_Update_With_Wrong_Id()
         {
             var customer = new CustomerDto
@@ -68,7 +67,7 @@ namespace Skeleton.Tests.Web
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpRequestException))]
+        [ExpectedException(typeof(CustomHttpException))]
         public void EntityWriter_Create_With_Wrong_Id()
         {
             var customer = MemorySeeder.SeedCustomerDto();
@@ -106,7 +105,7 @@ namespace Skeleton.Tests.Web
         }
 
         [TestMethod]
-        [ExpectedException(typeof(HttpRequestException))]
+        [ExpectedException(typeof(CustomHttpException))]
         public void EntityWriter_Delete_With_Wrong_Id()
         {
             Client.Delete(100000);

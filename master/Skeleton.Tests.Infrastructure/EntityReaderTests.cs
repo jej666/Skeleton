@@ -282,7 +282,6 @@ namespace Skeleton.Tests.Infrastructure
                 .Find();
 
             Assert.IsNotNull(results);
-            Assert.IsTrue(results.Any());
         }
 
         [TestMethod]

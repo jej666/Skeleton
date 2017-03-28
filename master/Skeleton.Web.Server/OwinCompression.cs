@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Skeleton.Web.Server.Compression
+namespace Skeleton.Web.Server
 {
     internal class OwinCompression
     {

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Skeleton.Web.Server.Compression
+namespace Skeleton.Web.Server
 {
     public interface ICompressor
     {

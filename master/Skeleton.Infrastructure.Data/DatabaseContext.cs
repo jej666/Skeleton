@@ -180,6 +180,10 @@ namespace Skeleton.Infrastructure.Data
             if (sqlCommand.Parameters != null)
                 AttachParameters(sqlCommand.Parameters);
 
+#if DEBUG
+            Logger.Debug(sqlCommand.SqlQuery);
+#endif
+
             return _command;
         }
 
