@@ -39,7 +39,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal void OrderBy(LambdaExpression expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof(expression));
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
@@ -49,7 +49,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal void OrderByDescending(LambdaExpression expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof(expression));
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
@@ -69,7 +69,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal void Aggregate(LambdaExpression expression, SelectFunction selectFunction)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof(expression));
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
@@ -82,7 +82,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal void GroupBy(LambdaExpression expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof(expression));
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
@@ -92,7 +92,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal void Select(LambdaExpression expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof(expression));
 
             var expr = expression.Body;
 
@@ -138,10 +138,9 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
             }
         }
 
-        internal void Join<T1, T2>(
-            Expression<Func<T1, T2, bool>> expression, JoinType joinType)
+        internal void Join<T1, T2>(Expression<Func<T1, T2, bool>> expression, JoinType joinType)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof(expression));
 
             var joinExpression = expression.Body.GetBinaryExpression();
             var leftExpression = joinExpression.Left.GetMemberExpression();

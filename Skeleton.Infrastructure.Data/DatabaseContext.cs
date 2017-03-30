@@ -161,11 +161,9 @@ namespace Skeleton.Infrastructure.Data
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Vérifier si les requêtes SQL présentent des failles de sécurité")]
-        private IDbCommand CreateCommand(
-            CommandType commandType,
-            ISqlCommand sqlCommand)
+        private IDbCommand CreateCommand(CommandType commandType, ISqlCommand sqlCommand)
         {
-            sqlCommand.SqlQuery.ThrowIfNullOrEmpty(() => sqlCommand.SqlQuery);
+            sqlCommand.SqlQuery.ThrowIfNullOrEmpty(nameof(sqlCommand.SqlQuery));
 
             _command = new SqlCommand();
             _command.Connection = _connection;

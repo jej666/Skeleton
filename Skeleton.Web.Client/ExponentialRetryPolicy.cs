@@ -88,19 +88,27 @@ namespace Skeleton.Web.Client
             }
         }
 
-        private TimeSpan CalculateExponentialBackoff(int retryCount)
+        private static TimeSpan CalculateExponentialBackoff(int retryCount)
         {
             if (FirstFastRetry && retryCount == 0)
                 return DefaultRetryInterval;
 
-            var random = new Random();
-            var randomInterval = random.Next((int)(DefaultRetryInterval.TotalMilliseconds * 0.8),
-                (int)(DefaultRetryInterval.TotalMilliseconds * 1.2));
+            int randomInterval = GetRandomInterval();
             var delta = (int)(Math.Pow(2.0, retryCount) * randomInterval);
             var interval = (int)Math.Min(checked(DefaultMinBackoff.TotalMilliseconds + delta),
                 DefaultMaxBackoff.TotalMilliseconds);
 
             return TimeSpan.FromMilliseconds(interval);
+        }
+
+        private static int GetRandomInterval()
+        {
+            var random = new Random();
+            var randomInterval = random.Next(
+                (int)(DefaultRetryInterval.TotalMilliseconds * 0.8),
+                (int)(DefaultRetryInterval.TotalMilliseconds * 1.2));
+
+            return randomInterval;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public EntityMapper(IMetadataProvider metadataProvider)
         {
-            metadataProvider.ThrowIfNull(() => metadataProvider);
+            metadataProvider.ThrowIfNull(nameof(metadataProvider));
 
             _dtoMetadata = metadataProvider.GetMetadata<TDto>();
             _dtoInstanceAccessor = _dtoMetadata.GetConstructor();
@@ -35,7 +35,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public IEnumerable<TDto> Map(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(() => entities);
+            entities.ThrowIfNullOrEmpty(nameof(entities));
 
             return entities.Select(Map).AsList();
         }
@@ -54,7 +54,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public IEnumerable<TEntity> Map(IEnumerable<TDto> dtos)
         {
-            dtos.ThrowIfNullOrEmpty(() => dtos);
+            dtos.ThrowIfNullOrEmpty(nameof(dtos));
 
             return dtos.Select(Map).AsList();
         }

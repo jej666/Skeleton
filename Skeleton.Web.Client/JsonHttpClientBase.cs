@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -203,14 +204,14 @@ namespace Skeleton.Web.Client
             _httpClient.DefaultRequestHeaders.UserAgent.Add(GetUserAgent());
         }
 
-        private ProductInfoHeaderValue GetUserAgent()
+        private static ProductInfoHeaderValue GetUserAgent()
         {
             return new ProductInfoHeaderValue(
                 new ProductHeaderValue(
-                    string.Format(Constants.ProductHeader, Version)));
+                    string.Format(CultureInfo.InvariantCulture, Constants.ProductHeader, Version)));
         }
 
-        private ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
+        private static ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
         {
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto));
@@ -218,7 +219,7 @@ namespace Skeleton.Web.Client
             return new ObjectContent<TDto>(dto, new JsonMediaTypeFormatter());
         }
 
-        private ObjectContent CreateJsonObjectContent<TDto>(IEnumerable<TDto> dtos) where TDto : class
+        private static ObjectContent CreateJsonObjectContent<TDto>(IEnumerable<TDto> dtos) where TDto : class
         {
             if (dtos == null)
                 throw new ArgumentNullException(nameof(dtos));

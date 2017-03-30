@@ -85,7 +85,7 @@ namespace Skeleton.Web.Client
         public IRestUriBuilder SetQueryParameter(string key, object value)
         {
             if (string.IsNullOrEmpty(key))
-                throw new ArgumentException(nameof(key));
+                throw new ArgumentException("Key cannot be null or empty", nameof(key));
 
             if (value == null)
                 throw new ArgumentNullException(nameof(value));

@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Orm
             ICacheProvider cacheProvider)
             : base(metadataProvider, database)
         {
-            cacheProvider.ThrowIfNull(() => cacheProvider);
+            cacheProvider.ThrowIfNull(nameof(cacheProvider));
 
             Cache = cacheProvider;
             _keyGenerator = new CacheKeyGenerator<TEntity>();
@@ -46,7 +46,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public override TEntity FirstOrDefault(object id)
         {
-            id.ThrowIfNull(() => id);
+            id.ThrowIfNull(nameof(id));
 
             LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(id);
 

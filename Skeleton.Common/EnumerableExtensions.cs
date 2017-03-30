@@ -19,7 +19,7 @@ namespace Skeleton.Common
 
         public static bool FastAny<TSource>(this IEnumerable<TSource> source)
         {
-            source.ThrowIfNull(() => source);
+            source.ThrowIfNull(nameof(source));
 
             var enumerable = source as IList<TSource> ?? source.ToList();
             var collection = source as ICollection<TSource>;
@@ -37,8 +37,8 @@ namespace Skeleton.Common
 
         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
         {
-            source.ThrowIfNull(() => source);
-            action.ThrowIfNull(() => action);
+            source.ThrowIfNull(nameof(source));
+            action.ThrowIfNull(nameof(action));
 
             var enumerable = source as IList<TSource> ?? source.ToList();
 
@@ -58,7 +58,7 @@ namespace Skeleton.Common
 
         public static Task<List<TSource>> ToListAsync<TSource>(this IEnumerable<TSource> source)
         {
-            source.ThrowIfNull(() => source);
+            source.ThrowIfNull(nameof(source));
 
             return Task.Run(() => source.ToList());
         }

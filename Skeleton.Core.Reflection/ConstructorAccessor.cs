@@ -11,8 +11,8 @@ namespace Skeleton.Core.Reflection
 
         public ConstructorAccessor(Type type, Type[] paramTypes)
         {
-            type.ThrowIfNull(() => type);
-            paramTypes.ThrowIfNull(() => paramTypes);
+            type.ThrowIfNull(nameof(type));
+            paramTypes.ThrowIfNull(nameof(paramTypes));
 
             var emitter = new ConstructorEmitter(type, paramTypes);
             _constructorDelegate = emitter.CreateDelegate();

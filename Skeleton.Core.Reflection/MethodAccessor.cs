@@ -15,7 +15,7 @@ namespace Skeleton.Core.Reflection
 
         public MethodAccessor(MethodInfo methodInfo)
         {
-            methodInfo.ThrowIfNull(() => methodInfo);
+            methodInfo.ThrowIfNull(nameof(methodInfo));
 
             MethodInfo = methodInfo;
             Name = methodInfo.Name;
@@ -32,8 +32,8 @@ namespace Skeleton.Core.Reflection
 
         internal static IMethodAccessor Create(Type type, string name, Type[] parameterTypes)
         {
-            type.ThrowIfNull(() => type);
-            name.ThrowIfNullOrEmpty(() => name);
+            type.ThrowIfNull(nameof(type));
+            name.ThrowIfNullOrEmpty(nameof(name));
 
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance;
 

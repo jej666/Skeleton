@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq.Expressions;
 
 namespace Skeleton.Common
 {
     [DebuggerStepThrough]
     public static class GuardExtensions
     {
-        public static void ThrowIfNull<T>(this T value, Expression<Func<T>> reference)
+        public static void ThrowIfNull<T>(this T value, string parameterName)
         {
             if (value.Equals(default(T)))
-                throw new ArgumentNullException(reference.GetMemberExpression().Member.Name);
+                throw new ArgumentNullException(parameterName ?? "object");
         }
 
-        public static void ThrowIfNullOrEmpty<T>(this IEnumerable<T> value, Expression<Func<IEnumerable<T>>> reference)
+        public static void ThrowIfNullOrEmpty<T>(this IEnumerable<T> value, string parameterName)
         {
             if (value.IsNullOrEmpty())
-                throw new ArgumentNullException(reference.GetMemberExpression().Member.Name);
+                throw new ArgumentNullException(parameterName ?? "collection");
         }
 
-        public static void ThrowIfNullOrEmpty(this string value, Expression<Func<string>> reference)
+        public static void ThrowIfNullOrEmpty(this string value, string parameterName)
         {
-            value.ThrowIfNull(reference);
+            value.ThrowIfNull(nameof(parameterName));
 
             if (string.IsNullOrEmpty(value))
-                throw new ArgumentException("Argument cannot be null", reference.GetMemberExpression().Member.Name);
+                throw new ArgumentException("Argument cannot be null", parameterName ??  "string");
         }
     }
 }

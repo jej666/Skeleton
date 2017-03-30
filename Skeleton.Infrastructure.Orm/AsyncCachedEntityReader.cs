@@ -46,7 +46,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public override async Task<TEntity> FirstOrDefaultAsync(object id)
         {
-            id.ThrowIfNull(() => id);
+            id.ThrowIfNull(nameof(id));
 
             LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(id);
 

@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         protected internal SqlBuilderBase(IMetadataProvider metadataProvider)
         {
-            metadataProvider.ThrowIfNull(() => metadataProvider);
+            metadataProvider.ThrowIfNull(nameof(metadataProvider));
 
             _metadata = metadataProvider.GetMetadata<TEntity>();
             _entityType = _metadata.Type;
@@ -63,7 +63,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
         {
             try
             {
-                func.ThrowIfNull(() => func);
+                func.ThrowIfNull(nameof(func));
 
                 return func();
             }
@@ -114,18 +114,18 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal void ResolveQuery(Expression<Func<TEntity, bool>> expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof(expression));
 
             var expressionTree = ExpressionResolver.Resolve((dynamic)expression.Body);
             And();
             Build(expressionTree);
         }
 
-        internal void QueryByPrimaryKey(Expression<Func<TEntity, bool>> whereExpression)
+        internal void QueryByPrimaryKey(Expression<Func<TEntity, bool>> expression)
         {
-            whereExpression.ThrowIfNull(() => whereExpression);
+            expression.ThrowIfNull(nameof(expression));
 
-            var expressionTree = ExpressionResolver.Resolve((dynamic)whereExpression.Body, EntityIdName);
+            var expressionTree = ExpressionResolver.Resolve((dynamic)expression.Body, EntityIdName);
             Build(expressionTree);
         }
 

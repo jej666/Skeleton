@@ -7,7 +7,7 @@ namespace Skeleton.Infrastructure.DependencyInjection.LoggerExtension
     {
         public override void PostBuildUp(IBuilderContext context)
         {
-            context.ThrowIfNull(() => context);
+            context.ThrowIfNull(nameof(context));
 
             var policy = context.Policies.Get<ICreationStackTrackerPolicy>(null, true);
 
@@ -19,7 +19,7 @@ namespace Skeleton.Infrastructure.DependencyInjection.LoggerExtension
 
         public override void PreBuildUp(IBuilderContext context)
         {
-            context.ThrowIfNull(() => context);
+            context.ThrowIfNull(nameof(context));
 
             var policy = context.Policies.Get<ICreationStackTrackerPolicy>(null, true);
 

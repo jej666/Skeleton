@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
 namespace Skeleton.Common
 {
@@ -12,9 +10,9 @@ namespace Skeleton.Common
             TKey key,
             Func<TValue> valueFactory)
         {
-            source.ThrowIfNull(() => source);
-            key.ThrowIfNull(() => key);
-            valueFactory.ThrowIfNull(() => valueFactory);
+            source.ThrowIfNull(nameof(source));
+            key.ThrowIfNull(nameof(key));
+            valueFactory.ThrowIfNull(nameof(valueFactory));
 
             if (source.ContainsKey(key))
                 return source[key];

@@ -34,7 +34,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
 
         public static void UseDatabase(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
         {
-            configurator.ThrowIfNull(() => configurator);
+            configurator.ThrowIfNull(nameof(configurator));
 
             var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
             UnityContainer.Value.RegisterInstance(configurator.Invoke(builder));

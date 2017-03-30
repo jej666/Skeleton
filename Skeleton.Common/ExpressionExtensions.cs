@@ -10,7 +10,7 @@ namespace Skeleton.Common
     {
         public static BinaryExpression GetBinaryExpression(this Expression expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof( expression));
 
             var binaryExpression = expression as BinaryExpression;
             if (binaryExpression != null)
@@ -21,7 +21,7 @@ namespace Skeleton.Common
 
         public static object GetExpressionValue(this Expression expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof( expression));
 
             var constantExpression = expression as ConstantExpression;
             if (constantExpression != null)
@@ -64,7 +64,7 @@ namespace Skeleton.Common
 
         public static MemberExpression GetMemberExpression(this Expression expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof( expression));
 
             while (true)
             {
@@ -85,7 +85,7 @@ namespace Skeleton.Common
 
         public static PropertyInfo GetPropertyAccess(this LambdaExpression expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof( expression));
 
             if (expression.Parameters.Count != 1)
                 throw new ArgumentException("Expression must have at least 1 parameter");
@@ -104,7 +104,7 @@ namespace Skeleton.Common
 
         public static object InvokeMethodCall(this MethodCallExpression callExpression)
         {
-            callExpression.ThrowIfNull(() => callExpression);
+            callExpression.ThrowIfNull(nameof( callExpression));
 
             var arguments = callExpression.Arguments.Select(GetExpressionValue).ToArray();
             var obj = callExpression.Object != null

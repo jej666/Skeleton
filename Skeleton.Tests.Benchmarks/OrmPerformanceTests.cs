@@ -80,7 +80,7 @@ namespace Skeleton.Tests.Benchmarks
                 benchmarks.Add(() =>
                 {
                     repository.Find();
-                }, "Skeleton.Orm => Hot start (benefits of TypeCacheAccessor)");
+                }, "Skeleton.Orm => Hot start");
 
                 var repositoryAsync = Container.Resolve<IAsyncEntityReader<Post>>();
 
