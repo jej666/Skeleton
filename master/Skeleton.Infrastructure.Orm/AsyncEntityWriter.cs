@@ -29,15 +29,15 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual async Task<bool> AddAsync(TEntity entity)
         {
-            entity.ThrowIfNull(() => entity);
+            entity.ThrowIfNull(nameof(entity));
 
             return await AddCommand(entity) != null;
         }
 
         public virtual async Task<bool> AddAsync(IEnumerable<TEntity> entities)
         {
-            var enumerable = entities as IList<TEntity> ?? entities.ToList();
-            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            var enumerable = entities.AsList();
+            enumerable.ThrowIfNullOrEmpty(nameof(enumerable));
             var count = 0;
 
             using (var transaction = _database.Transaction)
@@ -58,15 +58,15 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual async Task<bool> DeleteAsync(TEntity entity)
         {
-            entity.ThrowIfNull(() => entity);
+            entity.ThrowIfNull(nameof(entity));
 
             return await DeleteCommand(entity) > 0;
         }
 
         public virtual async Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
         {
-            var enumerable = entities as IList<TEntity> ?? entities.ToList();
-            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            var enumerable = entities.AsList();
+            enumerable.ThrowIfNullOrEmpty(nameof(enumerable));
             int count = 0, result = 0;
 
             using (var transaction = _database.Transaction)
@@ -95,8 +95,8 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual async Task<bool> SaveAsync(IEnumerable<TEntity> entities)
         {
-            var enumerable = entities as IList<TEntity> ?? entities.ToList();
-            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            var enumerable = entities.AsList();
+            enumerable.ThrowIfNullOrEmpty(nameof(enumerable));
             var result = false;
 
             using (var transaction = _database.Transaction)
@@ -114,15 +114,15 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual async Task<bool> UpdateAsync(TEntity entity)
         {
-            entity.ThrowIfNull(() => entity);
+            entity.ThrowIfNull(nameof(entity));
 
             return await UpdateCommand(entity) > 0;
         }
 
         public virtual async Task<bool> UpdateAsync(IEnumerable<TEntity> entities)
         {
-            var enumerable = entities as IList<TEntity> ?? entities.ToList();
-            enumerable.ThrowIfNullOrEmpty(() => enumerable);
+            var enumerable = entities.AsList();
+            enumerable.ThrowIfNullOrEmpty(nameof(enumerable));
             int count = 0, result = 0;
 
             using (var transaction = _database.Transaction)

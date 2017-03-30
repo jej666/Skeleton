@@ -49,6 +49,7 @@ namespace Skeleton.Common
                 {
                     if (canConvert)
                         return (T)Convert.ChangeType(value, toType, provider);
+
                     return (T)value;
                 }
                 catch
@@ -61,7 +62,7 @@ namespace Skeleton.Common
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public static object ChangeType(this object value, Type type, IFormatProvider provider)
         {
-            type.ThrowIfNull(() => type);
+            type.ThrowIfNull(nameof(type));
 
             while (true)
             {

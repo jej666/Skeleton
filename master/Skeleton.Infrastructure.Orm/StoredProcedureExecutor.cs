@@ -19,8 +19,8 @@ namespace Skeleton.Infrastructure.Orm
 
         public int Execute(string storedProcedureName, IDictionary<string, object> parameters)
         {
-            storedProcedureName.ThrowIfNullOrEmpty(() => storedProcedureName);
-            parameters.ThrowIfNull(() => parameters);
+            storedProcedureName.ThrowIfNullOrEmpty(nameof(storedProcedureName));
+            parameters.ThrowIfNull(nameof(parameters));
 
             var command = new SqlCommand(storedProcedureName, parameters);
 

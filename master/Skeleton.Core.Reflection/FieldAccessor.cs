@@ -16,7 +16,7 @@ namespace Skeleton.Core.Reflection
 
         public FieldAccessor(FieldInfo fieldInfo)
         {
-            fieldInfo.ThrowIfNull(() => fieldInfo);
+            fieldInfo.ThrowIfNull(nameof(fieldInfo));
 
             _fieldInfo = fieldInfo;
             Name = fieldInfo.Name;

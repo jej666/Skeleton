@@ -16,7 +16,7 @@ namespace Skeleton.Core.Reflection
 
         public PropertyAccessor(PropertyInfo propertyInfo)
         {
-            propertyInfo.ThrowIfNull(() => propertyInfo);
+            propertyInfo.ThrowIfNull(nameof(propertyInfo));
 
             _propertyInfo = propertyInfo;
             Name = propertyInfo.Name;

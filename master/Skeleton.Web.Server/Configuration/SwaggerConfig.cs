@@ -9,7 +9,7 @@ namespace Skeleton.Web.Server.Configuration
     {
         public static void RegisterSwagger(this HttpConfiguration configuration)
         {
-            configuration.ThrowIfNull(() => configuration);
+            configuration.ThrowIfNull(nameof(configuration));
 
             configuration
                 .EnableSwagger(c =>

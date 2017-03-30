@@ -8,7 +8,7 @@ namespace Skeleton.Tests.Benchmarks
     {
         public static string GetNullableString(this IDataReader reader, int index)
         {
-            reader.ThrowIfNull(() => reader);
+            reader.ThrowIfNull(nameof(reader));
 
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
@@ -18,7 +18,7 @@ namespace Skeleton.Tests.Benchmarks
 
         public static T? GetNullableValue<T>(this IDataReader reader, int index) where T : struct
         {
-            reader.ThrowIfNull(() => reader);
+            reader.ThrowIfNull(nameof(reader));
 
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)

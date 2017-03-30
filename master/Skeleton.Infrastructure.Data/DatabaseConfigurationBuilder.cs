@@ -30,7 +30,7 @@ namespace Skeleton.Infrastructure.Data
 
         public IDatabaseConfigurationProperties UsingConnectionString(string connectionString)
         {
-            connectionString.ThrowIfNullOrEmpty(() => connectionString);
+            connectionString.ThrowIfNullOrEmpty(nameof(connectionString));
 
             var settings = new ConnectionStringSettings { ConnectionString = connectionString };
             Initialize(settings);

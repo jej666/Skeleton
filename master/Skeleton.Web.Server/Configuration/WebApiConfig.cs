@@ -13,7 +13,7 @@ namespace Skeleton.Web.Server.Configuration
     {
         public static void RegisterWebApi(this HttpConfiguration configuration)
         {
-            configuration.ThrowIfNull(() => configuration);
+            configuration.ThrowIfNull(nameof(configuration));
 
             configuration
                 .IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;

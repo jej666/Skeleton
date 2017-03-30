@@ -23,7 +23,7 @@ namespace Skeleton.Infrastructure.Data
                 Func<IDatabaseConfigurationBuilder,
                 IDatabaseConfiguration> configurator)
         {
-            configurator.ThrowIfNull(() => configurator);
+            configurator.ThrowIfNull(nameof(configurator));
 
             return new Database(_logger,
                 configurator.Invoke(_configurationBuilder),
@@ -34,7 +34,7 @@ namespace Skeleton.Infrastructure.Data
                 Func<IDatabaseConfigurationBuilder,
                 IDatabaseConfiguration> configurator)
         {
-            configurator.ThrowIfNull(() => configurator);
+            configurator.ThrowIfNull(nameof(configurator));
 
             return new AsyncDatabase(_logger,
                 configurator.Invoke(_configurationBuilder),

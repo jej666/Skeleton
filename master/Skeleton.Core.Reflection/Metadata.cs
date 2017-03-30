@@ -40,7 +40,7 @@ namespace Skeleton.Core.Reflection
 
         public Metadata(Type type)
         {
-            type.ThrowIfNull(() => type);
+            type.ThrowIfNull(nameof(type));
 
             Type = type;
         }
@@ -110,7 +110,7 @@ namespace Skeleton.Core.Reflection
 
         public IMemberAccessor GetProperty(string name)
         {
-            name.ThrowIfNullOrEmpty(() => name);
+            name.ThrowIfNullOrEmpty(nameof(name));
 
             IMemberAccessor accessor;
             if (_propertyCache.Value.TryGetValue(name, out accessor))
@@ -126,7 +126,7 @@ namespace Skeleton.Core.Reflection
 
         public IMemberAccessor GetProperty<T>(Expression<Func<T, object>> expression)
         {
-            expression.ThrowIfNull(() => expression);
+            expression.ThrowIfNull(nameof(expression));
 
             var propertyInfo = expression.GetPropertyAccess();
 
@@ -143,7 +143,7 @@ namespace Skeleton.Core.Reflection
 
         private IMemberAccessor GetField(string name, BindingFlags bindings)
         {
-            name.ThrowIfNullOrEmpty(() => name);
+            name.ThrowIfNullOrEmpty(nameof(name));
 
             IMemberAccessor accessor;
             if (_fieldCache.Value.TryGetValue(name, out accessor))

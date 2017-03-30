@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Orm
 
         internal string ForFind(string query)
         {
-            query.ThrowIfNullOrEmpty(() => query);
+            query.ThrowIfNullOrEmpty(nameof(query));
 
             return Template.Find.FormatWith(
                 Prefix,
@@ -25,7 +25,7 @@ namespace Skeleton.Infrastructure.Orm
 
         internal string ForFirstOrDefault(object id)
         {
-            id.ThrowIfNull(() => id);
+            id.ThrowIfNull(nameof(id));
 
             return Template.FirstOrDefault.FormatWith(
                 Prefix,
@@ -35,7 +35,7 @@ namespace Skeleton.Infrastructure.Orm
 
         internal string ForFirstOrDefault(string query)
         {
-            query.ThrowIfNullOrEmpty(() => query);
+            query.ThrowIfNullOrEmpty(nameof(query));
 
             return Template.FirstOrDefault.FormatWith(
                 Prefix,

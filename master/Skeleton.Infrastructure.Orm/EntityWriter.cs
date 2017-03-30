@@ -30,14 +30,14 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Add(TEntity entity)
         {
-            entity.ThrowIfNull(() => entity);
+            entity.ThrowIfNull(nameof(entity));
 
             return AddCommand(entity) != null;
         }
 
         public virtual bool Add(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(() => entities);
+            entities.ThrowIfNullOrEmpty(nameof(entities));
 
             var enumerable = entities.AsList();
             var count = 0;
@@ -60,14 +60,14 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Delete(TEntity entity)
         {
-            entity.ThrowIfNull(() => entity);
+            entity.ThrowIfNull(nameof(entity));
 
             return DeleteCommand(entity) > 0;
         }
 
         public virtual bool Delete(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(() => entities);
+            entities.ThrowIfNullOrEmpty(nameof(entities));
 
             var enumerable = entities.AsList();
             int count = 0, result = 0;
@@ -90,7 +90,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Save(TEntity entity)
         {
-            entity.ThrowIfNull(() => entity);
+            entity.ThrowIfNull(nameof(entity));
 
             return entity.Id.IsZeroOrEmpty()
                 ? Add(entity)
@@ -99,7 +99,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Save(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(() => entities);
+            entities.ThrowIfNullOrEmpty(nameof(entities));
 
             var enumerable = entities.AsList();
             var result = false;
@@ -118,14 +118,14 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Update(TEntity entity)
         {
-            entity.ThrowIfNull(() => entity);
+            entity.ThrowIfNull(nameof(entity));
 
             return UpdateCommand(entity) > 0;
         }
 
         public virtual bool Update(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(() => entities);
+            entities.ThrowIfNullOrEmpty(nameof(entities));
 
             var enumerable = entities.AsList();
             int count = 0, result = 0;

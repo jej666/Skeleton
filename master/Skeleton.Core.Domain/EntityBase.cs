@@ -19,7 +19,7 @@ namespace Skeleton.Core.Domain
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         protected EntityBase(Expression<Func<TEntity, object>> idExpression)
         {
-            idExpression.ThrowIfNull(() => idExpression);
+            idExpression.ThrowIfNull(nameof( idExpression));
 
             TypeAccessor = new MetadataProvider().GetMetadata(typeof(TEntity));
             IdAccessor = TypeAccessor.GetProperty(idExpression);
@@ -62,7 +62,7 @@ namespace Skeleton.Core.Domain
 
         public IEntityValidationResult Validate(IEntityValidator<TEntity> validator)
         {
-            validator.ThrowIfNull(() => validator);
+            validator.ThrowIfNull(nameof( validator));
 
             return new EntityValidationResult(validator.BrokenRules(this as TEntity));
         }
