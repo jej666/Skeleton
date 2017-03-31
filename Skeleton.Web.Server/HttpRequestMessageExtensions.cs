@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -28,6 +29,18 @@ namespace Skeleton.Web.Server
                 NextPageLink = nextLink,
                 Results = pagedData
             };
+        }
+
+        public static string GetClientIp(this HttpRequestMessage request)
+        {
+            if (request == null)
+                return null;
+
+            if (request.Properties.ContainsKey(Constants.OwinContext))
+            {
+                return ((OwinContext)request.Properties[Constants.OwinContext]).Request.RemoteIpAddress;
+            }
+            return null;
         }
 
         public static IDictionary<string, string> GetQueryStrings(this HttpRequestMessage request)

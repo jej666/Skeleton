@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppBuilderExtensions.cs" />
+    <Compile Include="Controllers\LogController.cs" />
     <Compile Include="OwinCompression.cs" />
     <Compile Include="DeflateCompressor.cs" />
     <Compile Include="GZipCompressor.cs" />

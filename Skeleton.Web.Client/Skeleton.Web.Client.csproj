@@ -61,7 +61,7 @@
     <Compile Include="ExponentialRetryPolicy.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpResponseMessageExtensions.cs" />
-    <Compile Include="JsonHttpClientBase.cs" />
+    <Compile Include="JsonHttpClient.cs" />
     <Compile Include="JsonCrudHttpClient.cs" />
     <Compile Include="AsyncJsonCrudHttpClient.cs" />
     <Compile Include="IRestUriBuilder.cs" />

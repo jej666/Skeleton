@@ -14,6 +14,8 @@ namespace Skeleton.Web.Server.Controllers
             _logger = logger;
         }
 
+        public ILogger Logger => _logger;
+
         protected virtual IHttpActionResult HandleException(Func<IHttpActionResult> handler)
         {
             try
