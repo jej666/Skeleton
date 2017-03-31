@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Skeleton.Web.Client
 {
     public class AsyncCrudHttpClient<TDto> :
-        JsonHttpClientBase where TDto : class
+        JsonHttpClient where TDto : class
     {
         public AsyncCrudHttpClient(string host, string path)
             : this(host, path, Constants.DefaultHttpPort)

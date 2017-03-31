@@ -5,7 +5,7 @@ using System.Net.Http;
 namespace Skeleton.Web.Client
 {
     public class CrudHttpClient<TDto> :
-        JsonHttpClientBase where TDto : class
+        JsonHttpClient where TDto : class
     {
         public CrudHttpClient(string host, string path)
             : this(host, path, Constants.DefaultHttpPort)

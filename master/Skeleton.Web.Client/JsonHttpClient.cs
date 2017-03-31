@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
-    public abstract class JsonHttpClientBase : IDisposable
+    public class JsonHttpClient : IDisposable
     {
-        private static int Version = Assembly.GetAssembly(typeof(JsonHttpClientBase)).GetName().Version.Major;
+        private static int Version = Assembly.GetAssembly(typeof(JsonHttpClient)).GetName().Version.Major;
         private readonly ExponentialRetryPolicy _retryPolicy = new ExponentialRetryPolicy();
         private readonly IRestUriBuilder _uriBuilder;
         private HttpClient _httpClient;
         private bool _disposed;
 
-        protected JsonHttpClientBase(IRestUriBuilder uriBuilder)
+        public JsonHttpClient(IRestUriBuilder uriBuilder)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));

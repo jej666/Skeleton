@@ -10,7 +10,11 @@ namespace Skeleton.Web.Server
     {
         private const int BufferSize = 8192;
 
-        internal async Task Compress(Func<IDictionary<string, object>, Task> next, OwinContext context, ICompressor compressor, Stream httpOutputStream)
+        internal async Task Compress(
+            Func<IDictionary<string, object>, Task> next, 
+            OwinContext context, 
+            ICompressor compressor, 
+            Stream httpOutputStream)
         {
             using (var memoryStream = new MemoryStream())
             {
@@ -30,9 +34,12 @@ namespace Skeleton.Web.Server
             }
         }
 
-        private static void SetResponseHeaders(OwinContext context, ICompressor compressor, MemoryStream memoryStream)
+        private static void SetResponseHeaders(
+            OwinContext context, 
+            ICompressor compressor, 
+            MemoryStream memoryStream)
         {
-            context.Response.Headers["Content-Encoding"] = compressor.ContentEncoding;
+            context.Response.Headers[Constants.ContentEncoding] = compressor.ContentEncoding;
             context.Response.ContentLength = memoryStream.Length;
         }
     }
