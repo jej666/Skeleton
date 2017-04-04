@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Skeleton.Web.Client
 {
-    public static  class RestUriBuilderExtensions
+    public static class RestUriBuilderExtensions
     {
         public static Uri GetAll(this IRestUriBuilder uriBuilder)
         {

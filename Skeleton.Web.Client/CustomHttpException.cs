@@ -12,7 +12,7 @@ namespace Skeleton.Web.Client
         {
         }
 
-        public CustomHttpException(string message, int statusCode): base (message)
+        public CustomHttpException(string message, int statusCode) : base(message)
         {
             StatusCode = statusCode;
         }

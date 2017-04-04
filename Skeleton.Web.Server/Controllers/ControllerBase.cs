@@ -29,6 +29,7 @@ namespace Skeleton.Web.Server.Controllers
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         protected virtual async Task<IHttpActionResult> HandleExceptionAsync(Func<Task<IHttpActionResult>> handler)
         {
             try
