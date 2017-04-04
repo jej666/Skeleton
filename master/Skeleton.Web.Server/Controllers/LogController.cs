@@ -44,6 +44,6 @@ namespace Skeleton.Web.Server.Controllers
             Logger.Warn($"Client IP :: {ip} - Message :: {message}");
 
             return Ok();
-        }   
+        }
     }
 }

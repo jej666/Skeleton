@@ -38,30 +38,39 @@ namespace Skeleton.Web.Client
                 case RestAction.GetAll:
                     Path += ActionConstants.GetAll;
                     break;
+
                 case RestAction.Get:
                     Path += ActionConstants.Get;
                     break;
+
                 case RestAction.Create:
                     Path += ActionConstants.Create;
                     break;
+
                 case RestAction.BatchCreate:
                     Path += ActionConstants.BatchCreate;
                     break;
+
                 case RestAction.Page:
                     Path += ActionConstants.Page;
                     break;
+
                 case RestAction.Update:
                     Path += ActionConstants.Update;
                     break;
+
                 case RestAction.BatchUpdate:
                     Path += ActionConstants.BatchUpdate;
                     break;
+
                 case RestAction.Delete:
                     Path += ActionConstants.Delete;
                     break;
+
                 case RestAction.BatchDelete:
                     Path += ActionConstants.BatchDelete;
                     break;
+
                 default:
                     break;
             }
@@ -91,7 +100,7 @@ namespace Skeleton.Web.Client
                 throw new ArgumentNullException(nameof(value));
 
             Query += EncodeUriParameter(new KeyValuePair<string, object>(key, value));
-            
+
             return this;
         }
 
@@ -106,7 +115,7 @@ namespace Skeleton.Web.Client
                 if (stringBuilder.Length > 0)
                     stringBuilder.Append("&");
 
-                var encodedParameter= EncodeUriParameter(parameter);
+                var encodedParameter = EncodeUriParameter(parameter);
 
                 stringBuilder.Append(encodedParameter);
             }

@@ -19,6 +19,7 @@ namespace Skeleton.Web.Server.Configuration
         {
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public CheckModelForNullAttribute(Func<Dictionary<string, object>, bool> checkCondition)
         {
             _checkCondition = checkCondition;

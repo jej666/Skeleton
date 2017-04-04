@@ -18,7 +18,7 @@ namespace Skeleton.Web.Client
         {
         }
 
-        public AsyncCrudHttpClient(RestUriBuilder uriBuilder)
+        public AsyncCrudHttpClient(IRestUriBuilder uriBuilder)
             : base(uriBuilder)
         {
         }
