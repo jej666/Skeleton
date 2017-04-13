@@ -1,14 +1,19 @@
-﻿using Skeleton.Abstraction.Repository;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Orm;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Server.Controllers;
 using System.Web.Http;
 
 namespace Skeleton.Tests.Web.Mock
 {
-    public class CustomersController : CrudController<Customer, CustomerDto>
+    public class CustomersController : EntityCrudController<Customer, CustomerDto>
     {
-        public CustomersController(ICrudRepository<Customer, CustomerDto> repository)
-            : base(repository)
+        public CustomersController(
+            ILogger logger,
+            IEntityReader<Customer> reader,
+            IEntityMapper<Customer, CustomerDto> mapper,
+            IEntityWriter<Customer> writer)
+            : base(logger, reader, mapper, writer)
         {
         }
 
