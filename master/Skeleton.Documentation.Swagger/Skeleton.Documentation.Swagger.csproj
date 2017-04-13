@@ -7,8 +7,8 @@
     <ProjectGuid>{4A5157E1-ED78-4BCA-8A42-C782CB96BFCF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skeleton.Tests.ConsoleApplication</RootNamespace>
-    <AssemblyName>Skeleton.Tests.ConsoleApplication</AssemblyName>
+    <RootNamespace>Skeleton.Documentation.Swagger</RootNamespace>
+    <AssemblyName>Skeleton.Documentation.Swagger</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
