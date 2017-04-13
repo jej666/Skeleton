@@ -6,8 +6,8 @@
     <ProjectGuid>{54063976-2135-4994-A69C-9EACE310589C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skeleton.Tests</RootNamespace>
-    <AssemblyName>Skeleton.Tests</AssemblyName>
+    <RootNamespace>Skeleton.Tests.Infrastructure</RootNamespace>
+    <AssemblyName>Skeleton.Tests.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,7 +45,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Tests.Repository.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Tests.Infrastructure.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -109,7 +109,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Tests.Repository.snk" />
+    <None Include="Tests.Infrastructure.snk" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -7,8 +7,8 @@
     <ProjectGuid>{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skeleton.Tests.Infrastructure</RootNamespace>
-    <AssemblyName>Skeleton.Tests.Infrastructure</AssemblyName>
+    <RootNamespace>Skeleton.Tests.Common</RootNamespace>
+    <AssemblyName>Skeleton.Tests.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

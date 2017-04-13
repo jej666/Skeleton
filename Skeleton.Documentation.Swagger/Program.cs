@@ -1,5 +1,4 @@
-﻿using Skeleton.Tests.Web;
-using Skeleton.Tests.Web.Mock;
+﻿using Skeleton.Tests.Web.Mock;
 using System;
 using System.Diagnostics;
 
