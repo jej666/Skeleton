@@ -25,6 +25,7 @@ namespace Skeleton.Web.Server.Controllers
             catch (Exception e)
             {
                 _logger.Error(e.Message);
+
                 return BadRequest();
             }
         }
@@ -39,6 +40,7 @@ namespace Skeleton.Web.Server.Controllers
             catch (Exception e)
             {
                 _logger.Error(e.Message);
+
                 return BadRequest();
             }
         }
