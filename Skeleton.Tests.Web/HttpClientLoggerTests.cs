@@ -1,14 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
 
-namespace Skeleton.Web.Tests
+namespace Skeleton.Tests.Web
 {
     [TestClass]
     public class HttpClientLoggerTests
     {
         private readonly static JsonHttpClient Client =
-           new JsonHttpClient(new RestUriBuilder(Constants.BaseAddress, "api/log", 8081));
+           new JsonHttpClient(new RestUriBuilder(AppConfiguration.Host, "api/log", AppConfiguration.Port));
 
         [TestMethod]
         public void Logger_LogInfo()

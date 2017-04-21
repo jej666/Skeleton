@@ -22,6 +22,11 @@ namespace Skeleton.Web.Client
         {
         }
 
+        public RestUriBuilder(UriBuilder builder)
+            :this(builder.Host, builder.Path, builder.Port)
+        {
+        }
+
         public IRestUriBuilder StartNew()
         {
             Path = _initialPath;

@@ -1,4 +1,5 @@
-﻿using Skeleton.Tests.Web.Mock;
+﻿using Skeleton.Tests.Web;
+using Skeleton.Tests.Web.Mock;
 using System;
 using System.Diagnostics;
 
@@ -13,7 +14,7 @@ namespace Skeleton.Documentation.Swagger
         {
             using (var server = new OwinServer())
             {
-                server.Start();
+                server.Start(AppConfiguration.BaseUrl);
                 Console.WriteLine(Started);
 
                 Process.Start(SwaggerUri);

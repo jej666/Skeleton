@@ -21,5 +21,12 @@ namespace Skeleton.Web.Server
 
             return app;
         }
+
+        public static IAppBuilder UseSsl(this IAppBuilder app)
+        {
+            app.Use<RequireSslMiddleware>();
+
+            return app;
+        }
     }
 }

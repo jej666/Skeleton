@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,7 +15,12 @@ namespace Skeleton.Web.Client
         }
 
         public AsyncCrudHttpClient(string host, string path, int port)
-            : this(new RestUriBuilder(host, path, port))
+            : base(new RestUriBuilder(host, path, port))
+        {
+        }
+
+        public AsyncCrudHttpClient(UriBuilder uriBuilder)
+            : base(new RestUriBuilder(uriBuilder))
         {
         }
 

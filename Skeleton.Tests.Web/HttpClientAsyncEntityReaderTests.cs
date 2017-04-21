@@ -12,7 +12,7 @@ namespace Skeleton.Tests.Web
     public class HttpClientAsyncEntityReaderTests
     {
         private readonly static AsyncCrudHttpClient<CustomerDto> Client =
-             new AsyncCrudHttpClient<CustomerDto>(Constants.BaseAddress, Constants.AsyncCustomersUrl, 8081);
+             new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
 
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         [TestMethod]
