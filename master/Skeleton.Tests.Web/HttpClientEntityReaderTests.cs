@@ -11,12 +11,12 @@ namespace Skeleton.Tests.Web
     {
         private readonly static OwinServer Server = new OwinServer();
         private readonly static CrudHttpClient<CustomerDto> Client =
-            new CrudHttpClient<CustomerDto>(Constants.BaseAddress, Constants.CustomersUrl, 8081);
+            new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
         {
-            Server.Start();
+            Server.Start(AppConfiguration.BaseUrl);
         }
 
         [AssemblyCleanup]

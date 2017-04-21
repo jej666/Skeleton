@@ -10,7 +10,7 @@ namespace Skeleton.Tests.Web
     public class HttpClientEntityWriterTests
     {
         private readonly static CrudHttpClient<CustomerDto> Client = 
-            new CrudHttpClient<CustomerDto>(Constants.BaseAddress, Constants.CustomersUrl, 8081);
+            new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
         [TestMethod]
         public void EntityWriter_Update()

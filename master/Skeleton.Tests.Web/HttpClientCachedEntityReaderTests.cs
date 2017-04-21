@@ -10,7 +10,7 @@ namespace Skeleton.Tests.Web
     public class HttpClientCachedEntityReaderTests
     {
         private readonly static CrudHttpClient<CustomerDto> Client =
-            new CrudHttpClient<CustomerDto>(Constants.BaseAddress, Constants.CachedCustomersUrl, 8081);
+            new CrudHttpClient<CustomerDto>(AppConfiguration.CachedCustomersUriBuilder);
 
         [TestMethod]
         public void CachedEntityReader_GetAll()

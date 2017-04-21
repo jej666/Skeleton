@@ -11,7 +11,7 @@ namespace Skeleton.Tests.Web
     public class HttpClientAsyncEntityWriterTests
     {
         private readonly static AsyncCrudHttpClient<CustomerDto> Client =
-            new AsyncCrudHttpClient<CustomerDto>(Constants.BaseAddress, Constants.AsyncCustomersUrl, 8081);
+            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
 
         [TestMethod]
         public async Task AsyncEntityWriter_UpdateAsync()
