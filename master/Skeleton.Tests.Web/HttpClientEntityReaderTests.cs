@@ -37,7 +37,7 @@ namespace Skeleton.Tests.Web
         [TestMethod]
         public void EntityReader_FirstOrDefault()
         {
-            var data = Client.Page(1, 1).Results.FirstOrDefault();
+            var data = Client.Page(pageSize: 1, pageNumber: 1).Results.FirstOrDefault();
 
             Assert.IsNotNull(data);
 
@@ -67,12 +67,12 @@ namespace Skeleton.Tests.Web
             }
         }
 
-        //[TestMethod]
-        //[ExpectedException(typeof(CustomHttpException))]
-        //public void EntityReader_GetException()
-        //{
-        //    var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
-        //    Client.Get(uri);
-        //}
+        [TestMethod]
+        [ExpectedException(typeof(CustomHttpException))]
+        public void EntityReader_GetException()
+        {
+            var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
+            Client.Get(uri);
+        }
     }
 }

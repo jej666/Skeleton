@@ -4,7 +4,7 @@ namespace Skeleton.Tests.Common
 {
     public class Customer : EntityBase<Customer>
     {
-        // Need an empty ctor
+        // Need an empty ctor and an Id definition
         public Customer()
             : base(e => e.CustomerId)
         {

@@ -5,7 +5,7 @@ using Skeleton.Web.Server.Controllers;
 
 namespace Skeleton.Tests.Web.Mock
 {
-    public class AsyncCustomersController : 
+    public class AsyncCustomersController :  
         AsyncEntityCrudController<Customer, CustomerDto>
     {
         public AsyncCustomersController(
