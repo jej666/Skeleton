@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
@@ -7,13 +7,27 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Web
 {
-    [TestClass]
+    [TestFixture]
     public class HttpClientAsyncEntityWriterTests
     {
         private readonly static AsyncCrudHttpClient<CustomerDto> Client =
             new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
 
-        [TestMethod]
+        private readonly OwinServer _server = new OwinServer();
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            _server.Start(AppConfiguration.BaseUrl);
+        }
+
+        [OneTimeTearDown]
+        public void Cleanup()
+        {
+            _server.Dispose();
+        }
+
+        [Test]
         public async Task AsyncEntityWriter_UpdateAsync()
         {
             var data = await Client.PageAsync(1, 1);
@@ -32,7 +46,7 @@ namespace Skeleton.Tests.Web
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_BatchUpdateAsync()
         {
             var customersPagedResults = await Client.PageAsync(5, 1);
@@ -47,27 +61,27 @@ namespace Skeleton.Tests.Web
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_CreateAsync()
         {
             var customer = new CustomerDto { Name = "Customer" };
             var result = await Client.CreateAsync(customer);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), result);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_BatchCreateAsync()
         {
             var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
             var results = await Client.CreateAsync(customers);
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), results.First());
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_DeleteAsync()
         {
             var data = await Client.PageAsync(1, 1);
@@ -78,7 +92,7 @@ namespace Skeleton.Tests.Web
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_BatchDeleteAsync()
         {
             var data = await Client.PageAsync(5, 1);

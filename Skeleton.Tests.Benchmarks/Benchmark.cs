@@ -13,7 +13,7 @@ namespace Skeleton.Tests.Benchmarks
 
         public static Benchmark Create(Action executor, string name)
         {
-            return new Benchmark {Executor = executor, Name = name};
+            return new Benchmark { Executor = executor, Name = name };
         }
     }
 }

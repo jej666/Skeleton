@@ -17,7 +17,8 @@ namespace Skeleton.Tests.Common
 
         private void CloseConnection()
         {
-            if (_innerConnection == null) return;
+            if (_innerConnection == null)
+                return;
 
             _innerConnection.Close();
             _innerConnection.Dispose();

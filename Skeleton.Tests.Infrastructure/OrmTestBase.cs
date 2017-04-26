@@ -9,7 +9,7 @@ namespace Skeleton.Tests.Infrastructure
         protected OrmTestBase()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
-            
+
             Bootstrapper.UseDatabase(builder =>
                     builder.UsingConfigConnectionString("Default").Build());
         }

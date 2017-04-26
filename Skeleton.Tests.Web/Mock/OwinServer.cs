@@ -8,7 +8,7 @@ namespace Skeleton.Tests.Web.Mock
     public sealed class OwinServer : IDisposable
     {
         private IDisposable _server;
-        
+
         public void Dispose()
         {
             _server.Dispose();
@@ -24,6 +24,6 @@ namespace Skeleton.Tests.Web.Mock
                 .Build());
 
             _server = Startup.StartServer(baseUrl);
-        } 
+        }
     }
 }

@@ -1,15 +1,15 @@
-﻿using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Common;
 using Skeleton.Tests.Common;
 using System;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    [TestClass]
+    [TestFixture]
     public class AsyncCachedEntityReaderTests : OrmTestBase
     {
         private readonly IAsyncCachedEntityReader<Customer> _reader;
@@ -20,7 +20,7 @@ namespace Skeleton.Tests.Infrastructure
             SqlDbSeeder.SeedCustomers();
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncCachedEntityReader_FindAsync_ByExpression()
         {
             var results = await _reader
@@ -28,12 +28,12 @@ namespace Skeleton.Tests.Infrastructure
                 .FindAsync();
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), results.First());
             Assert.IsTrue(_reader.Cache.Contains(
                 _reader.LastGeneratedCacheKey));
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncCachedEntityReader_FirstOrDefaultAsync_ByExpression()
         {
             var customer1 = await _reader
@@ -44,13 +44,13 @@ namespace Skeleton.Tests.Infrastructure
                 .FirstOrDefaultAsync();
 
             Assert.IsNotNull(customer2);
-            Assert.IsInstanceOfType(customer2, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
             Assert.IsTrue(_reader.Cache.Contains(
                 _reader.LastGeneratedCacheKey));
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncCachedEntityReader_FirstOrDefaultAsync_ById()
         {
             var customer1 = await _reader
@@ -60,24 +60,24 @@ namespace Skeleton.Tests.Infrastructure
                 .FirstOrDefaultAsync(customer1.Id);
 
             Assert.IsNotNull(customer2);
-            Assert.IsInstanceOfType(customer2, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
             Assert.IsTrue(_reader.Cache.Contains(
                 _reader.LastGeneratedCacheKey));
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncCachedEntityReader_GetAllAsync()
         {
             var results = await _reader.FindAsync();
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), results.First());
             Assert.IsTrue(_reader.Cache.Contains(
                 _reader.LastGeneratedCacheKey));
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncCachedEntityReader_PageAsync()
         {
             const int pageSize = 50;
@@ -95,7 +95,7 @@ namespace Skeleton.Tests.Infrastructure
             }
         }
 
-        [TestMethod]
+        [Test]
         public void AsyncCachedEntityReader_Dispose()
         {
             using (_reader)
@@ -106,7 +106,7 @@ namespace Skeleton.Tests.Infrastructure
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsNotNull(fieldInfo);
-            Assert.IsTrue((bool) fieldInfo.GetValue(_reader));
+            Assert.IsTrue((bool)fieldInfo.GetValue(_reader));
         }
     }
 }

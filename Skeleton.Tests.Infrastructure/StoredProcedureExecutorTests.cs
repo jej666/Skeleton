@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Tests.Common;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    [TestClass]
+    [TestFixture]
     public class StoredProcedureExecutorTests : OrmTestBase
     {
         private const string ProcedureName = "ProcedureSelectCustomerByCategory";
@@ -17,7 +17,7 @@ namespace Skeleton.Tests.Infrastructure
             SqlLocalDbHelper.InstallProcStocIfNotExists();
         }
 
-        [TestMethod]
+        [Test]
         public void StoredProcedure_Execute()
         {
             using (var executor = Container.Resolve<IStoredProcedureExecutor>())
@@ -28,7 +28,7 @@ namespace Skeleton.Tests.Infrastructure
             }
         }
 
-        [TestMethod]
+        [Test]
         public async Task StoredProcedure_ExecuteAsync()
         {
             using (var executor = Container.Resolve<IAsyncStoredProcedureExecutor>())

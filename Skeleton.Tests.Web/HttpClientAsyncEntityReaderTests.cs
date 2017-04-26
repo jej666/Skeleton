@@ -1,30 +1,42 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Web
 {
-    [TestClass]
+    [TestFixture]
     public class HttpClientAsyncEntityReaderTests
     {
         private readonly static AsyncCrudHttpClient<CustomerDto> Client =
              new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
 
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        [TestMethod]
+        private readonly OwinServer _server = new OwinServer();
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            _server.Start(AppConfiguration.BaseUrl);
+        }
+
+        [OneTimeTearDown]
+        public void Cleanup()
+        {
+            _server.Dispose();
+        }
+
+        [Test]
         public async Task AsyncEntityReader_GetAllAsync()
         {
             var results = await Client.GetAllAsync();
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), results.First());
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityReader_FirstOrDefaultAsync()
         {
             var data = await Client.PageAsync(1, 1);
@@ -35,17 +47,16 @@ namespace Skeleton.Tests.Web
             var result = await Client.FirstOrDefaultAsync(firstCustomer.CustomerId);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CustomHttpException))]
-        public async Task AsyncEntityReader_FirstOrDefault_With_Wrong_Id()
+        [Test]
+        public void AsyncEntityReader_FirstOrDefault_With_Wrong_Id()
         {
-            await Client.FirstOrDefaultAsync(100000);
+            Assert.CatchAsync(typeof(CustomHttpException), async () => await Client.FirstOrDefaultAsync(100000));
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityReader_PageAsync()
         {
             const int pageSize = 50;

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Skeleton.Tests.Benchmarks
 {
-    [TestClass]
+    [TestFixture]
     public class MetadataBenchmarks
     {
         private const int Iterations = 10000000;
@@ -30,7 +30,7 @@ namespace Skeleton.Tests.Benchmarks
 
         public static IMetadataProvider MetadataProvider { get; private set; }
 
-        [TestMethod]
+        [Test]
         public void Metadata_RunBenchmarks()
         {
             var benchmarks = new BenchmarkCollection

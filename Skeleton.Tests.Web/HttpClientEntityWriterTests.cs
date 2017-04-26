@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
@@ -6,16 +6,30 @@ using System.Linq;
 
 namespace Skeleton.Tests.Web
 {
-    [TestClass]
+    [TestFixture]
     public class HttpClientEntityWriterTests
     {
-        private readonly static CrudHttpClient<CustomerDto> Client = 
+        private readonly static CrudHttpClient<CustomerDto> Client =
             new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
-        [TestMethod]
+        private readonly OwinServer _server = new OwinServer();
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            _server.Start(AppConfiguration.BaseUrl);
+        }
+
+        [OneTimeTearDown]
+        public void Cleanup()
+        {
+            _server.Dispose();
+        }
+
+        [Test]
         public void EntityWriter_Update()
         {
-            var data = Client.Page(1,1).Results.FirstOrDefault();
+            var data = Client.Page(1, 1).Results.FirstOrDefault();
 
             Assert.IsNotNull(data);
 
@@ -30,8 +44,7 @@ namespace Skeleton.Tests.Web
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CustomHttpException))]
+        [Test]
         public void EntityWriter_Update_With_Wrong_Id()
         {
             var customer = new CustomerDto
@@ -40,10 +53,10 @@ namespace Skeleton.Tests.Web
                 Name = "CustomerUpdated"
             };
 
-            Client.Update(customer);
+            Assert.Catch(typeof(CustomHttpException), () => Client.Update(customer));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_BatchUpdate()
         {
             var customers = Client.Page(5, 1).Results.ToList();
@@ -56,36 +69,36 @@ namespace Skeleton.Tests.Web
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Create()
         {
             var customer = MemorySeeder.SeedCustomerDto();
             var result = Client.Create(customer);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CustomHttpException))]
+        [Test]
         public void EntityWriter_Create_With_Wrong_Id()
         {
             var customer = MemorySeeder.SeedCustomerDto();
             customer.CustomerId = 100000;
-            Client.Create(customer);
+
+            Assert.Catch(typeof(CustomHttpException), () => Client.Create(customer));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_BatchCreate()
         {
             var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
             var results = Client.Create(customers);
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), results.First());
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Delete()
         {
             var data = Client.Page(1, 1).Results.FirstOrDefault();
@@ -94,7 +107,7 @@ namespace Skeleton.Tests.Web
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_BatchDelete()
         {
             var customers = Client.Page(5, 1).Results;
@@ -104,11 +117,10 @@ namespace Skeleton.Tests.Web
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CustomHttpException))]
+        [Test]
         public void EntityWriter_Delete_With_Wrong_Id()
         {
-            Client.Delete(100000);
+            Assert.Catch(typeof(CustomHttpException), () => Client.Delete(100000));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
@@ -6,22 +6,36 @@ using System.Linq;
 
 namespace Skeleton.Tests.Web
 {
-    [TestClass]
+    [TestFixture]
     public class HttpClientCachedEntityReaderTests
     {
         private readonly static CrudHttpClient<CustomerDto> Client =
             new CrudHttpClient<CustomerDto>(AppConfiguration.CachedCustomersUriBuilder);
 
-        [TestMethod]
+        private readonly OwinServer _server = new OwinServer();
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            _server.Start(AppConfiguration.BaseUrl);
+        }
+
+        [OneTimeTearDown]
+        public void Cleanup()
+        {
+            _server.Dispose();
+        }
+
+        [Test]
         public void CachedEntityReader_GetAll()
         {
             var results = Client.GetAll();
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), results.First());
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_FirstOrDefault()
         {
             var data = Client.Page(1, 1).Results.FirstOrDefault();
@@ -31,17 +45,16 @@ namespace Skeleton.Tests.Web
             var result = Client.FirstOrDefault(data.CustomerId);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CustomHttpException))]
+        [Test]
         public void CachedEntityReader_FirstOrDefault_With_Wrong_Id()
         {
-            Client.FirstOrDefault(1000000);
+            Assert.Catch(typeof(CustomHttpException), () => Client.FirstOrDefault(1000000));
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_Page()
         {
             const int pageSize = 50;

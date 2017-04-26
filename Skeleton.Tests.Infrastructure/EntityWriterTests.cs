@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Common;
 using Skeleton.Tests.Common;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    [TestClass]
+    [TestFixture]
     public class EntityWriterTests : OrmTestBase
     {
         private readonly IEntityWriter<Customer> _writer;
@@ -22,7 +22,7 @@ namespace Skeleton.Tests.Infrastructure
             SqlDbSeeder.SeedCustomers();
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Add()
         {
             var customer = MemorySeeder.SeedCustomer();
@@ -32,10 +32,10 @@ namespace Skeleton.Tests.Infrastructure
 
             var result = _reader.FirstOrDefault(customer.Id);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), result);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Add_Multiple()
         {
             var customers = MemorySeeder.SeedCustomers(5);
@@ -43,7 +43,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(successed);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Delete()
         {
             var customer = _reader
@@ -56,7 +56,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNull(result);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Delete_Multiple()
         {
             var customers = _reader
@@ -66,7 +66,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(successed);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Update()
         {
             var customer = _reader
@@ -82,7 +82,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(result.Name.Equals("CustomerUpdated"));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Update_Multiple()
         {
             var customers = _reader
@@ -96,7 +96,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(successed);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Save_Should_Add()
         {
             var customer = MemorySeeder.SeedCustomer();
@@ -106,10 +106,10 @@ namespace Skeleton.Tests.Infrastructure
 
             var result = _reader.FirstOrDefault(customer.Id);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), result);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Save_Should_Update()
         {
             var customer = _reader.Top(1).FirstOrDefault();
@@ -124,7 +124,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(result.Name.Equals("CustomerUpdated"));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Save_Multiple()
         {
             var customers = MemorySeeder.SeedCustomers(5);
@@ -132,7 +132,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(successed);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityWriter_Dispose()
         {
             using (_writer)
@@ -143,7 +143,7 @@ namespace Skeleton.Tests.Infrastructure
                 BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.IsNotNull(fieldInfo);
-            Assert.IsTrue((bool) fieldInfo.GetValue(_writer));
+            Assert.IsTrue((bool)fieldInfo.GetValue(_writer));
         }
     }
 }

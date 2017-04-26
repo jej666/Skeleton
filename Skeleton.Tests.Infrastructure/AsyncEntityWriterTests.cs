@@ -1,13 +1,13 @@
-﻿using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Common;
 using Skeleton.Tests.Common;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    [TestClass]
+    [TestFixture]
     public class AsyncEntityWriterTests : OrmTestBase
     {
         private readonly IAsyncEntityWriter<Customer> _writer;
@@ -21,7 +21,7 @@ namespace Skeleton.Tests.Infrastructure
             SqlDbSeeder.SeedCustomers();
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_AddAsync()
         {
             var customer = MemorySeeder.SeedCustomer();
@@ -32,10 +32,10 @@ namespace Skeleton.Tests.Infrastructure
 
             var result = await _reader.FirstOrDefaultAsync(customer.Id);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), result);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_AddAsync_Multiple()
         {
             var customers = MemorySeeder.SeedCustomers(5);
@@ -44,7 +44,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(successed);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_DeleteAsync()
         {
             var customer1 = await _reader
@@ -57,7 +57,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNull(result2);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_DeleteAsync_Multiple()
         {
             var customers = await _reader
@@ -67,7 +67,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(successed);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_UpdateAsync()
         {
             var customer1 = await _reader
@@ -82,7 +82,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(customer2.Name.Equals("CustomerUpdated"));
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_UpdateAsync_Multiple()
         {
             var customers = await _reader
@@ -92,7 +92,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(successed);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_SaveAsync_ShouldAdd()
         {
             var customer = MemorySeeder.SeedCustomer();
@@ -102,10 +102,10 @@ namespace Skeleton.Tests.Infrastructure
 
             var result = await _reader.FirstOrDefaultAsync(customer.Id);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), result);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_SaveAsync_ShouldUpdate()
         {
             var customer = await _reader.Top(1).FirstOrDefaultAsync();
@@ -120,7 +120,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(result.Name.Equals("CustomerUpdated"));
         }
 
-        [TestMethod]
+        [Test]
         public async Task AsyncEntityWriter_SaveAsync_Multiple()
         {
             var customers = MemorySeeder.SeedCustomers(5);
@@ -128,7 +128,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(successed);
         }
 
-        [TestMethod]
+        [Test]
         public void AsyncEntityWriter_Dispose()
         {
             using (_writer)

@@ -1,14 +1,14 @@
-﻿using System.Linq;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Common;
 using Skeleton.Tests.Common;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    [TestClass]
+    [TestFixture]
     public class EntityReaderTests : OrmTestBase
     {
         private readonly IEntityReader<Customer> _reader;
@@ -27,7 +27,7 @@ namespace Skeleton.Tests.Infrastructure
                 .FirstOrDefault();
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_EqualsMethod()
         {
             var customer = GetFirstCustomer();
@@ -38,10 +38,10 @@ namespace Skeleton.Tests.Infrastructure
 
             Assert.IsNotNull(results);
             var firstResult = results.First();
-            Assert.IsInstanceOfType(firstResult, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), firstResult);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_FirstOrDefault_StartWith()
         {
             var result = _reader
@@ -49,10 +49,10 @@ namespace Skeleton.Tests.Infrastructure
                 .FirstOrDefault();
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), result);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_FirstOrDefault_ById()
         {
             var customer1 = GetFirstCustomer();
@@ -60,11 +60,11 @@ namespace Skeleton.Tests.Infrastructure
                 .FirstOrDefault(customer1.Id);
 
             Assert.IsNotNull(customer2);
-            Assert.IsInstanceOfType(customer2, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_FirstOrDefault_With_Wrong_Id()
         {
             var customer = _reader.FirstOrDefault(100000);
@@ -72,16 +72,16 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNull(customer);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_GetAll()
         {
             var results = _reader.Find();
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), results.First());
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_Selected_Columns()
         {
             var customer = GetFirstCustomer();
@@ -91,21 +91,21 @@ namespace Skeleton.Tests.Infrastructure
                 .Find();
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), results.First());
             Assert.AreEqual(1, results.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_Top()
         {
             var customers = _reader.Top(5).Find();
 
             Assert.IsNotNull(customers);
-            Assert.IsInstanceOfType(customers.First(), typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), customers.First());
             Assert.IsTrue(customers.Count() == 5);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Count()
         {
             var count = _reader.Count(c => c.CustomerId);
@@ -118,7 +118,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(result.CountCustomerId > 0);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Count_All()
         {
             var count = _reader.Count();
@@ -127,7 +127,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(count > 0);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Min()
         {
             var minCustomer = _reader
@@ -142,7 +142,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(min.MinCustomerId == minCustomer.CustomerId);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Max()
         {
             var maxCustomer = _reader
@@ -157,7 +157,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(findMax.MaxCustomerId == maxCustomer.CustomerId);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Sum()
         {
             var sum = _reader
@@ -171,7 +171,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue((result != null) && (result.SumCustomerCategoryId > 0));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Average()
         {
             var avg = _reader
@@ -185,7 +185,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue((result != null) && (result.AvgCustomerId > 0));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_LeftJoin()
         {
             var results = _reader.LeftJoin<CustomerCategory>(
@@ -197,7 +197,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(results.Any());
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_RightJoin()
         {
             var results = _reader.RightJoin<CustomerCategory>(
@@ -209,7 +209,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(results.Any());
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_InnerJoin()
         {
             var results = _reader.InnerJoin<CustomerCategory>(
@@ -221,7 +221,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(results.Any());
         }
 
-        [TestMethod]
+        [Test]
         public void Find_RightJoin_Distinct()
         {
             var results = _reader.InnerJoin<CustomerCategory>(
@@ -234,7 +234,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(results.Any());
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_Where_Is_In()
         {
             var customerIds = new object[] { 5, 15, 25 };
@@ -246,7 +246,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(results.All(c => customerIds.Contains(c.CustomerId)));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_Where_Not_In()
         {
             var customerIds = new object[] { 5, 15, 25 };
@@ -258,7 +258,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(results.All(c => !customerIds.Contains(c.CustomerId)));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Page()
         {
             const int pageSize = 50;
@@ -274,7 +274,7 @@ namespace Skeleton.Tests.Infrastructure
             }
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_Where_Is_Null()
         {
             var results = _reader
@@ -284,7 +284,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNotNull(results);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_Where_Is_Not_Null()
         {
             var results = _reader
@@ -294,7 +294,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNotNull(results);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_Where_Complex()
         {
             var results = _reader
@@ -305,7 +305,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNotNull(results);
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Dispose()
         {
             using (_reader)
@@ -319,7 +319,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue((bool)fieldInfo.GetValue(_reader));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Find_Where_Not_Found()
         {
             var results = _reader
@@ -329,7 +329,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsFalse(results.Any());
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_FirstOrDefault_Where_Not_Found()
         {
             var result = _reader

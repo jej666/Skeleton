@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Infrastructure.DependencyInjection;
@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Tests.Benchmarks
 {
-    [TestClass]
+    [TestFixture]
     public class OrmPerformanceTests
     {
         public OrmPerformanceTests()
@@ -23,7 +23,7 @@ namespace Skeleton.Tests.Benchmarks
         public static IDependencyResolver Container => Bootstrapper.Resolver;
 
         [SuppressMessage("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "list")]
-        [TestMethod]
+        [Test]
         public void Orm_RunBenchmarks()
         {
             DbPostSeeder.SeedPosts();

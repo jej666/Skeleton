@@ -5,7 +5,7 @@ using Skeleton.Web.Server.Controllers;
 
 namespace Skeleton.Tests.Web.Mock
 {
-    public class CachedCustomersController : 
+    public class CachedCustomersController :
         CachedEntityReaderController<Customer, CustomerDto>
     {
         public CachedCustomersController(

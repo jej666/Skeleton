@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Common;
 using Skeleton.Tests.Common;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Skeleton.Tests.Infrastructure
 {
-    [TestClass]
+    [TestFixture]
     public class CachedEntityReaderTests : OrmTestBase
     {
         private readonly ICachedEntityReader<Customer> _reader;
@@ -22,7 +22,7 @@ namespace Skeleton.Tests.Infrastructure
             SqlDbSeeder.SeedCustomers();
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_Find_ByExpression()
         {
             var results = _reader
@@ -30,11 +30,11 @@ namespace Skeleton.Tests.Infrastructure
                 .Find();
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), results.First());
             Assert.IsTrue(_reader.Cache.Contains(_reader.LastGeneratedCacheKey));
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_FirstOrDefault_ByExpression()
         {
             var customer1 = _reader
@@ -45,24 +45,24 @@ namespace Skeleton.Tests.Infrastructure
                 .FirstOrDefault();
 
             Assert.IsNotNull(customer2);
-            Assert.IsInstanceOfType(customer2, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
             Assert.IsTrue(_reader.Cache.Contains(_reader.LastGeneratedCacheKey));
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_FirstOrDefault_ById()
         {
             var customer1 = _reader.Top(1).FirstOrDefault();
             var customer2 = _reader.FirstOrDefault(customer1.Id);
 
             Assert.IsNotNull(customer2);
-            Assert.IsInstanceOfType(customer2, typeof(Customer));
+            Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
             Assert.IsTrue(_reader.Cache.Contains(_reader.LastGeneratedCacheKey));
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_FirstOrDefault_With_Wrong_Id()
         {
             var customer = _reader.FirstOrDefault(100000);
@@ -70,16 +70,16 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNull(customer);
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_GetAll()
         {
             var results = _reader.Find();
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(Customer));
-            Assert.IsTrue(_reader.Cache.Contains( _reader.LastGeneratedCacheKey));
+            Assert.IsInstanceOf(typeof(Customer), results.First());
+            Assert.IsTrue(_reader.Cache.Contains(_reader.LastGeneratedCacheKey));
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_Page()
         {
             const int pageSize = 50;
@@ -97,7 +97,7 @@ namespace Skeleton.Tests.Infrastructure
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CachedEntityReader_Dispose()
         {
             using (_reader)

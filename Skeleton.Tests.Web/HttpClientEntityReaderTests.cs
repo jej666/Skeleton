@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
@@ -6,35 +6,36 @@ using System.Linq;
 
 namespace Skeleton.Tests.Web
 {
-    [TestClass]
+    [TestFixture]
     public class HttpClientEntityReaderTests
     {
-        private readonly static OwinServer Server = new OwinServer();
         private readonly static CrudHttpClient<CustomerDto> Client =
             new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
-        [AssemblyInitialize]
-        public static void AssemblyInit(TestContext context)
+        private readonly OwinServer _server = new OwinServer();
+
+        [OneTimeSetUp]
+        public void Init()
         {
-            Server.Start(AppConfiguration.BaseUrl);
+            _server.Start(AppConfiguration.BaseUrl);
         }
 
-        [AssemblyCleanup]
-        public static void AssemblyCleanup()
+        [OneTimeTearDown]
+        public void Cleanup()
         {
-            Server.Dispose();
+            _server.Dispose();
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_GetAll()
         {
             var results = Client.GetAll();
 
             Assert.IsNotNull(results);
-            Assert.IsInstanceOfType(results.First(), typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), results.First());
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_FirstOrDefault()
         {
             var data = Client.Page(pageSize: 1, pageNumber: 1).Results.FirstOrDefault();
@@ -44,17 +45,16 @@ namespace Skeleton.Tests.Web
             var result = Client.FirstOrDefault(data.CustomerId);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(CustomerDto));
+            Assert.IsInstanceOf(typeof(CustomerDto), result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CustomHttpException))]
+        [Test]
         public void EntityReader_FirstOrDefault_With_Wrong_Id()
         {
-            Client.FirstOrDefault(100000);
+            Assert.Catch(typeof(CustomHttpException), () => Client.FirstOrDefault(100000));
         }
 
-        [TestMethod]
+        [Test]
         public void EntityReader_Page()
         {
             const int pageSize = 50;
@@ -67,12 +67,11 @@ namespace Skeleton.Tests.Web
             }
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(CustomHttpException))]
-        public void EntityReader_GetException()
-        {
-            var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
-            Client.Get(uri);
-        }
+        //[Test]
+        //public void EntityReader_GetException()
+        //{
+        //    var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
+        //    Assert.Catch(typeof(CustomHttpException), () => Client.Get(uri));
+        //}
     }
 }

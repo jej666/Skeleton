@@ -12,7 +12,7 @@
         {
             Field = value;
         }
-        
+
         public int Property
         {
             get; set;

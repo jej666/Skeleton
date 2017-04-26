@@ -1,6 +1,6 @@
 ﻿// For infos http://codinghelmet.com/?path=howto/testing-equals-and-gethashcode
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -151,7 +151,7 @@ namespace Skeleton.Tests.Common
             {
                 if (obj1.Equals(obj2) != expectedEqual)
                 {
-                    var message =  string.Format("Strongly typed Equals " +
+                    var message = string.Format("Strongly typed Equals " +
                                       "returns {0} on {1}equal " +
                                       "objects.",
                                       !expectedEqual,

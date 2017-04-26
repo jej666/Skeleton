@@ -1,5 +1,5 @@
-﻿using System;
-using Skeleton.Core.Domain;
+﻿using Skeleton.Core.Domain;
+using System;
 
 namespace Skeleton.Tests.Benchmarks
 {

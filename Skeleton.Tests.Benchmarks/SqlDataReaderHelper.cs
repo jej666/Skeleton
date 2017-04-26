@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Skeleton.Common;
+using System;
 using System.Data;
-using Skeleton.Common;
 
 namespace Skeleton.Tests.Benchmarks
 {
@@ -12,7 +12,7 @@ namespace Skeleton.Tests.Benchmarks
 
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
-                return (string) tmp;
+                return (string)tmp;
             return null;
         }
 
@@ -22,7 +22,7 @@ namespace Skeleton.Tests.Benchmarks
 
             var tmp = reader.GetValue(index);
             if (tmp != DBNull.Value)
-                return (T) tmp;
+                return (T)tmp;
             return null;
         }
     }
