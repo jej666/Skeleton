@@ -1,4 +1,4 @@
-[![GitHub version](https://badge.fury.io/gh/jej666%2Fskeleton.svg)](https://badge.fury.io/gh/jej666%2Fskeleton) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/jej666/Skeleton.svg?branch=master)](https://travis-ci.org/jej666/Skeleton) [![GitHub version](https://badge.fury.io/gh/jej666%2Fskeleton.svg)](https://badge.fury.io/gh/jej666%2Fskeleton) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Skeleton
 > Loosely-coupled solution to quickly build REST self-hosted web services.
