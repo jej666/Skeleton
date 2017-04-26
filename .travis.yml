@@ -1,4 +1,6 @@
 language: csharp
-solution: skeleton.sln
-sudo: required
-dist: trusty
+solution: Skeleton.sln
+install:
+  - nuget restore Skeleton.sln
+script:
+  - xbuild /p:Configuration=Release Skeleton.sln
