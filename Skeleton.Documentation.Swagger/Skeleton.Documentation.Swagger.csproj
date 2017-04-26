@@ -66,6 +66,10 @@
       <Project>{42AFA67C-3644-438A-BCE3-181D3549481E}</Project>
       <Name>Skeleton.Tests.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Skeleton.Web.Server\Skeleton.Web.Server.csproj">
+      <Project>{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}</Project>
+      <Name>Skeleton.Web.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,16 +5,11 @@ using System;
 
 namespace Skeleton.Tests.Web.Mock
 {
-    public sealed class OwinServer : IDisposable
+    public sealed class OwinServer: IDisposable
     {
         private IDisposable _server;
 
-        public void Dispose()
-        {
-            _server.Dispose();
-        }
-
-        public void Start(Uri baseUrl)
+        public OwinServer()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
             SqlDbSeeder.SeedCustomers();
@@ -22,8 +17,16 @@ namespace Skeleton.Tests.Web.Mock
             Bootstrapper.UseDatabase(
                 builder => builder.UsingConfigConnectionString("Default")
                 .Build());
+        }
 
+        public void Start(Uri baseUrl)
+        {
             _server = Startup.StartServer(baseUrl);
+        }
+
+        public void Dispose()
+        {
+            _server.Dispose();
         }
     }
 }

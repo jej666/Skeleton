@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
 
 namespace Skeleton.Tests.Web
@@ -10,20 +9,6 @@ namespace Skeleton.Tests.Web
         private readonly static JsonHttpClient Client =
            new JsonHttpClient(
                new RestUriBuilder(AppConfiguration.Host, "api/log", AppConfiguration.Port));
-
-        private readonly OwinServer _server = new OwinServer();
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _server.Start(AppConfiguration.BaseUrl);
-        }
-
-        [OneTimeTearDown]
-        public void Cleanup()
-        {
-            _server.Dispose();
-        }
 
         [Test]
         public void Logger_LogInfo()

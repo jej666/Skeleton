@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
-using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,20 +11,6 @@ namespace Skeleton.Tests.Web
     {
         private readonly static AsyncCrudHttpClient<CustomerDto> Client =
             new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCachedCustomersUriBuilder);
-
-        private readonly OwinServer _server = new OwinServer();
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _server.Start(AppConfiguration.BaseUrl);
-        }
-
-        [OneTimeTearDown]
-        public void Cleanup()
-        {
-            _server.Dispose();
-        }
 
         [Test]
         public async Task AsyncCachedEntityReader_GetAllAsync()

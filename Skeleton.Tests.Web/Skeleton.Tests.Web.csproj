@@ -104,6 +104,7 @@
     <Compile Include="HttpClientEntityWriterTests.cs" />
     <Compile Include="HttpClientLoggerTests.cs" />
     <Compile Include="AppConfiguration.cs" />
+    <Compile Include="HttpClientTestsSetup.cs" />
     <Compile Include="Mock\AsyncCustomersController.cs" />
     <Compile Include="HttpClientEntityReaderTests.cs" />
     <Compile Include="Mock\AsyncCachedCustomersController.cs" />

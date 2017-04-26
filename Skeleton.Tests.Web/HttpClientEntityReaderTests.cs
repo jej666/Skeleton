@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
-using Skeleton.Tests.Web.Mock;
 using Skeleton.Web.Client;
 using System.Linq;
 
@@ -11,20 +10,6 @@ namespace Skeleton.Tests.Web
     {
         private readonly static CrudHttpClient<CustomerDto> Client =
             new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
-
-        private readonly OwinServer _server = new OwinServer();
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _server.Start(AppConfiguration.BaseUrl);
-        }
-
-        [OneTimeTearDown]
-        public void Cleanup()
-        {
-            _server.Dispose();
-        }
 
         [Test]
         public void EntityReader_GetAll()
