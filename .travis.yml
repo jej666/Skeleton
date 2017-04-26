@@ -2,5 +2,7 @@ language: csharp
 solution: Skeleton.sln
 install:
   - nuget restore Skeleton.sln
+  - nuget install NUnit.ConsoleRunner -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release Skeleton.sln
+  - ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Skeleton.Tests.Core/bin/Release/Skeleton.Tests.Core.dll
