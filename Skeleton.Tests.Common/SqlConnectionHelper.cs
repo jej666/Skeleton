@@ -5,10 +5,7 @@ namespace Skeleton.Tests.Common
 {
     public sealed class SqlConnectionHelper : IDisposable
     {
-        private const string ConnectionString =
-            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TestDb;Integrated Security=True;Pooling=False;";
-
-        private readonly SqlConnection _innerConnection = new SqlConnection(ConnectionString);
+        private readonly SqlConnection _innerConnection = new SqlConnection(AppConfiguration.DefaultConnectionString);
 
         public void Dispose()
         {

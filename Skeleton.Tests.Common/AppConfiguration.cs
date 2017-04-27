@@ -10,6 +10,7 @@ namespace Skeleton.Tests.Common
         private static string AsyncCustomersPath => GetAppSetting("AsyncCustomersPath");
         private static string AsyncCachedCustomersPath => GetAppSetting("AsyncCachedCustomersPath");
 
+        public static string DefaultConnectionString => GetConnectionString("Default");
         public static string Host => GetAppSetting("Host");
         public static int Port => int.Parse(GetAppSetting("Port"));
         public static UriBuilder CustomersUriBuilder => new UriBuilder("http", Host, Port, CustomersPath);
@@ -25,6 +26,18 @@ namespace Skeleton.Tests.Common
                 throw new ApplicationException($"appSetting {key} must be set.");
 
             return appSetting;
+        }
+
+        private static string GetConnectionString(string connectionStringConfigName)
+        {
+            var connectionSettings = ConfigurationManager.ConnectionStrings;
+
+            if (connectionSettings?[connectionStringConfigName] == null)
+                throw new ConfigurationErrorsException();
+
+            var namedDatabase = connectionSettings[connectionStringConfigName];
+
+            return namedDatabase.ConnectionString;
         }
     }
 }
