@@ -7,12 +7,13 @@ namespace Skeleton.Tests.Common
     public static class SqlLocalDbHelper
     {
         private const string LocalDbPath = @"Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB";
-        private const string LocalDbName = "testDb.mdf";
+        private const string LocalDbName = "testDb";
+        private const string Mdf = ".mdf";
 
         public static void CreateDatabaseIfNotExists()
         {
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var fullPath = Path.Combine(appDataPath, LocalDbPath, LocalDbName);
+            var fullPath = Path.Combine(appDataPath, LocalDbPath, LocalDbName + Mdf);
 
             //if (File.Exists(fullPath))
             //    return;
@@ -26,7 +27,7 @@ namespace Skeleton.Tests.Common
                         CREATE DATABASE
                             [TestDb]
                         ON PRIMARY (
-                           NAME=TestDb,
+                           NAME={LocalDbName},
                            FILENAME = '{fullPath}')
                     End";
 

@@ -18,7 +18,7 @@ namespace Skeleton.Tests.Web
         [OneTimeTearDown]
         public void Cleanup()
         {
-            _server.Dispose();
+            _server?.Dispose();
         }
     }
 }
