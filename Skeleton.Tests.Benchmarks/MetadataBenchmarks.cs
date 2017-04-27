@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Skeleton.Tests.Benchmarks
 {
-    [TestFixture]
+    [TestFixture, Category("Benchmarks")]
     public class MetadataBenchmarks
     {
         private const int Iterations = 10000000;

@@ -62,13 +62,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Skeleton.Tests.Common\Skeleton.Tests.Common.csproj">
+      <Project>{BBBA3147-D2BC-42AA-ABCF-7264EAD6D04C}</Project>
+      <Name>Skeleton.Tests.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Skeleton.Tests.Web\Skeleton.Tests.Web.csproj">
       <Project>{42AFA67C-3644-438A-BCE3-181D3549481E}</Project>
       <Name>Skeleton.Tests.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Web.Server\Skeleton.Web.Server.csproj">
-      <Project>{BAED475C-271C-48AF-81C3-B7E4D27BAFD0}</Project>
-      <Name>Skeleton.Web.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

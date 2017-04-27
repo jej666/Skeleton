@@ -98,19 +98,12 @@
   <ItemGroup>
     <Compile Include="HttpClientAsyncEntityWriterTests.cs" />
     <Compile Include="HttpClientAsyncCachedEntityReaderTests.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpClientCachedEntityReaderTests.cs" />
     <Compile Include="HttpClientAsyncEntityReaderTests.cs" />
     <Compile Include="HttpClientEntityWriterTests.cs" />
     <Compile Include="HttpClientLoggerTests.cs" />
-    <Compile Include="AppConfiguration.cs" />
     <Compile Include="HttpClientTestsSetup.cs" />
-    <Compile Include="Mock\AsyncCustomersController.cs" />
     <Compile Include="HttpClientEntityReaderTests.cs" />
-    <Compile Include="Mock\AsyncCachedCustomersController.cs" />
-    <Compile Include="Mock\CachedCustomersController.cs" />
-    <Compile Include="Mock\CustomersController.cs" />
-    <Compile Include="Mock\OwinServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

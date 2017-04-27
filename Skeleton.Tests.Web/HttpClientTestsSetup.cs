@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Skeleton.Tests.Web.Mock;
+using Skeleton.Tests.Common;
 
 namespace Skeleton.Tests.Web
 {

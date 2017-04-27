@@ -61,6 +61,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="EqualityTests.cs" />
     <Compile Include="MetadataTests.cs" />
     <Compile Include="MetadataTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,6 +89,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Tests.Core.snk" />
   </ItemGroup>

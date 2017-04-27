@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Skeleton.Tests.Benchmarks
 {
-    [TestFixture]
+    [TestFixture, Category("Benchmarks")]
     public class OrmPerformanceTests
     {
         public OrmPerformanceTests()
