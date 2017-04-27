@@ -7,27 +7,30 @@ namespace Skeleton.Tests.Common
     public static class SqlLocalDbHelper
     {
         private const string LocalDbPath = @"Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB";
+        private const string LocalDbName = "testDb.mdf";
 
         public static void CreateDatabaseIfNotExists()
         {
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var fullPath = Path.Combine(appDataPath, LocalDbPath, "testDb.mdf");
+            var fullPath = Path.Combine(appDataPath, LocalDbPath, LocalDbName);
 
-            if (File.Exists(fullPath))
-                return;
+            //if (File.Exists(fullPath))
+            //    return;
 
-            using (var connection = new SqlConnection(@"server=(localdb)\MSSQLLocalDB"))
+            var connection = new SqlConnectionHelper();
+            using (var cnn = connection.OpenConnection())
             {
-                connection.Open();
-
                 var sql = $@"
-                    CREATE DATABASE
-                        [TestDb]
-                    ON PRIMARY (
-                       NAME=TestDb,
-                       FILENAME = '{fullPath}')";
+                    If Not Exists(Select * from sys.databases Where name = '{LocalDbName}')
+                    Begin
+                        CREATE DATABASE
+                            [TestDb]
+                        ON PRIMARY (
+                           NAME=TestDb,
+                           FILENAME = '{fullPath}')
+                    End";
 
-                using (var command = new SqlCommand(sql, connection))
+                using (var command = new SqlCommand(sql, cnn))
                     command.ExecuteNonQuery();
             }
         }
