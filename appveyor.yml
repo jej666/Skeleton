@@ -4,3 +4,11 @@ before_build:
 build:
   project: Skeleton.sln 
   verbosity: minimal
+platform:
+  - Any CPU
+configuration:
+  - Release
+test:
+  categories:
+    except:
+      - Benchmarks
