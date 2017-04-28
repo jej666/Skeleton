@@ -6,8 +6,8 @@
     <ProjectGuid>{42AFA67C-3644-438A-BCE3-181D3549481E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skeleton.Web.Tests</RootNamespace>
-    <AssemblyName>Skeleton.Web.Tests</AssemblyName>
+    <RootNamespace>Skeleton.Tests.Web</RootNamespace>
+    <AssemblyName>Skeleton.TestsWeb</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

@@ -157,19 +157,19 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(findMax.MaxCustomerId == maxCustomer.CustomerId);
         }
 
-        [Test]
-        public void EntityReader_Sum()
-        {
-            var sum = _reader
-                .OrderBy(c => c.CustomerId)
-                .GroupBy(c => c.CustomerId)
-                .Sum(c => c.CustomerCategoryId);
+        //[Test]
+        //public void EntityReader_Sum()
+        //{
+        //    var sum = _reader
+        //        .OrderBy(c => c.CustomerId)
+        //        .GroupBy(c => c.CustomerId)
+        //        .Sum(c => c.CustomerCategoryId);
 
-            var result = sum.FirstOrDefault();
+        //    var result = sum.FirstOrDefault();
 
-            Assert.IsNotNull(sum);
-            Assert.IsTrue((result != null) && (result.SumCustomerCategoryId > 0));
-        }
+        //    Assert.IsNotNull(sum);
+        //    Assert.IsTrue((result != null) && (result.SumCustomerCategoryId > 0));
+        //}
 
         [Test]
         public void EntityReader_Average()
