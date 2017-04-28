@@ -1,14 +1,52 @@
+
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
 version: 1.0.{build}
-before_build:
-  - nuget restore
+
+# branches to build
+branches:
+  only: master
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Build worker image (VM template)
+image: Visual Studio 2015
+
+# environment variables
+environment: AppVeyor: true
+
+# enable service required for build/tests
+services: mssql2014           
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform
+platform: Any CPU
+
+# build Configuration
+configuration: Release
+
 build:
   project: Skeleton.sln 
   verbosity: minimal
-platform:
-  - Any CPU
-configuration:
-  - Release
+
+before_build:
+  - nuget restore
+
+build_script:
+  - createdb TestDb
+  
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#  
+  
 test:
   categories:
-    except:
-      - Benchmarks
+    except: Benchmarks
