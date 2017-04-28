@@ -8,7 +8,8 @@ version: 1.0.{build}
 
 # branches to build
 branches:
-  only: master
+  only: 
+  - master
 
 #---------------------------------#
 #    environment configuration    #
@@ -22,17 +23,20 @@ environment:
   AppVeyor: true
 
 # enable service required for build/tests
-services: mssql2014           
+services: 
+  - mssql2014           
 
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
 
 # build platform
-platform: Any CPU
+platform: 
+  - Any CPU
 
 # build Configuration
-configuration: Release
+configuration: 
+  - Release
 
 build:
   project: Skeleton.sln 
