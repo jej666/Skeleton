@@ -11,6 +11,8 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
             SqlBuilderBase<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
+        private const string SqlPagedQueryTemplate = "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY";
+
         internal SelectQueryBuilder(IMetadataProvider metadataProvider)
             : base(metadataProvider)
         {
@@ -30,6 +32,21 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
                 SqlFormatter.Having(Context.Having),
                 SqlFormatter.OrderBy(Context.OrderBy));
 
+        internal string SqlPagedQuery(int pageSize, int pageNumber)
+        {
+            if (Context.OrderBy.IsNullOrEmpty())
+                OrderByPrimaryKey();
+
+            return SqlPagedQueryTemplate
+                .FormatWith(
+                    SqlFormatter.SelectedColumns(Context.Selection, TableName),
+                    SqlFormatter.Source(Context.Source, TableName),
+                    SqlFormatter.Conditions(Context.Conditions),
+                    SqlFormatter.OrderBy(Context.OrderBy),
+                    pageSize * (pageNumber - 1),
+                    pageSize);
+        }
+
         protected internal override string SqlQueryTemplate => "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
 
         internal override void OnNextQuery()
@@ -43,8 +60,10 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
+            var formattedField = SqlFormatter.Field(memberNode);
 
-            Context.OrderBy.Add(SqlFormatter.Field(memberNode));
+            if (!Context.OrderBy.Contains(formattedField))
+                Context.OrderBy.Add(formattedField);
         }
 
         internal void OrderByDescending(LambdaExpression expression)
@@ -53,8 +72,10 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
+            var formattedField = SqlFormatter.OrderByDescending(memberNode);
 
-            Context.OrderBy.Add(SqlFormatter.OrderByDescending(memberNode));
+            if (!Context.OrderBy.Contains(formattedField))
+                Context.OrderBy.Add(formattedField);
         }
 
         internal void Top(int take)
@@ -73,9 +94,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
             var fieldName = TableInfo.GetColumnName(expression.Body.GetMemberExpression());
             var memberNode = new MemberNode { TableName = TableName, FieldName = fieldName };
-
-            var selectionString =
-                SqlFormatter.SelectAggregate(memberNode, selectFunction.ToString());
+            var selectionString = SqlFormatter.SelectAggregate(memberNode, selectFunction.ToString());
 
             Context.Selection.Add(selectionString);
         }
@@ -165,7 +184,10 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
         internal void OrderByPrimaryKey()
         {
             var memberNode = new MemberNode { TableName = TableName, FieldName = EntityIdName };
-            Context.OrderBy.Add(SqlFormatter.Field(memberNode));
+            var formattedField = SqlFormatter.Field(memberNode);
+
+            if (!Context.OrderBy.Contains(formattedField))
+                Context.OrderBy.Add(formattedField);
         }
     }
 }

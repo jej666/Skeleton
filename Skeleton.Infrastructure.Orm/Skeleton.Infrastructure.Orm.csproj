@@ -61,7 +61,6 @@
     <Compile Include="SqlBuilder\JoinType.cs" />
     <Compile Include="SqlBuilder\CommandContext.cs" />
     <Compile Include="SqlBuilder\ContextBase.cs" />
-    <Compile Include="SqlBuilder\PagedSelectQueryBuilder.cs" />
     <Compile Include="SqlBuilder\SelectFunction.cs" />
     <Compile Include="SqlBuilder\SelectQueryBuilder.cs" />
     <Compile Include="SqlBuilder\SqlBuilderBase.cs" />

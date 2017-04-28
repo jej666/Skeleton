@@ -157,19 +157,19 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(findMax.MaxCustomerId == maxCustomer.CustomerId);
         }
 
-        //[Test]
-        //public void EntityReader_Sum()
-        //{
-        //    var sum = _reader
-        //        .OrderBy(c => c.CustomerId)
-        //        .GroupBy(c => c.CustomerId)
-        //        .Sum(c => c.CustomerCategoryId);
+        [Test]
+        public void EntityReader_Sum()
+        {
+            var sum = _reader
+                .OrderBy(c => c.CustomerId)
+                .GroupBy(c => c.CustomerId)
+                .Sum(c => c.CustomerId);
 
-        //    var result = sum.FirstOrDefault();
+            var result = sum.FirstOrDefault();
 
-        //    Assert.IsNotNull(sum);
-        //    Assert.IsTrue((result != null) && (result.SumCustomerCategoryId > 0));
-        //}
+            Assert.IsNotNull(sum);
+            Assert.IsTrue((result != null) && (result.SumCustomerId > 0));
+        }
 
         [Test]
         public void EntityReader_Average()
@@ -221,18 +221,18 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsTrue(results.Any());
         }
 
-        //[Test]
-        //public void Find_RightJoin_Distinct()
-        //{
-        //    var results = _reader.InnerJoin<CustomerCategory>(
-        //            (customer, category) =>
-        //                    customer.CustomerCategoryId == category.CustomerCategoryId)
-        //        .Distinct(customer => customer.CustomerId)
-        //        .Find();
+        [Test]
+        public void Find_RightJoin_Distinct()
+        {
+            var results = _reader.RightJoin<CustomerCategory>(
+                    (customer, category) =>
+                            customer.CustomerCategoryId == category.CustomerCategoryId)
+                .Distinct(customer => customer.CustomerId)
+                .Find();
 
-        //    Assert.IsNotNull(results);
-        //    Assert.IsTrue(results.Any());
-        //}
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+        }
 
         [Test]
         public void EntityReader_Find_Where_Is_In()

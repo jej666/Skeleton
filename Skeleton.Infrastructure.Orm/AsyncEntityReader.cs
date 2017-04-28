@@ -65,11 +65,12 @@ namespace Skeleton.Infrastructure.Orm
         {
             try
             {
-                var pagedBuilder = new PagedSelectQueryBuilder<TEntity>(
-                    _metadataProvider, pageSize, pageNumber);
+                var sqlCommand = new SqlCommand(
+                Builder.SqlPagedQuery(pageSize, pageNumber),
+                Builder.ContextBase.Parameters);
 
                 return await _database.FindAsync<TEntity>(
-                        pagedBuilder.SqlCommand)
+                        sqlCommand)
                     .ConfigureAwait(false);
             }
             finally

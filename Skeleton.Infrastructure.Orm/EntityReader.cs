@@ -15,14 +15,12 @@ namespace Skeleton.Infrastructure.Orm
             IEntityReader<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        private readonly IMetadataProvider _metadataProvider;
         private readonly IDatabase _database;
 
         public EntityReader(
             IMetadataProvider metadataProvider,
             IDatabase database)
         {
-            _metadataProvider = metadataProvider;
             _database = database;
             Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
         }
@@ -52,10 +50,12 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
         {
-            var pagedBuilder = new PagedSelectQueryBuilder<TEntity>(
-                _metadataProvider, pageSize, pageNumber);
-
-            return _database.Find<TEntity>(pagedBuilder.SqlCommand);
+            var sqlCommand = new SqlCommand(
+                Builder.SqlPagedQuery(pageSize, pageNumber), 
+                Builder.ContextBase.Parameters);
+               
+            return Builder.OnNextQuery(() => 
+                 _database.Find<TEntity>(sqlCommand));
         }
 
         public IEntityReader<TEntity> GroupBy(
