@@ -18,7 +18,8 @@ branches:
 image: Visual Studio 2015
 
 # environment variables
-environment: AppVeyor: true
+environment: 
+  AppVeyor: true
 
 # enable service required for build/tests
 services: mssql2014           
