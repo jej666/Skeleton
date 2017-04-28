@@ -192,5 +192,29 @@ FakesAssemblies/
 # Visual Studio 6 build log
 *.plg
 
-# Visual Studio 6 workspace options file
-*.opt
+/packages
+/Skeleton.Abstraction
+/Skeleton.Common
+/Skeleton.Core.Caching
+/Skeleton.Core.Domain
+/Skeleton.Core.Reflection
+/Skeleton.Documentation.Swagger/bin/Debug
+/Skeleton.Documentation.Swagger/obj/Debug
+/Skeleton.Infrastructure.Data
+/Skeleton.Infrastructure.DependencyInjection
+/Skeleton.Infrastructure.Logging
+/Skeleton.Infrastructure.Orm
+/Skeleton.Tests.Benchmarks/bin/Debug
+/Skeleton.Tests.Benchmarks/obj/Debug
+/Skeleton.Tests.Common/bin/Debug
+/Skeleton.Tests.Common/obj/Debug
+/Skeleton.Tests.Core/bin/Debug
+/Skeleton.Tests.Core/obj/Debug
+/Skeleton.Tests.Infrastructure/bin/Debug
+/Skeleton.Tests.Infrastructure/obj/Debug
+/Skeleton.Tests.Web/bin/Debug
+/Skeleton.Tests.Web/obj/Debug
+/Skeleton.Web.Client/bin/Debug
+/Skeleton.Web.Client/obj/Debug
+/Skeleton.Web.Server/bin/Debug
+/Skeleton.Web.Server/obj/Debug
