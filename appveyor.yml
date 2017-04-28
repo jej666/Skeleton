@@ -1,14 +1,60 @@
+
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
 version: 1.0.{build}
+
+# branches to build
+branches:
+  only: 
+  - master
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Build worker image (VM template)
+image: Visual Studio 2015
+
+# environment variables
+environment: 
+  AppVeyor: true
+
+# enable service required for build/tests
+services: 
+  - mssql2014           
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform
+platform: 
+  - Any CPU
+
+# build Configuration
+configuration: 
+  - Release
+
 before_build:
   - nuget restore
+
 build:
   project: Skeleton.sln 
   verbosity: minimal
-platform:
-  - Any CPU
-configuration:
-  - Release
+
+#---------------------------------#
+#       test configuration       #
+#---------------------------------#
+
+before_test:
+  - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE TestDb" -d "master"
+
 test:
-  categories:
-    except:
-      - Benchmarks
+  assemblies:
+    only:
+      - Skeleton.Tests.Core.dll
+      - Skeleton.Tests.Infrastructure.dll
+      - Skeleton.Tests.Web.dll
