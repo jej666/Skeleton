@@ -38,20 +38,19 @@ platform:
 configuration: 
   - Release
 
+before_build:
+  - nuget restore
+
 build:
   project: Skeleton.sln 
   verbosity: minimal
 
-before_build:
-  - nuget restore
-
-build_script:
-  - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE TestDb" -d "master"
-
-
 #---------------------------------#
 #       test configuration       #
 #---------------------------------#
+
+before_test:
+  - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE TestDb" -d "master"
 
 test:
   assemblies:
