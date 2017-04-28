@@ -14,8 +14,9 @@ namespace Skeleton.Tests.Common
             SqlDbSeeder.SeedCustomers();
 
             Bootstrapper.UseDatabase(
-                builder => builder.UsingConfigConnectionString("Default")
-                .Build());
+                builder => builder.UsingConnectionString(
+                    AppConfiguration.ConnectionString)
+                        .Build());
         }
 
         public void Start(Uri baseUrl)

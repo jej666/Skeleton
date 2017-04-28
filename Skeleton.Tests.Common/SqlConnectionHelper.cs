@@ -5,7 +5,8 @@ namespace Skeleton.Tests.Common
 {
     public sealed class SqlConnectionHelper : IDisposable
     {
-        private readonly SqlConnection _innerConnection = new SqlConnection(AppConfiguration.DefaultConnectionString);
+        private readonly SqlConnection _innerConnection = 
+            new SqlConnection(AppConfiguration.ConnectionString);
 
         public void Dispose()
         {

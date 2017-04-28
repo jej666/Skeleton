@@ -7,31 +7,40 @@ namespace Skeleton.Tests.Common
     public static class SqlLocalDbHelper
     {
         private const string LocalDbPath = @"Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB";
-        private const string LocalDbName = "testDb";
-        private const string Mdf = ".mdf";
+        private const string DbName = "TestDb";
+        private const string MdfExtension = ".mdf";
+        private const string LocalServer = @"server=(localdb)\MSSQLLocalDB";
 
         public static void CreateDatabaseIfNotExists()
         {
+            if (AppConfiguration.AppVeyorBuild)
+                return;
+ 
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var fullPath = Path.Combine(appDataPath, LocalDbPath, LocalDbName + Mdf);
+            var fullPath = Path.Combine(appDataPath, LocalDbPath, DbName + MdfExtension);
 
-            //if (File.Exists(fullPath))
-            //    return;
+            if (File.Exists(fullPath))
+                return;
 
-            var connection = new SqlConnectionHelper();
-            using (var cnn = connection.OpenConnection())
+            CreateDb(fullPath, LocalServer);
+        }
+
+        private static void CreateDb(string fullPath, string connectionString)
+        {
+            using (var connection = new SqlConnection(connectionString))
             {
-                var sql = $@"
-                    If Not Exists(Select * from sys.databases Where name = '{LocalDbName}')
-                    Begin
-                        CREATE DATABASE
-                            [TestDb]
-                        ON PRIMARY (
-                           NAME={LocalDbName},
-                           FILENAME = '{fullPath}')
-                    End";
+                connection.Open();
 
-                using (var command = new SqlCommand(sql, cnn))
+                var sql = $@"
+                    CREATE DATABASE
+                        [{DbName}]
+                    ON PRIMARY 
+                        (
+                            NAME={DbName},
+                            FILENAME = '{fullPath}'
+                        )";
+
+                using (var command = new SqlCommand(sql, connection))
                     command.ExecuteNonQuery();
             }
         }
@@ -48,6 +57,7 @@ namespace Skeleton.Tests.Common
                         DROP PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]";
 
                 cmd.ExecuteNonQuery();
+
                 cmd.CommandText = @"
                 CREATE PROCEDURE[dbo].[ProcedureSelectCustomerByCategory]
                     @categoryId int

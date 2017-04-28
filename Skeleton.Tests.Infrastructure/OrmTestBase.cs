@@ -10,8 +10,10 @@ namespace Skeleton.Tests.Infrastructure
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
 
-            Bootstrapper.UseDatabase(builder =>
-                    builder.UsingConfigConnectionString("Default").Build());
+            Bootstrapper.UseDatabase(
+                builder => builder.UsingConnectionString(
+                    AppConfiguration.ConnectionString)
+                    .Build());
         }
 
         protected static IDependencyResolver Container => Bootstrapper.Resolver;

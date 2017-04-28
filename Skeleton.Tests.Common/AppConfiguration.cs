@@ -9,8 +9,12 @@ namespace Skeleton.Tests.Common
         private static string CachedCustomersPath => GetAppSetting("CachedCustomersPath");
         private static string AsyncCustomersPath => GetAppSetting("AsyncCustomersPath");
         private static string AsyncCachedCustomersPath => GetAppSetting("AsyncCachedCustomersPath");
+        
+        public static bool AppVeyorBuild => Environment.GetEnvironmentVariable("AppVeyor") != null;
+        public static string ConnectionString => AppVeyorBuild 
+            ? GetConnectionString("AppVeyor")
+            : GetConnectionString("Default");
 
-        public static string DefaultConnectionString => GetConnectionString("Default");
         public static string Host => GetAppSetting("Host");
         public static int Port => int.Parse(GetAppSetting("Port"));
         public static UriBuilder CustomersUriBuilder => new UriBuilder("http", Host, Port, CustomersPath);
@@ -33,7 +37,7 @@ namespace Skeleton.Tests.Common
             var connectionSettings = ConfigurationManager.ConnectionStrings;
 
             if (connectionSettings?[connectionStringConfigName] == null)
-                throw new ConfigurationErrorsException();
+                throw new ConfigurationErrorsException($"connectionString {connectionStringConfigName} must be set.");
 
             var namedDatabase = connectionSettings[connectionStringConfigName];
 
