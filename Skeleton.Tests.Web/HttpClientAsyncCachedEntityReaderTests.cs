@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Skeleton.Tests.Web
 {
     [TestFixture]
-    public class AsyncCachedEntityReaderClientTests
+    public class HttpClientAsyncCachedEntityReaderTests
     {
         private readonly static AsyncCrudHttpClient<CustomerDto> Client =
             new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCachedCustomersUriBuilder);
