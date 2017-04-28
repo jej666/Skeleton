@@ -17,7 +17,8 @@ namespace Skeleton.Tests.Benchmarks
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
 
             Bootstrapper.UseDatabase(builder =>
-                    builder.UsingConfigConnectionString("Default").Build());
+                    builder.UsingConnectionString(AppConfiguration.ConnectionString)
+                    .Build());
         }
 
         public static IDependencyResolver Container => Bootstrapper.Resolver;
@@ -30,14 +31,19 @@ namespace Skeleton.Tests.Benchmarks
 
             var benchmarks = new BenchmarkCollection();
 
-            using (var connection = new SqlConnectionHelper().OpenConnection())
+            using (var connection = new SqlConnectionHelper())
+            using (var cnn = connection.OpenConnection())
             {
                 // HAND CODED
                 var postCommand = new SqlCommand
                 {
-                    Connection = connection,
-                    CommandText = @"select postId, [Text], [CreationDate], LastChangeDate,
-                Counter1,Counter2,Counter3,Counter4,Counter5,Counter6,Counter7,Counter8,Counter9 from Post"
+                    Connection = cnn,
+                    CommandText = @"select postId, 
+                                    [Text], 
+                                    [CreationDate], 
+                                    LastChangeDate,
+                                    Counter1,Counter2,Counter3,Counter4,Counter5,Counter6,Counter7,Counter8,Counter9 
+                                    from Post"
                 };
 
                 benchmarks.Add(() =>
