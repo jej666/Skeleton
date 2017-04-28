@@ -47,4 +47,15 @@ before_build:
 
 build_script:
   - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE TestDb" -d "master"
-  
+
+
+#---------------------------------#
+#       test configuration       #
+#---------------------------------#
+
+test:
+  assemblies:
+    only:
+      - Skeleton.Tests.Core.dll
+      - Skeleton.Tests.Infrastructure.dll
+      - Skeleton.Tests.Web.dll
