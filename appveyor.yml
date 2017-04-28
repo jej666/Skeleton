@@ -46,7 +46,7 @@ before_build:
   - nuget restore
 
 build_script:
-  - createdb TestDb
+  - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE TestDb" -d "master"
   
 #---------------------------------#
 #       tests configuration       #
