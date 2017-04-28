@@ -10,7 +10,7 @@
                 var cmd = cnn.CreateCommand();
                 cmd.CommandText = @"
 
-                if (OBJECT_ID('CustomerCategory') is null)
+                if (OBJECT_ID(N'CustomerCategory', N'U') is null)
                     begin
 	                    CREATE TABLE [dbo].[CustomerCategory] (
                         [CustomerCategoryId] INT        IDENTITY (1, 1) NOT NULL,
@@ -27,7 +27,7 @@
 	                    end
                     end
 
-                if (OBJECT_ID('Customer') is null)
+                if (OBJECT_ID(N'Customer', N'U') is null)
                     begin
 	                    CREATE TABLE [dbo].[Customer] (
                         [CustomerId]         INT           IDENTITY (1, 1) NOT NULL,
