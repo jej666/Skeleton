@@ -55,6 +55,6 @@ before_test:
 test:
   assemblies:
     only:
-      - Skeleton.Tests.Core.dll
-      - Skeleton.Tests.Infrastructure.dll
-      - Skeleton.Tests.Web.dll
+      - C:\projects\skeleton\Skeleton.Tests.*\bin\Release\Skeleton.Tests.Core.dll
+      - C:\projects\skeleton\Skeleton.Tests.*\bin\Release\Skeleton.Tests.Infrastructure.dll
+      - C:\projects\skeleton\Skeleton.Tests.*\bin\Release\Skeleton.Tests.Web.dll
