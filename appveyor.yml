@@ -54,4 +54,5 @@ build_script:
   
 test:
   categories:
-    except: Benchmarks
+    except: 
+      - Benchmarks
