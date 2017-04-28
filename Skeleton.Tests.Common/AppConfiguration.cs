@@ -5,12 +5,12 @@ namespace Skeleton.Tests.Common
 {
     public static class AppConfiguration
     {
-        private static string CustomersPath => GetAppSetting("CustomersPath");
-        private static string CachedCustomersPath => GetAppSetting("CachedCustomersPath");
-        private static string AsyncCustomersPath => GetAppSetting("AsyncCustomersPath");
-        private static string AsyncCachedCustomersPath => GetAppSetting("AsyncCachedCustomersPath");
-        
-        public static bool AppVeyorBuild => Environment.GetEnvironmentVariable("AppVeyor") != null;
+        private static readonly string CustomersPath = GetAppSetting("CustomersPath");
+        private static readonly string CachedCustomersPath = GetAppSetting("CachedCustomersPath");
+        private static readonly string AsyncCustomersPath = GetAppSetting("AsyncCustomersPath");
+        private static readonly string AsyncCachedCustomersPath = GetAppSetting("AsyncCachedCustomersPath");
+
+        public static bool AppVeyorBuild => Environment.GetEnvironmentVariable("AppVeyor")?.ToUpperInvariant() == "TRUE";
         public static string ConnectionString => AppVeyorBuild 
             ? GetConnectionString("AppVeyor")
             : GetConnectionString("Default");
