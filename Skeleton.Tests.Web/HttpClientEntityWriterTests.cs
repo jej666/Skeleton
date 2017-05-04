@@ -14,7 +14,9 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityWriter_Update()
         {
-            var data = Client.Page(1, 1).Results.FirstOrDefault();
+            var data = Client
+                .Query(new Query { PageSize = 1, PageNumber = 1 })
+                .FirstOrDefault();
 
             Assert.IsNotNull(data);
 
@@ -44,7 +46,8 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityWriter_BatchUpdate()
         {
-            var customers = Client.Page(5, 1).Results.ToList();
+            var customers = Client.Query(new Query { PageSize = 5, PageNumber = 1 });
+
             Assert.IsNotNull(customers);
 
             foreach (var customer in customers)
@@ -86,7 +89,10 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityWriter_Delete()
         {
-            var data = Client.Page(1, 1).Results.FirstOrDefault();
+            var data = Client
+                .Query(new Query { PageSize = 5, PageNumber = 1 })
+                .FirstOrDefault();
+
             var result = (data != null) && Client.Delete(data.CustomerId);
 
             Assert.IsTrue(result);
@@ -95,7 +101,8 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityWriter_BatchDelete()
         {
-            var customers = Client.Page(5, 1).Results;
+            var customers = Client.Query(new Query { PageSize = 5, PageNumber = 1 });
+
             Assert.IsNotNull(customers);
 
             var result = Client.Delete(customers);

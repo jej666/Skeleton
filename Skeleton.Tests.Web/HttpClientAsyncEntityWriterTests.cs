@@ -15,8 +15,8 @@ namespace Skeleton.Tests.Web
         [Test]
         public async Task AsyncEntityWriter_UpdateAsync()
         {
-            var data = await Client.PageAsync(1, 1);
-            var firstCustomer = data.Results.FirstOrDefault();
+            var data = await Client.QueryAsync(new Query { PageSize = 1, PageNumber = 1 });
+            var firstCustomer = data.FirstOrDefault();
 
             Assert.IsNotNull(firstCustomer);
 
@@ -34,8 +34,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public async Task AsyncEntityWriter_BatchUpdateAsync()
         {
-            var customersPagedResults = await Client.PageAsync(5, 1);
-            var customers = customersPagedResults.Results;
+            var customers = await Client.QueryAsync(new Query { PageSize = 5, PageNumber = 1 });
 
             Assert.IsNotNull(customers);
 
@@ -69,9 +68,11 @@ namespace Skeleton.Tests.Web
         [Test]
         public async Task AsyncEntityWriter_DeleteAsync()
         {
-            var data = await Client.PageAsync(1, 1);
-            var firstCustomer = data.Results.FirstOrDefault();
+            var data = await Client.QueryAsync(new Query { PageSize = 1, PageNumber = 1 });
+            var firstCustomer = data.FirstOrDefault();
+
             Assert.IsNotNull(firstCustomer);
+
             var result = await Client.DeleteAsync(firstCustomer.CustomerId);
 
             Assert.IsTrue(result);
@@ -80,8 +81,8 @@ namespace Skeleton.Tests.Web
         [Test]
         public async Task AsyncEntityWriter_BatchDeleteAsync()
         {
-            var data = await Client.PageAsync(5, 1);
-            var customers = data.Results;
+            var customers = await Client.QueryAsync(new Query { PageSize = 5, PageNumber = 1 });
+
             Assert.IsNotNull(customers);
 
             var result = await Client.DeleteAsync(customers);

@@ -49,13 +49,13 @@ namespace Skeleton.Web.Client
                 .Result;
         }
 
-        public PagedResult<TDto> Page(int pageSize, int pageNumber)
+        public IEnumerable<TDto> Query(Query query)
         {
-            var requestUri = UriBuilder.Page(pageSize, pageNumber);
+            var requestUri = UriBuilder.Query(query);
             var content = Get(requestUri).Content;
 
             return content
-                .ReadAsAsync<PagedResult<TDto>>()
+                .ReadAsAsync<IEnumerable<TDto>>()
                 .Result;
         }
 

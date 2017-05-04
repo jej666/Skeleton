@@ -65,7 +65,8 @@
     <Compile Include="JsonCrudHttpClient.cs" />
     <Compile Include="AsyncJsonCrudHttpClient.cs" />
     <Compile Include="IRestUriBuilder.cs" />
-    <Compile Include="PagedResult.cs" />
+    <Compile Include="Query.cs" />
+    <Compile Include="QueryResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestAction.cs" />
     <Compile Include="RestUriBuilder.cs" />

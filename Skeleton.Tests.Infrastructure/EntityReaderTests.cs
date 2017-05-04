@@ -268,7 +268,11 @@ namespace Skeleton.Tests.Infrastructure
             {
                 var results = _reader
                     .OrderBy(c => c.CustomerCategoryId)
-                    .Page(pageSize, page);
+                    .Query(new Query
+                    {
+                        PageSize = pageSize,
+                        PageNumber = page
+                    });
 
                 Assert.IsTrue(results.Count() <= pageSize);
             }

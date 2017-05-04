@@ -257,7 +257,11 @@ namespace Skeleton.Tests.Infrastructure
             {
                 var results = await _reader
                     .OrderBy(c => c.CustomerCategoryId)
-                    .PageAsync(pageSize, page);
+                    .QueryAsync(new Query
+                    {
+                        PageSize = pageSize,
+                        PageNumber = page
+                    });
 
                 Assert.IsTrue(results.Count() <= pageSize);
             }

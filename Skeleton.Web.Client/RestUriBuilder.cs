@@ -44,8 +44,12 @@ namespace Skeleton.Web.Client
                     Path += ActionConstants.GetAll;
                     break;
 
-                case RestAction.Get:
-                    Path += ActionConstants.Get;
+                case RestAction.Query:
+                    Path += ActionConstants.Query;
+                    break;
+
+                case RestAction.FirstOrDefault:
+                    Path += ActionConstants.FirstOrDefault;
                     break;
 
                 case RestAction.Create:
@@ -117,6 +121,9 @@ namespace Skeleton.Web.Client
             var stringBuilder = new StringBuilder();
             foreach (var parameter in parameters)
             {
+                if (parameter.Value == null)
+                    continue;
+                
                 if (stringBuilder.Length > 0)
                     stringBuilder.Append("&");
 
@@ -149,7 +156,8 @@ namespace Skeleton.Web.Client
         private static class ActionConstants
         {
             internal const string GetAll = "getall";
-            internal const string Get = "get";
+            internal const string Query = "query";
+            internal const string FirstOrDefault = "firstordefault";
             internal const string Create = "create";
             internal const string BatchCreate = "batchcreate";
             internal const string Page = "page";

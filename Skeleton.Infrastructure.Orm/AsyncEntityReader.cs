@@ -59,18 +59,15 @@ namespace Skeleton.Infrastructure.Orm
             return await FirstOrDefaultCoreAsync();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> PageAsync(
-            int pageSize,
-            int pageNumber)
+        public virtual async Task<IEnumerable<TEntity>> QueryAsync(IQuery query)
         {
             try
             {
-                var sqlCommand = new SqlCommand(
-                Builder.SqlPagedQuery(pageSize, pageNumber),
-                Builder.ContextBase.Parameters);
+                var evaluator = new QueryEvaluator<TEntity>(Builder, query);
+                evaluator.Evaluate();
 
                 return await _database.FindAsync<TEntity>(
-                        sqlCommand)
+                        Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
             finally

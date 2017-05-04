@@ -13,6 +13,6 @@ namespace Skeleton.Abstraction.Orm
 
         Task<IEnumerable<TEntity>> FindAsync();
 
-        Task<IEnumerable<TEntity>> PageAsync(int pageSize, int pageNumber);
+        Task<IEnumerable<TEntity>> QueryAsync(IQuery query);
     }
 }

@@ -3,7 +3,8 @@
     public enum RestAction
     {
         GetAll,
-        Get,
+        Query,
+        FirstOrDefault,
         Create,
         BatchCreate,
         Page,

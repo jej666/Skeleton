@@ -12,6 +12,6 @@ namespace Skeleton.Abstraction.Orm
 
         IEnumerable<TEntity> Find();
 
-        IEnumerable<TEntity> Page(int pageSize, int pageNumber);
+        IEnumerable<TEntity> Query(IQuery query);
     }
 }

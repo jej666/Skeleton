@@ -16,8 +16,8 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
         where TEntity : class, IEntity<TEntity>
     {
         private readonly IMetadata _metadata;
-        private readonly Type _entityType;
         private readonly IInstanceAccessor _entityInstanceAccessor;
+        private readonly Type _entityType;
         private string _cacheIdName;
 
         protected internal SqlBuilderBase(IMetadataProvider metadataProvider)
@@ -43,7 +43,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
         {
             get
             {
-                if (!_cacheIdName.IsNullOrEmpty())
+                if (_cacheIdName.IsNotNullOrEmpty())
                     return _cacheIdName;
 
                 var instance = _entityInstanceAccessor.InstanceCreator(null) as TEntity;
@@ -105,6 +105,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
             {
                 var paramId = ContextBase.NextParamId();
                 ContextBase.AddParameter(paramId, x);
+
                 return SqlFormatter.Parameter(paramId);
             });
 

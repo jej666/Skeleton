@@ -30,7 +30,7 @@ namespace Skeleton.Web.Server.Controllers
         public IEntityMapper<TEntity, TDto> Mapper => _mapper;
 
         [HttpGet]
-        public virtual async Task<IHttpActionResult> Get(string id)
+        public virtual async Task<IHttpActionResult> FirstOrDefault(string id)
         {
             return await HandleExceptionAsync(async () =>
             {
@@ -62,23 +62,22 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<IHttpActionResult> Page(int pageSize, int pageNumber)
+        public virtual async Task<IHttpActionResult> Query([FromUri] Query query)
         {
             return await HandleExceptionAsync(async () =>
             {
-                var totalCount = await Reader.CountAsync();
-                var pagedData = await Reader
-                    .PageAsync(pageSize, pageNumber);
-                var dtoData = await pagedData
+                // var totalCount = await Reader.CountAsync();
+                var data = await Reader.QueryAsync(query);
+                var dtoData = await data
                     .Select(Mapper.Map)
                     .ToListAsync();
-                var pagedResult = Request.ToPagedResult(
-                    totalCount,
-                    pageNumber,
-                    pageSize,
-                    dtoData);
+                //var pagedResult = Request.ToPagedResult(
+                //    totalCount,
+                //    pageNumber,
+                //    pageSize,
+                //    dtoData);
 
-                return Ok(pagedResult);
+                return Ok(dtoData);
             });
         }
 

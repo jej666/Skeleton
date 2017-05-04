@@ -23,7 +23,9 @@ namespace Skeleton.Tests.Web
         [Test]
         public void CachedEntityReader_FirstOrDefault()
         {
-            var data = Client.Page(1, 1).Results.FirstOrDefault();
+            var data = Client
+                .Query(new Query { PageSize = 1, PageNumber = 1 })
+                .FirstOrDefault();
 
             Assert.IsNotNull(data);
 
@@ -47,8 +49,12 @@ namespace Skeleton.Tests.Web
 
             for (var page = 1; page < numberOfPages; ++page)
             {
-                var response = Client.Page(pageSize, page);
-                Assert.IsTrue(response.Results.Count() <= pageSize);
+                var response = Client.Query(new Query
+                {
+                    PageSize = pageSize,
+                    PageNumber = page
+                });
+                Assert.IsTrue(response.Count() <= pageSize);
             }
         }
     }

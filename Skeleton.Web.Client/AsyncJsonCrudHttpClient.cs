@@ -54,15 +54,15 @@ namespace Skeleton.Web.Client
                 .ConfigureAwait(false);
         }
 
-        public async Task<PagedResult<TDto>> PageAsync(int pageSize, int pageNumber)
+        public async Task<IEnumerable<TDto>> QueryAsync(Query query)
         {
-            var requestUri = UriBuilder.Page(pageSize, pageNumber);
+            var requestUri = UriBuilder.Query(query);
             var response = await GetAsync(requestUri)
                 .ConfigureAwait(false);
 
             return await response
                 .Content
-                .ReadAsAsync<PagedResult<TDto>>()
+                .ReadAsAsync<IEnumerable<TDto>>()
                 .ConfigureAwait(false);
         }
 

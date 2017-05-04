@@ -23,25 +23,32 @@ namespace Skeleton.Web.Client
 
             return uriBuilder
                .StartNew()
-               .AppendAction(RestAction.Get)
+               .AppendAction(RestAction.FirstOrDefault)
                .AppendAction(id)
                .Uri;
         }
 
-        public static Uri Page(this IRestUriBuilder uriBuilder, int pageSize, int pageNumber)
+        public static Uri Query(this IRestUriBuilder uriBuilder, Query query)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
 
             return uriBuilder
-               .StartNew()
-               .AppendAction(RestAction.Page)
-               .SetQueryParameters(new Dictionary<string, object>
-               {
-                    { "PageSize", pageSize },
-                    { "pageNumber", pageNumber }
-               })
-               .Uri;
+                .StartNew()
+                .AppendAction(RestAction.Query)
+                .SetQueryParameters(CreateQueryParameters(query))
+                .Uri;
+        }
+
+        private static Dictionary<string, object> CreateQueryParameters(Query query)
+        {
+            return new Dictionary<string, object>
+                  {
+                       { "Fields", query.Fields },
+                       { "OrderBy" , query.OrderBy },
+                       { "PageNumber", query.PageNumber },
+                       { "PageSize", query.PageSize }
+                  };
         }
 
         public static Uri Create(this IRestUriBuilder uriBuilder)

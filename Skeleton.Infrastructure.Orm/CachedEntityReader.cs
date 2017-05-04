@@ -66,13 +66,13 @@ namespace Skeleton.Infrastructure.Orm
                 CacheConfigurator);
         }
 
-        public override IEnumerable<TEntity> Page(int pageSize, int pageNumber)
+        public override IEnumerable<TEntity> Query(IQuery query)
         {
-            LastGeneratedCacheKey = _keyGenerator.ForPage(pageSize, pageNumber);
+            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SqlQuery);
 
             return Cache.GetOrAdd(
                 LastGeneratedCacheKey,
-                () => base.Page(pageSize, pageNumber),
+                () => base.Query(query),
                 CacheConfigurator);
         }
     }

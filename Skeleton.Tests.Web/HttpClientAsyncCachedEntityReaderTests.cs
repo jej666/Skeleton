@@ -24,8 +24,8 @@ namespace Skeleton.Tests.Web
         [Test]
         public async Task AsyncCachedEntityReader_FirstOrDefaultAsync()
         {
-            var data = await Client.PageAsync(1, 1);
-            var first = data.Results.FirstOrDefault();
+            var data = await Client.QueryAsync(new Query { PageSize = 1, PageNumber = 1 });
+            var first = data.FirstOrDefault();
 
             Assert.IsNotNull(first);
 
@@ -49,8 +49,12 @@ namespace Skeleton.Tests.Web
 
             for (var page = 1; page < numberOfPages; ++page)
             {
-                var response = await Client.PageAsync(pageSize, page);
-                Assert.IsTrue(response.Results.Count() <= pageSize);
+                var response = await Client.QueryAsync(new Query
+                {
+                    PageSize = pageSize,
+                    PageNumber = page
+                });
+                Assert.IsTrue(response.Count() <= pageSize);
             }
         }
     }

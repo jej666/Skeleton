@@ -1,4 +1,5 @@
 ﻿using Skeleton.Abstraction.Domain;
+using Skeleton.Abstraction.Orm;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Orm.ExpressionTree;
@@ -11,7 +12,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
             SqlBuilderBase<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        private const string SqlPagedQueryTemplate = "SELECT {0} FROM {1} {2} {3} OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY";
+        private const string PagingTemplate = " OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY";
 
         internal SelectQueryBuilder(IMetadataProvider metadataProvider)
             : base(metadataProvider)
@@ -22,32 +23,17 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal QueryContext Context { get; private set; } = new QueryContext();
 
-        internal override string SqlQuery => SqlQueryTemplate
-            .FormatWith(
-                Context.Top,
-                SqlFormatter.SelectedColumns(Context.Selection, TableName),
-                SqlFormatter.Source(Context.Source, TableName),
-                SqlFormatter.Conditions(Context.Conditions),
-                SqlFormatter.GroupBy(Context.GroupBy),
-                SqlFormatter.Having(Context.Having),
-                SqlFormatter.OrderBy(Context.OrderBy));
-
-        internal string SqlPagedQuery(int pageSize, int pageNumber)
-        {
-            if (Context.OrderBy.IsNullOrEmpty())
-                OrderByPrimaryKey();
-
-            return SqlPagedQueryTemplate
-                .FormatWith(
+        internal override string SqlQuery => SqlQueryTemplate.FormatWith(
+                    Context.Top,
                     SqlFormatter.SelectedColumns(Context.Selection, TableName),
                     SqlFormatter.Source(Context.Source, TableName),
                     SqlFormatter.Conditions(Context.Conditions),
+                    SqlFormatter.GroupBy(Context.GroupBy),
+                    SqlFormatter.Having(Context.Having),
                     SqlFormatter.OrderBy(Context.OrderBy),
-                    pageSize * (pageNumber - 1),
-                    pageSize);
-        }
+                    Paginate());
 
-        protected internal override string SqlQueryTemplate => "SELECT {0} {1} FROM {2} {3} {4} {5} {6}";
+        protected internal override string SqlQueryTemplate => "SELECT {0} {1} FROM {2} {3} {4} {5} {6} {7}";
 
         internal override void OnNextQuery()
         {
@@ -188,6 +174,16 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
             if (!Context.OrderBy.Contains(formattedField))
                 Context.OrderBy.Add(formattedField);
+        }
+
+        private string Paginate()
+        {
+            if (!Context.Pagination)
+                return string.Empty;
+
+            return PagingTemplate.FormatWith(
+                Context.PageSize * (Context.PageNumber - 1), 
+                Context.PageSize);
         }
     }
 }

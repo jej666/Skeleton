@@ -25,6 +25,10 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal string Top { get; set; }
 
+        internal int PageSize { get; set; }
+
+        internal int PageNumber { get; set; }
+
         internal IList<string> GroupBy => _groupBy.Value;
 
         internal IList<string> Having => _having.Value;
@@ -36,5 +40,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
         internal IList<string> OrderBy => _orderBy.Value;
 
         internal IList<string> TableNames => _tableNames.Value;
+
+        internal bool Pagination => PageSize > 0 && PageNumber > 0;
     }
 }

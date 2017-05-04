@@ -67,18 +67,5 @@ namespace Skeleton.Infrastructure.Orm
                     CacheConfigurator)
                 .ConfigureAwait(false);
         }
-
-        public override async Task<IEnumerable<TEntity>> PageAsync(
-            int pageSize,
-            int pageNumber)
-        {
-            LastGeneratedCacheKey = _keyGenerator.ForPage(pageSize, pageNumber);
-
-            return await Cache.GetOrAddAsync(
-                    LastGeneratedCacheKey,
-                    () => base.PageAsync(pageSize, pageNumber),
-                    CacheConfigurator)
-                .ConfigureAwait(false);
-        }
     }
 }

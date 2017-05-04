@@ -48,14 +48,15 @@ namespace Skeleton.Infrastructure.Orm
             return FirstOrDefaultCore();
         }
 
-        public virtual IEnumerable<TEntity> Page(int pageSize, int pageNumber)
+        public virtual IEnumerable<TEntity> Query(IQuery query)
         {
-            var sqlCommand = new SqlCommand(
-                Builder.SqlPagedQuery(pageSize, pageNumber), 
-                Builder.ContextBase.Parameters);
-               
-            return Builder.OnNextQuery(() => 
-                 _database.Find<TEntity>(sqlCommand));
+            query.ThrowIfNull(nameof(query));
+
+            var evaluator = new QueryEvaluator<TEntity>(Builder, query);
+            evaluator.Evaluate();
+
+            return Builder.OnNextQuery(() =>
+                 _database.Find<TEntity>(Builder.SqlCommand));
         }
 
         public IEntityReader<TEntity> GroupBy(

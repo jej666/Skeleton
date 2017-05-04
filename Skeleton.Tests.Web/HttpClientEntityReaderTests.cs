@@ -8,7 +8,9 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientEntityReaderTests
     {
-        private readonly static CrudHttpClient<CustomerDto> Client =
+        const int pageSize = 50;
+        const int numberOfPages = 5;
+        readonly static CrudHttpClient<CustomerDto> Client =
             new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
         [Test]
@@ -23,7 +25,9 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_FirstOrDefault()
         {
-            var data = Client.Page(pageSize: 1, pageNumber: 1).Results.FirstOrDefault();
+            var data = Client
+                .Query(new Query { PageSize = 1, PageNumber = 1 })
+                .FirstOrDefault();
 
             Assert.IsNotNull(data);
 
@@ -42,21 +46,30 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_Page()
         {
-            const int pageSize = 50;
-            const int numberOfPages = 5;
-
             for (var page = 1; page < numberOfPages; ++page)
             {
-                var response = Client.Page(pageSize, page);
-                Assert.IsTrue(response.Results.Count() <= pageSize);
+                var response = Client.Query(new Query
+                {
+                    PageSize = pageSize,
+                    PageNumber = page
+                });
+
+                Assert.IsTrue(response.Count() <= pageSize);
             }
         }
 
-        //[Test]
-        //public void EntityReader_GetException()
-        //{
-        //    var uri = Client.UriBuilder.StartNew().AppendAction("GetException").Uri;
-        //    Assert.Catch(typeof(CustomHttpException), () => Client.Get(uri));
-        //}
+        [Test]
+        public void EntityReader_Query()
+        {
+            var response = Client.Query(new Query
+            {
+                Fields = "CustomerId,Name",
+                OrderBy = "CustomerId,-Name",
+                PageSize = 50,
+                PageNumber = 1
+            });
+
+            Assert.IsNotNull(response);
+        }
     }
 }
