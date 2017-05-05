@@ -41,7 +41,7 @@ configuration:
 before_build:
   - nuget restore
   - choco install "msbuild-sonarqube-runner" -y
-  - MSBuild.SonarQube.Runner.exe begin /k:"Skeleton" /d:sonar.host.url=https://sonarqube.com /d:sonar.login=21ad626032cd9eda6c8c6077790bad7d086a0a23
+  - MSBuild.SonarQube.Runner.exe begin /k:"jej666:Skeleton" /d:sonar.host.url=https://sonarqube.com /d:sonar.login=21ad626032cd9eda6c8c6077790bad7d086a0a23
 
 build_script:
   - msbuild "Skeleton.sln"
