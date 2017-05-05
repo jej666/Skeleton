@@ -84,7 +84,7 @@ before_test:
 		                    insert Customer ([Name], [CustomerCategoryId]) values ('Customer' + CAST(@j as varchar(3)), ROUND( RAND() * 9 ,0) + 1)
 		                    set @j = @j + 1
 	                    end
-                    end" -d "master"
+                    end;" -d "master"
 test:
   assemblies:
     only:
