@@ -42,7 +42,7 @@ cache:
 
 # build platform
 platform: 
-  - AnyCPU
+  - Any CPU
 
 # build Configuration
 configuration: 
