@@ -47,8 +47,8 @@ before_build:
   - nuget restore 
 
 build:
-  - project: Skeleton.sln
-  - verbosity: minimal
+  project: Skeleton.sln
+  verbosity: minimal
   
 #---------------------------------#
 #       test configuration        #
