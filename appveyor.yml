@@ -67,7 +67,7 @@ test:
     only:
       - Skeleton.Tests.Core.dll
       - Skeleton.Tests.Infrastructure.dll
-      - Skeleton.Tests.Web.dll
+    #  - Skeleton.Tests.Web.dll
       
 after_test: 
     - packages\OpenCover.4.6.519\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\NUnit.ConsoleRunner.3.6.1\tools\nunit-console.exe" -targetargs:"/noshadow /domain:single  Skeleton.Tests.Infrastructure\bin\debug\Skeleton.Tests.Infrastrucuture.dll" -output:coverage.xml
