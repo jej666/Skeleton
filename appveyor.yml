@@ -21,10 +21,16 @@ image: Visual Studio 2015
 # environment variables
 environment: 
   AppVeyor: true
+  COVERALLS_REPO_TOKEN:
+    secure: cNIM6h63k54BW7nyMal31txXrgb7ktWGVKpVA9BAp0oAZ6WvuMwSFUX2oZX5exFi
 
 # enable service required for build/tests
 services: 
-  - mssql2014           
+  - mssql2014 
+  
+# build cache to preserve files/folders between builds 
+cache:
+  - packages -> **\packages.config
 
 #---------------------------------#
 #       build configuration       #
@@ -36,25 +42,29 @@ platform:
 
 # build Configuration
 configuration: 
-  - Release
+  - Debug
 
 before_build:
-  - nuget restore
+  - nuget restore 
 
 build:
-  project: Skeleton.sln 
+  project: Skeleton.sln
   verbosity: minimal
-
+  
 #---------------------------------#
-#       test configuration       #
+#       test configuration        #
 #---------------------------------#
 
 before_test:
   - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE TestDb" -d "master"
-
+  
 test:
   assemblies:
     only:
       - Skeleton.Tests.Core.dll
       - Skeleton.Tests.Infrastructure.dll
       - Skeleton.Tests.Web.dll
+      
+after_test: 
+    - packages\OpenCover.4.6.519\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\NUnit.ConsoleRunner.3.6.1\tools\nunit-console.exe" -targetargs:"/noshadow /domain:single  Skeleton.Tests.Infrastructure\bin\debug\Skeleton.Tests.Infrastrucuture.dll" -output:coverage.xml
+    - packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml
