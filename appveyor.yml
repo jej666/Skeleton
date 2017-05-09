@@ -47,7 +47,7 @@ before_build:
   - nuget restore 
 
 build:
-  - project: "Skeleton.sln"
+  - project: Skeleton.sln
   - verbosity: minimal
   
 #---------------------------------#
