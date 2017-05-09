@@ -11,7 +11,9 @@ namespace Skeleton.Tests.Common
         public OwinServer()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
-            SqlDbSeeder.SeedCustomers();
+
+            if (!AppConfiguration.AppVeyorBuild)
+                SqlDbSeeder.SeedCustomers();
 
             Bootstrapper.UseDatabase(
                 builder => builder.UsingConnectionString(
