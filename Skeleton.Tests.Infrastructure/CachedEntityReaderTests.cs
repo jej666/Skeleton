@@ -18,8 +18,6 @@ namespace Skeleton.Tests.Infrastructure
             _reader = Container.Resolve<ICachedEntityReader<Customer>>();
             _reader.CacheConfigurator =
                 config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
-
-            SqlDbSeeder.SeedCustomers();
         }
 
         [Test]

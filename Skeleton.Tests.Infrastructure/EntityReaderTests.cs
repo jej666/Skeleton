@@ -16,8 +16,6 @@ namespace Skeleton.Tests.Infrastructure
         public EntityReaderTests()
         {
             _reader = Container.Resolve<IEntityReader<Customer>>();
-
-            SqlDbSeeder.SeedCustomers();
         }
 
         private Customer GetFirstCustomer()

@@ -17,7 +17,6 @@ namespace Skeleton.Tests.Infrastructure
         public AsyncCachedEntityReaderTests()
         {
             _reader = Container.Resolve<IAsyncCachedEntityReader<Customer>>();
-            SqlDbSeeder.SeedCustomers();
         }
 
         [Test]

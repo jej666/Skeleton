@@ -9,6 +9,7 @@ namespace Skeleton.Tests.Infrastructure
         protected OrmTestBase()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
+            SqlDbSeeder.SeedCustomers();
 
             Bootstrapper.UseDatabase(
                 builder => builder.UsingConnectionString(

@@ -18,8 +18,6 @@ namespace Skeleton.Tests.Infrastructure
         {
             _writer = Container.Resolve<IEntityWriter<Customer>>();
             _reader = Container.Resolve<IEntityReader<Customer>>();
-
-            SqlDbSeeder.SeedCustomers();
         }
 
         [Test]

@@ -17,8 +17,6 @@ namespace Skeleton.Tests.Infrastructure
         {
             _writer = Container.Resolve<IAsyncEntityWriter<Customer>>();
             _reader = Container.Resolve<IAsyncEntityReader<Customer>>();
-
-            SqlDbSeeder.SeedCustomers();
         }
 
         [Test]

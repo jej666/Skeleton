@@ -17,8 +17,6 @@ namespace Skeleton.Tests.Infrastructure
         public AsyncEntityReaderTests()
         {
             _reader = Container.Resolve<IAsyncEntityReader<Customer>>();
-
-            SqlDbSeeder.SeedCustomers();
         }
 
         private async Task<Customer> GetAsyncFirstCustomer()
