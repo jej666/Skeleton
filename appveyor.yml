@@ -26,6 +26,9 @@ environment:
 services: 
   - mssql2014 
  
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: cNIM6h63k54BW7nyMal31txXrgb7ktWGVKpVA9BAp0oAZ6WvuMwSFUX2oZX5exFi
 
 # build cache to preserve files/folders between builds 
 cache:
