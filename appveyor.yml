@@ -18,6 +18,10 @@ branches:
 # Build worker image (VM template)
 image: Visual Studio 2015
 
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf input
+
 # environment variables
 environment: 
   AppVeyor: true
@@ -38,7 +42,7 @@ cache:
 
 # build platform
 platform: 
-  - Any CPU
+  - x64
 
 # build Configuration
 configuration: 
