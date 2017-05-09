@@ -70,4 +70,4 @@ test:
     #  - Skeleton.Tests.Web.dll
       
 after_test: 
-   cmd: ./runTestCoveralls.bat
+   cmd: ./runTestsForCoveralls.bat
