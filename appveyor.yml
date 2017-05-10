@@ -26,7 +26,7 @@ init:
 environment: 
   AppVeyor: true
   COVERALLS_REPO_TOKEN:
-    secure: cNIM6h63k54BW7nyMal31txXrgb7ktWGVKpVA9BAp0oAZ6WvuMwSFUX2oZX5exFi
+    secure: dv3jIXcUqJjahfAYHGNoZl7w5YyXC5yHjxhOMlsKRPVfLedWkDb4T0KvFQ7JI3C6
 
 # enable service required for build/tests
 services: 
