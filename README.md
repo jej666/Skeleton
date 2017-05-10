@@ -10,11 +10,11 @@
 
 Skeleton intends to help developping high performance self-hosted REST services, providing generic implementations of common software scenarii. 
 Based on the onion architecture, Skeleton uses dependency injection to decouple infrastructure (Orm, Logging, Data, ...) from Business concerns (Domain entities, rules, ...) and web servicing. 
-Concrete examples are provided in unit tests, covering more than 80% of the solution.
+Concrete examples are provided in test solutions.
 
 ## Installation
 
-Clone or Fork the solution and open it in Visual Studio
+Clone or Fork the solution and open it in Visual Studio 2015
 
 ## Usage example
 1. Define a domain entity, specifying the database primary key
