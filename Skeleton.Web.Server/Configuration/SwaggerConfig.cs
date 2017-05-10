@@ -20,15 +20,8 @@ namespace Skeleton.Web.Server.Configuration
                  .Contact(cc => cc
                         .Name("Jej666")
                         .Email("jej666@gmail.com"));
-                //.License(lc => lc
-                //       .Name("Some License")
-                //       .Url("http://tempuri.org/license"));
-
-                c.SchemaId(t => t.FullName.Contains('`') ? t.FullName.Substring(0, t.FullName.IndexOf('`')) : t.FullName);
                 c.IgnoreObsoleteProperties();
                 c.DescribeAllEnumsAsStrings();
-                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-                c.CustomProvider((defaultProvider) => new CachingSwaggerProvider(defaultProvider));
             })
                   .EnableSwaggerUi();
         }

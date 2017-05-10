@@ -101,6 +101,7 @@
     <Compile Include="HttpClientCachedEntityReaderTests.cs" />
     <Compile Include="HttpClientAsyncEntityReaderTests.cs" />
     <Compile Include="HttpClientEntityWriterTests.cs" />
+    <Compile Include="HttpClientHealthCheckTests.cs" />
     <Compile Include="HttpClientLoggerTests.cs" />
     <Compile Include="HttpClientTestsSetup.cs" />
     <Compile Include="HttpClientEntityReaderTests.cs" />

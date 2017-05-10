@@ -22,7 +22,7 @@ namespace Skeleton.Web.Server
 #if DEBUG
             app.UseRequestLogger(config);
 #else
-          //  app.UseSsl();
+            app.UseSsl();
 #endif
 
             app.UseCompression();

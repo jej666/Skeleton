@@ -118,7 +118,6 @@
     <Compile Include="DeflateCompressor.cs" />
     <Compile Include="GZipCompressor.cs" />
     <Compile Include="ICompressor.cs" />
-    <Compile Include="Configuration\CachingSwaggerProvider.cs" />
     <Compile Include="Configuration\GlobalExceptionHandler.cs" />
     <Compile Include="Configuration\GlobalExceptionLogger.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
