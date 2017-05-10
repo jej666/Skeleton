@@ -1,4 +1,7 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/7ay8uj64ucfnb7ab?svg=true)](https://ci.appveyor.com/project/jej666/skeleton) [![Build Status](https://travis-ci.org/jej666/Skeleton.svg?branch=master)](https://travis-ci.org/jej666/Skeleton) [![GitHub version](https://badge.fury.io/gh/jej666%2Fskeleton.svg)](https://badge.fury.io/gh/jej666%2Fskeleton) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build status](https://ci.appveyor.com/api/projects/status/7ay8uj64ucfnb7ab?svg=true)](https://ci.appveyor.com/project/jej666/skeleton) 
+[![Build Status](https://travis-ci.org/jej666/Skeleton.svg?branch=master)](https://travis-ci.org/jej666/Skeleton)
+[![Coverage Status](https://coveralls.io/repos/github/jej666/Skeleton/badge.svg?branch=master)](https://coveralls.io/github/jej666/Skeleton?branch=master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Skeleton
 > Loosely-coupled solution to quickly build REST self-hosted web services.
@@ -6,11 +9,11 @@
 
 Skeleton intends to help developping high performance self-hosted REST services, providing generic implementations of common software scenarii. 
 Based on the onion architecture, Skeleton uses dependency injection to decouple infrastructure (Orm, Logging, Data, ...) from Business concerns (Domain entities, rules, ...) and web servicing. 
-Concrete examples are provided in unit tests, covering more than 80% of the solution.
+Concrete examples are provided in test solutions.
 
 ## Installation
 
-Clone or Fork the solution and open it in Visual Studio
+Clone or Fork the solution and open it in Visual Studio 2015
 
 ## Usage example
 1. Define a domain entity, specifying the database primary key
