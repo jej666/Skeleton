@@ -4,7 +4,7 @@ namespace Skeleton.Abstraction.Domain
 {
     public interface IEntityValidationResult : IHideObjectMethods
     {
-        IEnumerable<string> BrokenRules { get; }
+        IEnumerable<IValidationRule> BrokenRules { get; }
 
         bool IsValid { get; }
     }

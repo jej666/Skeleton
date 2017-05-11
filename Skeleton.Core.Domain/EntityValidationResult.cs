@@ -6,7 +6,7 @@ namespace Skeleton.Core.Domain
 {
     public sealed class EntityValidationResult : IEntityValidationResult
     {
-        public EntityValidationResult(IEnumerable<string> brokenRules)
+        public EntityValidationResult(IEnumerable<IValidationRule> brokenRules)
         {
             var enumerable = brokenRules.AsList();
             enumerable.ThrowIfNull(nameof(enumerable));
@@ -14,7 +14,7 @@ namespace Skeleton.Core.Domain
             BrokenRules = enumerable;
         }
 
-        public IEnumerable<string> BrokenRules { get; }
+        public IEnumerable<IValidationRule> BrokenRules { get; }
 
         public bool IsValid => BrokenRules.IsNullOrEmpty();
     }

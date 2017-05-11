@@ -54,6 +54,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
@@ -69,6 +70,7 @@
     <Compile Include="AsyncEntityReaderTests.cs" />
     <Compile Include="AsyncEntityWriterTests.cs" />
     <Compile Include="CachedEntityReaderTests.cs" />
+    <Compile Include="DatabaseConfigurationTests.cs" />
     <Compile Include="EntityWriterTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="EntityReaderTests.cs" />

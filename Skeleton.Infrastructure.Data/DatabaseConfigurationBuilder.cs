@@ -86,9 +86,7 @@ namespace Skeleton.Infrastructure.Data
         {
             _configuration.ConnectionString = settings.ConnectionString;
             _configuration.Name = settings.Name;
-            _configuration.ProviderName = !string.IsNullOrEmpty(settings.ProviderName)
-                ? settings.ProviderName
-                : "System.Data.SqlClient";
+            _configuration.ProviderName = settings.ProviderName;
         }
     }
 }
