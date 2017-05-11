@@ -27,7 +27,11 @@ namespace Skeleton.Tests.Infrastructure
 
         [Test]
         public void ConfigurationBuilder_DefaultConfig_InAppSettings()
-        {   
+        {
+            // Find a way AppVeyot can fetch info from connectionStrings in app.config
+            if (AppConfiguration.AppVeyorBuild)
+                return;
+
             var builder = Container.Resolve<IDatabaseConfigurationBuilder>();
             var configuration = builder.UsingConfigConnectionString("Default")
                                        .Build();
@@ -49,6 +53,10 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void ConfigurationBuilder_DefaultConnectionString()
         {
+            // Find a way AppVeyot can fetch info from connectionStrings in app.config
+            if (AppConfiguration.AppVeyorBuild)
+                return;
+
             var builder = Container.Resolve<IDatabaseConfigurationBuilder>();
             var configuration = builder.UsingDefaultConfigConnectionString()
                                        .Build();
