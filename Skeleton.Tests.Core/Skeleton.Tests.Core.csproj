@@ -65,7 +65,7 @@
     <Compile Include="MetadataTests.cs" />
     <Compile Include="MetadataTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidationTests.cs" />
+    <Compile Include="EntityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">

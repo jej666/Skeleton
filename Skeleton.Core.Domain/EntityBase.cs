@@ -10,8 +10,7 @@ using System.Linq.Expressions;
 namespace Skeleton.Core.Domain
 {
     [DebuggerDisplay(" Id = {ToString()}")]
-    public abstract class EntityBase<TEntity> :
-            IEntity<TEntity>
+    public abstract class EntityBase<TEntity> : IEntity<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private const int HashMultiplier = 31;

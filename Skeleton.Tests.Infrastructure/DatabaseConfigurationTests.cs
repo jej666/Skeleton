@@ -28,7 +28,7 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void ConfigurationBuilder_DefaultConfig_InAppSettings()
         {
-            // Find a way AppVeyot can fetch info from connectionStrings in app.config
+            // Find a way AppVeyor can fetch info from connectionStrings in app.config
             if (AppConfiguration.AppVeyorBuild)
                 return;
 
@@ -53,7 +53,7 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void ConfigurationBuilder_DefaultConnectionString()
         {
-            // Find a way AppVeyot can fetch info from connectionStrings in app.config
+            // Find a way AppVeyor can fetch info from connectionStrings in app.config
             if (AppConfiguration.AppVeyorBuild)
                 return;
 
