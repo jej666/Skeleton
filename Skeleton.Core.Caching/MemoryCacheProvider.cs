@@ -12,9 +12,6 @@ namespace Skeleton.Core.Caching
     {
         private static readonly ObjectCache Cache = MemoryCache.Default;
 
-        private readonly Action<ICacheContext> _defaultCacheContext =
-            context => context.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
-
         public T GetOrAdd<T>(string key, Func<T> valueFactory, Action<ICacheContext> configurator)
         {
             key.ThrowIfNullOrEmpty(nameof(key));
@@ -24,9 +21,6 @@ namespace Skeleton.Core.Caching
             {
                 if (Contains(key))
                     return (T)Cache[key];
-
-                if (configurator == null)
-                    configurator = _defaultCacheContext;
 
                 var policy = new CachePolicyFactory().Create(configurator);
                 var value = valueFactory();
@@ -45,34 +39,6 @@ namespace Skeleton.Core.Caching
             }
         }
 
-        public async Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> valueFactory, Action<ICacheContext> configurator)
-        {
-            if (configurator == null)
-                configurator = _defaultCacheContext;
-
-            var policy = new CachePolicyFactory().Create(configurator);
-            var asyncLazyValue = new LazyAsync<T>(valueFactory);
-            var existingValue = (LazyAsync<T>)Cache.AddOrGetExisting(key, asyncLazyValue, policy);
-
-            if (existingValue != null)
-                asyncLazyValue = existingValue;
-
-            try
-            {
-                var result = await asyncLazyValue;
-
-                if (asyncLazyValue != Cache.AddOrGetExisting(key, new LazyAsync<T>(valueFactory), policy))
-                    return await GetOrAddAsync(key, valueFactory, configurator);
-
-                return result;
-            }
-            catch (Exception)
-            {
-                Remove(key);
-                throw;
-            }
-        }
-
         public bool Contains(string key)
         {
             return Cache.Contains(key);
@@ -81,28 +47,6 @@ namespace Skeleton.Core.Caching
         public void Remove(string key)
         {
             Cache.Remove(key);
-        }
-
-        private sealed class CachePolicyFactory
-        {
-            private readonly MemoryCacheContext _cacheContext =
-                new MemoryCacheContext
-                {
-                    CreationTime = DateTimeOffset.UtcNow
-                };
-
-            internal CacheItemPolicy Create(Action<ICacheContext> configurator)
-            {
-                configurator(_cacheContext);
-                var policy = new CacheItemPolicy
-                {
-                    AbsoluteExpiration = _cacheContext.AbsoluteExpiration
-                        .GetValueOrDefault(DateTimeOffset.MaxValue),
-                    SlidingExpiration = _cacheContext.SlidingExpiration
-                        .GetValueOrDefault(TimeSpan.Zero)
-                };
-                return policy;
-            }
         }
     }
 }

@@ -15,21 +15,21 @@ namespace Skeleton.Infrastructure.Orm
             IAsyncCachedEntityReader<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        private readonly AsyncCacheKeyGenerator<TEntity> _keyGenerator;
+        private readonly CacheKeyGenerator<TEntity> _keyGenerator = 
+            new CacheKeyGenerator<TEntity>();
 
         public AsyncCachedEntityReader(
             IMetadataProvider metadataProvider,
             IAsyncDatabase database,
-            ICacheProvider cacheProvider)
+            IAsyncCacheProvider cacheProvider)
             : base(metadataProvider, database)
         {
             Cache = cacheProvider;
-            _keyGenerator = new AsyncCacheKeyGenerator<TEntity>();
         }
 
         public Action<ICacheContext> CacheConfigurator { get; set; }
 
-        public ICacheProvider Cache { get; }
+        public IAsyncCacheProvider Cache { get; }
 
         public string LastGeneratedCacheKey { get; private set; }
 

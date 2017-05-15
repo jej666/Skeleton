@@ -67,6 +67,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ICacheContext.cs" />
     <Compile Include="ICacheProvider.cs" />
+    <Compile Include="IAsyncCacheProvider.cs" />
     <Compile Include="IDependencyRegistrar.cs" />
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="Domain\IEntity.cs" />

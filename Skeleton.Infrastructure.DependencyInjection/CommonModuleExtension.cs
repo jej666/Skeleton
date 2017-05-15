@@ -17,6 +17,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
             Container.AddExtension(new LoggerConstructorInjectionExtension())
                 .RegisterInstance<ILoggerFactory>(new LoggerFactory())
                 .RegisterType<ICacheProvider, MemoryCacheProvider>()
+                .RegisterType<IAsyncCacheProvider, AsyncMemoryCacheProvider>()
                 .RegisterType<IMetadataProvider, MetadataProvider>();
         }
     }

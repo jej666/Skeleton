@@ -7,7 +7,7 @@ namespace Skeleton.Abstraction.Orm
             IAsyncEntityReader<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        ICacheProvider Cache { get; }
+        IAsyncCacheProvider Cache { get; }
 
         string LastGeneratedCacheKey { get; }
 

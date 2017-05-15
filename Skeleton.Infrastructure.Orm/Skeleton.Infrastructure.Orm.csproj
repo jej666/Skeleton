@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncCachedEntityReader.cs" />
-    <Compile Include="AsyncCacheKeyGenerator.cs" />
     <Compile Include="CachedEntityReader.cs" />
     <Compile Include="CacheKeyGenerator.cs" />
     <Compile Include="AsyncEntityReader.cs" />
