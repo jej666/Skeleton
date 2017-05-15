@@ -28,7 +28,7 @@ namespace Skeleton.Tests.Infrastructure
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(Customer), results.First());
-            Assert.IsTrue(await _reader.Cache.ContainsAsync(
+            Assert.IsTrue(_reader.Cache.Contains(
                 _reader.LastGeneratedCacheKey));
         }
 
@@ -45,7 +45,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(await _reader.Cache.ContainsAsync(
+            Assert.IsTrue(_reader.Cache.Contains(
                 _reader.LastGeneratedCacheKey));
         }
 
@@ -61,7 +61,7 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(await _reader.Cache.ContainsAsync(
+            Assert.IsTrue(_reader.Cache.Contains(
                 _reader.LastGeneratedCacheKey));
         }
 
@@ -72,7 +72,7 @@ namespace Skeleton.Tests.Infrastructure
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(Customer), results.First());
-            Assert.IsTrue(await _reader.Cache.ContainsAsync(
+            Assert.IsTrue(_reader.Cache.Contains(
                 _reader.LastGeneratedCacheKey));
         }
 
@@ -93,7 +93,7 @@ namespace Skeleton.Tests.Infrastructure
                     });
 
                 Assert.IsTrue(results.Count() <= pageSize);
-                Assert.IsTrue(await _reader.Cache.ContainsAsync(
+                Assert.IsTrue(_reader.Cache.Contains(
                     _reader.LastGeneratedCacheKey));
             }
         }

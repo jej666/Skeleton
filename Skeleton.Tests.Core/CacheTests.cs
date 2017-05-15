@@ -44,7 +44,7 @@ namespace Skeleton.Tests.Core
         {
             await GetOrAddAsync();
 
-            Assert.IsTrue(await _asyncCacheProvider.ContainsAsync(CustomerKey));
+            Assert.IsTrue(_asyncCacheProvider.Contains(CustomerKey));
         }
 
         [Test]
@@ -61,10 +61,10 @@ namespace Skeleton.Tests.Core
         public async Task  Cache_Can_RemoveAsync()
         {
             await GetOrAddAsync();
-            Assert.IsTrue(await _asyncCacheProvider.ContainsAsync(CustomerKey));
+            Assert.IsTrue(_asyncCacheProvider.Contains(CustomerKey));
 
-            await _asyncCacheProvider.RemoveAsync(CustomerKey);
-            Assert.IsFalse(await _asyncCacheProvider.ContainsAsync(CustomerKey));
+            _asyncCacheProvider.Remove(CustomerKey);
+            Assert.IsFalse(_asyncCacheProvider.Contains(CustomerKey));
         }
     }
 }

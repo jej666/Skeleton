@@ -33,19 +33,19 @@ namespace Skeleton.Core.Caching
             }
             catch (Exception)
             {
-                await RemoveAsync(KeyPrefix + key);
+                Remove(KeyPrefix + key);
                 throw;
             }
         }
 
-        public async Task<bool> ContainsAsync(string key)
+        public bool Contains(string key)
         {
-            return await Task.Factory.StartNew(() => Cache.Contains(KeyPrefix + key));
+            return Cache.Contains(KeyPrefix + key);
         }
 
-        public async Task RemoveAsync(string key)
+        public void Remove(string key)
         {
-            await Task.Factory.StartNew(() => Cache.Remove(KeyPrefix + key));
+             Cache.Remove(KeyPrefix + key);
         }
     }
 }
