@@ -4,13 +4,23 @@ using Skeleton.Common;
 using Skeleton.Core.Reflection;
 using Skeleton.Tests.Common;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Skeleton.Tests.Core
 {
     [TestFixture]
-    public class MetadataTests : MetadataTestsBase
-    {
+    public class MetadataTests : CoreTestsBase
+    { 
+        private IEnumerable<Type> MatchingInCache(IMetadata metadata)
+        {
+            var matchingInCache = MetadataProvider
+                .Types
+                .Where(t => t == metadata.Type);
+
+            return matchingInCache.ToList();
+        }
+
         [Test]
         public void Metadata_Can_Cache_Type()
         {
