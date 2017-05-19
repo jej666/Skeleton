@@ -16,23 +16,9 @@ namespace Skeleton.Infrastructure.DependencyInjection
             _unityContainer = container;
         }
 
-        public IDependencyRegistrar RegisterInstance(Type serviceType, object instance)
-        {
-            _unityContainer.RegisterInstance(serviceType, instance);
-
-            return this;
-        }
-
         public IDependencyRegistrar RegisterInstance<TType>(TType instance)
         {
             _unityContainer.RegisterInstance(instance);
-
-            return this;
-        }
-
-        public IDependencyRegistrar RegisterType(Type type)
-        {
-            _unityContainer.RegisterType(type);
 
             return this;
         }
