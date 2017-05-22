@@ -1,65 +1,10 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Skeleton.Common
 {
     public static class ConvertExtensions
     {
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-        public static T ChangeType<T>(this object value, IFormatProvider provider)
-        {
-            while (true)
-            {
-                var toType = typeof(T);
-
-                if (value == null)
-                    return default(T);
-
-                var s = value as string;
-                if (s != null)
-                {
-                    if (toType == typeof(Guid))
-                    {
-                        value = new Guid(Convert.ToString(value, provider));
-                        continue;
-                    }
-
-                    if (string.IsNullOrEmpty(s) && (toType != typeof(string)))
-                    {
-                        value = null;
-                        continue;
-                    }
-                }
-                else
-                {
-                    if (typeof(T) == typeof(string))
-                    {
-                        value = Convert.ToString(value, provider);
-                        continue;
-                    }
-                }
-
-                if (toType.IsGenericType && (toType.GetGenericTypeDefinition() == typeof(Nullable<>)))
-                    toType = Nullable.GetUnderlyingType(toType);
-
-                var canConvert = toType.IsValueType && !toType.IsEnum;
-
-                try
-                {
-                    if (canConvert)
-                        return (T)Convert.ChangeType(value, toType, provider);
-
-                    return (T)value;
-                }
-                catch
-                {
-                    return default(T);
-                }
-            }
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public static object ChangeType(this object value, Type type, IFormatProvider provider)
         {
             type.ThrowIfNull(nameof(type));
@@ -109,14 +54,19 @@ namespace Skeleton.Common
             }
         }
 
+        public static object ChangeType(this object value, Type type)
+        {
+            return ChangeType(value, type, CultureInfo.CurrentCulture);
+        }
+
         public static T ChangeType<T>(this object value)
         {
-            return ChangeType<T>(value, CultureInfo.CurrentCulture);
+            return (T)ChangeType(value, typeof(T), CultureInfo.CurrentCulture);
         }
 
         public static object ChangeType(this object value)
         {
-            return ChangeType<object>(value);
+            return ChangeType(value, typeof(object), CultureInfo.CurrentCulture);
         }
 
         public static bool IsNotZeroOrEmpty(this object value)

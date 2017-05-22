@@ -56,9 +56,7 @@ namespace Skeleton.Web.Server.Controllers
                     
                  var dtoData= data.Select(Mapper.Map)
                     .ToList();
-                //var pagedResult = Request.ToPagedResult(
-                //    totalCount, query.pageNumber, pageSize, data);
-
+                
                 return Ok(dtoData);
             });
         }

@@ -7,12 +7,12 @@ namespace Skeleton.Web.Client
 {
     internal sealed class ExponentialRetryPolicy
     {
-        internal static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(1.0);
-        internal static readonly TimeSpan DefaultMaxBackoff = TimeSpan.FromSeconds(30.0);
-        internal static readonly TimeSpan DefaultMinBackoff = TimeSpan.FromSeconds(1.0);
-        internal static readonly int DefaultRetryCount = 10;
-        internal static readonly bool FirstFastRetry = true;
-        internal static readonly int[] httpStatusCodesWorthRetrying = { 408, 500, 502, 503, 504 };
+        private static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(1.0);
+        private static readonly TimeSpan DefaultMaxBackoff = TimeSpan.FromSeconds(30.0);
+        private static readonly TimeSpan DefaultMinBackoff = TimeSpan.FromSeconds(1.0);
+        private static readonly int DefaultRetryCount = 10;
+        private static readonly bool FirstFastRetry = true;
+        private static readonly int[] httpStatusCodesWorthRetrying = { 408, 500, 502, 503, 504 };
 
         internal T Execute<T>(Func<T> func)
         {

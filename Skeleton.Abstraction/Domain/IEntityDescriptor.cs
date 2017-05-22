@@ -8,6 +8,6 @@ namespace Skeleton.Abstraction.Domain
 
         IMemberAccessor IdAccessor { get; }
 
-        IMetadata TypeAccessor { get; }
+        IMetadata Metadata { get; }
     }
 }

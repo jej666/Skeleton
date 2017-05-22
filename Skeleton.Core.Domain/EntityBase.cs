@@ -4,24 +4,22 @@ using Skeleton.Common;
 using Skeleton.Core.Reflection;
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace Skeleton.Core.Domain
 {
-    [DebuggerDisplay(" Id = {ToString()}")]
+    [DebuggerDisplay("Id = {ToString()}")]
     public abstract class EntityBase<TEntity> : IEntity<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private const int HashMultiplier = 31;
 
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         protected EntityBase(Expression<Func<TEntity, object>> idExpression)
         {
             idExpression.ThrowIfNull(nameof( idExpression));
 
-            TypeAccessor = new MetadataProvider().GetMetadata(typeof(TEntity));
-            IdAccessor = TypeAccessor.GetProperty(idExpression);
+            Metadata = new MetadataProvider().GetMetadata(typeof(TEntity));
+            IdAccessor = Metadata.GetProperty(idExpression);
             CreatedDateTime = DateTime.Now;
         }
 
@@ -31,7 +29,7 @@ namespace Skeleton.Core.Domain
 
         public IMemberAccessor IdAccessor { get; }
 
-        public IMetadata TypeAccessor { get; }
+        public IMetadata Metadata { get; }
 
         public string CreatedBy { get; set; }
 

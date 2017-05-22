@@ -165,7 +165,7 @@ namespace Skeleton.Infrastructure.Orm
             if (id != null)
             {
                 var destinationType = entity.IdAccessor.MemberType;
-                var convertedId = id.ChangeType(destinationType, CultureInfo.CurrentCulture);
+                var convertedId = id.ChangeType(destinationType);
                 entity.IdAccessor.Setter(entity, convertedId);
             }
 

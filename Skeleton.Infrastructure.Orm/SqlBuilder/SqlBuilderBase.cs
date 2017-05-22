@@ -75,7 +75,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 
         internal static IEnumerable<IMemberAccessor> GetTableColumns(TEntity entity)
         {
-            return entity.TypeAccessor
+            return entity.Metadata
                 .GetDeclaredOnlyProperties()
                 .Where(x => x.MemberType.IsPrimitiveExtended())
                 .ToArray();
