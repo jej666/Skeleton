@@ -9,7 +9,13 @@ namespace Skeleton.Tests.Infrastructure
     [TestFixture]
     public class LoggingTests
     {
-        private readonly ILogger _logger = Bootstrapper.Resolver.Resolve<ILoggerFactory>().GetLogger(typeof(LoggingTests));
+        private readonly IAppHost _host = new AppHost();
+        private readonly ILogger _logger;
+
+        public LoggingTests()
+        {
+            _logger = _host.Resolve<ILoggerFactory>().GetLogger(typeof(LoggingTests));
+        }
 
         [Test]
         public void Log_Debug()

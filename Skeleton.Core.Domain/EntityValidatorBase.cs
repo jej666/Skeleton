@@ -6,7 +6,7 @@ namespace Skeleton.Core.Domain
     public abstract class EntityValidatorBase<TEntity> : IEntityValidator<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        private List<IValidationRule> _brokenRules = new List<IValidationRule>();
+        private readonly List<IValidationRule> _brokenRules = new List<IValidationRule>();
 
         protected abstract void Validate(TEntity entity);
 

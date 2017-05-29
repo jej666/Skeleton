@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Skeleton.Abstraction;
 using Skeleton.Common;
-using Skeleton.Infrastructure.DependencyInjection;
+using System;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
@@ -11,7 +12,7 @@ namespace Skeleton.Web.Server.Configuration
 {
     public static class WebApiConfig
     {
-        public static void RegisterWebApi(this HttpConfiguration configuration)
+        public static void RegisterWebApi(this HttpConfiguration configuration, WebAppHost host)
         {
             configuration.ThrowIfNull(nameof(configuration));
 
@@ -19,7 +20,7 @@ namespace Skeleton.Web.Server.Configuration
                 .IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
             configuration
-                .RegisterDependencies()
+                .RegisterDependencies(host)
                 .RegisterExceptionHandling()
                 .RegisterFormatters()
                 .RegisterFilters()
@@ -47,9 +48,9 @@ namespace Skeleton.Web.Server.Configuration
             return configuration;
         }
 
-        private static HttpConfiguration RegisterDependencies(this HttpConfiguration configuration)
+        private static HttpConfiguration RegisterDependencies(this HttpConfiguration configuration, WebAppHost host)
         {
-            configuration.DependencyResolver = new UnityResolver(Bootstrapper.Container);
+            configuration.DependencyResolver = new UnityResolver(host.UnityContainer);
 
             return configuration;
         }

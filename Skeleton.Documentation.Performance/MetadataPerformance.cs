@@ -1,4 +1,5 @@
-﻿using Skeleton.Abstraction.Reflection;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
 using System;
@@ -15,18 +16,14 @@ namespace Skeleton.Documentation.Performance
         private readonly MetadataType _instance;
         private readonly IInstanceAccessor _constructorAccessor;
 
-        public MetadataPerformance()
+        public MetadataPerformance(IDependencyResolver resolver)
         {
-            MetadataProvider = Bootstrapper.Resolver.Resolve<IMetadataProvider>();
-
             _instance = new MetadataType();
-            _metadata = MetadataProvider.GetMetadata<MetadataType>();
+            _metadata = resolver.Resolve<IMetadataProvider>().GetMetadata<MetadataType>();
             _propertyAccessor = _metadata.GetProperty("Property");
             _propertyInfo = typeof(MetadataType).GetProperty("Property");
             _constructorAccessor = _metadata.GetConstructor();
         }
-
-        public static IMetadataProvider MetadataProvider { get; private set; }
 
         public void RunBenchmarks()
         {

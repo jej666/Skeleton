@@ -15,8 +15,8 @@ namespace Skeleton.Tests.Infrastructure
 
         public AsyncEntityWriterTests()
         {
-            _writer = Container.Resolve<IAsyncEntityWriter<Customer>>();
-            _reader = Container.Resolve<IAsyncEntityReader<Customer>>();
+            _writer = Resolver.Resolve<IAsyncEntityWriter<Customer>>();
+            _reader = Resolver.Resolve<IAsyncEntityReader<Customer>>();
         }
 
         [Test]

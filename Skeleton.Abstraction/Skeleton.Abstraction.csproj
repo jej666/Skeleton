@@ -56,7 +56,6 @@
     <Compile Include="Data\IDatabaseConfigurationSettings.cs" />
     <Compile Include="Data\IDatabaseExecute.cs" />
     <Compile Include="Data\IAsyncDatabaseExecute.cs" />
-    <Compile Include="Data\IDatabaseFactory.cs" />
     <Compile Include="Data\IDatabaseQuery.cs" />
     <Compile Include="Data\IAsyncDatabaseQuery.cs" />
     <Compile Include="Data\IDatabaseTransaction.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="Domain\IEntity.cs" />
     <Compile Include="ILoggerFactory.cs" />
+    <Compile Include="IAppHost.cs" />
     <Compile Include="Orm\IQuery.cs" />
     <Compile Include="IQueryResponse.cs" />
     <Compile Include="Reflection\IInstanceAccessor.cs" />

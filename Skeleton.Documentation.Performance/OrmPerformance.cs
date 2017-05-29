@@ -1,6 +1,5 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Orm;
-using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,7 +8,12 @@ namespace Skeleton.Documentation.Performance
 {
     public class OrmPerformance
     {
-        public static IDependencyResolver Container => Bootstrapper.Resolver;
+        public readonly IDependencyResolver _resolver ;
+
+        public OrmPerformance(IDependencyResolver resolver)
+        {
+            _resolver = resolver;
+        }
 
         public void RunBenchmarks()
         {
@@ -62,7 +66,7 @@ namespace Skeleton.Documentation.Performance
                 }, "HandCoded");
 
                 // With Skeleton.ORM
-                var repository = Container.Resolve<IEntityReader<Post>>();
+                var repository = _resolver.Resolve<IEntityReader<Post>>();
 
                 benchmarks.Add(() =>
                 {
@@ -74,7 +78,7 @@ namespace Skeleton.Documentation.Performance
                     repository.Find();
                 }, "Skeleton.Orm => Hot start");
 
-                var repositoryAsync = Container.Resolve<IAsyncEntityReader<Post>>();
+                var repositoryAsync = _resolver.Resolve<IAsyncEntityReader<Post>>();
 
                 benchmarks.Add(() =>
                 {

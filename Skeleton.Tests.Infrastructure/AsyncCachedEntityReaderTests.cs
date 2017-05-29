@@ -16,7 +16,7 @@ namespace Skeleton.Tests.Infrastructure
 
         public AsyncCachedEntityReaderTests()
         {
-            _reader = Container.Resolve<IAsyncCachedEntityReader<Customer>>();
+            _reader = Resolver.Resolve<IAsyncCachedEntityReader<Customer>>();
         }
 
         [Test]

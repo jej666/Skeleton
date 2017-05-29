@@ -16,8 +16,8 @@ namespace Skeleton.Tests.Infrastructure
 
         public EntityWriterTests()
         {
-            _writer = Container.Resolve<IEntityWriter<Customer>>();
-            _reader = Container.Resolve<IEntityReader<Customer>>();
+            _writer = Resolver.Resolve<IEntityWriter<Customer>>();
+            _reader = Resolver.Resolve<IEntityReader<Customer>>();
         }
 
         [Test]

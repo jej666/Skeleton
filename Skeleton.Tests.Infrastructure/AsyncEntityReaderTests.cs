@@ -16,7 +16,7 @@ namespace Skeleton.Tests.Infrastructure
 
         public AsyncEntityReaderTests()
         {
-            _reader = Container.Resolve<IAsyncEntityReader<Customer>>();
+            _reader = Resolver.Resolve<IAsyncEntityReader<Customer>>();
         }
 
         private async Task<Customer> GetAsyncFirstCustomer()

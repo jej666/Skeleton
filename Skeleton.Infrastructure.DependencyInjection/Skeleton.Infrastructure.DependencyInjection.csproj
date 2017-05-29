@@ -62,9 +62,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonModuleExtension.cs" />
-    <Compile Include="DependencyRegistrar.cs" />
-    <Compile Include="DataModuleExtension.cs" />
+    <Compile Include="CorePlugin.cs" />
+    <Compile Include="AsyncOrmPlugin.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LoggerExtension\LoggerConstructorInjectionExtension.cs" />
     <Compile Include="LoggerExtension\LogBuilderStrategy.cs" />
@@ -72,11 +71,10 @@
     <Compile Include="LoggerExtension\CreationStackTrackerStrategy.cs" />
     <Compile Include="LoggerExtension\ICreationStackTrackerPolicy.cs" />
     <Compile Include="LoggerExtension\PeekableCollection.cs" />
-    <Compile Include="DependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="AsyncOrmModuleExtension.cs" />
-    <Compile Include="OrmModuleExtension.cs" />
+    <Compile Include="OrmPlugin.cs" />
+    <Compile Include="AppHost.cs" />
+    <Compile Include="AppHostExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Infrastructure.Bootstrapper.snk" />

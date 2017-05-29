@@ -1,22 +1,27 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
 using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
+using System;
 
 namespace Skeleton.Tests.Infrastructure
 {
     public abstract class OrmTestBase
     {
+        private readonly IAppHost _host = new AppHost();
+        private readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> _databaseConfigurator =
+            builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build();
+
         protected OrmTestBase()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
             SqlDbSeeder.SeedCustomers();
 
-            Bootstrapper.UseDatabase(
-                builder => builder.UsingConnectionString(
-                    AppConfiguration.ConnectionString)
-                    .Build());
+            _host.UseDatabase(_databaseConfigurator)
+                 .UseOrm()
+                 .UseAsyncOrm();
         }
 
-        protected static IDependencyResolver Container => Bootstrapper.Resolver;
+        protected IDependencyResolver Resolver => _host as IDependencyResolver;
     }
 }

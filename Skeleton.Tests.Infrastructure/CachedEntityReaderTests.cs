@@ -15,7 +15,7 @@ namespace Skeleton.Tests.Infrastructure
 
         public CachedEntityReaderTests()
         {
-            _reader = Container.Resolve<ICachedEntityReader<Customer>>();
+            _reader = Resolver.Resolve<ICachedEntityReader<Customer>>();
             _reader.CacheConfigurator =
                 config => config.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
         }

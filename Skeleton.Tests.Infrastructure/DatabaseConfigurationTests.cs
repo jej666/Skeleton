@@ -11,8 +11,8 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void ConfigurationBuilder_DefaultSettings()
         {
-            var defaultConfiguration = Container.Resolve<IDatabaseConfiguration>();
-            var builder = Container.Resolve<IDatabaseConfigurationBuilder>();
+            var defaultConfiguration = Resolver.Resolve<IDatabaseConfiguration>();
+            var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
             var configuration = builder.UsingConnectionString(AppConfiguration.ConnectionString)
                                        .Build();
 
@@ -32,7 +32,7 @@ namespace Skeleton.Tests.Infrastructure
             if (AppConfiguration.AppVeyorBuild)
                 return;
 
-            var builder = Container.Resolve<IDatabaseConfigurationBuilder>();
+            var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
             var configuration = builder.UsingConfigConnectionString("Default")
                                        .Build();
 
@@ -44,7 +44,7 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void ConfigurationBuilder_WrongAppSettings()
         {
-            var builder = Container.Resolve<IDatabaseConfigurationBuilder>();
+            var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
             
             Assert.IsNotNull(builder);
             Assert.Catch(typeof(ConfigurationErrorsException), () => builder.UsingConfigConnectionString("Defaul"));
@@ -57,7 +57,7 @@ namespace Skeleton.Tests.Infrastructure
             if (AppConfiguration.AppVeyorBuild)
                 return;
 
-            var builder = Container.Resolve<IDatabaseConfigurationBuilder>();
+            var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
             var configuration = builder.UsingDefaultConfigConnectionString()
                                        .Build();
 
@@ -69,7 +69,7 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void ConfigurationBuilder_AdvancedSettings()
         {
-            var builder = Container.Resolve<IDatabaseConfigurationBuilder>();
+            var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
             var configuration = builder.UsingConnectionString(AppConfiguration.ConnectionString)
                                         .UsingAdvancedSettings()
                                         .SetCommandTimeout(200)

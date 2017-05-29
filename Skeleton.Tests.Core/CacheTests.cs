@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Skeleton.Abstraction;
 using Skeleton.Tests.Common;
 using System;
 using System.Threading.Tasks;
@@ -9,15 +8,12 @@ namespace Skeleton.Tests.Core
     [TestFixture]
     public class CacheTests : CoreTestsBase
     {
-        ICacheProvider _cacheProvider = Container.Resolve<ICacheProvider>();
-        IAsyncCacheProvider _asyncCacheProvider = Container.Resolve<IAsyncCacheProvider>();
-
-        static string CustomerKey = typeof(Customer).Name;
-        static TimeSpan Expiration = TimeSpan.FromSeconds(30);
+        private static readonly string CustomerKey = typeof(Customer).Name;
+        private static readonly TimeSpan Expiration = TimeSpan.FromSeconds(30);
 
         private void GetOrAdd()
         {
-            _cacheProvider.GetOrAdd(
+            CacheProvider.GetOrAdd(
                   CustomerKey,
                   () => new Customer { CustomerId = 1 },
                   configurator => configurator.SetAbsoluteExpiration(Expiration));
@@ -25,7 +21,7 @@ namespace Skeleton.Tests.Core
 
         private async Task GetOrAddAsync()
         {
-            await _asyncCacheProvider.GetOrAddAsync(
+            await AsyncCacheProvider.GetOrAddAsync(
                     CustomerKey,
                     () => Task.Factory.StartNew(() => new Customer { CustomerId = 1 }),
                     configurator => configurator.SetSlidingExpiration(Expiration));
@@ -36,7 +32,7 @@ namespace Skeleton.Tests.Core
         {
             GetOrAdd();
 
-            Assert.IsTrue(_cacheProvider.Contains(CustomerKey));
+            Assert.IsTrue(CacheProvider.Contains(CustomerKey));
         }
 
         [Test]
@@ -44,27 +40,27 @@ namespace Skeleton.Tests.Core
         {
             await GetOrAddAsync();
 
-            Assert.IsTrue(_asyncCacheProvider.Contains(CustomerKey));
+            Assert.IsTrue(AsyncCacheProvider.Contains(CustomerKey));
         }
 
         [Test]
         public void Cache_Can_Remove()
         {
             GetOrAdd();
-            Assert.IsTrue(_cacheProvider.Contains(CustomerKey));
+            Assert.IsTrue(CacheProvider.Contains(CustomerKey));
 
-            _cacheProvider.Remove(CustomerKey);
-            Assert.IsFalse(_cacheProvider.Contains(CustomerKey));
+            CacheProvider.Remove(CustomerKey);
+            Assert.IsFalse(CacheProvider.Contains(CustomerKey));
         }
 
         [Test]
         public async Task  Cache_Can_RemoveAsync()
         {
             await GetOrAddAsync();
-            Assert.IsTrue(_asyncCacheProvider.Contains(CustomerKey));
+            Assert.IsTrue(AsyncCacheProvider.Contains(CustomerKey));
 
-            _asyncCacheProvider.Remove(CustomerKey);
-            Assert.IsFalse(_asyncCacheProvider.Contains(CustomerKey));
+            AsyncCacheProvider.Remove(CustomerKey);
+            Assert.IsFalse(AsyncCacheProvider.Contains(CustomerKey));
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void StoredProcedure_Execute()
         {
-            using (var executor = Container.Resolve<IStoredProcedureExecutor>())
+            using (var executor = Resolver.Resolve<IStoredProcedureExecutor>())
             {
                 var result = executor.Execute(ProcedureName, parameters);
 
@@ -31,7 +31,7 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public async Task StoredProcedure_ExecuteAsync()
         {
-            using (var executor = Container.Resolve<IAsyncStoredProcedureExecutor>())
+            using (var executor = Resolver.Resolve<IAsyncStoredProcedureExecutor>())
             {
                 var result = await executor.ExecuteAsync(ProcedureName, parameters);
 

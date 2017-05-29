@@ -15,7 +15,7 @@ namespace Skeleton.Tests.Infrastructure
 
         public EntityReaderTests()
         {
-            _reader = Container.Resolve<IEntityReader<Customer>>();
+            _reader = Resolver.Resolve<IEntityReader<Customer>>();
         }
 
         private Customer GetFirstCustomer()

@@ -54,7 +54,6 @@
     <Compile Include="AsyncDatabase.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="DatabaseFactory.cs" />
     <Compile Include="DatabaseTransaction.cs" />
     <Compile Include="DataReaderMapper.cs" />
     <Compile Include="AsyncDataReaderMapper.cs" />
