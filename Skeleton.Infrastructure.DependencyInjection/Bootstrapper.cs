@@ -7,16 +7,16 @@ using System.Collections.Generic;
 
 namespace Skeleton.Infrastructure.DependencyInjection
 {
-    public class AppHost : HideObjectMethodsBase, IAppHost
+    public class Bootstrapper : HideObjectMethodsBase, IBootstrapper
     {
         private readonly IUnityContainer _unityContainer;
         private readonly List<IPlugin> _plugins = new List<IPlugin>();
 
-        public AppHost(): this (new UnityContainer())
+        public Bootstrapper(): this (new UnityContainer())
         { 
         }
 
-        public AppHost(IUnityContainer unityContainer)
+        public Bootstrapper(IUnityContainer unityContainer)
         {
             unityContainer.ThrowIfNull(nameof(unityContainer));
 

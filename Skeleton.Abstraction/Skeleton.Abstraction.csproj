@@ -71,7 +71,8 @@
     <Compile Include="IDependencyResolver.cs" />
     <Compile Include="Domain\IEntity.cs" />
     <Compile Include="ILoggerFactory.cs" />
-    <Compile Include="IAppHost.cs" />
+    <Compile Include="IBootstrapper.cs" />
+    <Compile Include="IPlugin.cs" />
     <Compile Include="Orm\IQuery.cs" />
     <Compile Include="IQueryResponse.cs" />
     <Compile Include="Reflection\IInstanceAccessor.cs" />

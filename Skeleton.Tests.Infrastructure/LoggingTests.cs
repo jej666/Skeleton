@@ -9,7 +9,7 @@ namespace Skeleton.Tests.Infrastructure
     [TestFixture]
     public class LoggingTests
     {
-        private readonly IAppHost _host = new AppHost();
+        private readonly IBootstrapper _host = new Bootstrapper();
         private readonly ILogger _logger;
 
         public LoggingTests()

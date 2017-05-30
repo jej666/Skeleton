@@ -11,7 +11,7 @@ namespace Skeleton.Documentation.Swagger
 
         static void Main()
         {
-            using (var server = new OwinServer())
+            using (var server = new OwinTestServer())
             {
                 server.Start(AppConfiguration.BaseUrl);
                 Console.WriteLine(Started);

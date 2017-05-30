@@ -6,7 +6,7 @@ namespace Skeleton.Tests.Core
 {
     public abstract class CoreTestsBase
     {
-        private readonly IAppHost _host = new AppHost();
+        private readonly IBootstrapper _host = new Bootstrapper();
 
         public IMetadataProvider MetadataProvider => _host.Resolve<IMetadataProvider>();
 

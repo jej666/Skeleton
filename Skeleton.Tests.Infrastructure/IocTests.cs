@@ -9,7 +9,7 @@ namespace Skeleton.Tests.Infrastructure
     [TestFixture]
     public class IocTests
     {
-        private readonly IAppHost _host = new AppHost();
+        private readonly IBootstrapper _host = new Bootstrapper();
 
         [Test]
         public void Ioc_ShoudResolveDependencyOfT()

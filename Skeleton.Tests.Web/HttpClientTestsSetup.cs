@@ -6,12 +6,12 @@ namespace Skeleton.Tests.Web
     [SetUpFixture]
     public class HttpClientTestsSetup
     {
-        private OwinServer _server;
+        private OwinTestServer _server;
 
         [OneTimeSetUp]
         public void Init()
         {
-            _server = new OwinServer();
+            _server = new OwinTestServer();
             _server.Start(AppConfiguration.BaseUrl);
         }
 

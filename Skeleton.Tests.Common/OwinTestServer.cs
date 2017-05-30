@@ -1,25 +1,26 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Data;
-using Skeleton.Infrastructure.DependencyInjection;
+﻿using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Web.Server;
 using System;
+using DatabaseConfigFunc = System.Func<
+    Skeleton.Abstraction.Data.IDatabaseConfigurationBuilder,
+    Skeleton.Abstraction.Data.IDatabaseConfiguration>;
 
 namespace Skeleton.Tests.Common
 {
-    public sealed class OwinServer : IDisposable
+    public sealed class OwinTestServer : IDisposable
     {
         private IDisposable _server;
-        private readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> _databaseConfigurator =
+        private readonly DatabaseConfigFunc _databaseConfigurator =
             builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build();
 
-        public OwinServer()
+        public OwinTestServer()
         {
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
 
             if (!AppConfiguration.AppVeyorBuild)
                 SqlDbSeeder.SeedCustomers();
 
-            OwinServerStartup.WebAppHost
+            OwinStartup.Bootstrapper
                    .UseDatabase(_databaseConfigurator)
                    .UseOrm()
                    .UseAsyncOrm();
@@ -27,7 +28,7 @@ namespace Skeleton.Tests.Common
 
         public void Start(Uri baseUrl)
         {
-            _server = OwinServerStartup.StartServer(baseUrl);
+            _server = OwinStartup.StartServer(baseUrl);
         }
 
         public void Dispose()

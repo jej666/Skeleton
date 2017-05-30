@@ -8,7 +8,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
 {
     public sealed class OrmPlugin : IPlugin
     {
-        public void Configure(IAppHost host)
+        public void Configure(IBootstrapper host)
         {
             host.RegisterType<IDatabase, Database>()
                 .RegisterType(typeof(IEntityReader<>), typeof(EntityReader<>))

@@ -8,7 +8,7 @@ namespace Skeleton.Tests.Infrastructure
 {
     public abstract class OrmTestBase
     {
-        private readonly IAppHost _host = new AppHost();
+        private readonly IBootstrapper _host = new Bootstrapper();
         private readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> _databaseConfigurator =
             builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build();
 

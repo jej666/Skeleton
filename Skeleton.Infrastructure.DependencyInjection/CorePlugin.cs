@@ -10,7 +10,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
 {
     public sealed class CorePlugin : IPlugin
     {
-        public void Configure(IAppHost host)
+        public void Configure(IBootstrapper host)
         {
             host.RegisterInstance<ILoggerFactory>(new LoggerFactory())
                 .RegisterType<IAsyncCacheProvider, AsyncMemoryCacheProvider>()

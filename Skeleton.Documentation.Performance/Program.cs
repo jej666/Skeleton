@@ -14,7 +14,7 @@ namespace Skeleton.Documentation.Performance
 
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
 
-            var host = new AppHost();
+            var host = new Bootstrapper();
             host.UseDatabase(builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build())
                 .UseOrm()
                 .UseAsyncOrm();

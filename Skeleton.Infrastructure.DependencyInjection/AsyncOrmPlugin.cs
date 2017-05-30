@@ -8,7 +8,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
 {
     public sealed class AsyncOrmPlugin : IPlugin
     {
-        public void Configure(IAppHost host)
+        public void Configure(IBootstrapper host)
         {
             host.RegisterType<IAsyncDatabase, AsyncDatabase>()
                 .RegisterType(typeof(IAsyncEntityReader<>), typeof(AsyncEntityReader<>))

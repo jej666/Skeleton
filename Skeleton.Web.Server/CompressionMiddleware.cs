@@ -12,8 +12,7 @@ namespace Skeleton.Web.Server
     {
         private readonly Func<IDictionary<string, object>, Task> next;
         private readonly OwinCompression compression = new OwinCompression();
-
-        private readonly List<ICompressor> compressors = new List<ICompressor>()
+        private readonly List<ICompressor> compressors = new List<ICompressor>
         {
             new GZipCompressor(),
             new DeflateCompressor()
@@ -52,8 +51,7 @@ namespace Skeleton.Web.Server
                                      .Select(x => StringWithQualityHeaderValue.Parse(x))
                     orderby e.Quality descending
                     where string.Compare(c.ContentEncoding, e.Value, StringComparison.OrdinalIgnoreCase) == 0
-                    select c)
-                    .FirstOrDefault();
+                    select c).FirstOrDefault();
         }
     }
 }

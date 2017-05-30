@@ -4,14 +4,14 @@ using System;
 
 namespace Skeleton.Web.Server
 {
-    public class WebAppHost : AppHost
+    public class OwinBootstrapper : Bootstrapper
     {
         private static readonly Lazy<IUnityContainer> Container =
            new Lazy<IUnityContainer>(() => new UnityContainer());
 
         public IUnityContainer UnityContainer => Container.Value;
 
-        public WebAppHost() : base(Container.Value)
+        public OwinBootstrapper() : base(Container.Value)
         {
         }
     }

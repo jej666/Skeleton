@@ -7,20 +7,20 @@ using Skeleton.Web.Server.Configuration;
 using System;
 using System.Web.Http;
 
-[assembly: OwinStartup(typeof(OwinServerStartup))]
+[assembly: OwinStartup(typeof(OwinStartup))]
 
 namespace Skeleton.Web.Server
 {
-    public class OwinServerStartup
+    public class OwinStartup
     {
-        private readonly static Lazy<WebAppHost> AppHost = 
-            new Lazy<WebAppHost>( ()=> new WebAppHost());
+        private readonly static Lazy<OwinBootstrapper> OwinBootstrapper = 
+            new Lazy<OwinBootstrapper>( ()=> new OwinBootstrapper());
 
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
 
-            config.RegisterWebApi(AppHost.Value);
+            config.RegisterWebApi(OwinBootstrapper.Value);
             config.RegisterSwagger();
 
 #if DEBUG
@@ -33,14 +33,14 @@ namespace Skeleton.Web.Server
             app.UseWebApi(config);
         }
 
-        public static IAppHost WebAppHost => AppHost.Value;
+        public static IBootstrapper Bootstrapper => OwinBootstrapper.Value;
 
         public static IDisposable StartServer(Uri url)
         {
             if (url == null)
                 throw new ArgumentNullException(nameof(url));
 
-            return WebApp.Start<OwinServerStartup>(url.ToString());
+            return WebApp.Start<OwinStartup>(url.ToString());
         }
     }
 }

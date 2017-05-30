@@ -89,7 +89,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MemorySeeder.cs" />
     <Compile Include="MetadataType.cs" />
-    <Compile Include="OwinServer.cs" />
+    <Compile Include="OwinTestServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlConnectionHelper.cs" />
     <Compile Include="SqlDbSeeder.cs" />
