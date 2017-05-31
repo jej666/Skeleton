@@ -54,7 +54,7 @@ namespace Skeleton.Tests.Core
         }
 
         [Test]
-        public async Task  Cache_Can_RemoveAsync()
+        public async Task Cache_Can_RemoveAsync()
         {
             await GetOrAddAsync();
             Assert.IsTrue(AsyncCacheProvider.Contains(CustomerKey));

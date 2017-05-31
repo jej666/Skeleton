@@ -10,12 +10,12 @@ namespace Skeleton.Infrastructure.DependencyInjection
     {
         public void Configure(IBootstrapper host)
         {
-            host.RegisterType<IDatabase, Database>()
-                .RegisterType(typeof(IEntityReader<>), typeof(EntityReader<>))
-                .RegisterType(typeof(IEntityWriter<>), typeof(EntityWriter<>))
-                .RegisterType(typeof(ICachedEntityReader<>), typeof(CachedEntityReader<>))
-                .RegisterType(typeof(IEntityMapper<,>), typeof(EntityMapper<,>))
-                .RegisterType<IStoredProcedureExecutor, StoredProcedureExecutor>();
+            host.RegisterType<IDatabase, Database>(DependencyLifetime.Scoped)
+                .RegisterType(typeof(IEntityReader<>), typeof(EntityReader<>), DependencyLifetime.Scoped)
+                .RegisterType(typeof(IEntityWriter<>), typeof(EntityWriter<>), DependencyLifetime.Scoped)
+                .RegisterType(typeof(ICachedEntityReader<>), typeof(CachedEntityReader<>), DependencyLifetime.Scoped)
+                .RegisterType(typeof(IEntityMapper<,>), typeof(EntityMapper<,>), DependencyLifetime.Scoped)
+                .RegisterType<IStoredProcedureExecutor, StoredProcedureExecutor>(DependencyLifetime.Scoped);
         }
     }
 }

@@ -12,8 +12,8 @@ namespace Skeleton.Infrastructure.DependencyInjection
         private readonly IUnityContainer _unityContainer;
         private readonly List<IPlugin> _plugins = new List<IPlugin>();
 
-        public Bootstrapper(): this (new UnityContainer())
-        { 
+        public Bootstrapper() : this(new UnityContainer())
+        {
         }
 
         public Bootstrapper(IUnityContainer unityContainer)
@@ -23,7 +23,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
             _unityContainer = unityContainer;
             _unityContainer.AddExtension(new LoggerConstructorInjectionExtension());
 
-            AddPlugin(new CorePlugin());      
+            AddPlugin(new CorePlugin());
         }
 
         public IEnumerable<IPlugin> Plugins => _plugins;
@@ -35,16 +35,18 @@ namespace Skeleton.Infrastructure.DependencyInjection
             return this;
         }
 
-        public IDependencyRegistrar RegisterType(Type from, Type to)
+        public IDependencyRegistrar RegisterType(Type from, Type to, DependencyLifetime lifetime = DependencyLifetime.Transient)
         {
-            _unityContainer.RegisterType(from, to);
+            var lifetimeManager = CreateLifetimeManager(lifetime);
+            _unityContainer.RegisterType(from, to, lifetimeManager);
 
             return this;
         }
 
-        public IDependencyRegistrar RegisterType<TFrom, TTo>() where TTo : TFrom
+        public IDependencyRegistrar RegisterType<TFrom, TTo>(DependencyLifetime lifetime = DependencyLifetime.Transient) where TTo : TFrom
         {
-            _unityContainer.RegisterType<TFrom, TTo>();
+            var lifetimeManager = CreateLifetimeManager(lifetime);
+            _unityContainer.RegisterType<TFrom, TTo>(lifetimeManager);
 
             return this;
         }
@@ -68,6 +70,29 @@ namespace Skeleton.Infrastructure.DependencyInjection
 
             foreach (var plugin in plugins)
                 AddPlugin(plugin);
+        }
+
+        public bool IsRegistered(Type typeToCheck)
+        {
+            return _unityContainer.IsRegistered(typeToCheck);
+        }
+
+        public bool IsRegistered<TType>()
+        {
+            return _unityContainer.IsRegistered<TType>();
+        }
+
+        private static LifetimeManager CreateLifetimeManager(DependencyLifetime lifetime)
+        {
+            switch (lifetime)
+            {
+                case DependencyLifetime.Scoped:
+                    return new HierarchicalLifetimeManager();
+                case DependencyLifetime.Singleton:
+                    return new PerThreadLifetimeManager();
+                default:
+                    return new TransientLifetimeManager();
+            }
         }
     }
 }

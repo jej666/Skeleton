@@ -19,9 +19,6 @@ namespace Skeleton.Core.Reflection
         private const BindingFlags DefaultFlags =
             BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
 
-        private const BindingFlags AllFlags =
-            BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
-
         private readonly LazyRef<Dictionary<string, IMemberAccessor>> _fieldCache =
             new LazyRef<Dictionary<string, IMemberAccessor>>(() =>
                     new Dictionary<string, IMemberAccessor>());
@@ -73,16 +70,6 @@ namespace Skeleton.Core.Reflection
         public IMemberAccessor GetField(string name)
         {
             return GetField(name, DefaultFlags);
-        }
-
-        public IMemberAccessor GetPrivateField(string name)
-        {
-            return GetField(name, AllFlags);
-        }
-
-        public IEnumerable<IMemberAccessor> GetAllFields()
-        {
-            return GetFields(AllFlags);
         }
 
         public IEnumerable<IMemberAccessor> GetFields()

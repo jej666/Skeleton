@@ -6,10 +6,6 @@ namespace Skeleton.Abstraction.Reflection
     {
         IMemberAccessor GetField(string name);
 
-        IMemberAccessor GetPrivateField(string name);
-
-        IEnumerable<IMemberAccessor> GetAllFields();
-
         IEnumerable<IMemberAccessor> GetFields();
 
         IEnumerable<IMemberAccessor> GetDeclaredOnlyFields();

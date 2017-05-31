@@ -89,16 +89,6 @@ namespace Skeleton.Tests.Core
         }
 
         [Test]
-        public void Metadata_GetAllFields()
-        {
-            var metadata = MetadataProvider.GetMetadata<MetadataType>();
-            var fields = metadata.GetAllFields().ToList();
-
-            Assert.IsTrue(fields.IsNotNullOrEmpty());
-            Assert.IsInstanceOf(typeof(IMemberAccessor), fields.First());
-        }
-
-        [Test]
         public void Metadata_GetDeclaredOnlyFields()
         {
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
@@ -180,46 +170,6 @@ namespace Skeleton.Tests.Core
             var metadata = MetadataProvider.GetMetadata<MetadataType>();
 
             Assert.Catch(typeof(ArgumentException), () => metadata.GetProperty<MetadataType>(p => p.Field));
-        }
-
-        [Test]
-        public void Metadata_GetPrivateField()
-        {
-            var metadata = MetadataProvider.GetMetadata<MetadataType>();
-            var field = metadata.GetPrivateField("_field");
-
-            Assert.IsNotNull(field);
-            Assert.IsInstanceOf(typeof(IMemberAccessor), field);
-
-            var instance = metadata.GetConstructor().InstanceCreator(null);
-            field.Setter(instance, 1);
-            var value = field.Getter(instance);
-
-            Assert.IsTrue((int)value == 1);
-            Assert.IsTrue(field.HasGetter);
-            Assert.IsTrue(field.HasSetter);
-            Assert.IsNotNull(field.MemberInfo);
-            Assert.IsInstanceOf(field.MemberType, value);
-            Assert.IsTrue(field.Name == "_field");
-        }
-
-        [Test]
-        public void Metadata_GetMethod()
-        {
-            var metadata = MetadataProvider.GetMetadata<MetadataType>();
-            var instance = metadata.GetConstructor().InstanceCreator(null);
-            var field = metadata.GetPrivateField("_field");
-            var property = metadata.GetProperty("Property");
-            var method = metadata.GetMethod("Method");
-
-            field.Setter(instance, 1);
-            property.Setter(instance, 1);
-
-            var result = method.Invoker(instance, null);
-
-            Assert.IsTrue((int)result == 2);
-            Assert.IsNotNull(method.MethodInfo);
-            Assert.IsTrue(method.Name == "Method");
         }
 
         [Test]

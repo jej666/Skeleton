@@ -60,6 +60,7 @@
     <Compile Include="Data\IAsyncDatabaseQuery.cs" />
     <Compile Include="Data\IDatabaseTransaction.cs" />
     <Compile Include="Data\ISqlCommand.cs" />
+    <Compile Include="DependencyLifetime.cs" />
     <Compile Include="Domain\IEntityDescriptor.cs" />
     <Compile Include="Domain\IEntityAuditable.cs" />
     <Compile Include="Domain\IValidationRule.cs" />

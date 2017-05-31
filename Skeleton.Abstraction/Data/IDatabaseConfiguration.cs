@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Skeleton.Abstraction.Data
+﻿namespace Skeleton.Abstraction.Data
 {
     public interface IDatabaseConfiguration : IHideObjectMethods
     {

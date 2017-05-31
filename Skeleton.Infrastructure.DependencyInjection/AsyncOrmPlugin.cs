@@ -10,11 +10,11 @@ namespace Skeleton.Infrastructure.DependencyInjection
     {
         public void Configure(IBootstrapper host)
         {
-            host.RegisterType<IAsyncDatabase, AsyncDatabase>()
-                .RegisterType(typeof(IAsyncEntityReader<>), typeof(AsyncEntityReader<>))
-                .RegisterType(typeof(IAsyncEntityWriter<>), typeof(AsyncEntityWriter<>)) 
-                .RegisterType(typeof(IAsyncCachedEntityReader<>), typeof(AsyncCachedEntityReader<>))
-                .RegisterType<IAsyncStoredProcedureExecutor, AsyncStoredProcedureExecutor>();
+            host.RegisterType<IAsyncDatabase, AsyncDatabase>(DependencyLifetime.Scoped)
+                .RegisterType(typeof(IAsyncEntityReader<>), typeof(AsyncEntityReader<>), DependencyLifetime.Scoped)
+                .RegisterType(typeof(IAsyncEntityWriter<>), typeof(AsyncEntityWriter<>), DependencyLifetime.Scoped) 
+                .RegisterType(typeof(IAsyncCachedEntityReader<>), typeof(AsyncCachedEntityReader<>), DependencyLifetime.Scoped)
+                .RegisterType<IAsyncStoredProcedureExecutor, AsyncStoredProcedureExecutor>(DependencyLifetime.Scoped);
         }
     }
 }
