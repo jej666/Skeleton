@@ -13,7 +13,7 @@ namespace Skeleton.Core.Caching
         private static readonly ObjectCache Cache = MemoryCache.Default;
         const string KeyPrefix = "async_";
 
-        public async Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> valueFactory, Action<ICacheContext> configurator)
+        public async Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> valueFactory, Action<ICacheConfiguration> configurator)
         {
             var policy = new CachePolicyFactory().Create(configurator);
             var asyncLazyValue = new LazyAsync<T>(valueFactory);

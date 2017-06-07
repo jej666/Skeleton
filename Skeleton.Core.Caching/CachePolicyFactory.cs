@@ -6,21 +6,22 @@ namespace Skeleton.Core.Caching
 {
     internal sealed class CachePolicyFactory
     {
-        private readonly Action<ICacheContext> _defaultCacheContext =
+        private readonly Action<ICacheConfiguration> _defaultCacheConfiguration =
             context => context.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
 
-        private readonly MemoryCacheContext _cacheContext =
-            new MemoryCacheContext
+        private readonly MemoryCacheConfiguration _cacheContext =
+            new MemoryCacheConfiguration
             {
                 CreationTime = DateTimeOffset.UtcNow
             };
 
-        internal CacheItemPolicy Create(Action<ICacheContext> configurator)
+        internal CacheItemPolicy Create(Action<ICacheConfiguration> configurator)
         {
             if (configurator == null)
-                configurator = _defaultCacheContext;
+                configurator = _defaultCacheConfiguration;
 
             configurator(_cacheContext);
+
             var policy = new CacheItemPolicy
             {
                 AbsoluteExpiration = _cacheContext.AbsoluteExpiration
@@ -28,6 +29,7 @@ namespace Skeleton.Core.Caching
                 SlidingExpiration = _cacheContext.SlidingExpiration
                     .GetValueOrDefault(TimeSpan.Zero)
             };
+
             return policy;
         }
     }

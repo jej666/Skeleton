@@ -11,6 +11,6 @@ namespace Skeleton.Abstraction.Orm
 
         string LastGeneratedCacheKey { get; }
 
-        Action<ICacheContext> CacheConfigurator { get; set; }
+        Action<ICacheConfiguration> CacheConfigurator { get; set; }
     }
 }

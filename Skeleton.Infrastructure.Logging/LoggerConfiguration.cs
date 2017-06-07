@@ -4,9 +4,9 @@ using log4net.Config;
 
 namespace Skeleton.Infrastructure.Logging
 {
-    public static class LoggerConfiguration
+    public class LoggerConfiguration
     {
-        public static void Configure()
+        public virtual void Configure()
         {
             XmlConfigurator.ConfigureAndWatch(
                 new FileInfo(

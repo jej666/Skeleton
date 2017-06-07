@@ -1,7 +1,9 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Reflection;
+using Skeleton.Abstraction.Startup;
 using Skeleton.Common;
+using Skeleton.Infrastructure.Data.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -30,7 +32,7 @@ namespace Skeleton.Infrastructure.Data
             RetryPolicy = new ExponentialRetryPolicy(configuration, logger);
         }
 
-        public IDatabaseConfiguration Configuration { get; }
+        internal IDatabaseConfiguration Configuration { get; }
 
         public IDatabaseTransaction Transaction => new DatabaseTransaction(this);
 

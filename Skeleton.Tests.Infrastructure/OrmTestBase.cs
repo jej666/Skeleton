@@ -1,5 +1,5 @@
 ﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Startup;
 using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
 using System;
@@ -8,7 +8,7 @@ namespace Skeleton.Tests.Infrastructure
 {
     public abstract class OrmTestBase
     {
-        private readonly IBootstrapper _host = new Bootstrapper();
+        private readonly IBootstrapper _bootstrapper = new Bootstrapper();
         private readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> _databaseConfigurator =
             builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build();
 
@@ -17,11 +17,11 @@ namespace Skeleton.Tests.Infrastructure
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
             SqlDbSeeder.SeedCustomers();
 
-            _host.UseDatabase(_databaseConfigurator)
-                 .UseOrm()
-                 .UseAsyncOrm();
+            _bootstrapper.Builder.UseSqlServer(_databaseConfigurator).WithOrm();
         }
 
-        protected IDependencyResolver Resolver => _host as IDependencyResolver;
+        protected IBootstrapper Bootstrapper => _bootstrapper;
+
+        protected IDependencyResolver Resolver => _bootstrapper as IDependencyResolver;
     }
 }

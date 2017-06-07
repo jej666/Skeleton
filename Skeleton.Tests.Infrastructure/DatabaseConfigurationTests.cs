@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Skeleton.Abstraction.Data;
+using Skeleton.Abstraction.Startup;
 using Skeleton.Tests.Common;
 using System.Configuration;
 
@@ -14,7 +14,7 @@ namespace Skeleton.Tests.Infrastructure
             var defaultConfiguration = Resolver.Resolve<IDatabaseConfiguration>();
             var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
             var configuration = builder.UsingConnectionString(AppConfiguration.ConnectionString)
-                                       .Build();
+                                      .Build();
 
             Assert.IsNotNull(configuration);
             Assert.IsTrue(configuration.ConnectionString.Equals(AppConfiguration.ConnectionString));
@@ -38,14 +38,14 @@ namespace Skeleton.Tests.Infrastructure
 
             Assert.IsNotNull(configuration);
             Assert.IsTrue(configuration.ConnectionString.Equals(AppConfiguration.ConnectionString));
-            Assert.IsTrue(configuration.Name.Equals("Default"));   
+            Assert.IsTrue(configuration.Name.Equals("Default"));
         }
 
         [Test]
         public void ConfigurationBuilder_WrongAppSettings()
         {
             var builder = Resolver.Resolve<IDatabaseConfigurationBuilder>();
-            
+
             Assert.IsNotNull(builder);
             Assert.Catch(typeof(ConfigurationErrorsException), () => builder.UsingConfigConnectionString("Defaul"));
         }

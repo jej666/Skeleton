@@ -1,9 +1,8 @@
-﻿using Skeleton.Infrastructure.DependencyInjection;
-using Skeleton.Web.Server;
+﻿using Skeleton.Web.Server;
 using System;
 using DatabaseConfigFunc = System.Func<
-    Skeleton.Abstraction.Data.IDatabaseConfigurationBuilder,
-    Skeleton.Abstraction.Data.IDatabaseConfiguration>;
+    Skeleton.Abstraction.Startup.IDatabaseConfigurationBuilder,
+    Skeleton.Abstraction.Startup.IDatabaseConfiguration>;
 
 namespace Skeleton.Tests.Common
 {
@@ -21,9 +20,9 @@ namespace Skeleton.Tests.Common
                 SqlDbSeeder.SeedCustomers();
 
             OwinStartup.Bootstrapper
-                   .UseDatabase(_databaseConfigurator)
-                   .UseOrm()
-                   .UseAsyncOrm();
+                       .Builder
+                       .UseSqlServer(_databaseConfigurator)
+                       .WithOrm();
         }
 
         public void Start(Uri baseUrl)

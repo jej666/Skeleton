@@ -28,7 +28,7 @@ namespace Skeleton.Infrastructure.Orm
             _keyGenerator = new CacheKeyGenerator<TEntity>();
         }
 
-        public Action<ICacheContext> CacheConfigurator { get; set; }
+        public Action<ICacheConfiguration> CacheConfigurator { get; set; }
 
         public ICacheProvider Cache { get; }
 

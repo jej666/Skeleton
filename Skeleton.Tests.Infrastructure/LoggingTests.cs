@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Startup;
 using Skeleton.Infrastructure.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -9,12 +10,12 @@ namespace Skeleton.Tests.Infrastructure
     [TestFixture]
     public class LoggingTests
     {
-        private readonly IBootstrapper _host = new Bootstrapper();
+        private readonly IBootstrapper _bootstrapper = new Bootstrapper();
         private readonly ILogger _logger;
 
         public LoggingTests()
         {
-            _logger = _host.Resolve<ILoggerFactory>().GetLogger(typeof(LoggingTests));
+            _logger = _bootstrapper.Resolve<ILoggerFactory>().GetLogger(typeof(LoggingTests));
         }
 
         [Test]

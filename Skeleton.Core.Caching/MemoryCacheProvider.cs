@@ -12,7 +12,7 @@ namespace Skeleton.Core.Caching
     {
         private static readonly ObjectCache Cache = MemoryCache.Default;
 
-        public T GetOrAdd<T>(string key, Func<T> valueFactory, Action<ICacheContext> configurator)
+        public T GetOrAdd<T>(string key, Func<T> valueFactory, Action<ICacheConfiguration> configurator)
         {
             key.ThrowIfNullOrEmpty(nameof(key));
             valueFactory.ThrowIfNull(nameof(valueFactory));

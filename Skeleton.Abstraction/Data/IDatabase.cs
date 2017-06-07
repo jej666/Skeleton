@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skeleton.Abstraction.Startup;
+using System;
 
 namespace Skeleton.Abstraction.Data
 {
@@ -8,8 +9,6 @@ namespace Skeleton.Abstraction.Data
         IDatabaseExecute,
         IDatabaseQuery
     {
-        IDatabaseConfiguration Configuration { get; }
-
         IDatabaseTransaction Transaction { get; }
     }
 }

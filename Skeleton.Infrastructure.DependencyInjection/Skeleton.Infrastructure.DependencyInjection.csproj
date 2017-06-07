@@ -59,22 +59,31 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CorePlugin.cs" />
-    <Compile Include="AsyncOrmPlugin.cs" />
+    <Compile Include="Plugins\AsyncDatabasePlugin.cs" />
+    <Compile Include="Plugins\AsyncOrmPlugin.cs" />
+    <Compile Include="Plugins\CachePlugin.cs" />
+    <Compile Include="Plugins\CorePlugin.cs" />
+    <Compile Include="Configuration\DatabaseConfiguration.cs" />
+    <Compile Include="Configuration\DatabaseConfigurationBuilder.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="LoggerExtension\LoggerConstructorInjectionExtension.cs" />
-    <Compile Include="LoggerExtension\LogBuilderStrategy.cs" />
-    <Compile Include="LoggerExtension\CreationStackTrackerPolicy.cs" />
-    <Compile Include="LoggerExtension\CreationStackTrackerStrategy.cs" />
-    <Compile Include="LoggerExtension\ICreationStackTrackerPolicy.cs" />
-    <Compile Include="LoggerExtension\PeekableCollection.cs" />
+    <Compile Include="Configuration\LoggerConstructorInjectionExtension.cs" />
+    <Compile Include="Configuration\LogBuilderStrategy.cs" />
+    <Compile Include="Configuration\CreationStackTrackerPolicy.cs" />
+    <Compile Include="Configuration\CreationStackTrackerStrategy.cs" />
+    <Compile Include="Configuration\ICreationStackTrackerPolicy.cs" />
+    <Compile Include="Configuration\PeekableCollection.cs" />
+    <Compile Include="Plugins\ConfigurationPlugin.cs" />
+    <Compile Include="Plugins\DatabasePlugin.cs" />
+    <Compile Include="Plugins\LoggerPlugin.cs" />
+    <Compile Include="Plugins\MetadataPlugin.cs" />
+    <Compile Include="Plugins\OrmPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OrmPlugin.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="BootstrapperExtensions.cs" />
+    <Compile Include="Configuration\BootstrapperBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Infrastructure.Bootstrapper.snk" />

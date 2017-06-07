@@ -27,7 +27,7 @@ namespace Skeleton.Infrastructure.Orm
             Cache = cacheProvider;
         }
 
-        public Action<ICacheContext> CacheConfigurator { get; set; }
+        public Action<ICacheConfiguration> CacheConfigurator { get; set; }
 
         public IAsyncCacheProvider Cache { get; }
 

@@ -14,22 +14,23 @@ namespace Skeleton.Documentation.Performance
 
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
 
-            var host = new Bootstrapper();
-            host.UseDatabase(builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build())
-                .UseOrm()
-                .UseAsyncOrm();
+            var bootstrapper = new Bootstrapper();
+            bootstrapper.Builder
+                        .UseSqlServer(
+                            builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build())
+                        .WithOrm();
 
             Console.WriteLine("Skeleton Orm Performance Run => ");
             Console.WriteLine();
 
-            var ormPerformance = new OrmPerformance(host as IDependencyResolver);
+            var ormPerformance = new OrmPerformance(bootstrapper as IDependencyResolver);
             ormPerformance.RunBenchmarks();
 
             Console.WriteLine("_____________________________________________________");
             Console.WriteLine("Skeleton MetaData Performance Run =>");
             Console.WriteLine();
 
-            var metaDataPerformance = new MetadataPerformance(host as IDependencyResolver);
+            var metaDataPerformance = new MetadataPerformance(bootstrapper as IDependencyResolver);
             metaDataPerformance.RunBenchmarks();
 
             Console.WriteLine("_____________________________________________________");

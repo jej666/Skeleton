@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CachePolicyFactory.cs" />
-    <Compile Include="MemoryCacheContext.cs" />
+    <Compile Include="MemoryCacheConfiguration.cs" />
     <Compile Include="AsyncMemoryCacheProvider.cs" />
     <Compile Include="MemoryCacheProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

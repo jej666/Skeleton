@@ -112,16 +112,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppBuilderExtensions.cs" />
+    <Compile Include="Owin\AppBuilderExtensions.cs" />
     <Compile Include="Controllers\LogController.cs" />
-    <Compile Include="OwinCompression.cs" />
-    <Compile Include="DeflateCompressor.cs" />
-    <Compile Include="GZipCompressor.cs" />
-    <Compile Include="ICompressor.cs" />
+    <Compile Include="Owin\OwinCompression.cs" />
+    <Compile Include="Owin\DeflateCompressor.cs" />
+    <Compile Include="Owin\GZipCompressor.cs" />
+    <Compile Include="Owin\ICompressor.cs" />
     <Compile Include="Configuration\GlobalExceptionHandler.cs" />
     <Compile Include="Configuration\GlobalExceptionLogger.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
-    <Compile Include="CompressionMiddleware.cs" />
+    <Compile Include="Owin\CompressionMiddleware.cs" />
     <Compile Include="Controllers\AsyncEntityCrudController.cs" />
     <Compile Include="Controllers\AsyncCachedEntityReaderController.cs" />
     <Compile Include="Controllers\EntityCrudController.cs" />
@@ -132,16 +132,15 @@
     <Compile Include="Configuration\CheckModelForNullAttribute.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="RequestLoggingMiddleware.cs" />
-    <Compile Include="Configuration\SwaggerConfig.cs" />
+    <Compile Include="Owin\RequestLoggingMiddleware.cs" />
     <Compile Include="Configuration\ValidateModelStateAttribute.cs" />
     <Compile Include="HttpRequestMessageExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequireSslMiddleware.cs" />
+    <Compile Include="Owin\RequireSslMiddleware.cs" />
     <Compile Include="OwinBootstrapper.cs" />
     <Compile Include="OwinStartup.cs" />
-    <Compile Include="Configuration\UnityResolver.cs" />
-    <Compile Include="Configuration\WebApiConfig.cs" />
+    <Compile Include="UnityResolver.cs" />
+    <Compile Include="Configuration\HttpConfigurationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

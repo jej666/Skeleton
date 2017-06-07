@@ -1,11 +1,10 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Hosting;
 using Owin;
-using Skeleton.Abstraction;
+using Skeleton.Abstraction.Startup;
 using Skeleton.Web.Server;
-using Skeleton.Web.Server.Configuration;
+using Skeleton.Web.Server.Owin;
 using System;
-using System.Web.Http;
 
 [assembly: OwinStartup(typeof(OwinStartup))]
 
@@ -18,19 +17,17 @@ namespace Skeleton.Web.Server
 
         public void Configuration(IAppBuilder app)
         {
-            var config = new HttpConfiguration();
-
-            config.RegisterWebApi(OwinBootstrapper.Value);
-            config.RegisterSwagger();
+            OwinBootstrapper.Value.ConfigureMinimalWebApi();
 
 #if DEBUG
-            app.UseRequestLogger(config);
+            OwinBootstrapper.Value.ConfigureCommmonWebApiFeatures();
+            app.UseRequestLogger(OwinBootstrapper.Value.HttpConfiguration);
 #else
             app.UseSsl();
 #endif
 
             app.UseCompression();
-            app.UseWebApi(config);
+            app.UseWebApi(OwinBootstrapper.Value.HttpConfiguration);
         }
 
         public static IBootstrapper Bootstrapper => OwinBootstrapper.Value;

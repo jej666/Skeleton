@@ -8,8 +8,6 @@ namespace Skeleton.Abstraction.Data
         IAsyncDatabaseExecute,
         IAsyncDatabaseQuery
     {
-        IDatabaseConfiguration Configuration { get; }
-
         IDatabaseTransaction Transaction { get; }
     }
 }

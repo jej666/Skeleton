@@ -1,7 +1,9 @@
 ﻿using Microsoft.Practices.Unity;
 using Skeleton.Abstraction;
+using Skeleton.Abstraction.Startup;
 using Skeleton.Common;
-using Skeleton.Infrastructure.DependencyInjection.LoggerExtension;
+using Skeleton.Infrastructure.DependencyInjection.Configuration;
+using Skeleton.Infrastructure.DependencyInjection.Plugins;
 using System;
 using System.Collections.Generic;
 
@@ -11,6 +13,7 @@ namespace Skeleton.Infrastructure.DependencyInjection
     {
         private readonly IUnityContainer _unityContainer;
         private readonly List<IPlugin> _plugins = new List<IPlugin>();
+
 
         public Bootstrapper() : this(new UnityContainer())
         {
@@ -28,6 +31,8 @@ namespace Skeleton.Infrastructure.DependencyInjection
 
         public IEnumerable<IPlugin> Plugins => _plugins;
 
+        public IBootstrapperBuilder Builder => new BootstrapperBuilder(this);
+        
         public IDependencyRegistrar RegisterInstance<TType>(TType instance)
         {
             _unityContainer.RegisterInstance(instance);
@@ -43,7 +48,8 @@ namespace Skeleton.Infrastructure.DependencyInjection
             return this;
         }
 
-        public IDependencyRegistrar RegisterType<TFrom, TTo>(DependencyLifetime lifetime = DependencyLifetime.Transient) where TTo : TFrom
+        public IDependencyRegistrar RegisterType<TFrom, TTo>(DependencyLifetime lifetime = DependencyLifetime.Transient)
+            where TTo : TFrom
         {
             var lifetimeManager = CreateLifetimeManager(lifetime);
             _unityContainer.RegisterType<TFrom, TTo>(lifetimeManager);
@@ -56,20 +62,24 @@ namespace Skeleton.Infrastructure.DependencyInjection
             return _unityContainer.Resolve<TService>();
         }
 
-        public void AddPlugin(IPlugin plugin)
+        public IBootstrapper AddPlugin(IPlugin plugin)
         {
             plugin.ThrowIfNull(nameof(plugin));
 
             plugin.Configure(this);
             _plugins.Add(plugin);
+
+            return this;
         }
 
-        public void AddPlugins(IEnumerable<IPlugin> plugins)
+        public IBootstrapper AddPlugins(IEnumerable<IPlugin> plugins)
         {
             plugins.ThrowIfNull(nameof(plugins));
 
             foreach (var plugin in plugins)
                 AddPlugin(plugin);
+
+            return this;
         }
 
         public bool IsRegistered(Type typeToCheck)
