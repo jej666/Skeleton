@@ -81,9 +81,9 @@
       <Project>{3e91a67b-9609-4a92-8b3c-6fff2c3941a9}</Project>
       <Name>Skeleton.Core.Reflection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Infrastructure.DependencyInjection\Skeleton.Infrastructure.DependencyInjection.csproj">
+    <ProjectReference Include="..\Skeleton.Infrastructure.Dependency\Skeleton.Infrastructure.Dependency.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
-      <Name>Skeleton.Infrastructure.DependencyInjection</Name>
+      <Name>Skeleton.Infrastructure.Dependency</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Tests.Common\Skeleton.Tests.Common.csproj">
       <Project>{bbba3147-d2bc-42aa-abcf-7264ead6d04c}</Project>

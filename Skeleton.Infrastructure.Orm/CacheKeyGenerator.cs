@@ -47,6 +47,6 @@ namespace Skeleton.Infrastructure.Orm
         {
             internal const string Find = "{0}{1}[Find]-{2}";
             internal const string FirstOrDefault = "{0}{1}[FirstOrDefault]-{2}";
-        } 
+        }
     }
 }

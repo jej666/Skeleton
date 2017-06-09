@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.Unity;
-using Skeleton.Infrastructure.DependencyInjection;
+﻿using Skeleton.Infrastructure.Dependency;
 using Skeleton.Web.Server.Configuration;
 using System;
 using System.Web.Http;
@@ -8,21 +7,18 @@ namespace Skeleton.Web.Server
 {
     public class OwinBootstrapper : Bootstrapper
     {
-        private static readonly Lazy<IUnityContainer> Container =
-            new Lazy<IUnityContainer>(() => new UnityContainer());
-
         private static readonly Lazy<HttpConfiguration> Configuration =
             new Lazy<HttpConfiguration>(() => new HttpConfiguration());
 
         public HttpConfiguration HttpConfiguration => Configuration.Value;
 
-        public OwinBootstrapper() : base(Container.Value)
+        public OwinBootstrapper() : base(DependencyContainer.Instance)
         {
         }
 
         public void ConfigureMinimalWebApi()
         {
-            HttpConfiguration.DependencyResolver = new UnityResolver(Container.Value);
+            HttpConfiguration.DependencyResolver = new UnityResolver(DependencyContainer.Instance.UnityContainer);
             HttpConfiguration.MapHttpAttributeRoutes();
             HttpConfiguration.Routes.MapHttpRoute(
                             name: Constants.DefaultHttpRoute,

@@ -1,7 +1,7 @@
 ﻿using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Domain;
-using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Orm;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
 using System;
@@ -110,7 +110,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof( expression));
+            expression.ThrowIfNull(nameof(expression));
             Builder.OrderByDescending(expression);
 
             return this;

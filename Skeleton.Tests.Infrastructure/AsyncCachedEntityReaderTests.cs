@@ -28,8 +28,8 @@ namespace Skeleton.Tests.Infrastructure
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(Customer), results.First());
-            Assert.IsTrue(_reader.Cache.Contains(
-                _reader.LastGeneratedCacheKey));
+            Assert.IsTrue(_reader.Cache.ContainsAsync(
+                _reader.LastGeneratedCacheKey).Result);
         }
 
         [Test]
@@ -45,8 +45,8 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_reader.Cache.Contains(
-                _reader.LastGeneratedCacheKey));
+            Assert.IsTrue(_reader.Cache.ContainsAsync(
+                _reader.LastGeneratedCacheKey).Result);
         }
 
         [Test]
@@ -61,8 +61,8 @@ namespace Skeleton.Tests.Infrastructure
             Assert.IsNotNull(customer2);
             Assert.IsInstanceOf(typeof(Customer), customer2);
             Assert.AreEqual(customer1, customer2);
-            Assert.IsTrue(_reader.Cache.Contains(
-                _reader.LastGeneratedCacheKey));
+            Assert.IsTrue(_reader.Cache.ContainsAsync(
+                _reader.LastGeneratedCacheKey).Result);
         }
 
         [Test]
@@ -72,8 +72,8 @@ namespace Skeleton.Tests.Infrastructure
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(Customer), results.First());
-            Assert.IsTrue(_reader.Cache.Contains(
-                _reader.LastGeneratedCacheKey));
+            Assert.IsTrue(_reader.Cache.ContainsAsync(
+                _reader.LastGeneratedCacheKey).Result);
         }
 
         [Test]
@@ -93,8 +93,8 @@ namespace Skeleton.Tests.Infrastructure
                     });
 
                 Assert.IsTrue(results.Count() <= pageSize);
-                Assert.IsTrue(_reader.Cache.Contains(
-                    _reader.LastGeneratedCacheKey));
+                Assert.IsTrue(_reader.Cache.ContainsAsync(
+                    _reader.LastGeneratedCacheKey).Result);
             }
         }
 

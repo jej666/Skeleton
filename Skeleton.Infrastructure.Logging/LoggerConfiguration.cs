@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using log4net.Config;
+using System.IO;
 using System.Reflection;
-using log4net.Config;
 
 namespace Skeleton.Infrastructure.Logging
 {

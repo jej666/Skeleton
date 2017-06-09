@@ -1,5 +1,4 @@
-﻿using Skeleton.Abstraction.Startup;
-using System;
+﻿using System;
 
 namespace Skeleton.Abstraction.Data
 {

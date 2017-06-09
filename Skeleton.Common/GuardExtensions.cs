@@ -24,7 +24,7 @@ namespace Skeleton.Common
             value.ThrowIfNull(nameof(parameterName));
 
             if (string.IsNullOrEmpty(value))
-                throw new ArgumentException("Argument cannot be null", parameterName ??  "string");
+                throw new ArgumentException("Argument cannot be null", parameterName ?? "string");
         }
     }
 }

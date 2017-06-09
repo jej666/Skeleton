@@ -1,8 +1,8 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Domain;
-using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Orm;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Orm
             IAsyncCachedEntityReader<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        private readonly CacheKeyGenerator<TEntity> _keyGenerator = 
+        private readonly CacheKeyGenerator<TEntity> _keyGenerator =
             new CacheKeyGenerator<TEntity>();
 
         public AsyncCachedEntityReader(

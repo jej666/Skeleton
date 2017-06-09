@@ -11,7 +11,7 @@ namespace Skeleton.Core.Caching
         IAsyncCacheProvider
     {
         private static readonly ObjectCache Cache = MemoryCache.Default;
-        const string KeyPrefix = "async_";
+        private const string KeyPrefix = "async_";
 
         public async Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> valueFactory, Action<ICacheConfiguration> configurator)
         {
@@ -33,19 +33,23 @@ namespace Skeleton.Core.Caching
             }
             catch (Exception)
             {
-                Remove(KeyPrefix + key);
+                await RemoveAsync(KeyPrefix + key);
                 throw;
             }
         }
 
-        public bool Contains(string key)
+        public Task<bool> ContainsAsync(string key)
         {
-            return Cache.Contains(KeyPrefix + key);
+            var contains = Cache.Contains(KeyPrefix + key);
+
+            return Task.FromResult(contains);
         }
 
-        public void Remove(string key)
+        public Task RemoveAsync(string key)
         {
-             Cache.Remove(KeyPrefix + key);
+            Cache.Remove(KeyPrefix + key);
+
+            return Task.FromResult(0);
         }
     }
 }

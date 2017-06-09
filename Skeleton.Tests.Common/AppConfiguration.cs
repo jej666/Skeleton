@@ -3,13 +3,14 @@
 namespace Skeleton.Tests.Common
 {
     public static class AppConfiguration
-    { 
+    {
         private static readonly string CustomersPath = "api/customers";
         private static readonly string CachedCustomersPath = "api/cachedcustomers";
         private static readonly string AsyncCustomersPath = "api/asynccustomers";
         private static readonly string AsyncCachedCustomersPath = "api/asynccachedcustomers";
 
         public static bool AppVeyorBuild => Environment.GetEnvironmentVariable("AppVeyor")?.ToUpperInvariant() == "TRUE";
+
         public static string ConnectionString => AppVeyorBuild
             ? @"Server=(local)\SQL2014;Database=TestDb;User ID = sa; Password=Password12!;"
             : @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TestDb;Integrated Security=True;";

@@ -8,9 +8,10 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientEntityReaderTests
     {
-        const int pageSize = 50;
-        const int numberOfPages = 5;
-        readonly static CrudHttpClient<CustomerDto> Client =
+        private const int pageSize = 50;
+        private const int numberOfPages = 5;
+
+        private static readonly CrudHttpClient<CustomerDto> Client =
             new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
         [Test]

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Skeleton.Abstraction.Startup;
+using Skeleton.Abstraction.Dependency;
 using Skeleton.Tests.Common;
 using System.Configuration;
 

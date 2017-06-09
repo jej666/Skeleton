@@ -1,12 +1,10 @@
 ﻿using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Domain;
-using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Orm;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Orm

@@ -23,7 +23,7 @@ namespace Skeleton.Web.Client
         }
 
         public RestUriBuilder(UriBuilder builder)
-            :this(builder.Host, builder.Path, builder.Port)
+            : this(builder.Host, builder.Path, builder.Port)
         {
         }
 
@@ -123,7 +123,7 @@ namespace Skeleton.Web.Client
             {
                 if (parameter.Value == null)
                     continue;
-                
+
                 if (stringBuilder.Length > 0)
                     stringBuilder.Append("&");
 

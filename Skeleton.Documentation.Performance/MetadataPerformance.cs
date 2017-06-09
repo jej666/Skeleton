@@ -1,6 +1,5 @@
-﻿using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction.Dependency;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Infrastructure.DependencyInjection;
 using Skeleton.Tests.Common;
 using System;
 using System.Reflection;

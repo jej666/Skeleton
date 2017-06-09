@@ -1,6 +1,6 @@
 ﻿namespace Skeleton.Web.Client
 {
-    public class Query 
+    public class Query
     {
         public virtual string Fields { get; set; }
 

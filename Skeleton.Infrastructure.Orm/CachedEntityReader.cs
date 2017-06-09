@@ -1,8 +1,8 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Domain;
-using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Orm;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using System;
 using System.Collections.Generic;

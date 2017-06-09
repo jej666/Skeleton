@@ -9,6 +9,6 @@ namespace Skeleton.Core.Domain
             RuleDescription = ruleDescription;
         }
 
-        public string RuleDescription { get; private set;  }
+        public string RuleDescription { get; private set; }
     }
 }

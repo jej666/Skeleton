@@ -108,9 +108,9 @@
       <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
       <Name>Skeleton.Core.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Infrastructure.DependencyInjection\Skeleton.Infrastructure.DependencyInjection.csproj">
+    <ProjectReference Include="..\Skeleton.Infrastructure.Dependency\Skeleton.Infrastructure.Dependency.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>
-      <Name>Skeleton.Infrastructure.DependencyInjection</Name>
+      <Name>Skeleton.Infrastructure.Dependency</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Web.Server\Skeleton.Web.Server.csproj">
       <Project>{baed475c-271c-48af-81c3-b7e4d27bafd0}</Project>

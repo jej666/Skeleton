@@ -8,7 +8,7 @@ namespace Skeleton.Web.Server.Owin
     public class RequireSslMiddleware
     {
         private readonly Func<IDictionary<string, object>, Task> _next;
-       
+
         public RequireSslMiddleware(Func<IDictionary<string, object>, Task> next)
         {
             _next = next;

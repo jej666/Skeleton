@@ -15,7 +15,7 @@ namespace Skeleton.Tests.Common
         {
             if (AppConfiguration.AppVeyorBuild)
                 return;
- 
+
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var fullPath = Path.Combine(appDataPath, LocalDbPath, DbName + MdfExtension);
 
@@ -34,7 +34,7 @@ namespace Skeleton.Tests.Common
                 var sql = $@"
                     CREATE DATABASE
                         [{DbName}]
-                    ON PRIMARY 
+                    ON PRIMARY
                         (
                             NAME={DbName},
                             FILENAME = '{fullPath}'

@@ -1,5 +1,4 @@
 ﻿using Skeleton.Abstraction.Domain;
-using Skeleton.Abstraction.Orm;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Orm.ExpressionTree;
@@ -182,7 +181,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
                 return string.Empty;
 
             return PagingTemplate.FormatWith(
-                Context.PageSize * (Context.PageNumber - 1), 
+                Context.PageSize * (Context.PageNumber - 1),
                 Context.PageSize);
         }
     }

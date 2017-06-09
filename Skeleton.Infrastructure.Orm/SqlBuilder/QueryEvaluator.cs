@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Skeleton.Infrastructure.Orm.SqlBuilder
 {
-    internal class QueryEvaluator<TEntity> 
+    internal class QueryEvaluator<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         private readonly SelectQueryBuilder<TEntity> _builder;
@@ -30,7 +30,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
                 _builder.Context.PageSize = _query.PageSize.Value;
 
                 if (!OrderBy)
-                      _builder.OrderByPrimaryKey();
+                    _builder.OrderByPrimaryKey();
             }
 
             if (OrderBy)

@@ -2,7 +2,6 @@
 using Skeleton.Common;
 using System;
 using System.Runtime.Caching;
-using System.Threading.Tasks;
 
 namespace Skeleton.Core.Caching
 {

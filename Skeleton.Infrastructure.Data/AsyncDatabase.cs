@@ -1,7 +1,7 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Abstraction.Startup;
+using Skeleton.Abstraction.Dependency;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Data.Mappers;
 using System;

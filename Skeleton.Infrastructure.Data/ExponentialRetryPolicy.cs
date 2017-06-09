@@ -1,5 +1,5 @@
 ﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Startup;
+using Skeleton.Abstraction.Dependency;
 using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;

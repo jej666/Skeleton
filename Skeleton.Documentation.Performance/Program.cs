@@ -1,13 +1,13 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Infrastructure.DependencyInjection;
+﻿using Skeleton.Abstraction.Dependency;
+using Skeleton.Infrastructure.Dependency;
 using Skeleton.Tests.Common;
 using System;
 
 namespace Skeleton.Documentation.Performance
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             Console.WriteLine("Skeleton Performance Runs");
             Console.WriteLine("____________________________________________________");
@@ -23,14 +23,14 @@ namespace Skeleton.Documentation.Performance
             Console.WriteLine("Skeleton Orm Performance Run => ");
             Console.WriteLine();
 
-            var ormPerformance = new OrmPerformance(bootstrapper as IDependencyResolver);
+            var ormPerformance = new OrmPerformance(bootstrapper.Container as IDependencyResolver);
             ormPerformance.RunBenchmarks();
 
             Console.WriteLine("_____________________________________________________");
             Console.WriteLine("Skeleton MetaData Performance Run =>");
             Console.WriteLine();
 
-            var metaDataPerformance = new MetadataPerformance(bootstrapper as IDependencyResolver);
+            var metaDataPerformance = new MetadataPerformance(bootstrapper.Container as IDependencyResolver);
             metaDataPerformance.RunBenchmarks();
 
             Console.WriteLine("_____________________________________________________");

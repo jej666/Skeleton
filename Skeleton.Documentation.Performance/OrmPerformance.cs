@@ -1,4 +1,5 @@
 ﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Dependency;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Tests.Common;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace Skeleton.Documentation.Performance
 {
     public class OrmPerformance
     {
-        public readonly IDependencyResolver _resolver ;
+        public readonly IDependencyResolver _resolver;
 
         public OrmPerformance(IDependencyResolver resolver)
         {
@@ -28,11 +29,11 @@ namespace Skeleton.Documentation.Performance
                 var postCommand = new SqlCommand
                 {
                     Connection = cnn,
-                    CommandText = @"select postId, 
-                                    [Text], 
-                                    [CreationDate], 
+                    CommandText = @"select postId,
+                                    [Text],
+                                    [CreationDate],
                                     LastChangeDate,
-                                    Counter1,Counter2,Counter3,Counter4,Counter5,Counter6,Counter7,Counter8,Counter9 
+                                    Counter1,Counter2,Counter3,Counter4,Counter5,Counter6,Counter7,Counter8,Counter9
                                     from Post"
                 };
 

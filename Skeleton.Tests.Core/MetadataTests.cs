@@ -11,7 +11,7 @@ namespace Skeleton.Tests.Core
 {
     [TestFixture]
     public class MetadataTests : CoreTestsBase
-    { 
+    {
         private IEnumerable<Type> MatchingInCache(IMetadata metadata)
         {
             var matchingInCache = MetadataProvider

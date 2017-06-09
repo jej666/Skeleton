@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Client;
-using System;
 
 namespace Skeleton.Tests.Web
 {

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Orm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Logging", "Skeleton.Infrastructure.Logging\Skeleton.Infrastructure.Logging.csproj", "{DB2464DA-A301-44A0-8EEB-E5B8C16BD7F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.DependencyInjection", "Skeleton.Infrastructure.DependencyInjection\Skeleton.Infrastructure.DependencyInjection.csproj", "{97FA52F3-1D4E-4A5D-870C-03E8CA4AFD58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Infrastructure.Dependency", "Skeleton.Infrastructure.Dependency\Skeleton.Infrastructure.Dependency.csproj", "{97FA52F3-1D4E-4A5D-870C-03E8CA4AFD58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core.Domain", "Skeleton.Core.Domain\Skeleton.Core.Domain.csproj", "{3E857F30-96F5-4A3D-B10F-CCF89BF4D467}"
 EndProject

@@ -4,12 +4,12 @@ using System.Diagnostics;
 
 namespace Skeleton.Documentation.Swagger
 {
-    class Program
+    internal class Program
     {
         private const string Started = "Owin WebServer Started... Press any key to exit.";
         private const string SwaggerUri = "http://localhost:8081/swagger";
 
-        static void Main()
+        private static void Main()
         {
             using (var server = new OwinTestServer())
             {

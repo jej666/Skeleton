@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Skeleton.Common
 {
     public static class StringExtensions
-    { 
+    {
         public static bool IsNullOrEmpty(this string value)
         {
             return string.IsNullOrEmpty(value);

@@ -3,7 +3,7 @@ using System;
 using System.Data;
 
 namespace Skeleton.Documentation.Performance
-{ 
+{
     public static class SqlDataReaderHelper
     {
         public static string GetNullableString(this IDataReader reader, int index)

@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Domain;
-using Skeleton.Abstraction.Startup;
-using Skeleton.Infrastructure.DependencyInjection;
+using Skeleton.Infrastructure.Dependency;
 using Skeleton.Tests.Common;
 
 namespace Skeleton.Tests.Infrastructure
@@ -10,12 +9,10 @@ namespace Skeleton.Tests.Infrastructure
     [TestFixture]
     public class IocTests
     {
-        private readonly IBootstrapper _bootstrapper = new Bootstrapper();
-
         [Test]
         public void Ioc_ShoudResolveDependencyOfT()
         {
-            var cacheProvider = _bootstrapper.Resolve<ICacheProvider>();
+            var cacheProvider = DependencyContainer.Instance.Resolve<ICacheProvider>();
 
             Assert.IsNotNull(cacheProvider);
             Assert.IsInstanceOf(typeof(ICacheProvider), cacheProvider);
@@ -24,8 +21,8 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void Ioc_ShoudRegisterDependencyType()
         {
-            _bootstrapper.RegisterType(typeof(IEntityValidator<>), typeof(CustomerValidator));
-            var customerValidator = _bootstrapper.Resolve<IEntityValidator<Customer>>();
+            DependencyContainer.Instance.Register.Type(typeof(IEntityValidator<>), typeof(CustomerValidator));
+            var customerValidator = DependencyContainer.Instance.Resolve<IEntityValidator<Customer>>();
 
             Assert.IsNotNull(customerValidator);
             Assert.IsInstanceOf(typeof(CustomerValidator), customerValidator);
@@ -34,8 +31,8 @@ namespace Skeleton.Tests.Infrastructure
         [Test]
         public void Ioc_ShoudRegisterInstance()
         {
-            _bootstrapper.RegisterInstance(new Customer { CustomerId = 1 });
-            var customer = _bootstrapper.Resolve<Customer>();
+            DependencyContainer.Instance.Register.Instance(new Customer { CustomerId = 1 });
+            var customer = DependencyContainer.Instance.Resolve<Customer>();
 
             Assert.IsNotNull(customer);
             Assert.IsInstanceOf(typeof(Customer), customer);

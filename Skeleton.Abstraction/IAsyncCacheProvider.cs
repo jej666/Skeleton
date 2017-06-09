@@ -7,8 +7,8 @@ namespace Skeleton.Abstraction
     {
         Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> valueFactory, Action<ICacheConfiguration> configurator);
 
-        void Remove(string key);
+        Task RemoveAsync(string key);
 
-        bool Contains(string key);
+        Task <bool> ContainsAsync(string key);
     }
 }

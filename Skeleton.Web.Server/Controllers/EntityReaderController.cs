@@ -2,12 +2,8 @@
 using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Common;
-using Skeleton.Web.Server.Configuration;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
-using System;
 
 namespace Skeleton.Web.Server.Controllers
 {
@@ -53,10 +49,10 @@ namespace Skeleton.Web.Server.Controllers
             {
                 var data = Reader
                     .Query(query);
-                    
-                 var dtoData= data.Select(Mapper.Map)
-                    .ToList();
-                
+
+                var dtoData = data.Select(Mapper.Map)
+                   .ToList();
+
                 return Ok(dtoData);
             });
         }

@@ -16,7 +16,7 @@ namespace Skeleton.Core.Domain
 
         protected EntityBase(Expression<Func<TEntity, object>> idExpression)
         {
-            idExpression.ThrowIfNull(nameof( idExpression));
+            idExpression.ThrowIfNull(nameof(idExpression));
 
             Metadata = new MetadataProvider().GetMetadata(typeof(TEntity));
             IdAccessor = Metadata.GetProperty(idExpression);
@@ -59,7 +59,7 @@ namespace Skeleton.Core.Domain
 
         public IEntityValidationResult Validate(IEntityValidator<TEntity> validator)
         {
-            validator.ThrowIfNull(nameof( validator));
+            validator.ThrowIfNull(nameof(validator));
 
             return new EntityValidationResult(validator.BrokenRules(this as TEntity));
         }

@@ -1,14 +1,15 @@
 ﻿using Skeleton.Web.Server;
 using System;
 using DatabaseConfigFunc = System.Func<
-    Skeleton.Abstraction.Startup.IDatabaseConfigurationBuilder,
-    Skeleton.Abstraction.Startup.IDatabaseConfiguration>;
+    Skeleton.Abstraction.Dependency.IDatabaseConfigurationBuilder,
+    Skeleton.Abstraction.Dependency.IDatabaseConfiguration>;
 
 namespace Skeleton.Tests.Common
 {
     public sealed class OwinTestServer : IDisposable
     {
         private IDisposable _server;
+
         private readonly DatabaseConfigFunc _databaseConfigurator =
             builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build();
 

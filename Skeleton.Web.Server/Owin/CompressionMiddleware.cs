@@ -12,6 +12,7 @@ namespace Skeleton.Web.Server.Owin
     {
         private readonly Func<IDictionary<string, object>, Task> next;
         private readonly OwinCompression compression = new OwinCompression();
+
         private readonly List<ICompressor> compressors = new List<ICompressor>
         {
             new GZipCompressor(),

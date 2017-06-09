@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Hosting;
 using Owin;
-using Skeleton.Abstraction.Startup;
+using Skeleton.Abstraction.Dependency;
 using Skeleton.Web.Server;
 using Skeleton.Web.Server.Owin;
 using System;
@@ -12,8 +12,8 @@ namespace Skeleton.Web.Server
 {
     public class OwinStartup
     {
-        private readonly static Lazy<OwinBootstrapper> OwinBootstrapper = 
-            new Lazy<OwinBootstrapper>( ()=> new OwinBootstrapper());
+        private readonly static Lazy<OwinBootstrapper> OwinBootstrapper =
+            new Lazy<OwinBootstrapper>(() => new OwinBootstrapper());
 
         public void Configuration(IAppBuilder app)
         {
