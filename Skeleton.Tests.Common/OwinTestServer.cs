@@ -1,5 +1,4 @@
-﻿using Microsoft.Owin.Builder;
-using Skeleton.Web.Server;
+﻿using Skeleton.Web.Server;
 using System;
 using DatabaseConfigFunc = System.Func<
     Skeleton.Abstraction.Dependency.IDatabaseConfigurationBuilder,
@@ -23,7 +22,8 @@ namespace Skeleton.Tests.Common
 
         public void Start(Uri baseUrl)
         {
-            _server = OwinStartup.StartServer(baseUrl, 
+            var startup = new OwinStartup();
+            _server = startup.StartServer(baseUrl, 
                 bootstrapper => bootstrapper
                     .UseSwagger()
                     .UseCheckModelForNull()

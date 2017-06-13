@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace Skeleton.Web.Server.Owin
+namespace Skeleton.Web.Server.Configuration
 {
     // Adapted from https://github.com/mikegore1000/SqueezeMe
     public class CompressionMiddleware

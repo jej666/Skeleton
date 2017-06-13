@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Skeleton.Web.Server.Owin
+namespace Skeleton.Web.Server.Configuration
 {
     public class RequireSslMiddleware
     {

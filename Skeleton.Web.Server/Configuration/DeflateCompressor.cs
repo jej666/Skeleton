@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace Skeleton.Web.Server.Owin
+namespace Skeleton.Web.Server.Configuration
 {
     public class DeflateCompressor : ICompressor
     {

@@ -4,7 +4,7 @@ using Skeleton.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Skeleton.Web.Server.Owin
+namespace Skeleton.Web.Server.Configuration
 {
     public sealed class RequestLoggingMiddleware : OwinMiddleware
     {

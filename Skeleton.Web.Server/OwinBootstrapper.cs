@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Owin;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Dependency;
 using Skeleton.Infrastructure.Dependency;
 using Skeleton.Web.Server.Configuration;
-using Skeleton.Web.Server.Owin;
 using Swashbuckle.Application;
 using System.Net.Http.Formatting;
 using System.Web.Http;
@@ -15,9 +13,14 @@ namespace Skeleton.Web.Server
 {
     public class OwinBootstrapper : Bootstrapper, IOwinBootstrapper
     {
-        private readonly HttpConfiguration _configuration = new HttpConfiguration();
+        private readonly HttpConfiguration _configuration;
 
-        public OwinBootstrapper() : base(DependencyContainer.Instance)
+        public OwinBootstrapper(HttpConfiguration configuration) : base(DependencyContainer.Instance)
+        {
+            _configuration = configuration;
+        }
+        
+        public void Configure()
         {
             _configuration.DependencyResolver = new UnityResolver(DependencyContainer.Instance.UnityContainer);
             _configuration.MapHttpAttributeRoutes();
@@ -39,22 +42,9 @@ namespace Skeleton.Web.Server
             _configuration.Formatters.JsonFormatter.SerializerSettings = defaultSettings;
         }
 
-        // Runtime call
-        public void Configuration(IAppBuilder appBuilder)
-        { 
-#if DEBUG
-            appBuilder.Use<RequestLoggingMiddleware>(Container.Resolve<ILoggerFactory>());
-#else
-            appBuilder.Use<RequireSslMiddleware>();
-#endif
-            appBuilder.Use<CompressionMiddleware>();
-
-            _configuration.EnsureInitialized();
-            appBuilder.UseWebApi(_configuration);
-        }
-
         public IOwinBootstrapper UseSwagger()
         {
+            _configuration.EnsureInitialized();
             _configuration
                 .EnableSwagger(c =>
                 {
