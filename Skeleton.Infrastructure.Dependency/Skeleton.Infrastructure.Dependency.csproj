@@ -82,7 +82,6 @@
     <Compile Include="Plugins\OrmPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Configuration\BootstrapperBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Infrastructure.Bootstrapper.snk" />

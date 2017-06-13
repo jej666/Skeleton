@@ -47,9 +47,7 @@ namespace Skeleton.Web.Server.Controllers
         {
             return HandleException(() =>
             {
-                var data = Reader
-                    .Query(query);
-
+                var data = Reader.Query(query);
                 var dtoData = data.Select(Mapper.Map)
                    .ToList();
 

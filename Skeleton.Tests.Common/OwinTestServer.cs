@@ -1,4 +1,5 @@
-﻿using Skeleton.Web.Server;
+﻿using Microsoft.Owin.Builder;
+using Skeleton.Web.Server;
 using System;
 using DatabaseConfigFunc = System.Func<
     Skeleton.Abstraction.Dependency.IDatabaseConfigurationBuilder,
@@ -9,7 +10,6 @@ namespace Skeleton.Tests.Common
     public sealed class OwinTestServer : IDisposable
     {
         private IDisposable _server;
-
         private readonly DatabaseConfigFunc _databaseConfigurator =
             builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build();
 
@@ -19,16 +19,18 @@ namespace Skeleton.Tests.Common
 
             if (!AppConfiguration.AppVeyorBuild)
                 SqlDbSeeder.SeedCustomers();
-
-            OwinStartup.Bootstrapper
-                       .Builder
-                       .UseSqlServer(_databaseConfigurator)
-                       .WithOrm();
         }
 
         public void Start(Uri baseUrl)
         {
-            _server = OwinStartup.StartServer(baseUrl);
+            _server = OwinStartup.StartServer(baseUrl, 
+                bootstrapper => bootstrapper
+                    .UseSwagger()
+                    .UseCheckModelForNull()
+                    .UseValidateModelState()
+                    .UseGlobalExceptionHandling()
+                    .UseSqlServer(_databaseConfigurator)
+                    .WithOrm());
         }
 
         public void Dispose()

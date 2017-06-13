@@ -1,4 +1,4 @@
-﻿namespace Skeleton.Abstraction.Orm
+﻿namespace Skeleton.Abstraction
 {
     public interface IQuery
     {

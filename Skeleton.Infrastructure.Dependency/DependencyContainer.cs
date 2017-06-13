@@ -1,8 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Skeleton.Abstraction.Dependency;
 using Skeleton.Common;
-using Skeleton.Infrastructure.Dependency.Configuration;
-using Skeleton.Infrastructure.Dependency.Plugins;
 using System;
 using System.Collections.Generic;
 
@@ -26,9 +24,6 @@ namespace Skeleton.Infrastructure.Dependency
 
             _unityContainer = unityContainer;
             _registrar = new DependencyRegistrar(unityContainer);
-            _unityContainer.AddExtension(new LoggerConstructorInjectionExtension());
-
-            AddPlugin(new CorePlugin());
         }
 
         public IUnityContainer UnityContainer => _unityContainer;

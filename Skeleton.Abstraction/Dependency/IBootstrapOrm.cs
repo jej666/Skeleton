@@ -2,6 +2,6 @@
 {
     public interface IBootstrapOrm : IHideObjectMethods
     {
-        IDependencyContainer WithOrm();
+        IBootstrapper WithOrm();
     }
 }

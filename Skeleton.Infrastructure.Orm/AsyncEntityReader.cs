@@ -1,4 +1,5 @@
-﻿using Skeleton.Abstraction.Data;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Abstraction.Reflection;

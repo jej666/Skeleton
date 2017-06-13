@@ -1,10 +1,11 @@
 ﻿using Skeleton.Abstraction.Dependency;
 using Skeleton.Common;
-using Skeleton.Infrastructure.Dependency.Configuration;
+using Skeleton.Infrastructure.Dependency.Plugins;
+using System;
 
 namespace Skeleton.Infrastructure.Dependency
 {
-    public class Bootstrapper : HideObjectMethodsBase, IBootstrapper
+    public class Bootstrapper : HideObjectMethodsBase, IBootstrapper, IBootstrapOrm
     {
         private readonly IDependencyContainer _container;
 
@@ -17,10 +18,27 @@ namespace Skeleton.Infrastructure.Dependency
             container.ThrowIfNull(nameof(container));
 
             _container = container;
+            _container.AddPlugin(new CorePlugin());
         }
 
-        public IBootstrapperBuilder Builder => new BootstrapperBuilder(Container);
-
         public IDependencyContainer Container => _container;
+
+        public IBootstrapOrm UseSqlServer(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
+        {
+            configurator.ThrowIfNull(nameof(configurator));
+
+            var builder = _container.Resolve<IDatabaseConfigurationBuilder>();
+            _container.Register.Instance(configurator(builder));
+            _container.AddPlugin(new DatabasePlugin());
+
+            return this;
+        }
+
+        public IBootstrapper WithOrm()
+        {
+            _container.AddPlugin(new OrmPlugin());
+
+            return this;
+        }
     }
 }

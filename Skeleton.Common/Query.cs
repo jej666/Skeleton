@@ -1,4 +1,4 @@
-﻿using Skeleton.Abstraction.Orm;
+﻿using Skeleton.Abstraction;
 
 namespace Skeleton.Common
 {

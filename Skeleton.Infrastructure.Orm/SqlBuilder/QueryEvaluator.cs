@@ -1,5 +1,5 @@
-﻿using Skeleton.Abstraction.Domain;
-using Skeleton.Abstraction.Orm;
+﻿using Skeleton.Abstraction;
+using Skeleton.Abstraction.Domain;
 using Skeleton.Common;
 using System;
 using System.Linq.Expressions;

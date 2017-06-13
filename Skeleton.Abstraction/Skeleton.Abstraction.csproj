@@ -62,11 +62,11 @@
     <Compile Include="Data\IDatabaseTransaction.cs" />
     <Compile Include="Data\ISqlCommand.cs" />
     <Compile Include="Dependency\DependencyLifetime.cs" />
+    <Compile Include="Dependency\IOwinBootstrapper.cs" />
     <Compile Include="Domain\IEntityDescriptor.cs" />
     <Compile Include="Domain\IEntityAuditable.cs" />
     <Compile Include="Domain\IValidationRule.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Dependency\IBootstrapperBuilder.cs" />
     <Compile Include="Dependency\IBootstrapOrm.cs" />
     <Compile Include="ICacheConfiguration.cs" />
     <Compile Include="ICacheProvider.cs" />
@@ -77,7 +77,7 @@
     <Compile Include="ILoggerFactory.cs" />
     <Compile Include="Dependency\IBootstrapper.cs" />
     <Compile Include="Dependency\IPlugin.cs" />
-    <Compile Include="Orm\IQuery.cs" />
+    <Compile Include="IQuery.cs" />
     <Compile Include="IQueryResponse.cs" />
     <Compile Include="Reflection\IInstanceAccessor.cs" />
     <Compile Include="Reflection\IFieldMetadata.cs" />

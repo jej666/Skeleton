@@ -18,7 +18,7 @@ namespace Skeleton.Tests.Infrastructure
             SqlDbSeeder.SeedCustomers();
 
             _bootstrapper = new Bootstrapper();
-            _bootstrapper.Builder.UseSqlServer(_databaseConfigurator).WithOrm();
+            _bootstrapper.UseSqlServer(_databaseConfigurator).WithOrm();
         }
 
         protected IDependencyContainer Resolver => _bootstrapper.Container;

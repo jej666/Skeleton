@@ -1,9 +1,11 @@
-﻿namespace Skeleton.Abstraction.Dependency
+﻿using System;
+
+namespace Skeleton.Abstraction.Dependency
 {
     public interface IBootstrapper : IHideObjectMethods
     {
-        IBootstrapperBuilder Builder { get; }
-
         IDependencyContainer Container { get; }
+
+        IBootstrapOrm UseSqlServer(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator);
     }
 }

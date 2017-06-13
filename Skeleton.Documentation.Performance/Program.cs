@@ -15,8 +15,7 @@ namespace Skeleton.Documentation.Performance
             SqlLocalDbHelper.CreateDatabaseIfNotExists();
 
             var bootstrapper = new Bootstrapper();
-            bootstrapper.Builder
-                        .UseSqlServer(
+            bootstrapper.UseSqlServer(
                             builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build())
                         .WithOrm();
 
