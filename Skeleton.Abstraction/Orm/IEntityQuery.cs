@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Skeleton.Abstraction.Orm
 {
-    public interface IEntityQuery<out TEntity>
+    public interface IEntityQuery<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
         TEntity FirstOrDefault();

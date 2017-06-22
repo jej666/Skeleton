@@ -78,7 +78,6 @@
     <Compile Include="Dependency\IBootstrapper.cs" />
     <Compile Include="Dependency\IPlugin.cs" />
     <Compile Include="IQuery.cs" />
-    <Compile Include="IQueryResponse.cs" />
     <Compile Include="Reflection\IInstanceAccessor.cs" />
     <Compile Include="Reflection\IFieldMetadata.cs" />
     <Compile Include="IHideObjectMethods.cs" />

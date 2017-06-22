@@ -16,7 +16,7 @@ namespace Skeleton.Tests.Web
         {
             var data = Client
                 .Query(new Query { PageSize = 1, PageNumber = 1 })
-                .FirstOrDefault();
+                .Items.FirstOrDefault();
 
             Assert.IsNotNull(data);
 
@@ -50,10 +50,10 @@ namespace Skeleton.Tests.Web
 
             Assert.IsNotNull(customers);
 
-            foreach (var customer in customers)
+            foreach (var customer in customers.Items)
                 customer.Name = "CustomerUpdated" + customer.CustomerId;
 
-            var result = Client.Update(customers);
+            var result = Client.Update(customers.Items);
             Assert.IsTrue(result);
         }
 
@@ -91,7 +91,7 @@ namespace Skeleton.Tests.Web
         {
             var data = Client
                 .Query(new Query { PageSize = 5, PageNumber = 1 })
-                .FirstOrDefault();
+                .Items.FirstOrDefault();
 
             var result = (data != null) && Client.Delete(data.CustomerId);
 
@@ -105,7 +105,7 @@ namespace Skeleton.Tests.Web
 
             Assert.IsNotNull(customers);
 
-            var result = Client.Delete(customers);
+            var result = Client.Delete(customers.Items);
             Assert.IsTrue(result);
         }
 

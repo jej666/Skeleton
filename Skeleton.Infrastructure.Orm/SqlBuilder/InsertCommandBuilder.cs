@@ -4,11 +4,10 @@ using Skeleton.Common;
 
 namespace Skeleton.Infrastructure.Orm.SqlBuilder
 {
-    internal sealed class InsertCommandBuilder<TEntity> :
-            SqlBuilderBase<TEntity>
+    internal sealed class InsertCommandBuilder<TEntity> : SqlBuilderBase<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        private const string ScopeIdentity = "SELECT scope_identity() AS[SCOPE_IDENTITY]";
+        private const string ScopeIdentity = "SELECT scope_identity() AS [SCOPE_IDENTITY]";
         private CommandContext _context = new CommandContext();
 
         internal InsertCommandBuilder(IMetadataProvider metadataProvider, TEntity entity)

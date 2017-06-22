@@ -49,13 +49,13 @@ namespace Skeleton.Web.Client
                 .Result;
         }
 
-        public IEnumerable<TDto> Query(Query query)
+        public QueryResult<TDto> Query(Query query)
         {
             var requestUri = UriBuilder.Query(query);
             var content = Get(requestUri).Content;
 
             return content
-                .ReadAsAsync<IEnumerable<TDto>>()
+                .ReadAsAsync<QueryResult<TDto>>()
                 .Result;
         }
 

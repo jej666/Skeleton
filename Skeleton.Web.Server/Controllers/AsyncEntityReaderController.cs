@@ -66,18 +66,13 @@ namespace Skeleton.Web.Server.Controllers
         {
             return await HandleExceptionAsync(async () =>
             {
-                // var totalCount = await Reader.CountAsync();
                 var data = await Reader.QueryAsync(query);
-                var dtoData = await data
+                var items = await data
                     .Select(Mapper.Map)
                     .ToListAsync();
-                //var pagedResult = Request.ToPagedResult(
-                //    totalCount,
-                //    pageNumber,
-                //    pageSize,
-                //    dtoData);
+                var result = Request.EnrichQueryResult(items, query);
 
-                return Ok(dtoData);
+                return Ok(result);
             });
         }
 

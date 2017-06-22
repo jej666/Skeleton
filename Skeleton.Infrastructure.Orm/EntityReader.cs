@@ -7,6 +7,7 @@ using Skeleton.Common;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Skeleton.Infrastructure.Orm
@@ -56,8 +57,8 @@ namespace Skeleton.Infrastructure.Orm
             var evaluator = new QueryEvaluator<TEntity>(Builder, query);
             evaluator.Evaluate();
 
-            return Builder.OnNextQuery(() =>
-                 _database.Find<TEntity>(Builder.SqlCommand));
+            return Builder.OnNextQuery(
+                    () => _database.Find<TEntity>(Builder.SqlCommand));
         }
 
         public IEntityReader<TEntity> GroupBy(

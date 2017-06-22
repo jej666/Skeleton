@@ -12,8 +12,10 @@ namespace Skeleton.Web.Server
 {
     public class OwinStartup
     {
-        private static readonly HttpConfiguration HttpConfiguration = new HttpConfiguration();
-        private readonly OwinBootstrapper _bootstrapper = new OwinBootstrapper(HttpConfiguration);
+        private static readonly Lazy<HttpConfiguration> HttpConfiguration =
+            new Lazy<HttpConfiguration>(() => new HttpConfiguration());
+        private readonly OwinBootstrapper _bootstrapper = 
+            new OwinBootstrapper(HttpConfiguration.Value);
 
         public IDisposable StartServer(Uri url, Action<IOwinBootstrapper> bootstrap)
         {
@@ -34,7 +36,7 @@ namespace Skeleton.Web.Server
             appBuilder.Use<RequireSslMiddleware>();
 #endif
             appBuilder.Use<CompressionMiddleware>()
-                      .UseWebApi(HttpConfiguration);
+                      .UseWebApi(HttpConfiguration.Value);
         }
     }
 }

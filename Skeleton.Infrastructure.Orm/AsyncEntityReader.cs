@@ -6,6 +6,7 @@ using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -67,8 +68,8 @@ namespace Skeleton.Infrastructure.Orm
                 var evaluator = new QueryEvaluator<TEntity>(Builder, query);
                 evaluator.Evaluate();
 
-                return await _database.FindAsync<TEntity>(
-                        Builder.SqlCommand)
+                return await _database
+                    .FindAsync<TEntity>(Builder.SqlCommand)
                     .ConfigureAwait(false);
             }
             finally

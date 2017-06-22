@@ -54,7 +54,7 @@ namespace Skeleton.Web.Client
                 .ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<TDto>> QueryAsync(Query query)
+        public async Task<QueryResult<TDto>> QueryAsync(Query query)
         {
             var requestUri = UriBuilder.Query(query);
             var response = await GetAsync(requestUri)
@@ -62,7 +62,7 @@ namespace Skeleton.Web.Client
 
             return await response
                 .Content
-                .ReadAsAsync<IEnumerable<TDto>>()
+                .ReadAsAsync<QueryResult<TDto>>()
                 .ConfigureAwait(false);
         }
 

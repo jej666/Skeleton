@@ -8,6 +8,6 @@ namespace Skeleton.Web.Client
         public int TotalPages { get; set; }
         public string PrevPageLink { get; set; }
         public string NextPageLink { get; set; }
-        public IEnumerable<TDto> Results { get; set; }
+        public IEnumerable<TDto> Items { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin;
+using Skeleton.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +10,33 @@ namespace Skeleton.Web.Server
 {
     public static class HttpRequestMessageExtensions
     {
-        public static object ToPagedResult<TDto>(
+        public static object EnrichQueryResult<TDto>(
             this HttpRequestMessage request,
-            int totalCount,
-            int pageNumber,
-            int pageSize,
-            IEnumerable<TDto> pagedData)
+            IEnumerable<TDto> items, IQuery query) where TDto : class
         {
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var totalCount = items.Count();
+
+            if (!query.PageSize.HasValue)
+            {
+                return new
+                {
+                    Items = items,
+                    TotalCount = totalCount
+                };
+            }
+
             var urlHelper = new UrlHelper(request);
-            var prevLink = urlHelper.GetPrevLink(pageNumber, pageSize);
-            var nextLink = urlHelper.GetNextLink(pageNumber, pageSize, totalPages);
+            var totalPages = (int)Math.Ceiling((double)totalCount / query.PageSize.Value);
+            var prevPageLink = urlHelper.GetPrevLink(query.PageNumber.Value, query.PageSize.Value);
+            var nextPageLink = urlHelper.GetNextLink(query.PageNumber.Value, query.PageSize.Value, totalPages);
 
             return new
             {
+                Items = items,
                 TotalCount = totalCount,
                 TotalPages = totalPages,
-                PrevPageLink = prevLink,
-                NextPageLink = nextLink,
-                Results = pagedData
+                PrevPageLink = prevPageLink,
+                NextPageLink = nextPageLink
             };
         }
 

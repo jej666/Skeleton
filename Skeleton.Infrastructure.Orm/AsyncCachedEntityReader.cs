@@ -67,5 +67,16 @@ namespace Skeleton.Infrastructure.Orm
                     CacheConfigurator)
                 .ConfigureAwait(false);
         }
+
+        public override async Task<IEnumerable<TEntity>> QueryAsync(IQuery query)
+        {
+            LastGeneratedCacheKey = _keyGenerator.ForFind(Builder.SqlQuery);
+
+            return await Cache.GetOrAddAsync(
+                    LastGeneratedCacheKey,
+                    () => base.QueryAsync(query),
+                    CacheConfigurator)
+                .ConfigureAwait(false);
+        }
     }
 }

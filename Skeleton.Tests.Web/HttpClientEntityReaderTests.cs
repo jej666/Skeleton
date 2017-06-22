@@ -28,7 +28,7 @@ namespace Skeleton.Tests.Web
         {
             var data = Client
                 .Query(new Query { PageSize = 1, PageNumber = 1 })
-                .FirstOrDefault();
+                .Items.FirstOrDefault();
 
             Assert.IsNotNull(data);
 
@@ -55,7 +55,7 @@ namespace Skeleton.Tests.Web
                     PageNumber = page
                 });
 
-                Assert.IsTrue(response.Count() <= pageSize);
+                Assert.IsTrue(response.Items.Count() <= pageSize);
             }
         }
 

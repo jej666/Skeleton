@@ -25,7 +25,7 @@ namespace Skeleton.Tests.Web
         public async Task AsyncEntityReader_FirstOrDefaultAsync()
         {
             var data = await Client.QueryAsync(new Query { PageSize = 1, PageNumber = 1 });
-            var firstCustomer = data.FirstOrDefault();
+            var firstCustomer = data.Items.FirstOrDefault();
 
             Assert.IsNotNull(firstCustomer);
 
@@ -54,7 +54,7 @@ namespace Skeleton.Tests.Web
                     PageSize = pageSize,
                     PageNumber = page
                 });
-                Assert.IsTrue(response.Count() <= pageSize);
+                Assert.IsTrue(response.Items.Count() <= pageSize);
             }
         }
     }
