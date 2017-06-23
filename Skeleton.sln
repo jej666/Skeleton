@@ -50,6 +50,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FBFA5BA8-DAD2-4199-B0D0-C71C4381CC8E}"
 	ProjectSection(SolutionItems) = preProject
 		.tfignore = .tfignore
+		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1EC804C3-2762-4F6E-98F4-34BBCA7509FC}"

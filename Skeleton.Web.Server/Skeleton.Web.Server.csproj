@@ -112,6 +112,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Configuration\OwinCompression.cs" />
     <Compile Include="Configuration\DeflateCompressor.cs" />

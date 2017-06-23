@@ -63,6 +63,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="DependencyContainer.cs" />
     <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="Plugins\CachePlugin.cs" />

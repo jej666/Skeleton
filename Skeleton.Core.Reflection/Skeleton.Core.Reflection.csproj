@@ -46,6 +46,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Emitter\ConstructorEmitter.cs" />
     <Compile Include="Emitter\EmitExtensions.cs" />
     <Compile Include="Emitter\EmitterBase.cs" />

@@ -46,6 +46,9 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Data\IDatabase.cs" />
     <Compile Include="Data\IAsyncDatabase.cs" />
     <Compile Include="Dependency\IDependencyContainer.cs" />

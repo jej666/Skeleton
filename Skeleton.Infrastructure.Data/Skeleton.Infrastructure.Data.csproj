@@ -53,6 +53,7 @@
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="DatabaseTransaction.cs" />
+    <Compile Include="Properties\GlobalAssemblyInfo.cs" />
     <Compile Include="Mappers\DataReaderMapper.cs" />
     <Compile Include="Mappers\AsyncDataReaderMapper.cs" />
     <Compile Include="Mappers\DataReaderMapperBase.cs" />
