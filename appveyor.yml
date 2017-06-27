@@ -57,9 +57,9 @@ before_build:
 #  verbosity: minimal
 build_script:
   - choco install "msbuild-sonarqube-runner" -y
-  - MSBuild.SonarQube.Runner.exe begin /k:"Skeleton" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=$env:SONARQUBE_REPO_TOKEN"
+  - MSBuild.SonarQube.Runner.exe begin /k:"Skeleton" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942"
   - msbuild "Skeleton.sln"
-  - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=$env:SONARQUBE_REPO_TOKEN" 
+  - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942" 
  
 #---------------------------------#
 #       test configuration        #
