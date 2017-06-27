@@ -25,7 +25,7 @@ init:
 # environment variables
 environment: 
   AppVeyor: true
-  SONARQUBE_REPO_TOKEN: 5c6c3a50986367578beecbb5d5926218c5252942
+  #SONARQUBE_REPO_TOKEN: 5c6c3a50986367578beecbb5d5926218c5252942
   COVERALLS_REPO_TOKEN:
     secure: hUKlb4xp2OhIGZ4VwMrZ9ok2UQAmDj+R6+Qay0UYnRtIIHwUVF9Ylb4Ov8/7WC1C
 
@@ -52,14 +52,15 @@ configuration:
 before_build:
   - nuget restore 
 
-#build:
-#  project: Skeleton.sln
-#  verbosity: minimal
-build_script:
-  - choco install "msbuild-sonarqube-runner" -y
-  - MSBuild.SonarQube.Runner.exe begin /k:"Skeleton" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.organisation="jej666" /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942"
-  - msbuild "Skeleton.sln"
-  - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942" 
+build:
+  project: Skeleton.sln
+  verbosity: minimal
+  
+#build_script:
+#  - choco install "msbuild-sonarqube-runner" -y
+#  - MSBuild.SonarQube.Runner.exe begin /k:"Skeleton" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.organisation="jej666" /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942"
+#  - msbuild "Skeleton.sln"
+#  - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942" 
  
 #---------------------------------#
 #       test configuration        #
