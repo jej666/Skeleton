@@ -21,6 +21,7 @@ image: Visual Studio 2015
 # scripts that are called at very beginning, before repo cloning
 init:
   - git config --global core.autocrlf input
+  - choco install "msbuild-sonarqube-runner" -y
 
 # environment variables
 environment: 
@@ -51,16 +52,14 @@ configuration:
 
 before_build:
   - nuget restore 
+  - MSBuild.SonarQube.Runner.exe begin /k:"Skeleton" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.organisation="jej666" /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942"
 
 build:
   project: Skeleton.sln
   verbosity: minimal
   
-#build_script:
-#  - choco install "msbuild-sonarqube-runner" -y
-#  - MSBuild.SonarQube.Runner.exe begin /k:"Skeleton" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.organisation="jej666" /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942"
-#  - msbuild "Skeleton.sln"
-#  - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942" 
+after_build:
+  - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=5c6c3a50986367578beecbb5d5926218c5252942" 
  
 #---------------------------------#
 #       test configuration        #
