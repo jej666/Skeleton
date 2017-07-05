@@ -11,9 +11,10 @@ namespace Skeleton.Infrastructure.Dependency
         private readonly IUnityContainer _unityContainer;
         private readonly IDependencyRegistrar _registrar;
         private readonly List<IPlugin> _plugins = new List<IPlugin>();
+
         private readonly static Lazy<DependencyContainer> ContainerInstance =
             new Lazy<DependencyContainer>(() => new DependencyContainer());
-        
+
         public DependencyContainer() : this(new UnityContainer())
         {
         }

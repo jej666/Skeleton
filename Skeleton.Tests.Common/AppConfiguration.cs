@@ -4,10 +4,10 @@ namespace Skeleton.Tests.Common
 {
     public static class AppConfiguration
     {
-        private static readonly string CustomersPath = "api/customers";
-        private static readonly string CachedCustomersPath = "api/cachedcustomers";
-        private static readonly string AsyncCustomersPath = "api/asynccustomers";
-        private static readonly string AsyncCachedCustomersPath = "api/asynccachedcustomers";
+        private const string CustomersPath = "api/customers";
+        private const string CachedCustomersPath = "api/cachedcustomers";
+        private const string AsyncCustomersPath = "api/asynccustomers";
+        private const string AsyncCachedCustomersPath = "api/asynccachedcustomers";
 
         public static bool AppVeyorBuild => Environment.GetEnvironmentVariable("AppVeyor")?.ToUpperInvariant() == "TRUE";
 

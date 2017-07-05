@@ -14,7 +14,8 @@ namespace Skeleton.Web.Server
     {
         private static readonly Lazy<HttpConfiguration> HttpConfiguration =
             new Lazy<HttpConfiguration>(() => new HttpConfiguration());
-        private readonly OwinBootstrapper _bootstrapper = 
+
+        private readonly OwinBootstrapper _bootstrapper =
             new OwinBootstrapper(HttpConfiguration.Value);
 
         public IDisposable StartServer(Uri url, Action<IOwinBootstrapper> bootstrap)

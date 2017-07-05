@@ -3,7 +3,7 @@
 // Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //
 //      Version principale
-//      Version secondaire 
+//      Version secondaire
 //      Numéro de build
 //      Révision
 //

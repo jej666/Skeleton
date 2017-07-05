@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Reflection;
 using Skeleton.Abstraction.Dependency;
+using Skeleton.Abstraction.Reflection;
 using Skeleton.Infrastructure.Dependency;
 
 namespace Skeleton.Tests.Core

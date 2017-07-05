@@ -6,7 +6,6 @@ using Skeleton.Abstraction.Reflection;
 using Skeleton.Common;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -18,14 +17,12 @@ namespace Skeleton.Infrastructure.Orm
             IAsyncEntityReader<TEntity>
         where TEntity : class, IEntity<TEntity>
     {
-        private readonly IMetadataProvider _metadataProvider;
         private readonly IAsyncDatabase _database;
 
         public AsyncEntityReader(
             IMetadataProvider metadataProvider,
             IAsyncDatabase database)
         {
-            _metadataProvider = metadataProvider;
             _database = database;
             Builder = new SelectQueryBuilder<TEntity>(metadataProvider);
         }

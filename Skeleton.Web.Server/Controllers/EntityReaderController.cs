@@ -50,7 +50,7 @@ namespace Skeleton.Web.Server.Controllers
                 var items = Reader.Query(query)
                                  .Select(Mapper.Map)
                                  .ToList();
-                var result =  Request.EnrichQueryResult(items, query);
+                var result = Request.EnrichQueryResult(items, query);
 
                 return Ok(result);
             });

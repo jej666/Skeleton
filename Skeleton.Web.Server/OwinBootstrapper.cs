@@ -19,7 +19,7 @@ namespace Skeleton.Web.Server
         {
             _configuration = configuration;
         }
-        
+
         public void Configure()
         {
             _configuration.DependencyResolver = new UnityResolver(DependencyContainer.Instance.UnityContainer);

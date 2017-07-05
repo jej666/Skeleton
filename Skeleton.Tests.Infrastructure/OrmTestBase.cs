@@ -1,5 +1,4 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Dependency;
+﻿using Skeleton.Abstraction.Dependency;
 using Skeleton.Infrastructure.Dependency;
 using Skeleton.Tests.Common;
 using System;
@@ -9,6 +8,7 @@ namespace Skeleton.Tests.Infrastructure
     public abstract class OrmTestBase
     {
         private readonly IBootstrapper _bootstrapper;
+
         private readonly Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> _databaseConfigurator =
             builder => builder.UsingConnectionString(AppConfiguration.ConnectionString).Build();
 

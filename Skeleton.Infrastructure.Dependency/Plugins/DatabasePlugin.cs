@@ -1,5 +1,6 @@
 ﻿using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Dependency;
+using Skeleton.Common;
 using Skeleton.Infrastructure.Data;
 
 namespace Skeleton.Infrastructure.Dependency.Plugins
@@ -8,6 +9,8 @@ namespace Skeleton.Infrastructure.Dependency.Plugins
     {
         public void Configure(IDependencyContainer container)
         {
+            container.ThrowIfNull(nameof(container));
+
             container.Register
                 .Type<IDatabase, Database>(DependencyLifetime.Scoped)
                 .Type<IAsyncDatabase, AsyncDatabase>(DependencyLifetime.Scoped);

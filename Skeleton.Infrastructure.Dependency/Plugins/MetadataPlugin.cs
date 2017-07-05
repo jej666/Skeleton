@@ -1,5 +1,6 @@
-﻿using Skeleton.Abstraction.Reflection;
-using Skeleton.Abstraction.Dependency;
+﻿using Skeleton.Abstraction.Dependency;
+using Skeleton.Abstraction.Reflection;
+using Skeleton.Common;
 using Skeleton.Core.Reflection;
 
 namespace Skeleton.Infrastructure.Dependency.Plugins
@@ -8,6 +9,8 @@ namespace Skeleton.Infrastructure.Dependency.Plugins
     {
         public void Configure(IDependencyContainer container)
         {
+            container.ThrowIfNull(nameof(container));
+
             container.Register.Type<IMetadataProvider, MetadataProvider>();
         }
     }

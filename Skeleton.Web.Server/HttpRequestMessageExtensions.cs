@@ -12,8 +12,15 @@ namespace Skeleton.Web.Server
     {
         public static object EnrichQueryResult<TDto>(
             this HttpRequestMessage request,
-            IEnumerable<TDto> items, IQuery query) where TDto : class
+            IEnumerable<TDto> items,
+            IQuery query) where TDto : class
         {
+            if (request == null)
+                return null;
+
+            if (items == null || !items.Any())
+                return null;
+
             var totalCount = items.Count();
 
             if (!query.PageSize.HasValue)
@@ -54,12 +61,18 @@ namespace Skeleton.Web.Server
 
         public static IDictionary<string, string> GetQueryStrings(this HttpRequestMessage request)
         {
+            if (request == null)
+                return null;
+
             return request.GetQueryNameValuePairs()
                           .ToDictionary(kv => kv.Key, kv => kv.Value, StringComparer.OrdinalIgnoreCase);
         }
 
         public static string GetQueryString(this HttpRequestMessage request, string key)
         {
+            if (request == null)
+                return null;
+
             var queryStrings = request.GetQueryNameValuePairs();
             if (queryStrings == null)
                 return null;
@@ -73,6 +86,9 @@ namespace Skeleton.Web.Server
 
         public static string GetHeader(this HttpRequestMessage request, string key)
         {
+            if (request == null)
+                return null;
+
             IEnumerable<string> keys = null;
             if (!request.Headers.TryGetValues(key, out keys))
                 return null;

@@ -9,6 +9,6 @@ namespace Skeleton.Abstraction
 
         Task RemoveAsync(string key);
 
-        Task <bool> ContainsAsync(string key);
+        Task<bool> ContainsAsync(string key);
     }
 }

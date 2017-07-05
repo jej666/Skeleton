@@ -69,7 +69,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
             }
         }
 
-        private LambdaExpression EvaluateProperty(string propertyName)
+        private static LambdaExpression EvaluateProperty(string propertyName)
         {
             var type = typeof(TEntity);
             var parameter = Expression.Parameter(type, "p");

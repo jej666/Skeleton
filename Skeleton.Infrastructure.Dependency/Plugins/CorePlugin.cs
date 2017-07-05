@@ -1,4 +1,5 @@
 ﻿using Skeleton.Abstraction.Dependency;
+using Skeleton.Common;
 using System.Collections.Generic;
 
 namespace Skeleton.Infrastructure.Dependency.Plugins
@@ -15,6 +16,8 @@ namespace Skeleton.Infrastructure.Dependency.Plugins
 
         public void Configure(IDependencyContainer container)
         {
+            container.ThrowIfNull(nameof(container));
+
             container.AddPlugins(_corePlugins);
         }
     }

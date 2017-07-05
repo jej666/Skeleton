@@ -23,7 +23,12 @@ namespace Skeleton.Infrastructure.Dependency
             return this;
         }
 
-        public IDependencyRegistrar Type(Type from, Type to, DependencyLifetime lifetime = DependencyLifetime.Transient)
+        public IDependencyRegistrar Type(Type from, Type to)
+        {
+            return Type(from, to, DependencyLifetime.Transient);
+        }
+
+        public IDependencyRegistrar Type(Type from, Type to, DependencyLifetime lifetime)
         {
             var lifetimeManager = CreateLifetimeManager(lifetime);
             _unityContainer.RegisterType(from, to, lifetimeManager);
@@ -31,7 +36,13 @@ namespace Skeleton.Infrastructure.Dependency
             return this;
         }
 
-        public IDependencyRegistrar Type<TFrom, TTo>(DependencyLifetime lifetime = DependencyLifetime.Transient)
+        public IDependencyRegistrar Type<TFrom, TTo>()
+           where TTo : TFrom
+        {
+            return Type<TFrom, TTo>(DependencyLifetime.Transient);
+        }
+
+        public IDependencyRegistrar Type<TFrom, TTo>(DependencyLifetime lifetime)
             where TTo : TFrom
         {
             var lifetimeManager = CreateLifetimeManager(lifetime);

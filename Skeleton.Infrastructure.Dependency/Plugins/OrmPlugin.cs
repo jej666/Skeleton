@@ -1,6 +1,6 @@
-﻿using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction.Dependency;
 using Skeleton.Abstraction.Orm;
-using Skeleton.Abstraction.Dependency;
+using Skeleton.Common;
 using Skeleton.Infrastructure.Orm;
 
 namespace Skeleton.Infrastructure.Dependency.Plugins
@@ -9,6 +9,8 @@ namespace Skeleton.Infrastructure.Dependency.Plugins
     {
         public void Configure(IDependencyContainer container)
         {
+            container.ThrowIfNull(nameof(container));
+
             container.Register
                 .Type(typeof(IEntityReader<>), typeof(EntityReader<>), DependencyLifetime.Scoped)
                 .Type(typeof(IEntityWriter<>), typeof(EntityWriter<>), DependencyLifetime.Scoped)

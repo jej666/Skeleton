@@ -1,5 +1,4 @@
-﻿using Skeleton.Abstraction;
-using Skeleton.Abstraction.Dependency;
+﻿using Skeleton.Abstraction.Dependency;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Tests.Common;
 using System.Collections.Generic;

@@ -26,7 +26,7 @@ namespace Skeleton.Infrastructure.Data
         {
             _currentRetry = 0;
 
-            for(;;)
+            for (;;)
             {
                 try
                 {
@@ -55,8 +55,8 @@ namespace Skeleton.Infrastructure.Data
         {
             _currentRetry = 0;
 
-            for(;;)
-            { 
+            for (;;)
+            {
                 try
                 {
                     return await func();

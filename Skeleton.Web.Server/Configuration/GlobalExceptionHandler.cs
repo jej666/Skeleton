@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Skeleton.Common;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace Skeleton.Web.Server.Configuration
 
         public virtual void HandleCore(ExceptionHandlerContext context)
         {
+            context.ThrowIfNull(nameof(context));
+
             var content = Constants.DefaultErrorMessage;
 #if DEBUG
             content = context.Exception.Message;
@@ -45,6 +48,8 @@ namespace Skeleton.Web.Server.Configuration
 
         public virtual bool ShouldHandle(ExceptionHandlerContext context)
         {
+            context.ThrowIfNull(nameof(context));
+
             return context.ExceptionContext.CatchBlock.IsTopLevel;
         }
 
