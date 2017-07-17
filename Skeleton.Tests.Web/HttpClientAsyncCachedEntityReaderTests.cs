@@ -9,8 +9,9 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientAsyncCachedEntityReaderTests
     {
-        private readonly static AsyncCrudHttpClient<CustomerDto> Client =
-            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCachedCustomersUriBuilder);
+        private readonly AsyncCrudHttpClient<CustomerDto> Client =
+            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCachedCustomersUriBuilder,
+            new AutomaticDecompressionHandler());
 
         [Test]
         public async Task AsyncCachedEntityReader_GetAllAsync()

@@ -11,8 +11,9 @@ namespace Skeleton.Tests.Web
         private const int pageSize = 50;
         private const int numberOfPages = 5;
 
-        private static readonly CrudHttpClient<CustomerDto> Client =
-            new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
+        private readonly CrudHttpClient<CustomerDto> Client =
+            new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder,
+            new AutomaticDecompressionHandler());
 
         [Test]
         public void EntityReader_GetAll()

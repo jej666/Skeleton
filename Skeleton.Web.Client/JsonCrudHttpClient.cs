@@ -8,23 +8,8 @@ namespace Skeleton.Web.Client
     public class CrudHttpClient<TDto> :
         JsonHttpClient where TDto : class
     {
-        public CrudHttpClient(string host, string path)
-            : this(host, path, Constants.DefaultHttpPort)
-        {
-        }
-
-        public CrudHttpClient(string host, string path, int port)
-            : base(new RestUriBuilder(host, path, port))
-        {
-        }
-
-        public CrudHttpClient(UriBuilder uriBuilder)
-            : base(new RestUriBuilder(uriBuilder))
-        {
-        }
-
-        public CrudHttpClient(IRestUriBuilder uriBuilder)
-            : base(uriBuilder)
+        public CrudHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
+            : base(uriBuilder, handler)
         {
         }
 

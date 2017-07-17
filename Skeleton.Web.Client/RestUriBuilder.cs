@@ -9,7 +9,7 @@ namespace Skeleton.Web.Client
     {
         private readonly string _initialPath;
 
-        public RestUriBuilder(string host, string path, int port)
+        public RestUriBuilder(string host, int port, string path)
         {
             Host = host;
             Port = port;
@@ -17,13 +17,8 @@ namespace Skeleton.Web.Client
             _initialPath = Path;
         }
 
-        public RestUriBuilder(string host, string path)
-            : this(host, path, 80)
-        {
-        }
-
         public RestUriBuilder(UriBuilder builder)
-            : this(builder.Host, builder.Path, builder.Port)
+            : this(builder.Host, builder.Port, builder.Path)
         {
         }
 

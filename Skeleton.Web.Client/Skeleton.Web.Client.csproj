@@ -58,11 +58,13 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AutoCompressionHandler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CustomHttpException.cs" />
     <Compile Include="ExponentialRetryPolicy.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpResponseMessageExtensions.cs" />
+    <Compile Include="JsonObjectContent.cs" />
     <Compile Include="JsonHttpClient.cs" />
     <Compile Include="JsonCrudHttpClient.cs" />
     <Compile Include="AsyncJsonCrudHttpClient.cs" />

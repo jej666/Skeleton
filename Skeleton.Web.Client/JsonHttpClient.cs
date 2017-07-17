@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,27 +11,37 @@ namespace Skeleton.Web.Client
     public class JsonHttpClient : IDisposable
     {
         private static int Version = Assembly.GetAssembly(typeof(JsonHttpClient)).GetName().Version.Major;
+        private static Lazy<HttpClient> HttpClient;
+
         private readonly ExponentialRetryPolicy _retryPolicy = new ExponentialRetryPolicy();
         private readonly IRestUriBuilder _uriBuilder;
-        private HttpClient _httpClient;
+        private readonly HttpClientHandler _handler;
         private bool _disposed;
-
-        public JsonHttpClient(IRestUriBuilder uriBuilder)
+      
+        public JsonHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
 
+            if (handler == null)
+                throw new ArgumentNullException(nameof(handler));
+
             _uriBuilder = uriBuilder;
-            CreateHttpClient();
+            _handler = handler as HttpClientHandler;
+
+            HttpClient = new Lazy<HttpClient>(
+                () => new HttpClient(_handler));
         }
 
         public IRestUriBuilder UriBuilder => _uriBuilder;
+
+        protected HttpClient Client => HttpClient.Value;
 
         public HttpResponseMessage Get(Uri requestUri)
         {
             return _retryPolicy.Execute(() =>
             {
-                var response = _httpClient
+                var response = Client
                     .GetAsync(requestUri)
                     .Result;
 
@@ -47,7 +55,7 @@ namespace Skeleton.Web.Client
         {
             return await _retryPolicy.ExecuteAsync(async () =>
            {
-               var response = await _httpClient
+               var response = await Client
                     .GetAsync(requestUri)
                     .ConfigureAwait(false);
 
@@ -61,7 +69,7 @@ namespace Skeleton.Web.Client
         {
             return _retryPolicy.Execute(() =>
             {
-                var response = _httpClient
+                var response = Client
                     .DeleteAsync(requestUri)
                     .Result;
 
@@ -75,7 +83,7 @@ namespace Skeleton.Web.Client
         {
             return await _retryPolicy.ExecuteAsync(async () =>
             {
-                var response = await _httpClient
+                var response = await Client
                     .DeleteAsync(requestUri)
                     .ConfigureAwait(false);
 
@@ -89,8 +97,8 @@ namespace Skeleton.Web.Client
         {
             return _retryPolicy.Execute(() =>
             {
-                var content = CreateJsonObjectContent(dto);
-                var response = _httpClient
+                var content =  new JsonObjectContent(dto);
+                var response = Client
                     .PutAsync(requestUri, content)
                     .Result;
 
@@ -104,8 +112,8 @@ namespace Skeleton.Web.Client
         {
             return await _retryPolicy.ExecuteAsync(async () =>
             {
-                var content = CreateJsonObjectContent(dto);
-                var response = await _httpClient
+                var content = new JsonObjectContent(dto);
+                var response = await Client
                     .PutAsync(requestUri, content)
                     .ConfigureAwait(false);
 
@@ -119,8 +127,8 @@ namespace Skeleton.Web.Client
         {
             return _retryPolicy.Execute(() =>
             {
-                var content = CreateJsonObjectContent(dto);
-                var response = _httpClient
+                var content = new JsonObjectContent(dto);
+                var response = Client
                     .PostAsync(requestUri, content)
                     .Result;
 
@@ -134,8 +142,8 @@ namespace Skeleton.Web.Client
         {
             return _retryPolicy.Execute(() =>
             {
-                var content = CreateJsonObjectContent(dtos);
-                var response = _httpClient
+                var content = new JsonObjectContent(dtos);
+                var response = Client
                     .PostAsync(requestUri, content)
                     .Result;
                 response.HandleException();
@@ -148,8 +156,8 @@ namespace Skeleton.Web.Client
         {
             return await _retryPolicy.ExecuteAsync(async () =>
            {
-               var content = CreateJsonObjectContent(dto);
-               var response = await _httpClient
+               var content = new JsonObjectContent(dto);
+               var response = await Client
                    .PostAsync(requestUri, content)
                    .ConfigureAwait(false);
 
@@ -163,10 +171,11 @@ namespace Skeleton.Web.Client
         {
             return await _retryPolicy.ExecuteAsync(async () =>
             {
-                var content = CreateJsonObjectContent(dtos);
-                var response = await _httpClient
+                var content = new JsonObjectContent(dtos);
+                var response = await Client
                     .PostAsync(requestUri, content)
                     .ConfigureAwait(false);
+
                 response.HandleException();
 
                 return response;
@@ -179,29 +188,17 @@ namespace Skeleton.Web.Client
             GC.SuppressFinalize(this);
         }
 
-        private void CreateHttpClient()
-        {
-            var handler = GetCompressionHandler();
-            _httpClient = new HttpClient(handler);
-            SetDefaultRequestHeaders();
-        }
-
-        private static HttpClientHandler GetCompressionHandler()
-        {
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
-                handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-
-            return handler;
-        }
-
         private void SetDefaultRequestHeaders()
         {
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(Constants.JsonMediaType));
-            _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
-            _httpClient.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
-            _httpClient.DefaultRequestHeaders.UserAgent.Add(GetUserAgent());
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(Constants.JsonMediaType));
+            Client.DefaultRequestHeaders.UserAgent.Add(GetUserAgent());
+
+            if (_handler.SupportsAutomaticDecompression)
+            {
+                Client.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("gzip"));
+                Client.DefaultRequestHeaders.AcceptEncoding.Add(StringWithQualityHeaderValue.Parse("defalte"));
+            }
         }
 
         private static ProductInfoHeaderValue GetUserAgent()
@@ -211,29 +208,12 @@ namespace Skeleton.Web.Client
                     string.Format(CultureInfo.InvariantCulture, Constants.ProductHeader, Version)));
         }
 
-        private static ObjectContent CreateJsonObjectContent<TDto>(TDto dto) where TDto : class
-        {
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
-
-            return new ObjectContent<TDto>(dto, new JsonMediaTypeFormatter());
-        }
-
-        private static ObjectContent CreateJsonObjectContent<TDto>(IEnumerable<TDto> dtos) where TDto : class
-        {
-            if (dtos == null)
-                throw new ArgumentNullException(nameof(dtos));
-
-            return new ObjectContent<IEnumerable<TDto>>(dtos, new JsonMediaTypeFormatter());
-        }
-
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed || !disposing)
                 return;
 
-            if (_httpClient != null)
-                _httpClient.Dispose();
+            Client?.Dispose();
 
             _disposed = true;
         }

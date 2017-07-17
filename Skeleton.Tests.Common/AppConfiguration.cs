@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skeleton.Web.Client;
+using System;
 
 namespace Skeleton.Tests.Common
 {
@@ -17,10 +18,10 @@ namespace Skeleton.Tests.Common
 
         public static string Host => "localhost";
         public static int Port => 8081;
-        public static UriBuilder CustomersUriBuilder => new UriBuilder("http", Host, Port, CustomersPath);
-        public static UriBuilder CachedCustomersUriBuilder => new UriBuilder("http", Host, Port, CachedCustomersPath);
-        public static UriBuilder AsyncCustomersUriBuilder => new UriBuilder("http", Host, Port, AsyncCustomersPath);
-        public static UriBuilder AsyncCachedCustomersUriBuilder => new UriBuilder("http", Host, Port, AsyncCachedCustomersPath);
+        public static IRestUriBuilder CustomersUriBuilder => new RestUriBuilder(Host, Port, CustomersPath);
+        public static IRestUriBuilder CachedCustomersUriBuilder => new RestUriBuilder(Host, Port, CachedCustomersPath);
+        public static IRestUriBuilder AsyncCustomersUriBuilder => new RestUriBuilder(Host, Port, AsyncCustomersPath);
+        public static IRestUriBuilder AsyncCachedCustomersUriBuilder => new RestUriBuilder(Host, Port, AsyncCachedCustomersPath);
         public static Uri BaseUrl => new UriBuilder("http", Host, Port).Uri;
     }
 }

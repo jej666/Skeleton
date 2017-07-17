@@ -9,23 +9,8 @@ namespace Skeleton.Web.Client
     public class AsyncCrudHttpClient<TDto> :
         JsonHttpClient where TDto : class
     {
-        public AsyncCrudHttpClient(string host, string path)
-            : this(host, path, Constants.DefaultHttpPort)
-        {
-        }
-
-        public AsyncCrudHttpClient(string host, string path, int port)
-            : base(new RestUriBuilder(host, path, port))
-        {
-        }
-
-        public AsyncCrudHttpClient(UriBuilder uriBuilder)
-            : base(new RestUriBuilder(uriBuilder))
-        {
-        }
-
-        public AsyncCrudHttpClient(IRestUriBuilder uriBuilder)
-            : base(uriBuilder)
+        public AsyncCrudHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
+            : base(uriBuilder, handler)
         {
         }
 

@@ -7,9 +7,10 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientLoggerTests
     {
-        private readonly static JsonHttpClient Client =
+        private readonly JsonHttpClient Client =
            new JsonHttpClient(
-               new RestUriBuilder(AppConfiguration.Host, "api/log", AppConfiguration.Port));
+               new RestUriBuilder(AppConfiguration.Host,AppConfiguration.Port, "api/log"),
+               new AutomaticDecompressionHandler());
 
         [Test]
         public void Logger_LogInfo()

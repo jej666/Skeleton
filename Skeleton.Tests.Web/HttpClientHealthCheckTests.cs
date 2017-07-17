@@ -7,9 +7,10 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientHealthCheckTests
     {
-        private readonly static JsonHttpClient Client =
+        private readonly JsonHttpClient Client =
            new JsonHttpClient(
-               new RestUriBuilder(AppConfiguration.Host, "api/HealthCheck", AppConfiguration.Port));
+               new RestUriBuilder(AppConfiguration.Host, AppConfiguration.Port, "api/HealthCheck"),
+               new AutomaticDecompressionHandler());
 
         [Test]
         public void HeartBeat()

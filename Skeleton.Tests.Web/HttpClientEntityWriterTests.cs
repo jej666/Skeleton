@@ -8,8 +8,9 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientEntityWriterTests
     {
-        private readonly static CrudHttpClient<CustomerDto> Client =
-            new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
+        private readonly CrudHttpClient<CustomerDto> Client =
+            new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder,
+            new AutomaticDecompressionHandler());
 
         [Test]
         public void EntityWriter_Update()
