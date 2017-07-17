@@ -8,7 +8,7 @@ namespace Skeleton.Documentation.Performance
 {
     public class OrmPerformance
     {
-        public readonly IDependencyResolver _resolver;
+        private readonly IDependencyResolver _resolver;
 
         public OrmPerformance(IDependencyResolver resolver)
         {

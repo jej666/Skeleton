@@ -29,7 +29,8 @@ namespace Skeleton.Infrastructure.Data
 
                 var dbCommand = CreateTextCommand(command) as DbCommand;
 
-                return await dbCommand.ExecuteNonQueryAsync()
+                return await dbCommand
+                    .ExecuteNonQueryAsync()
                     .ConfigureAwait(false);
             });
         }

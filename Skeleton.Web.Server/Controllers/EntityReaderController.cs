@@ -48,8 +48,8 @@ namespace Skeleton.Web.Server.Controllers
             return HandleException(() =>
             {
                 var items = Reader.Query(query)
-                                 .Select(Mapper.Map)
-                                 .ToList();
+                                  .Select(Mapper.Map)
+                                  .ToList();
                 var result = Request.EnrichQueryResult(items, query);
 
                 return Ok(result);

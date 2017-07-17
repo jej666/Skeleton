@@ -105,7 +105,7 @@ namespace Skeleton.Documentation.Performance
 
         private static void Iterate(Action<int> action)
         {
-            for (var i = 0; i <= Iterations; ++i)
+            for (var i = 0; i < Iterations; ++i)
             {
                 action(i);
             }
