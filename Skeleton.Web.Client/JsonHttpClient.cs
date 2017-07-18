@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -11,13 +10,18 @@ namespace Skeleton.Web.Client
     public class JsonHttpClient : IDisposable
     {
         private static int Version = Assembly.GetAssembly(typeof(JsonHttpClient)).GetName().Version.Major;
-        private static Lazy<HttpClient> HttpClient;
+        private static Lazy<HttpClient> InnerClient;
 
         private readonly ExponentialRetryPolicy _retryPolicy = new ExponentialRetryPolicy();
         private readonly IRestUriBuilder _uriBuilder;
         private readonly HttpClientHandler _handler;
         private bool _disposed;
-      
+
+        public JsonHttpClient(IRestUriBuilder uriBuilder)
+            : this(uriBuilder, new AutomaticDecompressionHandler())
+        {
+        }
+
         public JsonHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
         {
             if (uriBuilder == null)
@@ -27,159 +31,108 @@ namespace Skeleton.Web.Client
                 throw new ArgumentNullException(nameof(handler));
 
             _uriBuilder = uriBuilder;
-            _handler = handler as HttpClientHandler;
+            _handler = handler;
 
-            HttpClient = new Lazy<HttpClient>(
+            InnerClient = new Lazy<HttpClient>(
                 () => new HttpClient(_handler));
         }
 
         public IRestUriBuilder UriBuilder => _uriBuilder;
 
-        protected HttpClient Client => HttpClient.Value;
+        public AuthenticationHeaderValue Authentication { get; set; }
 
-        public HttpResponseMessage Get(Uri requestUri)
+        public HttpClient Client => InnerClient.Value;
+
+        public HttpResponseMessage Send(HttpRequestMessage request)
         {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            CheckDisposed();
+            SetAuthentication(request);
+
             return _retryPolicy.Execute(() =>
             {
                 var response = Client
-                    .GetAsync(requestUri)
+                    .SendAsync(request)
                     .Result;
 
                 response.HandleException();
 
                 return response;
             });
+        }
+
+        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            CheckDisposed();
+            SetAuthentication(request);
+
+            return await _retryPolicy.Execute(async () =>
+            {
+                var response = await Client
+                    .SendAsync(request)
+                    .ConfigureAwait(false);
+
+                response.HandleException();
+
+                return response;
+            });
+        }
+
+        public HttpResponseMessage Get(Uri requestUri)
+        {
+            return Send(new HttpRequestMessage(HttpMethod.Get, requestUri));
         }
 
         public async Task<HttpResponseMessage> GetAsync(Uri requestUri)
         {
-            return await _retryPolicy.ExecuteAsync(async () =>
-           {
-               var response = await Client
-                    .GetAsync(requestUri)
-                    .ConfigureAwait(false);
-
-               response.HandleException();
-
-               return response;
-           });
+            return await SendAsync(new HttpRequestMessage(HttpMethod.Get, requestUri));
         }
 
         public HttpResponseMessage Delete(Uri requestUri)
         {
-            return _retryPolicy.Execute(() =>
-            {
-                var response = Client
-                    .DeleteAsync(requestUri)
-                    .Result;
-
-                response.HandleException();
-
-                return response;
-            });
+            return Send(new HttpRequestMessage(HttpMethod.Delete, requestUri));
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
         {
-            return await _retryPolicy.ExecuteAsync(async () =>
-            {
-                var response = await Client
-                    .DeleteAsync(requestUri)
-                    .ConfigureAwait(false);
-
-                response.HandleException();
-
-                return response;
-            });
+            return await SendAsync(new HttpRequestMessage(HttpMethod.Delete, requestUri));
         }
 
-        public HttpResponseMessage Put<TDto>(Uri requestUri, TDto dto) where TDto : class
+        public HttpResponseMessage Put<T>(Uri requestUri, T value)
         {
-            return _retryPolicy.Execute(() =>
-            {
-                var content =  new JsonObjectContent(dto);
-                var response = Client
-                    .PutAsync(requestUri, content)
-                    .Result;
+            var content = new JsonObjectContent(value);
+            var request = new HttpRequestMessage(HttpMethod.Put, requestUri) { Content = content };
 
-                response.HandleException();
-
-                return response;
-            });
+            return Send(request);
         }
 
-        public async Task<HttpResponseMessage> PutAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
+        public async Task<HttpResponseMessage> PutAsync<T>(Uri requestUri, T value)
         {
-            return await _retryPolicy.ExecuteAsync(async () =>
-            {
-                var content = new JsonObjectContent(dto);
-                var response = await Client
-                    .PutAsync(requestUri, content)
-                    .ConfigureAwait(false);
+            var content = new JsonObjectContent(value);
+            var request = new HttpRequestMessage(HttpMethod.Put, requestUri) { Content = content };
 
-                response.HandleException();
-
-                return response;
-            });
+            return await SendAsync(request);
         }
 
-        public HttpResponseMessage Post<TDto>(Uri requestUri, TDto dto) where TDto : class
+        public HttpResponseMessage Post<T>(Uri requestUri, T value)
         {
-            return _retryPolicy.Execute(() =>
-            {
-                var content = new JsonObjectContent(dto);
-                var response = Client
-                    .PostAsync(requestUri, content)
-                    .Result;
+            var content = new JsonObjectContent(value);
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri) { Content = content };
 
-                response.HandleException();
-
-                return response;
-            });
+            return Send(request);
         }
 
-        public HttpResponseMessage Post<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
+        public async Task<HttpResponseMessage> PostAsync<T>(Uri requestUri, T value)
         {
-            return _retryPolicy.Execute(() =>
-            {
-                var content = new JsonObjectContent(dtos);
-                var response = Client
-                    .PostAsync(requestUri, content)
-                    .Result;
-                response.HandleException();
+            var content = new JsonObjectContent(value);
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri) { Content = content };
 
-                return response;
-            });
-        }
-
-        public async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, TDto dto) where TDto : class
-        {
-            return await _retryPolicy.ExecuteAsync(async () =>
-           {
-               var content = new JsonObjectContent(dto);
-               var response = await Client
-                   .PostAsync(requestUri, content)
-                   .ConfigureAwait(false);
-
-               response.HandleException();
-
-               return response;
-           });
-        }
-
-        public async Task<HttpResponseMessage> PostAsync<TDto>(Uri requestUri, IEnumerable<TDto> dtos) where TDto : class
-        {
-            return await _retryPolicy.ExecuteAsync(async () =>
-            {
-                var content = new JsonObjectContent(dtos);
-                var response = await Client
-                    .PostAsync(requestUri, content)
-                    .ConfigureAwait(false);
-
-                response.HandleException();
-
-                return response;
-            });
+            return await SendAsync(request);
         }
 
         public void Dispose()
@@ -208,6 +161,20 @@ namespace Skeleton.Web.Client
                     string.Format(CultureInfo.InvariantCulture, Constants.ProductHeader, Version)));
         }
 
+        private void SetAuthentication(HttpRequestMessage request)
+        {
+            if (Authentication != null)
+                request.Headers.Authorization = Authentication;
+        }
+
+        private void CheckDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+        }
+        
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed || !disposing)

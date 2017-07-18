@@ -10,8 +10,7 @@ namespace Skeleton.Tests.Web
     public class HttpClientAsyncCachedEntityReaderTests
     {
         private readonly AsyncCrudHttpClient<CustomerDto> Client =
-            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCachedCustomersUriBuilder,
-            new AutomaticDecompressionHandler());
+            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCachedCustomersUriBuilder);
 
         [Test]
         public async Task AsyncCachedEntityReader_GetAllAsync()

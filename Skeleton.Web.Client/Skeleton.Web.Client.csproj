@@ -58,7 +58,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AutoCompressionHandler.cs" />
+    <Compile Include="AutomaticDecompressionHandler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CustomHttpException.cs" />
     <Compile Include="ExponentialRetryPolicy.cs" />

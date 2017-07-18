@@ -9,8 +9,7 @@ namespace Skeleton.Tests.Web
     public class HttpClientCachedEntityReaderTests
     {
         private readonly CrudHttpClient<CustomerDto> Client =
-            new CrudHttpClient<CustomerDto>(AppConfiguration.CachedCustomersUriBuilder, 
-            new AutomaticDecompressionHandler());
+            new CrudHttpClient<CustomerDto>(AppConfiguration.CachedCustomersUriBuilder);
 
         [Test]
         public void CachedEntityReader_GetAll()

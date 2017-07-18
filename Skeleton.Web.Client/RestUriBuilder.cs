@@ -55,10 +55,6 @@ namespace Skeleton.Web.Client
                     Path += ActionConstants.BatchCreate;
                     break;
 
-                case RestAction.Page:
-                    Path += ActionConstants.Page;
-                    break;
-
                 case RestAction.Update:
                     Path += ActionConstants.Update;
                     break;
@@ -155,7 +151,6 @@ namespace Skeleton.Web.Client
             internal const string FirstOrDefault = "firstordefault";
             internal const string Create = "create";
             internal const string BatchCreate = "batchcreate";
-            internal const string Page = "page";
             internal const string Update = "update";
             internal const string BatchUpdate = "batchupdate";
             internal const string Delete = "delete";

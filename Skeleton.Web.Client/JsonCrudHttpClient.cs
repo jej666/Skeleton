@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
@@ -8,6 +7,11 @@ namespace Skeleton.Web.Client
     public class CrudHttpClient<TDto> :
         JsonHttpClient where TDto : class
     {
+        public CrudHttpClient(IRestUriBuilder uriBuilder)
+           : base(uriBuilder)
+        {
+        }
+
         public CrudHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
             : base(uriBuilder, handler)
         {

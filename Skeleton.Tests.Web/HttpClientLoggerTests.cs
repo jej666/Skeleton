@@ -9,8 +9,7 @@ namespace Skeleton.Tests.Web
     {
         private readonly JsonHttpClient Client =
            new JsonHttpClient(
-               new RestUriBuilder(AppConfiguration.Host,AppConfiguration.Port, "api/log"),
-               new AutomaticDecompressionHandler());
+               new RestUriBuilder(AppConfiguration.Host,AppConfiguration.Port, "api/log"));
 
         [Test]
         public void Logger_LogInfo()

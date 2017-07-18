@@ -6,14 +6,14 @@ namespace Skeleton.Web.Client
 {
     public sealed class JsonObjectContent : StringContent 
     {
-        public JsonObjectContent(object dto)
-            : base(Serialize(dto), Encoding.UTF8, Constants.JsonMediaType)
+        public JsonObjectContent(object value)
+            : base(Serialize(value), Encoding.UTF8, Constants.JsonMediaType)
         {
         }
 
-        private static string Serialize(object dto) 
+        private static string Serialize(object value) 
         {
-            return JsonConvert.SerializeObject(dto);
+            return JsonConvert.SerializeObject(value);
         }
     }
 }

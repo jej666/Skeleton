@@ -9,6 +9,11 @@ namespace Skeleton.Web.Client
     public class AsyncCrudHttpClient<TDto> :
         JsonHttpClient where TDto : class
     {
+        public AsyncCrudHttpClient(IRestUriBuilder uriBuilder)
+            : base(uriBuilder)
+        {
+        }
+
         public AsyncCrudHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
             : base(uriBuilder, handler)
         {

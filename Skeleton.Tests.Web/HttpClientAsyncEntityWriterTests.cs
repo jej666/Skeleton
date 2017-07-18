@@ -10,8 +10,7 @@ namespace Skeleton.Tests.Web
     public class HttpClientAsyncEntityWriterTests
     {
         private readonly AsyncCrudHttpClient<CustomerDto> Client =
-            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder,
-            new AutomaticDecompressionHandler());
+            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
 
         [Test]
         public async Task AsyncEntityWriter_UpdateAsync()
