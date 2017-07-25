@@ -9,8 +9,8 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientAsyncEntityWriterTests
     {
-        private readonly AsyncCrudHttpClient<CustomerDto> Client =
-            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
+        private readonly AsyncJsonCrudHttpClient<CustomerDto> Client =
+            new AsyncJsonCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
 
         [Test]
         public async Task AsyncEntityWriter_UpdateAsync()

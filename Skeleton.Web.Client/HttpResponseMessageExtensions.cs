@@ -13,7 +13,7 @@ namespace Skeleton.Web.Client
             if (responseMessage.IsSuccessStatusCode)
                 return;
 
-            throw new CustomHttpException(responseMessage.ReasonPhrase, (int)responseMessage.StatusCode);
+            throw new HttpResponseMessageException(responseMessage);
         }
     }
 }

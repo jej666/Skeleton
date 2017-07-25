@@ -60,15 +60,17 @@
     </Compile>
     <Compile Include="AutomaticDecompressionHandler.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="CustomHttpException.cs" />
+    <Compile Include="HttpResponseMessageException.cs" />
     <Compile Include="ExponentialRetryPolicy.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpResponseMessageExtensions.cs" />
+    <Compile Include="IRetryPolicy.cs" />
     <Compile Include="JsonObjectContent.cs" />
     <Compile Include="JsonHttpClient.cs" />
     <Compile Include="JsonCrudHttpClient.cs" />
     <Compile Include="AsyncJsonCrudHttpClient.cs" />
     <Compile Include="IRestUriBuilder.cs" />
+    <Compile Include="NoRetryPolicy.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

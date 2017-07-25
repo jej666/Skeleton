@@ -40,7 +40,7 @@ namespace Skeleton.Web.Client
                 .Uri;
         }
 
-        private static Dictionary<string, object> CreateQueryParameters(Query query)
+        private static IDictionary<string, object> CreateQueryParameters(Query query)
         {
             return new Dictionary<string, object>
                   {

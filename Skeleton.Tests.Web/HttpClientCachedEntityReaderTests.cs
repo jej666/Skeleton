@@ -8,8 +8,8 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientCachedEntityReaderTests
     {
-        private readonly CrudHttpClient<CustomerDto> Client =
-            new CrudHttpClient<CustomerDto>(AppConfiguration.CachedCustomersUriBuilder);
+        private readonly JsonCrudHttpClient<CustomerDto> Client =
+            new JsonCrudHttpClient<CustomerDto>(AppConfiguration.CachedCustomersUriBuilder);
 
         [Test]
         public void CachedEntityReader_GetAll()
@@ -38,7 +38,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public void CachedEntityReader_FirstOrDefault_With_Wrong_Id()
         {
-            Assert.Catch(typeof(CustomHttpException), () => Client.FirstOrDefault(1000000));
+            Assert.Catch(typeof(HttpResponseMessageException), () => Client.FirstOrDefault(1000000));
         }
 
         [Test]

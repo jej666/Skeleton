@@ -4,18 +4,24 @@ using System.Net.Http;
 
 namespace Skeleton.Web.Client
 {
-    public class CrudHttpClient<TDto> :
+    public class JsonCrudHttpClient<TDto> :
         JsonHttpClient where TDto : class
     {
-        public CrudHttpClient(IRestUriBuilder uriBuilder)
+        public JsonCrudHttpClient(IRestUriBuilder uriBuilder)
            : base(uriBuilder)
         {
         }
 
-        public CrudHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
-            : base(uriBuilder, handler)
+        public JsonCrudHttpClient(IRestUriBuilder uriBuilder, IRetryPolicy retryPolicy)
+            : base(uriBuilder, retryPolicy)
         {
         }
+
+        public JsonCrudHttpClient(IRestUriBuilder uriBuilder, IRetryPolicy retryPolicy, HttpClientHandler handler)
+            : base(uriBuilder, retryPolicy, handler)
+        {
+        }
+
 
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public IEnumerable<TDto> GetAll()

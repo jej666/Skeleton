@@ -11,8 +11,8 @@ namespace Skeleton.Tests.Web
         private const int pageSize = 50;
         private const int numberOfPages = 5;
 
-        private readonly CrudHttpClient<CustomerDto> Client =
-            new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
+        private readonly JsonCrudHttpClient<CustomerDto> Client =
+            new JsonCrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
         [Test]
         public void EntityReader_GetAll()
@@ -41,7 +41,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_FirstOrDefault_With_Wrong_Id()
         {
-            Assert.Catch(typeof(CustomHttpException), () => Client.FirstOrDefault(100000));
+            Assert.Catch(typeof(HttpResponseMessageException), () => Client.FirstOrDefault(100000));
         }
 
         [Test]

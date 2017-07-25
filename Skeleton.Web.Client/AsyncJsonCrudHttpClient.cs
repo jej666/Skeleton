@@ -6,16 +6,21 @@ using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
-    public class AsyncCrudHttpClient<TDto> :
+    public class AsyncJsonCrudHttpClient<TDto> :
         JsonHttpClient where TDto : class
     {
-        public AsyncCrudHttpClient(IRestUriBuilder uriBuilder)
+        public AsyncJsonCrudHttpClient(IRestUriBuilder uriBuilder)
             : base(uriBuilder)
         {
         }
 
-        public AsyncCrudHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
-            : base(uriBuilder, handler)
+        public AsyncJsonCrudHttpClient(IRestUriBuilder uriBuilder, IRetryPolicy retryPolicy)
+            : base(uriBuilder, retryPolicy)
+        {
+        }
+
+        public AsyncJsonCrudHttpClient(IRestUriBuilder uriBuilder, IRetryPolicy retryPolicy, HttpClientHandler handler)
+            : base(uriBuilder, retryPolicy, handler)
         {
         }
 

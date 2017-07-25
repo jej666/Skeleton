@@ -12,17 +12,22 @@ namespace Skeleton.Web.Client
         private static int Version = Assembly.GetAssembly(typeof(JsonHttpClient)).GetName().Version.Major;
         private static Lazy<HttpClient> InnerClient;
 
-        private readonly ExponentialRetryPolicy _retryPolicy = new ExponentialRetryPolicy();
+        private readonly IRetryPolicy _retryPolicy;
         private readonly IRestUriBuilder _uriBuilder;
         private readonly HttpClientHandler _handler;
         private bool _disposed;
 
         public JsonHttpClient(IRestUriBuilder uriBuilder)
-            : this(uriBuilder, new AutomaticDecompressionHandler())
+            : this(uriBuilder, new ExponentialRetryPolicy(), new AutomaticDecompressionHandler())
         {
         }
 
-        public JsonHttpClient(IRestUriBuilder uriBuilder, HttpClientHandler handler)
+        public JsonHttpClient(IRestUriBuilder uriBuilder, IRetryPolicy retryPolicy)
+           : this(uriBuilder, retryPolicy, new AutomaticDecompressionHandler())
+        {
+        }
+
+        public JsonHttpClient(IRestUriBuilder uriBuilder, IRetryPolicy retryPolicy, HttpClientHandler handler)
         {
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
@@ -30,11 +35,17 @@ namespace Skeleton.Web.Client
             if (handler == null)
                 throw new ArgumentNullException(nameof(handler));
 
+            if (retryPolicy == null)
+                throw new ArgumentNullException(nameof(retryPolicy));
+
             _uriBuilder = uriBuilder;
             _handler = handler;
+            _retryPolicy = retryPolicy;
 
             InnerClient = new Lazy<HttpClient>(
                 () => new HttpClient(_handler));
+
+            SetDefaultRequestHeaders();
         }
 
         public IRestUriBuilder UriBuilder => _uriBuilder;
@@ -54,7 +65,7 @@ namespace Skeleton.Web.Client
             return _retryPolicy.Execute(() =>
             {
                 var response = Client
-                    .SendAsync(request)
+                    .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .Result;
 
                 response.HandleException();
@@ -74,7 +85,7 @@ namespace Skeleton.Web.Client
             return await _retryPolicy.Execute(async () =>
             {
                 var response = await Client
-                    .SendAsync(request)
+                    .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
                 response.HandleException();
@@ -170,11 +181,9 @@ namespace Skeleton.Web.Client
         private void CheckDisposed()
         {
             if (_disposed)
-            {
                 throw new ObjectDisposedException(GetType().FullName);
-            }
         }
-        
+
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed || !disposing)

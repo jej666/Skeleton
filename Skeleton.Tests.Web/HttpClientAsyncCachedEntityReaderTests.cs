@@ -9,8 +9,8 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientAsyncCachedEntityReaderTests
     {
-        private readonly AsyncCrudHttpClient<CustomerDto> Client =
-            new AsyncCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCachedCustomersUriBuilder);
+        private readonly AsyncJsonCrudHttpClient<CustomerDto> Client =
+            new AsyncJsonCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCachedCustomersUriBuilder);
 
         [Test]
         public async Task AsyncCachedEntityReader_GetAllAsync()
@@ -38,7 +38,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public void AsyncCachedEntityReader_FirstOrDefaultAsync_With_Wrong_Id()
         {
-            Assert.CatchAsync(typeof(CustomHttpException), async () => await Client.FirstOrDefaultAsync(100000));
+            Assert.CatchAsync(typeof(HttpResponseMessageException), async () => await Client.FirstOrDefaultAsync(100000));
         }
 
         [Test]

@@ -1,26 +1,64 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
 {
-    internal sealed class ExponentialRetryPolicy
+    public sealed class ExponentialRetryPolicy : IRetryPolicy
     {
         private static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(1.0);
         private static readonly TimeSpan DefaultMaxBackoff = TimeSpan.FromSeconds(30.0);
         private static readonly TimeSpan DefaultMinBackoff = TimeSpan.FromSeconds(1.0);
-        private static readonly int DefaultRetryCount = 10;
-        private static readonly bool FirstFastRetry = true;
-        private static readonly int[] httpStatusCodesWorthRetrying = { 408, 500, 502, 503, 504 };
-
-        internal T Execute<T>(Func<T> func)
+        private static readonly int DefaultRetryCount = 5;
+        private static readonly HttpStatusCode[] httpStatusCodesWorthRetrying =
         {
-            var retryCount = 0;
+            HttpStatusCode.RequestTimeout,
+            HttpStatusCode.InternalServerError,
+            HttpStatusCode.BadGateway,
+            HttpStatusCode.ServiceUnavailable,
+            HttpStatusCode.GatewayTimeout
+        };
+
+        private readonly int maxRetries;
+        private readonly TimeSpan retryInterval;
+
+        public ExponentialRetryPolicy()
+            :this (DefaultRetryCount, DefaultRetryInterval)
+        {
+        }
+
+        public ExponentialRetryPolicy(int maxRetries)
+            : this(maxRetries, DefaultRetryInterval)
+        {
+        }
+
+        public ExponentialRetryPolicy(int maxRetries, TimeSpan retryInterval)
+        {
+            this.maxRetries = maxRetries;
+            this.retryInterval = retryInterval;
+        }
+
+        public int RetryCount
+        {
+            get;
+            private set;
+        }
+
+        public TimeSpan DelayInterval
+        {
+            get;
+            private set;
+        }
+
+        public T Execute<T>(Func<T> func)
+        {
+            RetryCount = 0;
 
             for (;;)
             {
-                var exponentialInterval = CalculateExponentialBackoff(retryCount);
+                DelayInterval = CalculateExponentialBackoff();
 
                 try
                 {
@@ -29,36 +67,36 @@ namespace Skeleton.Web.Client
                 // Connection error
                 catch (HttpRequestException)
                 {
-                    ++retryCount;
+                    ++RetryCount;
 
-                    if (retryCount == DefaultRetryCount)
+                    if (RetryCount == maxRetries)
                         throw;
 
-                    Task.Delay(exponentialInterval).Wait();
+                    Task.Delay(DelayInterval).Wait();
                 }
                 // Enriched exception (statuscode)
-                catch (CustomHttpException e)
+                catch (HttpResponseMessageException e)
                 {
-                    ++retryCount;
+                    ++RetryCount;
 
-                    if (retryCount == DefaultRetryCount)
+                    if (RetryCount == maxRetries)
                         throw;
 
                     if (!httpStatusCodesWorthRetrying.Contains(e.StatusCode))
                         throw;
 
-                    Task.Delay(exponentialInterval).Wait();
+                    Task.Delay(DelayInterval).Wait();
                 }
             }
         }
 
-        internal async Task<T> ExecuteAsync<T>(Func<Task<T>> func)
+        public async Task<T> ExecuteAsync<T>(Func<Task<T>> func)
         {
-            var retryCount = 0;
+            RetryCount = 0;
 
             for (;;)
             {
-                var exponentialInterval = CalculateExponentialBackoff(retryCount);
+                DelayInterval = CalculateExponentialBackoff();
 
                 try
                 {
@@ -66,47 +104,44 @@ namespace Skeleton.Web.Client
                 }
                 catch (HttpRequestException)
                 {
-                    ++retryCount;
+                    ++RetryCount;
 
-                    if (retryCount == DefaultRetryCount)
+                    if (RetryCount == DefaultRetryCount)
                         throw;
 
-                    Task.Delay(exponentialInterval).Wait();
+                    Task.Delay(DelayInterval).Wait();
                 }
-                catch (CustomHttpException e)
+                catch (HttpResponseMessageException e)
                 {
-                    ++retryCount;
+                    ++RetryCount;
 
-                    if (retryCount == DefaultRetryCount)
+                    if (RetryCount == DefaultRetryCount)
                         throw;
 
                     if (!httpStatusCodesWorthRetrying.Contains(e.StatusCode))
                         throw;
 
-                    Task.Delay(exponentialInterval).Wait();
+                    Task.Delay(DelayInterval).Wait();
                 }
             }
         }
 
-        private static TimeSpan CalculateExponentialBackoff(int retryCount)
+        private TimeSpan CalculateExponentialBackoff()
         {
-            if (FirstFastRetry && retryCount == 0)
-                return DefaultRetryInterval;
-
             int randomInterval = GetRandomInterval();
-            var delta = (int)(Math.Pow(2.0, retryCount) * randomInterval);
+            var delta = (int)(Math.Pow(2.0, RetryCount) * randomInterval);
             var interval = (int)Math.Min(checked(DefaultMinBackoff.TotalMilliseconds + delta),
                 DefaultMaxBackoff.TotalMilliseconds);
 
             return TimeSpan.FromMilliseconds(interval);
         }
 
-        private static int GetRandomInterval()
+        private int GetRandomInterval()
         {
             var random = new Random();
             var randomInterval = random.Next(
-                (int)(DefaultRetryInterval.TotalMilliseconds * 0.8),
-                (int)(DefaultRetryInterval.TotalMilliseconds * 1.2));
+                (int)(retryInterval.TotalMilliseconds * 0.8),
+                (int)(retryInterval.TotalMilliseconds * 1.2));
 
             return randomInterval;
         }

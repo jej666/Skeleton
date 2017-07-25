@@ -8,8 +8,8 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientEntityWriterTests
     {
-        private readonly CrudHttpClient<CustomerDto> Client =
-            new CrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
+        private readonly JsonCrudHttpClient<CustomerDto> Client =
+            new JsonCrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
         [Test]
         public void EntityWriter_Update()
@@ -40,7 +40,7 @@ namespace Skeleton.Tests.Web
                 Name = "CustomerUpdated"
             };
 
-            Assert.Catch(typeof(CustomHttpException), () => Client.Update(customer));
+            Assert.Catch(typeof(HttpResponseMessageException), () => Client.Update(customer));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Skeleton.Tests.Web
             var customer = MemorySeeder.SeedCustomerDto();
             customer.CustomerId = 100000;
 
-            Assert.Catch(typeof(CustomHttpException), () => Client.Create(customer));
+            Assert.Catch(typeof(HttpResponseMessageException), () => Client.Create(customer));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityWriter_Delete_With_Wrong_Id()
         {
-            Assert.Catch(typeof(CustomHttpException), () => Client.Delete(100000));
+            Assert.Catch(typeof(HttpResponseMessageException), () => Client.Delete(100000));
         }
     }
 }
