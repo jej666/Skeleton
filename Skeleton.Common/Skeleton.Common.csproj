@@ -36,10 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Common.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -54,7 +55,6 @@
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="ExpressionExtensions.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GuardExtensions.cs" />
     <Compile Include="LazyAsync.cs" />
     <Compile Include="DisposableBase.cs" />
@@ -64,9 +64,6 @@
     <Compile Include="Query.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Common.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skeleton.Abstraction\Skeleton.Abstraction.csproj">

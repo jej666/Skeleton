@@ -27,7 +27,7 @@ namespace Skeleton.Web.Server.Controllers
         public IAsyncEntityWriter<TEntity> Writer => _writer;
 
         [HttpPut]
-        public async Task<IHttpActionResult> Update(TDto dto)
+        public virtual async Task<IHttpActionResult> Update(TDto dto)
         {
             return await HandleExceptionAsync(async () =>
             {
@@ -42,7 +42,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> BatchUpdate(IEnumerable<TDto> dtos)
+        public virtual async Task<IHttpActionResult> BatchUpdate(IEnumerable<TDto> dtos)
         {
             return await HandleExceptionAsync(async () =>
             {
@@ -57,7 +57,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Create(TDto dto)
+        public virtual async Task<IHttpActionResult> Create(TDto dto)
         {
             return await HandleExceptionAsync(async () =>
             {
@@ -77,7 +77,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> BatchCreate(IEnumerable<TDto> dtos)
+        public virtual async Task<IHttpActionResult> BatchCreate(IEnumerable<TDto> dtos)
         {
             return await HandleExceptionAsync(async () =>
             {
@@ -92,7 +92,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpDelete]
-        public async Task<IHttpActionResult> Delete(string id)
+        public virtual async Task<IHttpActionResult> Delete(string id)
         {
             return await HandleExceptionAsync(async () =>
             {
@@ -111,7 +111,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> BatchDelete(IEnumerable<TDto> dtos)
+        public virtual async Task<IHttpActionResult> BatchDelete(IEnumerable<TDto> dtos)
         {
             return await HandleExceptionAsync(async () =>
             {

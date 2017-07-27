@@ -26,7 +26,7 @@ namespace Skeleton.Web.Server.Controllers
         public IEntityWriter<TEntity> Writer => _writer;
 
         [HttpPut]
-        public IHttpActionResult Update(TDto dto)
+        public virtual IHttpActionResult Update(TDto dto)
         {
             return HandleException(() =>
             {
@@ -41,7 +41,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult BatchUpdate(IEnumerable<TDto> dtos)
+        public virtual IHttpActionResult BatchUpdate(IEnumerable<TDto> dtos)
         {
             return HandleException(() =>
             {
@@ -56,7 +56,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Create(TDto dto)
+        public virtual IHttpActionResult Create(TDto dto)
         {
             return HandleException(() =>
             {
@@ -76,7 +76,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult BatchCreate(IEnumerable<TDto> dtos)
+        public virtual IHttpActionResult BatchCreate(IEnumerable<TDto> dtos)
         {
             return HandleException(() =>
             {
@@ -91,7 +91,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpDelete]
-        public IHttpActionResult Delete(string id)
+        public virtual IHttpActionResult Delete(string id)
         {
             return HandleException(() =>
             {
@@ -110,7 +110,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult BatchDelete(IEnumerable<TDto> dtos)
+        public virtual IHttpActionResult BatchDelete(IEnumerable<TDto> dtos)
         {
             return HandleException(() =>
             {

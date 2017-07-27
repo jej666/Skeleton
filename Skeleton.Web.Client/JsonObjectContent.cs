@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Net.Http;
 using System.Text;
 
@@ -15,5 +16,7 @@ namespace Skeleton.Web.Client
         {
             return JsonConvert.SerializeObject(value);
         }
+
+       
     }
 }

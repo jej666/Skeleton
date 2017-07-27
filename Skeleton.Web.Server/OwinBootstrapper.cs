@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Dependency;
 using Skeleton.Infrastructure.Dependency;
@@ -31,8 +30,8 @@ namespace Skeleton.Web.Server
 
             var defaultSettings = new JsonSerializerSettings
             {
-                Formatting = Formatting.Indented,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                // Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.Objects
             };
 
             JsonConvert.DefaultSettings = () => { return defaultSettings; };

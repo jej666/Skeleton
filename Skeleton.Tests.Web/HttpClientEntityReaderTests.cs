@@ -8,16 +8,16 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientEntityReaderTests
     {
-        private const int pageSize = 50;
-        private const int numberOfPages = 5;
+        private const int PageSize = 50;
+        private const int NumberOfPages = 5;
 
-        private readonly JsonCrudHttpClient<CustomerDto> Client =
+        private readonly JsonCrudHttpClient<CustomerDto> client =
             new JsonCrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
 
         [Test]
         public void EntityReader_GetAll()
         {
-            var results = Client.GetAll();
+            var results = client.GetAll();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(CustomerDto), results.First());
@@ -26,13 +26,13 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_FirstOrDefault()
         {
-            var data = Client
+            var data = client
                 .Query(new Query { PageSize = 1, PageNumber = 1 })
                 .Items.FirstOrDefault();
 
             Assert.IsNotNull(data);
 
-            var result = Client.FirstOrDefault(data.CustomerId);
+            var result = client.FirstOrDefault(data.CustomerId);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(CustomerDto), result);
@@ -41,28 +41,28 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_FirstOrDefault_With_Wrong_Id()
         {
-            Assert.Catch(typeof(HttpResponseMessageException), () => Client.FirstOrDefault(100000));
+            Assert.Catch(typeof(HttpResponseMessageException), () => client.FirstOrDefault(100000));
         }
 
         [Test]
         public void EntityReader_Page()
         {
-            for (var page = 1; page < numberOfPages; ++page)
+            for (var page = 1; page < NumberOfPages; ++page)
             {
-                var response = Client.Query(new Query
+                var response = client.Query(new Query
                 {
-                    PageSize = pageSize,
+                    PageSize = PageSize,
                     PageNumber = page
                 });
 
-                Assert.IsTrue(response.Items.Count() <= pageSize);
+                Assert.IsTrue(response.Items.Count() <= PageSize);
             }
         }
 
         [Test]
         public void EntityReader_Query()
         {
-            var response = Client.Query(new Query
+            var response = client.Query(new Query
             {
                 Fields = "CustomerId,Name",
                 OrderBy = "CustomerId,-Name",

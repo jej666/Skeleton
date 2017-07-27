@@ -36,10 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Abstraction.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -110,9 +111,6 @@
     <Compile Include="Orm\IEntityReader.cs" />
     <Compile Include="Orm\IAsyncStoredProcedureExecutor.cs" />
     <Compile Include="Orm\IStoredProcedureExecutor.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Abstraction.snk" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

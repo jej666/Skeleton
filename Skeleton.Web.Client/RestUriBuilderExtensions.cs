@@ -33,6 +33,10 @@ namespace Skeleton.Web.Client
             if (uriBuilder == null)
                 throw new ArgumentNullException(nameof(uriBuilder));
 
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
+
+
             return uriBuilder
                 .StartNew()
                 .AppendAction(RestAction.Query)
@@ -40,7 +44,7 @@ namespace Skeleton.Web.Client
                 .Uri;
         }
 
-        private static IDictionary<string, object> CreateQueryParameters(Query query)
+        private static IDictionary<string, object> CreateQueryParameters(this Query query)
         {
             return new Dictionary<string, object>
                   {

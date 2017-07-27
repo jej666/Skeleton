@@ -2,12 +2,12 @@
 {
     public class Query
     {
-        public virtual string Fields { get; set; }
+        public string Fields { get; set; }
 
-        public virtual string OrderBy { get; set; }
+        public string OrderBy { get; set; }
 
-        public virtual int? PageNumber { get; set; }
+        public int? PageNumber { get; set; }
 
-        public virtual int? PageSize { get; set; }
+        public int? PageSize { get; set; }
     }
 }

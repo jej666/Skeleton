@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Globalization;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -11,6 +13,14 @@ namespace Skeleton.Web.Client
     {
         private static int Version = Assembly.GetAssembly(typeof(JsonHttpClient)).GetName().Version.Major;
         private static Lazy<HttpClient> InnerClient;
+        private static JsonMediaTypeFormatter JsonFormatter = new JsonMediaTypeFormatter
+        {
+            SerializerSettings = new JsonSerializerSettings
+            {
+               // Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.Objects
+            }
+        };
 
         private readonly IRetryPolicy _retryPolicy;
         private readonly IRestUriBuilder _uriBuilder;
@@ -65,10 +75,10 @@ namespace Skeleton.Web.Client
             return _retryPolicy.Execute(() =>
             {
                 var response = Client
-                    .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                    .SendAsync(request)
                     .Result;
 
-                response.HandleException();
+                HandleException(response);
 
                 return response;
             });
@@ -88,8 +98,8 @@ namespace Skeleton.Web.Client
                     .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                response.HandleException();
-
+                HandleException(response);
+                
                 return response;
             });
         }
@@ -132,7 +142,7 @@ namespace Skeleton.Web.Client
 
         public HttpResponseMessage Post<T>(Uri requestUri, T value)
         {
-            var content = new JsonObjectContent(value);
+            var content = new ObjectContent<T>(value, JsonFormatter);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri) { Content = content };
 
             return Send(request);
@@ -170,6 +180,17 @@ namespace Skeleton.Web.Client
             return new ProductInfoHeaderValue(
                 new ProductHeaderValue(
                     string.Format(CultureInfo.InvariantCulture, Constants.ProductHeader, Version)));
+        }
+
+        private void HandleException(HttpResponseMessage responseMessage)
+        {
+            if (responseMessage == null)
+                throw new ArgumentNullException(nameof(responseMessage));
+
+            if (responseMessage.IsSuccessStatusCode)
+                return;
+
+            throw new HttpResponseMessageException(responseMessage);
         }
 
         private void SetAuthentication(HttpRequestMessage request)
