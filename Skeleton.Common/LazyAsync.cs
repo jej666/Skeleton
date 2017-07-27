@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Skeleton.Common
+namespace Skeleton.Core
 {
     /// <summary>
     /// https://blogs.msdn.microsoft.com/pfxteam/2011/01/15/asynclazyt/

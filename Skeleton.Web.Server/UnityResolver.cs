@@ -1,5 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
-using Skeleton.Common;
+using Skeleton.Core;
 using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;

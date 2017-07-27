@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Skeleton.Abstraction.Dependency;
-using Skeleton.Common;
+using Skeleton.Core;
 using System;
 using System.Collections.Generic;
 

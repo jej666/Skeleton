@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Orm;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
 using System.Collections.Generic;
 

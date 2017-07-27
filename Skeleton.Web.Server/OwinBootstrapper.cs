@@ -28,17 +28,8 @@ namespace Skeleton.Web.Server
                             routeTemplate: Constants.DefaultRouteTemplate,
                             defaults: new { id = RouteParameter.Optional });
 
-            var defaultSettings = new JsonSerializerSettings
-            {
-                // Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Objects
-            };
-
-            JsonConvert.DefaultSettings = () => { return defaultSettings; };
-
             _configuration.Formatters.Clear();
             _configuration.Formatters.Add(new JsonMediaTypeFormatter());
-            _configuration.Formatters.JsonFormatter.SerializerSettings = defaultSettings;
         }
 
         public IOwinBootstrapper UseSwagger()
@@ -49,7 +40,6 @@ namespace Skeleton.Web.Server
                 {
                     c.SingleApiVersion("v1", "Skeleton Api")
                      .Description("Skeleton API for coding REST operations")
-                     .TermsOfService("NA")
                      .Contact(cc => cc
                             .Name("Jej666")
                             .Email("jej666@gmail.com"));

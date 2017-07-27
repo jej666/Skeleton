@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Dependency;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Infrastructure.Dependency.Configuration;
 using Skeleton.Infrastructure.Logging;
 

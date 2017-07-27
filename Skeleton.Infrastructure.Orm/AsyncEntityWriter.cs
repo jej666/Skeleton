@@ -2,7 +2,7 @@
 using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
 using System.Collections.Generic;
 using System.Threading.Tasks;

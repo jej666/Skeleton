@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Skeleton.Common
+namespace Skeleton.Core
 {
     [DebuggerStepThrough]
     public static class GuardExtensions

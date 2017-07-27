@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Core.Reflection;
 using System;
 using System.Diagnostics;

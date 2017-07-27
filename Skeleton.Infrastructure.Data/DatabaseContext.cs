@@ -2,7 +2,7 @@
 using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Dependency;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Infrastructure.Data.Mappers;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Core.Reflection;
 using Skeleton.Tests.Common;
 using System;

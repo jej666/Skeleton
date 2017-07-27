@@ -1,5 +1,5 @@
 ﻿using Skeleton.Abstraction.Domain;
-using Skeleton.Common;
+using Skeleton.Core;
 
 namespace Skeleton.Infrastructure.Orm
 {

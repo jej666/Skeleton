@@ -1,5 +1,5 @@
 ﻿using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Core.Reflection.Emitter;
 using System;
 using System.Diagnostics;

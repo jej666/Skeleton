@@ -3,7 +3,7 @@ using Skeleton.Abstraction.Data;
 using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
 using System;
 using System.Collections.Generic;

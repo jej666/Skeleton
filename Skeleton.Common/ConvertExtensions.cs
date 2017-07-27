@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Skeleton.Common
+namespace Skeleton.Core
 {
     public static class ConvertExtensions
     {

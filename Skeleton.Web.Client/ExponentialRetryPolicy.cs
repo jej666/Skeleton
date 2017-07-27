@@ -21,8 +21,8 @@ namespace Skeleton.Web.Client
             HttpStatusCode.GatewayTimeout
         };
 
-        private readonly int maxRetries;
-        private readonly TimeSpan retryInterval;
+        private readonly int _maxRetries;
+        private readonly TimeSpan _retryInterval;
 
         public ExponentialRetryPolicy()
             :this (DefaultRetryCount, DefaultRetryInterval)
@@ -36,8 +36,8 @@ namespace Skeleton.Web.Client
 
         public ExponentialRetryPolicy(int maxRetries, TimeSpan retryInterval)
         {
-            this.maxRetries = maxRetries;
-            this.retryInterval = retryInterval;
+            _maxRetries = maxRetries;
+            _retryInterval = retryInterval;
         }
 
         public int RetryCount
@@ -69,7 +69,7 @@ namespace Skeleton.Web.Client
                 {
                     ++RetryCount;
 
-                    if (RetryCount == maxRetries)
+                    if (RetryCount == _maxRetries)
                         throw;
 
                     Task.Delay(DelayInterval).Wait();
@@ -79,7 +79,7 @@ namespace Skeleton.Web.Client
                 {
                     ++RetryCount;
 
-                    if (RetryCount == maxRetries)
+                    if (RetryCount == _maxRetries)
                         throw;
 
                     if (!httpStatusCodesWorthRetrying.Contains(e.StatusCode))
@@ -140,8 +140,8 @@ namespace Skeleton.Web.Client
         {
             var random = new Random();
             var randomInterval = random.Next(
-                (int)(retryInterval.TotalMilliseconds * 0.8),
-                (int)(retryInterval.TotalMilliseconds * 1.2));
+                (int)(_retryInterval.TotalMilliseconds * 0.8),
+                (int)(_retryInterval.TotalMilliseconds * 1.2));
 
             return randomInterval;
         }

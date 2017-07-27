@@ -80,17 +80,9 @@
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Common\Skeleton.Common.csproj">
+    <ProjectReference Include="..\Skeleton.Common\Skeleton.Core.csproj">
       <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
-      <Name>Skeleton.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core.Domain\Skeleton.Core.Domain.csproj">
-      <Project>{3e857f30-96f5-4a3d-b10f-ccf89bf4d467}</Project>
-      <Name>Skeleton.Core.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Core.Reflection\Skeleton.Core.Reflection.csproj">
-      <Project>{3E91A67B-9609-4A92-8B3C-6FFF2C3941A9}</Project>
-      <Name>Skeleton.Core.Reflection</Name>
+      <Name>Skeleton.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skeleton.Infrastructure.Dependency\Skeleton.Infrastructure.Dependency.csproj">
       <Project>{97fa52f3-1d4e-4a5d-870c-03e8ca4afd58}</Project>

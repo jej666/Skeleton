@@ -1,4 +1,4 @@
-﻿using Skeleton.Common;
+﻿using Skeleton.Core;
 using Skeleton.Infrastructure.Orm.ExpressionTree;
 using System.Collections.Generic;
 using System.Linq.Expressions;

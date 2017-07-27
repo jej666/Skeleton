@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Domain;
-using Skeleton.Common;
+using Skeleton.Core;
 using System;
 using System.Linq.Expressions;
 

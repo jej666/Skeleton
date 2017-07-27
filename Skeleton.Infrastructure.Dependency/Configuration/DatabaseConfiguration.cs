@@ -1,5 +1,5 @@
 ﻿using Skeleton.Abstraction.Dependency;
-using Skeleton.Common;
+using Skeleton.Core;
 using System.Diagnostics;
 
 namespace Skeleton.Infrastructure.Dependency.Configuration

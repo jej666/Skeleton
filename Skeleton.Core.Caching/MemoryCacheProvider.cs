@@ -1,5 +1,5 @@
 ﻿using Skeleton.Abstraction;
-using Skeleton.Common;
+using Skeleton.Core;
 using System;
 using System.Runtime.Caching;
 

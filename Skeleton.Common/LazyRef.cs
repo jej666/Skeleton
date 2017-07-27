@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skeleton.Common
+namespace Skeleton.Core
 {
     public sealed class LazyRef<T> : HideObjectMethodsBase
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.ObjectBuilder2;
 using Skeleton.Abstraction;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Infrastructure.Logging;
 
 namespace Skeleton.Infrastructure.Dependency.Configuration

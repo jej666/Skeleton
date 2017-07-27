@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Skeleton.Common
+namespace Skeleton.Core
 {
     public static class DictionaryExtensions
     {

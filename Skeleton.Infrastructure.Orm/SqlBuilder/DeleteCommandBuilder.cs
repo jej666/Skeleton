@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
+using Skeleton.Core;
 
 namespace Skeleton.Infrastructure.Orm.SqlBuilder
 {

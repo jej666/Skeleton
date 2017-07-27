@@ -1,4 +1,4 @@
-﻿using Skeleton.Common;
+﻿using Skeleton.Core;
 using System;
 using System.Data;
 

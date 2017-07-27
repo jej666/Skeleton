@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Skeleton.Abstraction.Orm;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Tests.Common;
 using System.Reflection;
 using System.Threading.Tasks;

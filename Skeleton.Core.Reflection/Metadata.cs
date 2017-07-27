@@ -1,5 +1,5 @@
 ﻿using Skeleton.Abstraction.Reflection;
-using Skeleton.Common;
+using Skeleton.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

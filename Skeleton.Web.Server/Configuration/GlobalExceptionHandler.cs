@@ -1,4 +1,4 @@
-﻿using Skeleton.Common;
+﻿using Skeleton.Core;
 using System.Net;
 using System.Net.Http;
 using System.Threading;

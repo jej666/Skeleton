@@ -1,5 +1,5 @@
 ﻿using Skeleton.Abstraction.Data;
-using Skeleton.Common;
+using Skeleton.Core;
 using System.Data;
 
 namespace Skeleton.Infrastructure.Data

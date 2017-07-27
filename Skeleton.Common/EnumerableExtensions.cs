@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Skeleton.Common
+namespace Skeleton.Core
 {
     public static class EnumerableExtensions
     {

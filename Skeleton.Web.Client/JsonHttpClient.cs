@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -13,15 +12,8 @@ namespace Skeleton.Web.Client
     {
         private static int Version = Assembly.GetAssembly(typeof(JsonHttpClient)).GetName().Version.Major;
         private static Lazy<HttpClient> InnerClient;
-        private static JsonMediaTypeFormatter JsonFormatter = new JsonMediaTypeFormatter
-        {
-            SerializerSettings = new JsonSerializerSettings
-            {
-               // Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Objects
-            }
-        };
 
+        private readonly JsonMediaTypeFormatter _jsonFormatter = new JsonMediaTypeFormatter();
         private readonly IRetryPolicy _retryPolicy;
         private readonly IRestUriBuilder _uriBuilder;
         private readonly HttpClientHandler _handler;
@@ -126,7 +118,7 @@ namespace Skeleton.Web.Client
 
         public HttpResponseMessage Put<T>(Uri requestUri, T value)
         {
-            var content = new JsonObjectContent(value);
+            var content = new ObjectContent<T>(value, _jsonFormatter);
             var request = new HttpRequestMessage(HttpMethod.Put, requestUri) { Content = content };
 
             return Send(request);
@@ -134,7 +126,7 @@ namespace Skeleton.Web.Client
 
         public async Task<HttpResponseMessage> PutAsync<T>(Uri requestUri, T value)
         {
-            var content = new JsonObjectContent(value);
+            var content = new ObjectContent<T>(value, _jsonFormatter);
             var request = new HttpRequestMessage(HttpMethod.Put, requestUri) { Content = content };
 
             return await SendAsync(request);
@@ -142,7 +134,7 @@ namespace Skeleton.Web.Client
 
         public HttpResponseMessage Post<T>(Uri requestUri, T value)
         {
-            var content = new ObjectContent<T>(value, JsonFormatter);
+            var content = new ObjectContent<T>(value, _jsonFormatter);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri) { Content = content };
 
             return Send(request);
@@ -150,7 +142,7 @@ namespace Skeleton.Web.Client
 
         public async Task<HttpResponseMessage> PostAsync<T>(Uri requestUri, T value)
         {
-            var content = new JsonObjectContent(value);
+            var content = new ObjectContent<T>(value, _jsonFormatter);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri) { Content = content };
 
             return await SendAsync(request);

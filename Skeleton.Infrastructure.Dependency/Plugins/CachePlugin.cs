@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Dependency;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Core.Caching;
 
 namespace Skeleton.Infrastructure.Dependency.Plugins

@@ -1,4 +1,4 @@
-﻿using Skeleton.Common;
+﻿using Skeleton.Core;
 using System.Collections.Generic;
 
 namespace Skeleton.Infrastructure.Orm.SqlBuilder

@@ -2,7 +2,7 @@
 using Owin;
 using Skeleton.Abstraction;
 using Skeleton.Abstraction.Dependency;
-using Skeleton.Common;
+using Skeleton.Core;
 using Skeleton.Infrastructure.Dependency;
 using Skeleton.Web.Server.Configuration;
 using System;

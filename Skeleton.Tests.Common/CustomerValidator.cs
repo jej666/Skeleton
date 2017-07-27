@@ -1,4 +1,4 @@
-﻿using Skeleton.Common;
+﻿using Skeleton.Core;
 using Skeleton.Core.Domain;
 
 namespace Skeleton.Tests.Common

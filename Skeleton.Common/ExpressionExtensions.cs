@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Skeleton.Common
+namespace Skeleton.Core
 {
     public static class ExpressionExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using Skeleton.Abstraction;
 
-namespace Skeleton.Common
+namespace Skeleton.Core
 {
     public class Query : IQuery
     {

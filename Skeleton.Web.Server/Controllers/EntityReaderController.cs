@@ -1,7 +1,7 @@
 ﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Domain;
 using Skeleton.Abstraction.Orm;
-using Skeleton.Common;
+using Skeleton.Core;
 using System.Linq;
 using System.Web.Http;
 
