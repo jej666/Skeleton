@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Abstraction", "Skeleton.Abstraction\Skeleton.Abstraction.csproj", "{F848F91F-11C7-4E9B-9701-110A467A0853}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core", "Skeleton.Common\Skeleton.Core.csproj", "{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Core", "Skeleton.Core\Skeleton.Core.csproj", "{AFB0B1CD-FC99-40EB-A0EF-2460451C8E67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skeleton.Tests.Core", "Skeleton.Tests.Core\Skeleton.Tests.Core.csproj", "{F0F985CF-A6EF-40DB-A332-2A7F2BBFBC47}"
 EndProject

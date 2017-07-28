@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Skeleton.Abstraction
+﻿namespace Skeleton.Abstraction
 {
     public interface IQuery
     {

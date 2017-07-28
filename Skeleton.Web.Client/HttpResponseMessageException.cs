@@ -15,14 +15,14 @@ namespace Skeleton.Web.Client
         {
         }
 
-        public HttpResponseMessageException(HttpResponseMessage response) 
+        public HttpResponseMessageException(HttpResponseMessage response)
             : base(response.ReasonPhrase)
         {
             Response = response;
             StatusCode = response.StatusCode;
         }
 
-        protected HttpResponseMessageException(SerializationInfo info, StreamingContext context) 
+        protected HttpResponseMessageException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

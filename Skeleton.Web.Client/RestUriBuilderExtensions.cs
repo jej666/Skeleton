@@ -36,7 +36,6 @@ namespace Skeleton.Web.Client
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-
             return uriBuilder
                 .StartNew()
                 .AppendAction(RestAction.Query)

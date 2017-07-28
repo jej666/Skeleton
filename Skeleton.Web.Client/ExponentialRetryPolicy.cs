@@ -12,6 +12,7 @@ namespace Skeleton.Web.Client
         private static readonly TimeSpan DefaultMaxBackoff = TimeSpan.FromSeconds(30.0);
         private static readonly TimeSpan DefaultMinBackoff = TimeSpan.FromSeconds(1.0);
         private static readonly int DefaultRetryCount = 5;
+
         private static readonly HttpStatusCode[] httpStatusCodesWorthRetrying =
         {
             HttpStatusCode.RequestTimeout,
@@ -25,7 +26,7 @@ namespace Skeleton.Web.Client
         private readonly TimeSpan _retryInterval;
 
         public ExponentialRetryPolicy()
-            :this (DefaultRetryCount, DefaultRetryInterval)
+            : this(DefaultRetryCount, DefaultRetryInterval)
         {
         }
 

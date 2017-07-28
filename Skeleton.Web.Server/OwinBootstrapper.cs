@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Skeleton.Abstraction;
+﻿using Skeleton.Abstraction;
 using Skeleton.Abstraction.Dependency;
 using Skeleton.Infrastructure.Dependency;
 using Skeleton.Web.Server.Configuration;
@@ -43,8 +42,6 @@ namespace Skeleton.Web.Server
                      .Contact(cc => cc
                             .Name("Jej666")
                             .Email("jej666@gmail.com"));
-                    c.IgnoreObsoleteProperties();
-                    c.DescribeAllEnumsAsStrings();
                 })
                  .EnableSwaggerUi();
 

@@ -80,7 +80,7 @@
       <Project>{f848f91f-11c7-4e9b-9701-110a467a0853}</Project>
       <Name>Skeleton.Abstraction</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skeleton.Common\Skeleton.Core.csproj">
+    <ProjectReference Include="..\Skeleton.Core\Skeleton.Core.csproj">
       <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
       <Name>Skeleton.Core</Name>
     </ProjectReference>

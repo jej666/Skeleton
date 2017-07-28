@@ -3,7 +3,8 @@
     internal static class Constants
     {
         internal const string DefaultHttpRoute = "DefaultApiRoute";
-        internal const string DefaultRouteTemplate = "api/{controller}/{action}/{id}";
+        internal const string DefaultApiPath = "api";
+        internal const string DefaultRouteTemplate = DefaultApiPath + "/{controller}/{action}/{id}";
         internal const string DefaultErrorMessage = "Oops! Sorry! Something went wrong.";
         internal const string AcceptEncoding = "Accept-Encoding";
         internal const string ContentEncoding = "Content-Encoding";

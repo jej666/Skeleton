@@ -22,7 +22,6 @@ namespace Skeleton.Web.Client
         {
         }
 
-
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public IEnumerable<TDto> GetAll()
         {

@@ -14,10 +14,22 @@ namespace Skeleton.Tests.Web
         [Test]
         public void HeartBeat()
         {
-            var uri = Client.UriBuilder.StartNew().Uri;
+            var uri = Client.UriBuilder.Uri;
             var response = Client.Get(uri);
 
             Assert.IsTrue(response.IsSuccessStatusCode);
         }
+
+        [Test]
+        public void Discover_HeartBeat()
+        {
+            ClientProvider.RegisterServices(AppConfiguration.BaseUrl);
+
+            var client = ClientProvider.FindClient("healthcheck");
+            var response = client.Get(client.UriBuilder.Uri);
+
+            Assert.IsNotNull(response);
+        }
+
     }
 }

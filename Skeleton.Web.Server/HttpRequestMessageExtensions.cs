@@ -96,6 +96,16 @@ namespace Skeleton.Web.Server
             return keys.First();
         }
 
+        public static UriBuilder CreateUriBuilder(this HttpRequestMessage request)
+        {
+            if (request == null)
+                return null;
+
+            var uri = request.RequestUri;
+
+            return new UriBuilder(uri.Scheme, uri.Host, uri.Port);
+        }
+
         private static string GetNextLink(this UrlHelper urlHelper, int pageNumber, int pageSize, int totalPages)
         {
             return pageNumber < totalPages - 1

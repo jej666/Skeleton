@@ -84,7 +84,7 @@
     <Compile Include="LoggingTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skeleton.Common\Skeleton.Core.csproj">
+    <ProjectReference Include="..\Skeleton.Core\Skeleton.Core.csproj">
       <Project>{afb0b1cd-fc99-40eb-a0ef-2460451c8e67}</Project>
       <Name>Skeleton.Core</Name>
     </ProjectReference>

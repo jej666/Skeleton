@@ -91,7 +91,7 @@ namespace Skeleton.Web.Client
                     .ConfigureAwait(false);
 
                 HandleException(response);
-                
+
                 return response;
             });
         }
