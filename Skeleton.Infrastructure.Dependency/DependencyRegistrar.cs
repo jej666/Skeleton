@@ -11,7 +11,7 @@ namespace Skeleton.Infrastructure.Dependency
 
         public DependencyRegistrar(IUnityContainer unityContainer)
         {
-            unityContainer.ThrowIfNull(nameof(unityContainer));
+            unityContainer.ThrowIfNull();
 
             _unityContainer = unityContainer;
         }

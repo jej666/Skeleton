@@ -9,7 +9,7 @@ namespace Skeleton.Infrastructure.Dependency.Plugins
     {
         public void Configure(IDependencyContainer container)
         {
-            container.ThrowIfNull(nameof(container));
+            container.ThrowIfNull();
 
             container.Register
                 .Type<IDatabase, Database>(DependencyLifetime.Scoped)

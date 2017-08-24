@@ -6,8 +6,8 @@ namespace Skeleton.Web.Server.Controllers
 {
     public class AsyncCachedReadController<TEntity, TDto> :
             AsyncEntityReaderController<TEntity, TDto>
-        where TEntity : class, IEntity<TEntity>
-        where TDto : class
+        where TEntity : class, IEntity<TEntity>, new()
+        where TDto : class, new()
     {
         public AsyncCachedReadController(
             ILogger logger,

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin;
+using Skeleton.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace Skeleton.Web.Server.Configuration
 
         public async Task Invoke(IDictionary<string, object> environment)
         {
+            environment.ThrowIfNull();
+
             var context = new OwinContext(environment);
             var httpOutputStream = context.Response.Body;
             var compressor = GetCompressor(context.Request);

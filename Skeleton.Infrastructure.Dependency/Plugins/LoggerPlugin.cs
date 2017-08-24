@@ -10,7 +10,7 @@ namespace Skeleton.Infrastructure.Dependency.Plugins
     {
         public void Configure(IDependencyContainer container)
         {
-            container.ThrowIfNull(nameof(container));
+            container.ThrowIfNull();
 
             var configuration = new LoggerConfiguration();
             configuration.Configure();

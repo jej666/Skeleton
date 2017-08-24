@@ -5,7 +5,7 @@ namespace Skeleton.Abstraction.Orm
 {
     public interface ICachedEntityReader<TEntity> :
             IEntityReader<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         ICacheProvider Cache { get; }
 

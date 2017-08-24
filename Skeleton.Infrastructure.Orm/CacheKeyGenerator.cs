@@ -4,7 +4,7 @@ using Skeleton.Core;
 namespace Skeleton.Infrastructure.Orm
 {
     internal class CacheKeyGenerator<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         public CacheKeyGenerator()
         {
@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Orm
 
         internal string ForFind(string query)
         {
-            query.ThrowIfNullOrEmpty(nameof(query));
+            query.ThrowIfNullOrEmpty();
 
             return Template.Find.FormatWith(
                 Prefix,
@@ -25,7 +25,7 @@ namespace Skeleton.Infrastructure.Orm
 
         internal string ForFirstOrDefault(object id)
         {
-            id.ThrowIfNull(nameof(id));
+            id.ThrowIfNull();
 
             return Template.FirstOrDefault.FormatWith(
                 Prefix,
@@ -35,7 +35,7 @@ namespace Skeleton.Infrastructure.Orm
 
         internal string ForFirstOrDefault(string query)
         {
-            query.ThrowIfNullOrEmpty(nameof(query));
+            query.ThrowIfNullOrEmpty();
 
             return Template.FirstOrDefault.FormatWith(
                 Prefix,

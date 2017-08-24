@@ -9,8 +9,6 @@ namespace Skeleton.Web.Client
 
         TimeSpan DelayInterval { get; }
 
-        T Execute<T>(Func<T> func);
-
-        Task<T> ExecuteAsync<T>(Func<Task<T>> func);
+        Task<IRestResponse> ExecuteAsync(Func<Task<IRestResponse>> func);
     }
 }

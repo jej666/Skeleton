@@ -32,7 +32,7 @@ namespace Skeleton.Web.Server.Configuration
 
         public virtual void HandleCore(ExceptionHandlerContext context)
         {
-            context.ThrowIfNull(nameof(context));
+            context.ThrowIfNull();
 
             var content = Constants.DefaultErrorMessage;
 #if DEBUG
@@ -48,7 +48,7 @@ namespace Skeleton.Web.Server.Configuration
 
         public virtual bool ShouldHandle(ExceptionHandlerContext context)
         {
-            context.ThrowIfNull(nameof(context));
+            context.ThrowIfNull();
 
             return context.ExceptionContext.CatchBlock.IsTopLevel;
         }

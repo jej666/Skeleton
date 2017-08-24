@@ -12,7 +12,7 @@ namespace Skeleton.Web.Server
 
         public UnityResolver(IUnityContainer container)
         {
-            container.ThrowIfNull(nameof(container));
+            container.ThrowIfNull();
 
             _container = container;
         }

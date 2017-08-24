@@ -10,14 +10,14 @@ namespace Skeleton.Web.Server.Configuration
 
         public GlobalExceptionLogger(ILoggerFactory loggerFactory)
         {
-            loggerFactory.ThrowIfNull(nameof(loggerFactory));
+            loggerFactory.ThrowIfNull();
 
             _log = loggerFactory.GetLogger(this.GetType());
         }
 
         public override void Log(ExceptionLoggerContext context)
         {
-            context.ThrowIfNull(nameof(context));
+            context.ThrowIfNull();
 
             _log.Error("API internal error", context.Exception);
         }

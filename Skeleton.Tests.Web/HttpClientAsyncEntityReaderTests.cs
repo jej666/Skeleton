@@ -1,7 +1,10 @@
 ﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Client;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Web
@@ -9,53 +12,75 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientAsyncEntityReaderTests
     {
-        private readonly AsyncJsonCrudHttpClient<CustomerDto> Client =
-             new AsyncJsonCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
+        private const int PageSize = 50;
+        private const int NumberOfPages = 5;
+
+        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/asynccustomers"));
 
         [Test]
-        public async Task AsyncEntityReader_GetAllAsync()
+        public async Task EntityReader_GetAllAsync()
         {
-            var results = await Client.GetAllAsync();
+            var request = new RestRequest("getall");
+            var results = await _client.GetAsync<IEnumerable<CustomerDto>>(request);
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(CustomerDto), results.First());
         }
 
         [Test]
-        public async Task AsyncEntityReader_FirstOrDefaultAsync()
+        public async Task EntityReader_FirstOrDefaultAsync()
         {
-            var data = await Client.QueryAsync(new Query { PageSize = 1, PageNumber = 1 });
-            var firstCustomer = data.Items.FirstOrDefault();
+            var data = await _client
+                .GetAsync<QueryResult<CustomerDto>>(
+                    r => r.AddResource("query")
+                          .AddQueryParameters(new Query { PageSize = 1, PageNumber = 1 }));
 
-            Assert.IsNotNull(firstCustomer);
-
-            var result = await Client.FirstOrDefaultAsync(firstCustomer.CustomerId);
+            Assert.IsNotNull(data);
+            var customer = data.Items.FirstOrDefault();
+            var result = _client.Get<CustomerDto>(
+                r => r.AddResource("firstordefault")
+                      .AddResource(customer.CustomerId.ToString()));
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(CustomerDto), result);
         }
 
         [Test]
-        public void AsyncEntityReader_FirstOrDefault_With_Wrong_Id()
+        public async Task EntityReader_FirstOrDefaultAsync_With_Wrong_Id()
         {
-            Assert.CatchAsync(typeof(HttpResponseMessageException), async () => await Client.FirstOrDefaultAsync(100000));
+            var result = await _client.GetAsync(r => r.AddResource("firstordefault/100000"));
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
         }
 
         [Test]
-        public async Task AsyncEntityReader_PageAsync()
+        public async Task EntityReader_PageAsync()
         {
-            const int pageSize = 50;
-            const int numberOfPages = 5;
-
-            for (var page = 1; page < numberOfPages; ++page)
+            for (var page = 1; page < NumberOfPages; ++page)
             {
-                var response = await Client.QueryAsync(new Query
-                {
-                    PageSize = pageSize,
-                    PageNumber = page
-                });
-                Assert.IsTrue(response.Items.Count() <= pageSize);
+                var request = new RestRequest("query")
+                    .AddQueryParameters(new Query { PageSize = PageSize, PageNumber = page });
+                var result = await _client.GetAsync<QueryResult<CustomerDto>>(request);
+
+                Assert.IsTrue(result.Items.Count() <= PageSize);
             }
+        }
+
+        [Test]
+        public async Task EntityReader_QueryAsync()
+        {
+            var request = new RestRequest("query")
+                    .AddQueryParameters(
+                        new Query
+                        {
+                            Fields = "CustomerId,Name",
+                            OrderBy = "CustomerId,-Name",
+                            PageSize = 50,
+                            PageNumber = 1
+                        });
+
+            var response = await _client.GetAsync(request);
+
+            Assert.IsNotNull(response);
         }
     }
 }

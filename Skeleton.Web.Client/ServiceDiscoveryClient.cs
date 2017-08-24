@@ -1,30 +1,23 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Net.Http;
 
 namespace Skeleton.Web.Client
 {
     public class ServiceDiscoveryClient
     {
-        private readonly JsonHttpClient _client;
-        private readonly RestUriBuilder _uriBuilder;
+        private readonly IRestClient _client;
        
         public ServiceDiscoveryClient(Uri baseAddress)
         {
-            _uriBuilder = new RestUriBuilder(new UriBuilder(baseAddress));
-            _client = new JsonHttpClient(_uriBuilder);
+            _client = new RestClient(baseAddress);
         }
 
         public IEnumerable<ServiceRegistry> DiscoverServices()
         {
-            _uriBuilder.AppendAction("api/discover");
-            var response = _client.Get(_uriBuilder.Uri);
+            var request = new RestRequest("api/discover");
+            var response = _client.Get(request);
 
-            return response
-                .Content
-                .ReadAsAsync<IEnumerable<ServiceRegistry>>()
-                .Result;
+            return response.As<IEnumerable<ServiceRegistry>>();
         }
     }
 

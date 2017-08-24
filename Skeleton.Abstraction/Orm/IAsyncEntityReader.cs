@@ -10,22 +10,22 @@ namespace Skeleton.Abstraction.Orm
             IAsyncEntityAggregate<TEntity>,
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         IAsyncEntityReader<TEntity> GroupBy(
             Expression<Func<TEntity, object>> expression);
 
         IAsyncEntityReader<TEntity> LeftJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>;
+            where TEntity2 : class, IEntity<TEntity2>, new();
 
         IAsyncEntityReader<TEntity> RightJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>;
+            where TEntity2 : class, IEntity<TEntity2>, new();
 
         IAsyncEntityReader<TEntity> InnerJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>;
+            where TEntity2 : class, IEntity<TEntity2>, new();
 
         IAsyncEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression);
@@ -33,7 +33,6 @@ namespace Skeleton.Abstraction.Orm
         IAsyncEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression);
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Select")]
         IAsyncEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions);
 

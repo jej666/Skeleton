@@ -16,7 +16,7 @@ namespace Skeleton.Infrastructure.Dependency.Plugins
 
         public void Configure(IDependencyContainer container)
         {
-            container.ThrowIfNull(nameof(container));
+            container.ThrowIfNull();
 
             container.AddPlugins(_corePlugins);
         }

@@ -9,7 +9,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 {
     internal class SelectQueryBuilder<TEntity> :
             SqlBuilderBase<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private const string PagingTemplate = " OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY";
 

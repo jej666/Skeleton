@@ -9,7 +9,7 @@ namespace Skeleton.Core
 
         public LazyRef(Func<T> initializer)
         {
-            initializer.ThrowIfNull(nameof(initializer));
+            initializer.ThrowIfNull();
 
             _initializer = initializer;
         }

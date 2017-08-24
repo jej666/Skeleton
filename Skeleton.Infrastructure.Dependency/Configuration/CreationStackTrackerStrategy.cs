@@ -7,7 +7,7 @@ namespace Skeleton.Infrastructure.Dependency.Configuration
     {
         public override void PostBuildUp(IBuilderContext context)
         {
-            context.ThrowIfNull(nameof(context));
+            context.ThrowIfNull();
 
             var policy = context.Policies.Get<ICreationStackTrackerPolicy>(null, true);
 
@@ -19,7 +19,7 @@ namespace Skeleton.Infrastructure.Dependency.Configuration
 
         public override void PreBuildUp(IBuilderContext context)
         {
-            context.ThrowIfNull(nameof(context));
+            context.ThrowIfNull();
 
             var policy = context.Policies.Get<ICreationStackTrackerPolicy>(null, true);
 

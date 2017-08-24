@@ -1,34 +1,36 @@
 ﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Client;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace Skeleton.Tests.Web
 {
     [TestFixture]
     public class HttpClientEntityWriterTests
     {
-        private readonly JsonCrudHttpClient<CustomerDto> Client =
-            new JsonCrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
+        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/customers"));
 
         [Test]
         public void EntityWriter_Update()
         {
-            var data = Client
-                .Query(new Query { PageSize = 1, PageNumber = 1 })
-                .Items.FirstOrDefault();
+            var customer = GetPaginatedCustomers(1, 1).FirstOrDefault();
+            Assert.IsNotNull(customer);
 
-            Assert.IsNotNull(data);
-
-            var customer = new CustomerDto
+            var updatedCustomer = new CustomerDto
             {
-                CustomerId = data.CustomerId,
-                Name = "CustomerUpdated" + data.CustomerId,
-                CustomerCategoryId = data.CustomerCategoryId
+                CustomerId = customer.CustomerId,
+                Name = "CustomerUpdated" + customer.CustomerId,
+                CustomerCategoryId = customer.CustomerCategoryId
             };
-            var result = Client.Update(customer);
 
-            Assert.IsTrue(result);
+            var response = _client.Put(
+                request => request.AddResource("update")
+                                  .WithBody(updatedCustomer));
+
+            Assert.IsTrue(response.IsSuccessStatusCode);
         }
 
         [Test]
@@ -40,28 +42,33 @@ namespace Skeleton.Tests.Web
                 Name = "CustomerUpdated"
             };
 
-            Assert.Catch(typeof(HttpResponseMessageException), () => Client.Update(customer));
+            var result=  _client.Put(
+                request => request.AddResource("update")
+                                  .WithBody(customer));
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
         }
 
         [Test]
         public void EntityWriter_BatchUpdate()
         {
-            var customers = Client.Query(new Query { PageSize = 5, PageNumber = 1 });
-
+            var customers = GetPaginatedCustomers(5, 1);
             Assert.IsNotNull(customers);
 
-            foreach (var customer in customers.Items)
+            foreach (var customer in customers)
                 customer.Name = "CustomerUpdated" + customer.CustomerId;
 
-            var result = Client.Update(customers.Items);
-            Assert.IsTrue(result);
+            var result = _client.Post(
+                request => request.AddResource("batchupdate").WithBody(customers));
+            Assert.IsTrue(result.IsSuccessStatusCode);
         }
 
         [Test]
         public void EntityWriter_Create()
         {
             var customer = MemorySeeder.SeedCustomerDto();
-            var result = Client.Create(customer);
+            var result = _client.Post(
+                request => request.AddResource("create").WithBody(customer))
+                .As<CustomerDto>();
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(CustomerDto), result);
@@ -70,17 +77,19 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityWriter_Create_With_Wrong_Id()
         {
-            var customer = MemorySeeder.SeedCustomerDto();
-            customer.CustomerId = 100000;
-
-            Assert.Catch(typeof(HttpResponseMessageException), () => Client.Create(customer));
+            var customer = GetPaginatedCustomers(1, 1).FirstOrDefault();
+            var result = _client.Post(
+                request => request.AddResource("create").WithBody(customer));
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.BadRequest);
         }
 
         [Test]
         public void EntityWriter_BatchCreate()
         {
             var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
-            var results = Client.Create(customers);
+            var results = _client.Post(
+                request => request.AddResource("batchcreate").WithBody(customers))
+                .AsEnumerable<CustomerDto>();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(CustomerDto), results.First());
@@ -89,11 +98,11 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityWriter_Delete()
         {
-            var data = Client
-                .Query(new Query { PageSize = 5, PageNumber = 1 })
-                .Items.FirstOrDefault();
-
-            var result = (data != null) && Client.Delete(data.CustomerId);
+            var data = GetPaginatedCustomers(1, 1).FirstOrDefault();
+            var result = (data != null) && _client.Delete(
+                request => request.AddResource("delete")
+                                  .AddResource(data.CustomerId.ToString()))
+                    .IsSuccessStatusCode;
 
             Assert.IsTrue(result);
         }
@@ -101,18 +110,28 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityWriter_BatchDelete()
         {
-            var customers = Client.Query(new Query { PageSize = 5, PageNumber = 1 });
-
+            var customers = GetPaginatedCustomers(5, 1);
             Assert.IsNotNull(customers);
 
-            var result = Client.Delete(customers.Items);
-            Assert.IsTrue(result);
+            var result = _client.Post(
+                request => request.AddResource("batchdelete")
+                                  .WithBody(customers));
+            Assert.IsTrue(result.IsSuccessStatusCode);
         }
 
         [Test]
         public void EntityWriter_Delete_With_Wrong_Id()
         {
-            Assert.Catch(typeof(HttpResponseMessageException), () => Client.Delete(100000));
+            var result= _client.Delete(request => request.AddResource("delete/100000"));
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
+        }
+
+        private IEnumerable<CustomerDto> GetPaginatedCustomers(int pageSize, int pageNumber)
+        {
+            return _client.Get<QueryResult<CustomerDto>>(
+                    request => request.AddResource("query")
+                                      .AddQueryParameters(new Query { PageSize = pageSize, PageNumber = pageNumber }))
+                          .Items;
         }
     }
 }

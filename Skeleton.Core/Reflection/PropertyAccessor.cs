@@ -1,5 +1,4 @@
 ﻿using Skeleton.Abstraction.Reflection;
-using Skeleton.Core.Reflection.Emitter;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -15,7 +14,7 @@ namespace Skeleton.Core.Reflection
 
         public PropertyAccessor(PropertyInfo propertyInfo)
         {
-            propertyInfo.ThrowIfNull(nameof(propertyInfo));
+            propertyInfo.ThrowIfNull();
 
             _propertyInfo = propertyInfo;
             Name = propertyInfo.Name;

@@ -9,13 +9,13 @@ namespace Skeleton.Core.Domain
 {
     [DebuggerDisplay("Id = {ToString()}")]
     public abstract class EntityBase<TEntity> : IEntity<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private const int HashMultiplier = 31;
 
         protected EntityBase(Expression<Func<TEntity, object>> idExpression)
         {
-            idExpression.ThrowIfNull(nameof(idExpression));
+            idExpression.ThrowIfNull();
 
             Metadata = new MetadataProvider().GetMetadata(typeof(TEntity));
             IdAccessor = Metadata.GetProperty(idExpression);
@@ -58,7 +58,7 @@ namespace Skeleton.Core.Domain
 
         public IEntityValidationResult Validate(IEntityValidator<TEntity> validator)
         {
-            validator.ThrowIfNull(nameof(validator));
+            validator.ThrowIfNull();
 
             return new EntityValidationResult(validator.BrokenRules(this as TEntity));
         }

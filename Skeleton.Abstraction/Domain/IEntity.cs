@@ -7,7 +7,7 @@ namespace Skeleton.Abstraction.Domain
             IEntityValidatable<TEntity>,
             IEntityDescriptor,
             IEntityAuditable
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         object Id { get; }
 

@@ -21,7 +21,7 @@ namespace Skeleton.Infrastructure.Dependency
 
         public DependencyContainer(IUnityContainer unityContainer)
         {
-            unityContainer.ThrowIfNull(nameof(unityContainer));
+            unityContainer.ThrowIfNull();
 
             _unityContainer = unityContainer;
             _registrar = new DependencyRegistrar(unityContainer);
@@ -42,7 +42,7 @@ namespace Skeleton.Infrastructure.Dependency
 
         public IDependencyContainer AddPlugin(IPlugin plugin)
         {
-            plugin.ThrowIfNull(nameof(plugin));
+            plugin.ThrowIfNull();
 
             plugin.Configure(this);
             _plugins.Add(plugin);
@@ -52,7 +52,7 @@ namespace Skeleton.Infrastructure.Dependency
 
         public IDependencyContainer AddPlugins(IEnumerable<IPlugin> plugins)
         {
-            plugins.ThrowIfNull(nameof(plugins));
+            plugins.ThrowIfNull();
 
             foreach (var plugin in plugins)
                 AddPlugin(plugin);

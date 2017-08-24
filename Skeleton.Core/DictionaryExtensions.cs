@@ -10,9 +10,9 @@ namespace Skeleton.Core
             TKey key,
             Func<TValue> valueFactory)
         {
-            source.ThrowIfNull(nameof(source));
-            key.ThrowIfNull(nameof(key));
-            valueFactory.ThrowIfNull(nameof(valueFactory));
+            source.ThrowIfNull();
+            key.ThrowIfNull();
+            valueFactory.ThrowIfNull();
 
             if (source.ContainsKey(key))
                 return source[key];

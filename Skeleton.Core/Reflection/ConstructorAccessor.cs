@@ -1,5 +1,4 @@
 ﻿using Skeleton.Abstraction.Reflection;
-using Skeleton.Core.Reflection.Emitter;
 using System;
 
 namespace Skeleton.Core.Reflection
@@ -10,8 +9,8 @@ namespace Skeleton.Core.Reflection
 
         public ConstructorAccessor(Type type, Type[] paramTypes)
         {
-            type.ThrowIfNull(nameof(type));
-            paramTypes.ThrowIfNull(nameof(paramTypes));
+            type.ThrowIfNull();
+            paramTypes.ThrowIfNull();
 
             var emitter = new ConstructorEmitter(type, paramTypes);
             _constructorDelegate = emitter.CreateDelegate();

@@ -8,7 +8,7 @@ namespace Skeleton.Abstraction.Orm
     public interface IAsyncEntityWriter<in TEntity> :
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         Task<bool> AddAsync(TEntity entity);
 

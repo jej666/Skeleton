@@ -1,5 +1,4 @@
 ﻿using Skeleton.Abstraction.Reflection;
-using Skeleton.Core.Reflection.Emitter;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -14,7 +13,7 @@ namespace Skeleton.Core.Reflection
 
         public MethodAccessor(MethodInfo methodInfo)
         {
-            methodInfo.ThrowIfNull(nameof(methodInfo));
+            methodInfo.ThrowIfNull();
 
             MethodInfo = methodInfo;
             Name = methodInfo.Name;
@@ -31,8 +30,8 @@ namespace Skeleton.Core.Reflection
 
         internal static IMethodAccessor Create(Type type, string name, Type[] parameterTypes)
         {
-            type.ThrowIfNull(nameof(type));
-            name.ThrowIfNullOrEmpty(nameof(name));
+            type.ThrowIfNull();
+            name.ThrowIfNullOrEmpty();
 
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance;
 

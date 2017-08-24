@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 namespace Skeleton.Infrastructure.Orm.SqlBuilder
 {
     internal class QueryEvaluator<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly SelectQueryBuilder<TEntity> _builder;
         private readonly IQuery _query;

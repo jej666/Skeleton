@@ -11,22 +11,22 @@ namespace Skeleton.Abstraction.Orm
             IEntityAggregate<TEntity>,
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         IEntityReader<TEntity> GroupBy(
             Expression<Func<TEntity, object>> expression);
 
         IEntityReader<TEntity> LeftJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>;
+            where TEntity2 : class, IEntity<TEntity2>, new();
 
         IEntityReader<TEntity> RightJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>;
+            where TEntity2 : class, IEntity<TEntity2>, new();
 
         IEntityReader<TEntity> InnerJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>;
+            where TEntity2 : class, IEntity<TEntity2>, new();
 
         IEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression);
@@ -34,7 +34,6 @@ namespace Skeleton.Abstraction.Orm
         IEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression);
 
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Select")]
         IEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions);
 

@@ -5,8 +5,8 @@ namespace Skeleton.Abstraction.Orm
 {
     public interface IEntityMapper<TEntity, TDto> :
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity>
-        where TDto : class
+        where TEntity : class, IEntity<TEntity>, new()
+        where TDto : class, new()
     {
         TDto Map(TEntity entity);
 

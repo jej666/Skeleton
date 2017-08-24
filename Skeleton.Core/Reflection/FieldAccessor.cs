@@ -1,5 +1,4 @@
 ﻿using Skeleton.Abstraction.Reflection;
-using Skeleton.Core.Reflection.Emitter;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -15,7 +14,7 @@ namespace Skeleton.Core.Reflection
 
         public FieldAccessor(FieldInfo fieldInfo)
         {
-            fieldInfo.ThrowIfNull(nameof(fieldInfo));
+            fieldInfo.ThrowIfNull();
 
             _fieldInfo = fieldInfo;
             Name = fieldInfo.Name;

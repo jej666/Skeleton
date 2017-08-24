@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Skeleton.Web.Client
@@ -49,92 +48,38 @@ namespace Skeleton.Web.Client
 
         public TimeSpan DelayInterval
         {
-            get;
-            private set;
-        }
-
-        public T Execute<T>(Func<T> func)
-        {
-            RetryCount = 0;
-
-            for (;;)
+            get
             {
-                DelayInterval = CalculateExponentialBackoff();
+                int randomInterval = GetRandomInterval();
+                var delta = (int)(Math.Pow(2.0, RetryCount) * randomInterval);
+                var interval = (int)Math.Min(checked(DefaultMinBackoff.TotalMilliseconds + delta),
+                    DefaultMaxBackoff.TotalMilliseconds);
 
-                try
-                {
-                    return func();
-                }
-                // Connection error
-                catch (HttpRequestException)
-                {
-                    ++RetryCount;
-
-                    if (RetryCount == _maxRetries)
-                        throw;
-
-                    Task.Delay(DelayInterval).Wait();
-                }
-                // Enriched exception (statuscode)
-                catch (HttpResponseMessageException e)
-                {
-                    ++RetryCount;
-
-                    if (RetryCount == _maxRetries)
-                        throw;
-
-                    if (!httpStatusCodesWorthRetrying.Contains(e.StatusCode))
-                        throw;
-
-                    Task.Delay(DelayInterval).Wait();
-                }
+                return TimeSpan.FromMilliseconds(interval);
             }
         }
 
-        public async Task<T> ExecuteAsync<T>(Func<Task<T>> func)
+        public async Task<IRestResponse> ExecuteAsync(Func<Task<IRestResponse>> func)
         {
-            RetryCount = 0;
-
-            for (;;)
+            IRestResponse response = null;
+            for (RetryCount = 0; RetryCount <= _maxRetries; RetryCount++)
             {
-                DelayInterval = CalculateExponentialBackoff();
-
+                if (RetryCount != 0)
+                    Task.Delay(DelayInterval).Wait();
+                
                 try
                 {
-                    return await func();
+                    response = await func().ConfigureAwait(false);
                 }
-                catch (HttpRequestException)
+                catch (Exception)
                 {
-                    ++RetryCount;
-
-                    if (RetryCount == DefaultRetryCount)
-                        throw;
-
-                    Task.Delay(DelayInterval).Wait();
+                    throw;
                 }
-                catch (HttpResponseMessageException e)
-                {
-                    ++RetryCount;
 
-                    if (RetryCount == DefaultRetryCount)
-                        throw;
-
-                    if (!httpStatusCodesWorthRetrying.Contains(e.StatusCode))
-                        throw;
-
-                    Task.Delay(DelayInterval).Wait();
-                }
+                if (!httpStatusCodesWorthRetrying.Contains(response.StatusCode))
+                    break;
             }
-        }
-
-        private TimeSpan CalculateExponentialBackoff()
-        {
-            int randomInterval = GetRandomInterval();
-            var delta = (int)(Math.Pow(2.0, RetryCount) * randomInterval);
-            var interval = (int)Math.Min(checked(DefaultMinBackoff.TotalMilliseconds + delta),
-                DefaultMaxBackoff.TotalMilliseconds);
-
-            return TimeSpan.FromMilliseconds(interval);
+            return response;
         }
 
         private int GetRandomInterval()

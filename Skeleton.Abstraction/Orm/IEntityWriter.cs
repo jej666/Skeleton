@@ -7,7 +7,7 @@ namespace Skeleton.Abstraction.Orm
     public interface IEntityWriter<in TEntity> :
             IDisposable,
             IHideObjectMethods
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         bool Add(TEntity entity);
 

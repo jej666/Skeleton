@@ -116,7 +116,6 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Configuration\CachingSwaggerProvider.cs" />
     <Compile Include="Controllers\DiscoverController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Configuration\OwinCompression.cs" />

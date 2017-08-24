@@ -5,7 +5,7 @@ namespace Skeleton.Abstraction.Orm
 {
     public interface IAsyncCachedEntityReader<TEntity> :
             IAsyncEntityReader<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         IAsyncCacheProvider Cache { get; }
 

@@ -9,8 +9,8 @@ using System.Web.Http;
 namespace Skeleton.Web.Server.Controllers
 {
     public class AsyncEntityReaderController<TEntity, TDto> : ControllerBase
-        where TEntity : class, IEntity<TEntity>
-        where TDto : class
+        where TEntity : class, IEntity<TEntity>, new()
+        where TDto : class, new()
     {
         private readonly IEntityMapper<TEntity, TDto> _mapper;
         private readonly IAsyncEntityReader<TEntity> _reader;

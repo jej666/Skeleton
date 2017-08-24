@@ -14,7 +14,7 @@ namespace Skeleton.Infrastructure.Orm
     public class EntityReader<TEntity> :
             DisposableBase,
             IEntityReader<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly IDatabase _database;
 
@@ -42,7 +42,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual TEntity FirstOrDefault(object id)
         {
-            id.ThrowIfNull(nameof(id));
+            id.ThrowIfNull();
 
             Builder.QueryByPrimaryKey(e => e.Id.Equals(id));
 
@@ -63,7 +63,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEntityReader<TEntity> GroupBy(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.GroupBy(expression);
 
             return this;
@@ -71,9 +71,9 @@ namespace Skeleton.Infrastructure.Orm
 
         public IEntityReader<TEntity> LeftJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>
+            where TEntity2 : class, IEntity<TEntity2>, new()
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Join(expression, JoinType.Left);
 
             return this;
@@ -81,9 +81,9 @@ namespace Skeleton.Infrastructure.Orm
 
         public IEntityReader<TEntity> RightJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>
+            where TEntity2 : class, IEntity<TEntity2>, new()
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Join(expression, JoinType.Right);
 
             return this;
@@ -91,9 +91,9 @@ namespace Skeleton.Infrastructure.Orm
 
         public IEntityReader<TEntity> InnerJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>
+            where TEntity2 : class, IEntity<TEntity2>, new()
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Join(expression, JoinType.Inner);
 
             return this;
@@ -102,7 +102,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.OrderBy(expression);
 
             return this;
@@ -111,7 +111,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.OrderByDescending(expression);
 
             return this;
@@ -120,7 +120,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions)
         {
-            expressions.ThrowIfNull(nameof(expressions));
+            expressions.ThrowIfNull();
 
             foreach (var expression in expressions)
                 Builder.Select(expression);
@@ -131,7 +131,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEntityReader<TEntity> Distinct(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Distinct);
 
             return this;
@@ -147,7 +147,8 @@ namespace Skeleton.Infrastructure.Orm
         public IEntityReader<TEntity> Where(
             Expression<Func<TEntity, bool>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
+
             return And(expression);
         }
 
@@ -155,7 +156,7 @@ namespace Skeleton.Infrastructure.Orm
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.WhereIsIn(expression, values);
 
             return this;
@@ -165,7 +166,7 @@ namespace Skeleton.Infrastructure.Orm
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.WhereNotIn(expression, values);
 
             return this;
@@ -174,7 +175,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEnumerable<dynamic> Average(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Avg);
 
             return Aggregate();
@@ -192,7 +193,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEnumerable<dynamic> Count(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Count);
 
             return Aggregate();
@@ -201,7 +202,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEnumerable<dynamic> Max(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Max);
 
             return Aggregate();
@@ -210,7 +211,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEnumerable<dynamic> Min(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Min);
 
             return Aggregate();
@@ -219,7 +220,7 @@ namespace Skeleton.Infrastructure.Orm
         public IEnumerable<dynamic> Sum(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Sum);
 
             return Aggregate();
@@ -241,7 +242,7 @@ namespace Skeleton.Infrastructure.Orm
         private IEntityReader<TEntity> And(
             Expression<Func<TEntity, bool>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.ResolveQuery(expression);
 
             return this;

@@ -4,7 +4,9 @@ using Skeleton.Abstraction.Orm;
 using Skeleton.Abstraction.Reflection;
 using Skeleton.Core;
 using Skeleton.Infrastructure.Orm.SqlBuilder;
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Skeleton.Infrastructure.Orm
@@ -12,10 +14,11 @@ namespace Skeleton.Infrastructure.Orm
     public class AsyncEntityWriter<TEntity> :
             DisposableBase,
             IAsyncEntityWriter<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly IMetadataProvider _metadataProvider;
         private readonly IAsyncDatabase _database;
+        private const string Error = "Entity Id is {0} null. {1} is canceled";
 
         public AsyncEntityWriter(
             IMetadataProvider metadataProvider,
@@ -27,7 +30,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual async Task<bool> AddAsync(TEntity entity)
         {
-            entity.ThrowIfNull(nameof(entity));
+            entity.ThrowIfNull();
 
             return await AddCommand(entity) != null;
         }
@@ -35,7 +38,7 @@ namespace Skeleton.Infrastructure.Orm
         public virtual async Task<bool> AddAsync(IEnumerable<TEntity> entities)
         {
             var enumerable = entities.AsList();
-            enumerable.ThrowIfNullOrEmpty(nameof(enumerable));
+            enumerable.ThrowIfNullOrEmpty();
             var count = 0;
 
             using (var transaction = _database.Transaction)
@@ -56,17 +59,17 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual async Task<bool> DeleteAsync(TEntity entity)
         {
-            entity.ThrowIfNull(nameof(entity));
+            entity.ThrowIfNull();
 
             return await DeleteCommand(entity) > 0;
         }
 
         public virtual async Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
         {
-            var enumerable = entities.AsList();
-            enumerable.ThrowIfNullOrEmpty(nameof(enumerable));
             int count = 0, result = 0;
-
+            var enumerable = entities.AsList();
+            enumerable.ThrowIfNullOrEmpty();
+            
             using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
@@ -94,7 +97,7 @@ namespace Skeleton.Infrastructure.Orm
         public virtual async Task<bool> SaveAsync(IEnumerable<TEntity> entities)
         {
             var enumerable = entities.AsList();
-            enumerable.ThrowIfNullOrEmpty(nameof(enumerable));
+            enumerable.ThrowIfNullOrEmpty();
             var result = false;
 
             using (var transaction = _database.Transaction)
@@ -112,17 +115,17 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual async Task<bool> UpdateAsync(TEntity entity)
         {
-            entity.ThrowIfNull(nameof(entity));
+            entity.ThrowIfNull();
 
             return await UpdateCommand(entity) > 0;
         }
 
         public virtual async Task<bool> UpdateAsync(IEnumerable<TEntity> entities)
         {
-            var enumerable = entities.AsList();
-            enumerable.ThrowIfNullOrEmpty(nameof(enumerable));
             int count = 0, result = 0;
-
+            var enumerable = entities.AsList();
+            enumerable.ThrowIfNullOrEmpty();
+            
             using (var transaction = _database.Transaction)
             {
                 transaction.Begin();
@@ -147,6 +150,9 @@ namespace Skeleton.Infrastructure.Orm
 
         private async Task<object> AddCommand(TEntity entity)
         {
+            if (entity.Id.IsNotZeroOrEmpty())
+                throw new ArgumentException(Error.FormatWith("not", nameof(AddCommand)));
+
             var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
@@ -166,6 +172,8 @@ namespace Skeleton.Infrastructure.Orm
 
         private async Task<int> DeleteCommand(TEntity entity)
         {
+            EnsureEntityIdExists(entity);
+
             var builder = new DeleteCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
@@ -176,12 +184,20 @@ namespace Skeleton.Infrastructure.Orm
 
         private async Task<int> UpdateCommand(TEntity entity)
         {
+            EnsureEntityIdExists(entity);
+
             var builder = new UpdateCommandBuilder<TEntity>(
                 _metadataProvider, entity);
 
             return await _database.ExecuteAsync(
                     builder.SqlCommand)
                 .ConfigureAwait(false);
+        }
+
+        private static void EnsureEntityIdExists(TEntity entity, [CallerMemberName] string name = null)
+        {
+            if (entity.Id.IsZeroOrEmpty())
+                throw new ArgumentException(Error.FormatWith(string.Empty, name));
         }
     }
 }

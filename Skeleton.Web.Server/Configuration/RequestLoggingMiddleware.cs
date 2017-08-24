@@ -13,7 +13,7 @@ namespace Skeleton.Web.Server.Configuration
         public RequestLoggingMiddleware(OwinMiddleware next, ILoggerFactory loggerFactory)
             : base(next)
         {
-            loggerFactory.ThrowIfNull(nameof(loggerFactory));
+            loggerFactory.ThrowIfNull();
 
             _log = loggerFactory.GetLogger(this.GetType());
         }

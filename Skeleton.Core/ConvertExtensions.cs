@@ -7,7 +7,7 @@ namespace Skeleton.Core
     {
         public static object ChangeType(this object value, Type type, IFormatProvider provider)
         {
-            type.ThrowIfNull(nameof(type));
+            type.ThrowIfNull();
 
             while (true)
             {

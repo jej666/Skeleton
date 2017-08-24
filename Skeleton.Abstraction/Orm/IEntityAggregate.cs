@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace Skeleton.Abstraction.Orm
 {
     public interface IEntityAggregate<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         int Count();
 

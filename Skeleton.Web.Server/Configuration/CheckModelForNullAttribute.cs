@@ -32,7 +32,7 @@ namespace Skeleton.Web.Server.Configuration
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            actionContext.ThrowIfNull(nameof(actionContext));
+            actionContext.ThrowIfNull();
 
             if (CheckCondition(actionContext.ActionArguments))
                 actionContext.Response = actionContext.Request.CreateErrorResponse(

@@ -13,7 +13,7 @@ namespace Skeleton.Infrastructure.Orm
     public sealed class AsyncCachedEntityReader<TEntity> :
             AsyncEntityReader<TEntity>,
             IAsyncCachedEntityReader<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly CacheKeyGenerator<TEntity> _keyGenerator =
             new CacheKeyGenerator<TEntity>();
@@ -46,7 +46,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public override async Task<TEntity> FirstOrDefaultAsync(object id)
         {
-            id.ThrowIfNull(nameof(id));
+            id.ThrowIfNull();
 
             LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(id);
 

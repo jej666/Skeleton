@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Skeleton.Abstraction.Orm
 {
     public interface IEntityQuery<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         TEntity FirstOrDefault();
 

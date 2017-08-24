@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Skeleton.Abstraction.Orm
 {
     public interface IAsyncEntityQuery<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         Task<TEntity> FirstOrDefaultAsync();
 

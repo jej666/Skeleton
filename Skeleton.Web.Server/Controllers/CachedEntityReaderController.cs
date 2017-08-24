@@ -6,8 +6,8 @@ namespace Skeleton.Web.Server.Controllers
 {
     public class CachedEntityReaderController<TEntity, TDto> :
             EntityReaderController<TEntity, TDto>
-        where TEntity : class, IEntity<TEntity>
-        where TDto : class
+        where TEntity : class, IEntity<TEntity>, new()
+        where TDto : class, new()
     {
         public CachedEntityReaderController(
             ILogger logger,

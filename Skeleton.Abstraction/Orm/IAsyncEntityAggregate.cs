@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Skeleton.Abstraction.Orm
 {
     public interface IAsyncEntityAggregate<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         Task<int> CountAsync();
 

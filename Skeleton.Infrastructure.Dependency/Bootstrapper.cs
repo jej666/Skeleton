@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Dependency
 
         public Bootstrapper(IDependencyContainer container)
         {
-            container.ThrowIfNull(nameof(container));
+            container.ThrowIfNull();
 
             _container = container;
             _container.AddPlugin(new CorePlugin());
@@ -25,7 +25,7 @@ namespace Skeleton.Infrastructure.Dependency
 
         public IBootstrapOrm UseSqlServer(Func<IDatabaseConfigurationBuilder, IDatabaseConfiguration> configurator)
         {
-            configurator.ThrowIfNull(nameof(configurator));
+            configurator.ThrowIfNull();
 
             var builder = _container.Resolve<IDatabaseConfigurationBuilder>();
             _container.Register.Instance(configurator(builder));

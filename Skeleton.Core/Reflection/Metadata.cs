@@ -36,7 +36,7 @@ namespace Skeleton.Core.Reflection
 
         public Metadata(Type type)
         {
-            type.ThrowIfNull(nameof(type));
+            type.ThrowIfNull();
 
             Type = type;
         }
@@ -96,7 +96,7 @@ namespace Skeleton.Core.Reflection
 
         public IMemberAccessor GetProperty(string name)
         {
-            name.ThrowIfNullOrEmpty(nameof(name));
+            name.ThrowIfNullOrEmpty();
 
             IMemberAccessor accessor;
             if (_propertyCache.Value.TryGetValue(name, out accessor))
@@ -112,7 +112,7 @@ namespace Skeleton.Core.Reflection
 
         public IMemberAccessor GetProperty<T>(Expression<Func<T, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
 
             var propertyInfo = expression.GetPropertyAccess();
 
@@ -129,7 +129,7 @@ namespace Skeleton.Core.Reflection
 
         private IMemberAccessor GetField(string name, BindingFlags bindings)
         {
-            name.ThrowIfNullOrEmpty(nameof(name));
+            name.ThrowIfNullOrEmpty();
 
             IMemberAccessor accessor;
             if (_fieldCache.Value.TryGetValue(name, out accessor))
@@ -146,6 +146,7 @@ namespace Skeleton.Core.Reflection
         private IEnumerable<IMemberAccessor> GetFields(BindingFlags bindings)
         {
             var fields = Type.GetFields(bindings);
+
             foreach (var fieldInfo in fields)
                 yield return _fieldCache.Value.GetOrAdd(
                     fieldInfo.Name,
@@ -155,6 +156,7 @@ namespace Skeleton.Core.Reflection
         private IEnumerable<IMemberAccessor> GetProperties(BindingFlags bindings)
         {
             var properties = Type.GetProperties(bindings);
+
             foreach (var propertyInfo in properties)
                 yield return _propertyCache.Value.GetOrAdd(
                     propertyInfo.Name,

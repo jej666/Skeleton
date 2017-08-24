@@ -20,8 +20,8 @@ namespace Skeleton.Web.Server
 
         public IDisposable StartServer(Uri url, Action<IOwinBootstrapper> bootstrap)
         {
-            url.ThrowIfNull(nameof(url));
-            bootstrap.ThrowIfNull(nameof(bootstrap));
+            url.ThrowIfNull();
+            bootstrap.ThrowIfNull();
 
             _bootstrapper.Configure();
             bootstrap(_bootstrapper);

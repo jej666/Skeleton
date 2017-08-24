@@ -13,11 +13,11 @@ namespace Skeleton.Infrastructure.Orm
     public class EntityWriter<TEntity> :
             DisposableBase,
             IEntityWriter<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly IMetadataProvider _metadataProvider;
         private readonly IDatabase _database;
-        private const string Error = "Entity Id is not null. {0} is canceled";
+        private const string Error = "Entity Id is {0} null. {1} is canceled";
 
         public EntityWriter(
             IMetadataProvider metadataProvider,
@@ -29,14 +29,14 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Add(TEntity entity)
         {
-            entity.ThrowIfNull(nameof(entity));
+            entity.ThrowIfNull();
 
             return AddCommand(entity) != null;
         }
 
         public virtual bool Add(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(nameof(entities));
+            entities.ThrowIfNullOrEmpty();
 
             var enumerable = entities.AsList();
             var count = 0;
@@ -59,14 +59,14 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Delete(TEntity entity)
         {
-            entity.ThrowIfNull(nameof(entity));
+            entity.ThrowIfNull();
 
             return DeleteCommand(entity) > 0;
         }
 
         public virtual bool Delete(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(nameof(entities));
+            entities.ThrowIfNullOrEmpty();
 
             var enumerable = entities.AsList();
             int count = 0, result = 0;
@@ -89,7 +89,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Save(TEntity entity)
         {
-            entity.ThrowIfNull(nameof(entity));
+            entity.ThrowIfNull();
 
             return entity.Id.IsZeroOrEmpty()
                 ? Add(entity)
@@ -98,7 +98,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Save(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(nameof(entities));
+            entities.ThrowIfNullOrEmpty();
 
             var enumerable = entities.AsList();
             var result = false;
@@ -117,14 +117,14 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual bool Update(TEntity entity)
         {
-            entity.ThrowIfNull(nameof(entity));
+            entity.ThrowIfNull();
 
             return UpdateCommand(entity) > 0;
         }
 
         public virtual bool Update(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(nameof(entities));
+            entities.ThrowIfNullOrEmpty();
 
             var enumerable = entities.AsList();
             int count = 0, result = 0;
@@ -154,7 +154,7 @@ namespace Skeleton.Infrastructure.Orm
         private object AddCommand(TEntity entity)
         {
             if (entity.Id.IsNotZeroOrEmpty())
-                throw new ArgumentException(Error.FormatWith(nameof(AddCommand)));
+                throw new ArgumentException(Error.FormatWith("not", nameof(AddCommand)));
 
             var builder = new InsertCommandBuilder<TEntity>(
                 _metadataProvider, entity);
@@ -196,7 +196,7 @@ namespace Skeleton.Infrastructure.Orm
         private static void EnsureEntityIdExists(TEntity entity, [CallerMemberName] string name = "")
         {
             if (entity.Id.IsZeroOrEmpty())
-                throw new ArgumentException(Error.FormatWith(name));
+                throw new ArgumentException(Error.FormatWith(string.Empty, name));
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Skeleton.Core.Reflection
 
         public IMetadata GetMetadata(Type type)
         {
-            type.ThrowIfNull(nameof(type));
+            type.ThrowIfNull();
 
             return TypeCache.GetOrAdd(type, new Metadata(type));
         }

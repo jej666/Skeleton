@@ -12,7 +12,7 @@ namespace Skeleton.Infrastructure.Orm
     public sealed class CachedEntityReader<TEntity> :
             EntityReader<TEntity>,
             ICachedEntityReader<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly CacheKeyGenerator<TEntity> _keyGenerator;
 
@@ -22,7 +22,7 @@ namespace Skeleton.Infrastructure.Orm
             ICacheProvider cacheProvider)
             : base(metadataProvider, database)
         {
-            cacheProvider.ThrowIfNull(nameof(cacheProvider));
+            cacheProvider.ThrowIfNull();
 
             Cache = cacheProvider;
             _keyGenerator = new CacheKeyGenerator<TEntity>();
@@ -46,7 +46,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public override TEntity FirstOrDefault(object id)
         {
-            id.ThrowIfNull(nameof(id));
+            id.ThrowIfNull();
 
             LastGeneratedCacheKey = _keyGenerator.ForFirstOrDefault(id);
 

@@ -12,7 +12,7 @@ namespace Skeleton.Tests.Web
         public void Init()
         {
             _server = new OwinTestServer();
-            _server.Start(AppConfiguration.BaseUrl);
+            _server.Start(AppConfiguration.BaseAddress);
         }
 
         [OneTimeTearDown]

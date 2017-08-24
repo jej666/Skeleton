@@ -12,15 +12,15 @@ namespace Skeleton.Core
 
         public static bool EquivalentTo(this string value, string other)
         {
-            value.ThrowIfNullOrEmpty(nameof(value));
-            other.ThrowIfNullOrEmpty(nameof(other));
+            value.ThrowIfNullOrEmpty();
+            other.ThrowIfNullOrEmpty();
 
             return string.Equals(value, other, StringComparison.OrdinalIgnoreCase);
         }
 
         public static string FormatWith(this string value, params object[] parameters)
         {
-            value.ThrowIfNullOrEmpty(nameof(value));
+            value.ThrowIfNullOrEmpty();
 
             return string.Format(CultureInfo.InvariantCulture, value, parameters);
         }

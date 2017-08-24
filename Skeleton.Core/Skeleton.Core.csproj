@@ -61,7 +61,6 @@
     <Compile Include="Domain\EntityBase.cs" />
     <Compile Include="Domain\EntityValidationResult.cs" />
     <Compile Include="Domain\EntityValidatorBase.cs" />
-    <Compile Include="Domain\GlobalSuppressions.cs" />
     <Compile Include="Domain\ValidationRule.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="ExpressionExtensions.cs" />
@@ -73,12 +72,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="Reflection\ConstructorAccessor.cs" />
-    <Compile Include="Reflection\Emitter\ConstructorEmitter.cs" />
-    <Compile Include="Reflection\Emitter\EmitExtensions.cs" />
-    <Compile Include="Reflection\Emitter\EmitterBase.cs" />
-    <Compile Include="Reflection\Emitter\FieldEmitter.cs" />
-    <Compile Include="Reflection\Emitter\MethodEmitter.cs" />
-    <Compile Include="Reflection\Emitter\PropertyEmitter.cs" />
+    <Compile Include="Reflection\ConstructorEmitter.cs" />
+    <Compile Include="Reflection\EmitExtensions.cs" />
+    <Compile Include="Reflection\EmitterBase.cs" />
+    <Compile Include="Reflection\FieldEmitter.cs" />
+    <Compile Include="Reflection\MethodEmitter.cs" />
+    <Compile Include="Reflection\PropertyEmitter.cs" />
     <Compile Include="Reflection\FieldAccessor.cs" />
     <Compile Include="Reflection\MemberAccessorBase.cs" />
     <Compile Include="Reflection\Metadata.cs" />

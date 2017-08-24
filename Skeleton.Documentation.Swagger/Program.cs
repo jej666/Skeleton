@@ -13,7 +13,7 @@ namespace Skeleton.Documentation.Swagger
         {
             using (var server = new OwinTestServer())
             {
-                server.Start(AppConfiguration.BaseUrl);
+                server.Start(AppConfiguration.BaseAddress);
                 Console.WriteLine(Started);
 
                 Process.Start(SwaggerUri);

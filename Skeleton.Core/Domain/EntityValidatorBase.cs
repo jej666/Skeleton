@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Skeleton.Core.Domain
 {
     public abstract class EntityValidatorBase<TEntity> : IEntityValidator<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly List<IValidationRule> _brokenRules = new List<IValidationRule>();
 

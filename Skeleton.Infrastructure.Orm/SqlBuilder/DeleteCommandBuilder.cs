@@ -6,7 +6,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 {
     internal sealed class DeleteCommandBuilder<TEntity> :
             SqlBuilderBase<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private CommandContext _context = new CommandContext();
 

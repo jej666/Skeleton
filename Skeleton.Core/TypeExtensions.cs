@@ -6,7 +6,7 @@ namespace Skeleton.Core
     {
         public static bool IsPrimitiveExtended(this Type type)
         {
-            type.ThrowIfNull(nameof(type));
+            type.ThrowIfNull();
 
             if (type.IsPrimitive)
                 return true;

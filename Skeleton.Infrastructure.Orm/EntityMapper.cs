@@ -10,8 +10,8 @@ namespace Skeleton.Infrastructure.Orm
     public sealed class EntityMapper<TEntity, TDto> :
             HideObjectMethodsBase,
             IEntityMapper<TEntity, TDto>
-        where TEntity : class, IEntity<TEntity>
-        where TDto : class
+        where TEntity : class, IEntity<TEntity>, new()
+        where TDto : class, new()
     {
         private readonly IMetadata _dtoMetadata;
         private readonly IMetadata _entityMetadata;
@@ -22,8 +22,6 @@ namespace Skeleton.Infrastructure.Orm
 
         public EntityMapper(IMetadataProvider metadataProvider)
         {
-            metadataProvider.ThrowIfNull(nameof(metadataProvider));
-
             _dtoMetadata = metadataProvider.GetMetadata<TDto>();
             _dtoInstanceAccessor = _dtoMetadata.GetConstructor();
             _dtoProperties = _dtoMetadata.GetDeclaredOnlyProperties();
@@ -35,13 +33,15 @@ namespace Skeleton.Infrastructure.Orm
 
         public IEnumerable<TDto> Map(IEnumerable<TEntity> entities)
         {
-            entities.ThrowIfNullOrEmpty(nameof(entities));
+            entities.ThrowIfNullOrEmpty();
 
             return entities.Select(Map).AsList();
         }
 
         public TDto Map(TEntity entity)
         {
+            entity.ThrowIfNull();
+
             var instanceDto = _dtoInstanceAccessor.InstanceCreator(null) as TDto;
 
             foreach (var entityProperty in _entityProperties)
@@ -54,13 +54,15 @@ namespace Skeleton.Infrastructure.Orm
 
         public IEnumerable<TEntity> Map(IEnumerable<TDto> dtos)
         {
-            dtos.ThrowIfNullOrEmpty(nameof(dtos));
+            dtos.ThrowIfNullOrEmpty();
 
             return dtos.Select(Map).AsList();
         }
 
         public TEntity Map(TDto dto)
         {
+            dto.ThrowIfNull();
+
             var instanceEntity = _entityInstanceAccessor.InstanceCreator(null) as TEntity;
 
             foreach (var dtoProperty in _dtoProperties)

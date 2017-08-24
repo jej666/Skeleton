@@ -12,7 +12,7 @@ namespace Skeleton.Web.Server.Configuration
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            actionContext.ThrowIfNull(nameof(actionContext));
+            actionContext.ThrowIfNull();
 
             if (!actionContext.ModelState.IsValid)
                 actionContext.Response = actionContext.Request.CreateErrorResponse(

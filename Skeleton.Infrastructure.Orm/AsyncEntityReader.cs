@@ -15,7 +15,7 @@ namespace Skeleton.Infrastructure.Orm
     public class AsyncEntityReader<TEntity> :
             DisposableBase,
             IAsyncEntityReader<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly IAsyncDatabase _database;
 
@@ -45,7 +45,7 @@ namespace Skeleton.Infrastructure.Orm
 
         public virtual async Task<TEntity> FirstOrDefaultAsync(object id)
         {
-            id.ThrowIfNull(nameof(id));
+            id.ThrowIfNull();
 
             Builder.QueryByPrimaryKey(
                 e => e.Id.Equals(id));
@@ -78,7 +78,7 @@ namespace Skeleton.Infrastructure.Orm
         public IAsyncEntityReader<TEntity> GroupBy(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.GroupBy(expression);
 
             return this;
@@ -86,9 +86,9 @@ namespace Skeleton.Infrastructure.Orm
 
         public IAsyncEntityReader<TEntity> LeftJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>
+            where TEntity2 : class, IEntity<TEntity2>, new()
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Join(expression, JoinType.Left);
 
             return this;
@@ -96,9 +96,9 @@ namespace Skeleton.Infrastructure.Orm
 
         public IAsyncEntityReader<TEntity> RightJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>
+            where TEntity2 : class, IEntity<TEntity2>, new()
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Join(expression, JoinType.Right);
 
             return this;
@@ -106,9 +106,9 @@ namespace Skeleton.Infrastructure.Orm
 
         public IAsyncEntityReader<TEntity> InnerJoin<TEntity2>(
             Expression<Func<TEntity, TEntity2, bool>> expression)
-            where TEntity2 : class, IEntity<TEntity2>
+            where TEntity2 : class, IEntity<TEntity2>, new()
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Join(expression, JoinType.Inner);
 
             return this;
@@ -117,7 +117,7 @@ namespace Skeleton.Infrastructure.Orm
         public IAsyncEntityReader<TEntity> OrderBy(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.OrderBy(expression);
 
             return this;
@@ -126,7 +126,7 @@ namespace Skeleton.Infrastructure.Orm
         public IAsyncEntityReader<TEntity> OrderByDescending(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.OrderByDescending(expression);
 
             return this;
@@ -135,7 +135,7 @@ namespace Skeleton.Infrastructure.Orm
         public IAsyncEntityReader<TEntity> Select(
             params Expression<Func<TEntity, object>>[] expressions)
         {
-            expressions.ThrowIfNull(nameof(expressions));
+            expressions.ThrowIfNull();
 
             foreach (var expression in expressions)
                 Builder.Select(expression);
@@ -146,7 +146,7 @@ namespace Skeleton.Infrastructure.Orm
         public IAsyncEntityReader<TEntity> Distinct(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Distinct);
 
             return this;
@@ -162,7 +162,8 @@ namespace Skeleton.Infrastructure.Orm
         public IAsyncEntityReader<TEntity> Where(
             Expression<Func<TEntity, bool>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
+
             return And(expression);
         }
 
@@ -170,7 +171,7 @@ namespace Skeleton.Infrastructure.Orm
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.WhereIsIn(expression, values);
 
             return this;
@@ -180,7 +181,7 @@ namespace Skeleton.Infrastructure.Orm
             Expression<Func<TEntity, object>> expression,
             IEnumerable<object> values)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.WhereNotIn(expression, values);
 
             return this;
@@ -189,7 +190,7 @@ namespace Skeleton.Infrastructure.Orm
         public async Task<IEnumerable<dynamic>> AverageAsync(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Avg);
 
             return await AggregateAsync();
@@ -214,7 +215,7 @@ namespace Skeleton.Infrastructure.Orm
         public async Task<IEnumerable<dynamic>> CountAsync(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Count);
 
             return await AggregateAsync();
@@ -223,7 +224,7 @@ namespace Skeleton.Infrastructure.Orm
         public async Task<IEnumerable<dynamic>> MaxAsync(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Max);
 
             return await AggregateAsync();
@@ -232,7 +233,7 @@ namespace Skeleton.Infrastructure.Orm
         public async Task<IEnumerable<dynamic>> MinAsync(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Min);
 
             return await AggregateAsync();
@@ -241,7 +242,7 @@ namespace Skeleton.Infrastructure.Orm
         public async Task<IEnumerable<dynamic>> SumAsync(
             Expression<Func<TEntity, object>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.Aggregate(expression, SelectFunction.Sum);
 
             return await AggregateAsync();
@@ -270,7 +271,7 @@ namespace Skeleton.Infrastructure.Orm
         private IAsyncEntityReader<TEntity> And(
             Expression<Func<TEntity, bool>> expression)
         {
-            expression.ThrowIfNull(nameof(expression));
+            expression.ThrowIfNull();
             Builder.ResolveQuery(expression);
 
             return this;

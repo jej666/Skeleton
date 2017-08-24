@@ -12,8 +12,8 @@ namespace Skeleton.Core.Caching
 
         public T GetOrAdd<T>(string key, Func<T> valueFactory, Action<ICacheConfiguration> configurator)
         {
-            key.ThrowIfNullOrEmpty(nameof(key));
-            valueFactory.ThrowIfNull(nameof(valueFactory));
+            key.ThrowIfNullOrEmpty();
+            valueFactory.ThrowIfNull();
 
             try
             {

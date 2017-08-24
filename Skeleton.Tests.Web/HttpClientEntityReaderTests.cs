@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Client;
+using System;
 using System.Linq;
+using System.Net;
 
 namespace Skeleton.Tests.Web
 {
@@ -11,13 +13,13 @@ namespace Skeleton.Tests.Web
         private const int PageSize = 50;
         private const int NumberOfPages = 5;
 
-        private readonly JsonCrudHttpClient<CustomerDto> client =
-            new JsonCrudHttpClient<CustomerDto>(AppConfiguration.CustomersUriBuilder);
+        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/customers"));
 
         [Test]
         public void EntityReader_GetAll()
         {
-            var results = client.GetAll();
+            var request = new RestRequest("getall");
+            var results = _client.Get(request).AsEnumerable<CustomerDto>();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(CustomerDto), results.First());
@@ -26,13 +28,18 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_FirstOrDefault()
         {
-            var data = client
-                .Query(new Query { PageSize = 1, PageNumber = 1 })
-                .Items.FirstOrDefault();
+            var data = _client
+                .Get<QueryResult<CustomerDto>>(
+                    r => r.AddResource("query")
+                          .AddQueryParameters(new Query { PageSize = 1, PageNumber = 1 }))
+                .Items
+                .FirstOrDefault();
 
             Assert.IsNotNull(data);
 
-            var result = client.FirstOrDefault(data.CustomerId);
+            var result = _client.Get<CustomerDto>(
+                r => r.AddResource("firstordefault")
+                      .AddResource(data.CustomerId.ToString()));
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(CustomerDto), result);
@@ -41,7 +48,8 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_FirstOrDefault_With_Wrong_Id()
         {
-            Assert.Catch(typeof(HttpResponseMessageException), () => client.FirstOrDefault(100000));
+            var result = _client.Get(r => r.AddResource("firstordefault/100000"));
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
         }
 
         [Test]
@@ -49,26 +57,28 @@ namespace Skeleton.Tests.Web
         {
             for (var page = 1; page < NumberOfPages; ++page)
             {
-                var response = client.Query(new Query
-                {
-                    PageSize = PageSize,
-                    PageNumber = page
-                });
+                var request = new RestRequest("query")
+                    .AddQueryParameters(new Query { PageSize = PageSize, PageNumber = page });
+                var result = _client.Get<QueryResult<CustomerDto>>(request);
 
-                Assert.IsTrue(response.Items.Count() <= PageSize);
+                Assert.IsTrue(result.Items.Count() <= PageSize);
             }
         }
 
         [Test]
         public void EntityReader_Query()
         {
-            var response = client.Query(new Query
-            {
-                Fields = "CustomerId,Name",
-                OrderBy = "CustomerId,-Name",
-                PageSize = 50,
-                PageNumber = 1
-            });
+            var request = new RestRequest("query")
+                    .AddQueryParameters(
+                        new Query
+                        {
+                            Fields = "CustomerId,Name",
+                            OrderBy = "CustomerId,-Name",
+                            PageSize = 50,
+                            PageNumber = 1
+                        });
+
+            var response = _client.Get(request);
 
             Assert.IsNotNull(response);
         }

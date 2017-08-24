@@ -13,7 +13,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
 {
     [DebuggerDisplay("EntityName = {TableName}")]
     internal abstract class SqlBuilderBase<TEntity>
-        where TEntity : class, IEntity<TEntity>
+        where TEntity : class, IEntity<TEntity>, new()
     {
         private readonly IMetadata _metadata;
         private readonly IInstanceAccessor _entityInstanceAccessor;

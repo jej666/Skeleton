@@ -2,8 +2,8 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Skeleton.Core.Reflection.Emitter
-{
+namespace Skeleton.Core.Reflection
+{ 
     internal sealed class MethodEmitter : EmitterBase
     {
         private readonly MethodInfo _methodInfo;

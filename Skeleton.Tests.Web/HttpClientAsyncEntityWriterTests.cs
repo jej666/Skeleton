@@ -1,7 +1,10 @@
 ﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Client;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Skeleton.Tests.Web
@@ -9,84 +12,129 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientAsyncEntityWriterTests
     {
-        private readonly AsyncJsonCrudHttpClient<CustomerDto> Client =
-            new AsyncJsonCrudHttpClient<CustomerDto>(AppConfiguration.AsyncCustomersUriBuilder);
+        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/asynccustomers"));
 
         [Test]
-        public async Task AsyncEntityWriter_UpdateAsync()
+        public async Task EntityWriter_UpdateAsync()
         {
-            var data = await Client.QueryAsync(new Query { PageSize = 1, PageNumber = 1 });
-            var firstCustomer = data.Items.FirstOrDefault();
+            var customer = GetPaginatedCustomers(1, 1).FirstOrDefault();
+            Assert.IsNotNull(customer);
 
-            Assert.IsNotNull(firstCustomer);
+            var updatedCustomer = new CustomerDto
+            {
+                CustomerId = customer.CustomerId,
+                Name = "CustomerUpdated" + customer.CustomerId,
+                CustomerCategoryId = customer.CustomerCategoryId
+            };
 
+            var response = await _client.PutAsync(
+                request => request.AddResource("update")
+                                  .WithBody(updatedCustomer));
+
+            Assert.IsTrue(response.IsSuccessStatusCode);
+        }
+
+        [Test]
+        public async Task EntityWriter_UpdateAsync_With_Wrong_Id()
+        {
             var customer = new CustomerDto
             {
-                CustomerId = firstCustomer.CustomerId,
-                Name = "CustomerUpdated" + firstCustomer.CustomerId,
-                CustomerCategoryId = firstCustomer.CustomerCategoryId
+                CustomerId = 100000,
+                Name = "CustomerUpdated"
             };
-            var result = await Client.UpdateAsync(customer);
 
-            Assert.IsTrue(result);
+            var result = await _client.PutAsync(
+                request => request.AddResource("update")
+                                  .WithBody(customer));
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
         }
 
         [Test]
-        public async Task AsyncEntityWriter_BatchUpdateAsync()
+        public async Task EntityWriter_BatchUpdateAsync()
         {
-            var customers = await Client.QueryAsync(new Query { PageSize = 5, PageNumber = 1 });
-
+            var customers = GetPaginatedCustomers(5, 1);
             Assert.IsNotNull(customers);
 
-            foreach (var customer in customers.Items)
+            foreach (var customer in customers)
                 customer.Name = "CustomerUpdated" + customer.CustomerId;
 
-            var result = await Client.UpdateAsync(customers.Items);
-            Assert.IsTrue(result);
+            var result = await _client.PostAsync(
+                request => request.AddResource("batchupdate").WithBody(customers));
+            Assert.IsTrue(result.IsSuccessStatusCode);
         }
 
         [Test]
-        public async Task AsyncEntityWriter_CreateAsync()
+        public async Task EntityWriter_CreateAsync()
         {
-            var customer = new CustomerDto { Name = "Customer" };
-            var result = await Client.CreateAsync(customer);
+            var customer = MemorySeeder.SeedCustomerDto();
+            var result = await _client.PostAsync<CustomerDto>(
+                request => request.AddResource("create").WithBody(customer));
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(CustomerDto), result);
         }
 
         [Test]
-        public async Task AsyncEntityWriter_BatchCreateAsync()
+        public async Task EntityWriter_CreateAsync_With_Wrong_Id()
+        {
+            var customer = GetPaginatedCustomers(1, 1).FirstOrDefault();
+            Assert.IsNotNull(customer);
+
+            var result = await _client.PostAsync(
+                request => request.AddResource("create").WithBody(customer));
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.BadRequest);
+        }
+
+        [Test]
+        public async Task EntityWriter_BatchCreateAsync()
         {
             var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
-            var results = await Client.CreateAsync(customers);
+            var response = await _client.PostAsync(
+                request => request.AddResource("batchcreate").WithBody(customers));
+            var results = response.AsEnumerable<CustomerDto>();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(CustomerDto), results.First());
         }
 
         [Test]
-        public async Task AsyncEntityWriter_DeleteAsync()
+        public async Task EntityWriter_DeleteAsync()
         {
-            var data = await Client.QueryAsync(new Query { PageSize = 1, PageNumber = 1 });
-            var firstCustomer = data.Items.FirstOrDefault();
+            var data = GetPaginatedCustomers(1, 1).FirstOrDefault();
+            Assert.IsNotNull(data);
 
-            Assert.IsNotNull(firstCustomer);
+            var response = await _client.DeleteAsync(
+                request => request.AddResource("delete")
+                                  .AddResource(data.CustomerId.ToString()));
 
-            var result = await Client.DeleteAsync(firstCustomer.CustomerId);
-
-            Assert.IsTrue(result);
+            Assert.IsTrue(response.IsSuccessStatusCode);
         }
 
         [Test]
-        public async Task AsyncEntityWriter_BatchDeleteAsync()
+        public async Task EntityWriter_BatchDelete()
         {
-            var customers = await Client.QueryAsync(new Query { PageSize = 5, PageNumber = 1 });
-
+            var customers = GetPaginatedCustomers(5, 1);
             Assert.IsNotNull(customers);
 
-            var result = await Client.DeleteAsync(customers.Items);
-            Assert.IsTrue(result);
+            var result = await _client.PostAsync(
+                request => request.AddResource("batchdelete")
+                                  .WithBody(customers));
+            Assert.IsTrue(result.IsSuccessStatusCode);
+        }
+
+        [Test]
+        public async Task EntityWriter_Delete_With_Wrong_Id()
+        {
+            var result = await _client.DeleteAsync(request => request.AddResource("delete/100000"));
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
+        }
+
+        private IEnumerable<CustomerDto> GetPaginatedCustomers(int pageSize, int pageNumber)
+        {
+            return _client.GetAsync<QueryResult<CustomerDto>>(
+                    request => request.AddResource("query")
+                                      .AddQueryParameters(new Query { PageSize = pageSize, PageNumber = pageNumber }))
+                    .Result.Items;
         }
     }
 }

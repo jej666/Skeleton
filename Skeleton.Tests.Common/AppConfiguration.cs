@@ -5,10 +5,11 @@ namespace Skeleton.Tests.Common
 {
     public static class AppConfiguration
     {
-        private const string CustomersPath = "api/customers";
-        private const string CachedCustomersPath = "api/cachedcustomers";
-        private const string AsyncCustomersPath = "api/asynccustomers";
-        private const string AsyncCachedCustomersPath = "api/asynccachedcustomers";
+        public const string CustomersResource = "customers";
+        public const string CachedCustomersResource = "cachedcustomers";
+        public const string AsyncCustomersResource = "asynccustomers";
+        public const string AsyncCachedCustomersResource = "asynccachedcustomers";
+        public const string LogResource = "log";
 
         public static bool AppVeyorBuild => Environment.GetEnvironmentVariable("AppVeyor")?.ToUpperInvariant() == "TRUE";
 
@@ -18,10 +19,6 @@ namespace Skeleton.Tests.Common
 
         public static string Host => "localhost";
         public static int Port => 8081;
-        public static IRestUriBuilder CustomersUriBuilder => new RestUriBuilder(Host, Port, CustomersPath);
-        public static IRestUriBuilder CachedCustomersUriBuilder => new RestUriBuilder(Host, Port, CachedCustomersPath);
-        public static IRestUriBuilder AsyncCustomersUriBuilder => new RestUriBuilder(Host, Port, AsyncCustomersPath);
-        public static IRestUriBuilder AsyncCachedCustomersUriBuilder => new RestUriBuilder(Host, Port, AsyncCachedCustomersPath);
-        public static Uri BaseUrl => new UriBuilder("http", Host, Port).Uri;
+        public static Uri BaseAddress => new UriBuilder("http", Host, Port).Uri;
     }
 }

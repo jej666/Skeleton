@@ -8,7 +8,7 @@ namespace Skeleton.Core.Domain
         public EntityValidationResult(IEnumerable<IValidationRule> brokenRules)
         {
             var enumerable = brokenRules.AsList();
-            enumerable.ThrowIfNull(nameof(enumerable));
+            enumerable.ThrowIfNull();
 
             BrokenRules = enumerable;
         }
