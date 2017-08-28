@@ -3,7 +3,6 @@ using Skeleton.Abstraction.Dependency;
 using Skeleton.Infrastructure.Dependency;
 using Skeleton.Web.Server.Configuration;
 using Swashbuckle.Application;
-using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 
@@ -22,13 +21,11 @@ namespace Skeleton.Web.Server
         {
             _configuration.DependencyResolver = new UnityResolver(DependencyContainer.Instance.UnityContainer);
             _configuration.MapHttpAttributeRoutes();
-            _configuration.Routes.MapHttpRoute(
-                            name: Constants.DefaultHttpRoute,
-                            routeTemplate: Constants.DefaultRouteTemplate,
-                            defaults: new { id = RouteParameter.Optional });
 
-            _configuration.Formatters.Clear();
-            _configuration.Formatters.Add(new JsonMediaTypeFormatter());
+            _configuration.Routes.MapHttpRoute(
+                            name: Constants.DefaultRpcRoute,
+                            routeTemplate: Constants.DefaultRpcRouteTemplate,
+                            defaults: new { id = RouteParameter.Optional });
         }
 
         public IOwinBootstrapper UseSwagger()

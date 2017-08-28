@@ -20,7 +20,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public async Task CachedEntityReader_GetAllAsync()
         {
-            var request = new RestRequest("getall");
+            var request = new RestRequest("all");
             var results = await _client.GetAsync<IEnumerable<CustomerDto>>(request);
 
             Assert.IsNotNull(results);

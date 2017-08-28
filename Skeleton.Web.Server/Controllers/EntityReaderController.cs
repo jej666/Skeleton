@@ -4,6 +4,7 @@ using Skeleton.Abstraction.Orm;
 using Skeleton.Core;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Skeleton.Web.Server.Controllers
 {
@@ -43,30 +44,33 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpGet]
-        public virtual IHttpActionResult Query([FromUri] Query query)
+        public virtual IHttpActionResult All()
         {
             return HandleException(() =>
             {
-                var items = Reader.Query(query)
-                                  .Select(Mapper.Map)
-                                  .ToList();
-                var result = Request.EnrichQueryResult(items, query);
+                var result = Reader.Find();
 
-                return Ok(result);
+                if (result == null)
+                    return NotFound();
+
+                 var items = result.Select(Mapper.Map)
+                                   .ToList();
+               
+                return Ok(items);
             });
         }
 
         [HttpGet]
-        public virtual IHttpActionResult GetAll()
+        public virtual IHttpActionResult Query([FromUri] Query q)
         {
             return HandleException(() =>
             {
-                var allData = Reader
-                    .Find()
-                    .Select(Mapper.Map)
-                    .ToList();
+                var items = Reader.Query(q)
+                                  .Select(Mapper.Map)
+                                  .ToList();
+                var result = Request.EnrichQueryResult(items, q);
 
-                return Ok(allData);
+                return Ok(result);
             });
         }
 

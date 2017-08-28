@@ -18,7 +18,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_GetAll()
         {
-            var request = new RestRequest("getall");
+            var request = new RestRequest("all");
             var results = _client.Get(request).AsEnumerable<CustomerDto>();
 
             Assert.IsNotNull(results);

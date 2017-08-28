@@ -15,10 +15,11 @@ namespace Skeleton.Tests.Web
 
         private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/customers"));
 
+
         [Test]
         public void EntityReader_GetAll()
         {
-            var request = new RestRequest("getall");
+            var request = new RestRequest("all");
             var results = _client.Get(request).AsEnumerable<CustomerDto>();
 
             Assert.IsNotNull(results);
@@ -38,8 +39,7 @@ namespace Skeleton.Tests.Web
             Assert.IsNotNull(data);
 
             var result = _client.Get<CustomerDto>(
-                r => r.AddResource("firstordefault")
-                      .AddResource(data.CustomerId.ToString()));
+                r => r.AddResource("firstordefault").AddResource(data.CustomerId.ToString()));
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(CustomerDto), result);
@@ -57,7 +57,8 @@ namespace Skeleton.Tests.Web
         {
             for (var page = 1; page < NumberOfPages; ++page)
             {
-                var request = new RestRequest("query")
+                var request = new RestRequest()
+                    .AddResource("query")
                     .AddQueryParameters(new Query { PageSize = PageSize, PageNumber = page });
                 var result = _client.Get<QueryResult<CustomerDto>>(request);
 
@@ -68,7 +69,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public void EntityReader_Query()
         {
-            var request = new RestRequest("query")
+            var request = new RestRequest()
                     .AddQueryParameters(
                         new Query
                         {

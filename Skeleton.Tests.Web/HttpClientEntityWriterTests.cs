@@ -11,7 +11,7 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientEntityWriterTests
     {
-        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/customers"));
+        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/customers"), new NoRetryPolicy());
 
         [Test]
         public void EntityWriter_Update()
@@ -28,6 +28,7 @@ namespace Skeleton.Tests.Web
 
             var response = _client.Put(
                 request => request.AddResource("update")
+                                  .AddResource(updatedCustomer.CustomerId.ToString())
                                   .WithBody(updatedCustomer));
 
             Assert.IsTrue(response.IsSuccessStatusCode);
@@ -44,6 +45,7 @@ namespace Skeleton.Tests.Web
 
             var result=  _client.Put(
                 request => request.AddResource("update")
+                                  .AddResource(customer.CustomerId.ToString())
                                   .WithBody(customer));
             Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
         }
@@ -67,7 +69,8 @@ namespace Skeleton.Tests.Web
         {
             var customer = MemorySeeder.SeedCustomerDto();
             var result = _client.Post(
-                request => request.AddResource("create").WithBody(customer))
+                    request => request.AddResource("create")
+                                      .WithBody(customer))
                 .As<CustomerDto>();
 
             Assert.IsNotNull(result);
@@ -89,7 +92,7 @@ namespace Skeleton.Tests.Web
             var customers = MemorySeeder.SeedCustomerDtos(5).ToList();
             var results = _client.Post(
                 request => request.AddResource("batchcreate").WithBody(customers))
-                .AsEnumerable<CustomerDto>();
+                                 .AsEnumerable<CustomerDto>();
 
             Assert.IsNotNull(results);
             Assert.IsInstanceOf(typeof(CustomerDto), results.First());
@@ -130,7 +133,11 @@ namespace Skeleton.Tests.Web
         {
             return _client.Get<QueryResult<CustomerDto>>(
                     request => request.AddResource("query")
-                                      .AddQueryParameters(new Query { PageSize = pageSize, PageNumber = pageNumber }))
+                                      .AddQueryParameters(new Query
+                                      {
+                                          PageSize = pageSize,
+                                          PageNumber = pageNumber
+                                      }))
                           .Items;
         }
     }

@@ -57,22 +57,22 @@ namespace Skeleton.Web.Client
             return Message.Content.ReadAsStreamAsync();
         }
 
-        public IEnumerable<T> AsEnumerable<T>() 
+        public IEnumerable<T> AsEnumerable<T>()
         {
             return As<IEnumerable<T>>();
         }
 
-        public Task<IEnumerable<T>> AsEnumerableAsync<T>() 
+        public Task<IEnumerable<T>> AsEnumerableAsync<T>()
         {
             return AsAsync<IEnumerable<T>>();
         }
 
-        public T As<T>() 
+        public T As<T>()
         {
             return AsAsync<T>().Result;
         }
 
-        public Task<T> AsAsync<T>() 
+        public Task<T> AsAsync<T>()
         {
             return Message.Content.ReadAsAsync<T>(Formatters);
         }

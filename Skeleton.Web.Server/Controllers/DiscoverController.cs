@@ -4,7 +4,6 @@ using System.Web.Http;
 
 namespace Skeleton.Web.Server.Controllers
 {
-    [Route("api/Discover")]
     public class DiscoverController : ApiController
     {
         [HttpGet]

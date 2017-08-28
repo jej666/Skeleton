@@ -27,6 +27,7 @@ namespace Skeleton.Web.Server.Configuration
             CancellationToken cancellationToken)
         {
             HandleCore(context);
+
             return Task.FromResult(0);
         }
 
@@ -38,11 +39,19 @@ namespace Skeleton.Web.Server.Configuration
 #if DEBUG
             content = context.Exception.Message;
 #endif
+            var request = context.ExceptionContext.Request;
+            var configuration = context.ExceptionContext.ControllerContext.Configuration;
+            var negociator= configuration.Services.GetContentNegotiator();
+            var negotiation = negociator.Negotiate(
+                   typeof(string), request, configuration.Formatters);
 
-            context.Result = new TextPlainErrorResult
+            context.Result = new ErrorResult
             {
-                Request = context.ExceptionContext.Request,
-                Content = content
+                Request = request,
+                Content = new ObjectContent<string>(
+                    content, 
+                    negotiation.Formatter, 
+                    negotiation.MediaType)
             };
         }
 
@@ -53,16 +62,17 @@ namespace Skeleton.Web.Server.Configuration
             return context.ExceptionContext.CatchBlock.IsTopLevel;
         }
 
-        private class TextPlainErrorResult : IHttpActionResult
+        private class ErrorResult : IHttpActionResult
         {
             public HttpRequestMessage Request { get; set; }
 
-            public string Content { get; set; }
+            public ObjectContent Content { get; set; }
 
             public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
-            {
-                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                response.Content = new StringContent(Content);
+            {   
+                var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                
+                response.Content = Content;
                 response.RequestMessage = Request;
 
                 return Task.FromResult(response);

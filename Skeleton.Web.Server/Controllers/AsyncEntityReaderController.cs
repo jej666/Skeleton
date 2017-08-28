@@ -44,7 +44,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<IHttpActionResult> GetAll()
+        public virtual async Task<IHttpActionResult> All()
         {
             return await HandleExceptionAsync(async () =>
             {
@@ -62,7 +62,7 @@ namespace Skeleton.Web.Server.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<IHttpActionResult> Query([FromUri] Query query)
+        public virtual async Task<IHttpActionResult> Query([FromUri]Query query)
         {
             return await HandleExceptionAsync(async () =>
             {

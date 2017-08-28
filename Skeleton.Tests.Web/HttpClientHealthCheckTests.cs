@@ -13,7 +13,7 @@ namespace Skeleton.Tests.Web
         [Test]
         public void HeartBeat()
         {
-            var response = Client.Get(r => r.AddResource("api/healthcheck"));
+            var response = Client.Get(r => r.AddResource("api/healthcheck/heartbeat"));
 
             Assert.IsTrue(response.IsSuccessStatusCode);
         }

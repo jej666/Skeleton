@@ -26,12 +26,17 @@ namespace Skeleton.Web.Server.Controllers
         public IEntityWriter<TEntity> Writer => _writer;
 
         [HttpPut]
-        public virtual IHttpActionResult Update(TDto dto)
+        public virtual IHttpActionResult Update(string id, [FromBody]TDto dto)
         {
             return HandleException(() =>
             {
-                var entity = Mapper.Map(dto);
-                var result = Writer.Update(entity);
+                var entity = Reader.FirstOrDefault(id);
+
+                if (entity == null)
+                    return NotFound();
+
+                var updateableEntity = Mapper.Map(dto);
+                var result = Writer.Update(updateableEntity);
 
                 if (result)
                     return Ok();
@@ -69,7 +74,7 @@ namespace Skeleton.Web.Server.Controllers
                 var newDto = Mapper.Map(entity);
 
                 return CreatedAtRoute(
-                    Constants.DefaultHttpRoute,
+                    Constants.DefaultRpcRoute,
                     new { id = entity.Id },
                     newDto);
             });

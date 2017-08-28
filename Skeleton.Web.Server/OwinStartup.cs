@@ -32,7 +32,7 @@ namespace Skeleton.Web.Server
         public void Configuration(IAppBuilder appBuilder)
         {
 #if DEBUG
-            appBuilder.Use<RequestLoggingMiddleware>(DependencyContainer.Instance.Resolve<ILoggerFactory>());
+            appBuilder.Use<RequestLoggerMiddleware>(DependencyContainer.Instance.Resolve<ILoggerFactory>());
 #else
             appBuilder.Use<RequireSslMiddleware>();
 #endif

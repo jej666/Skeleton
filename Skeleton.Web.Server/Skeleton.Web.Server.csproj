@@ -136,7 +136,7 @@
     <Compile Include="Configuration\CheckModelForNullAttribute.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Configuration\RequestLoggingMiddleware.cs" />
+    <Compile Include="Configuration\RequestLoggerMiddleware.cs" />
     <Compile Include="Configuration\ValidateModelStateAttribute.cs" />
     <Compile Include="HttpRequestMessageExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

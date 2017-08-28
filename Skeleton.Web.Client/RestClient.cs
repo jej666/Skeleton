@@ -64,10 +64,14 @@ namespace Skeleton.Web.Client
 
             return await RetryPolicy.ExecuteAsync(async () =>
             {
+                var requestClone = RetryPolicy.RetryCount > 0
+                ? Clone(requestMessage)
+                : requestMessage;
+
                 var response = await Client
-                    .SendAsync(requestMessage)
+                    .SendAsync(requestClone)
                     .ConfigureAwait(false);
-                
+
                 return new RestResponse(response, Formatters);
             });
         }
@@ -112,12 +116,12 @@ namespace Skeleton.Web.Client
             return await SendAsync(request).ConfigureAwait(false);
         }
 
-        public T Get<T>(Action<IRestRequest> requestBuilder) 
+        public T Get<T>(Action<IRestRequest> requestBuilder)
         {
             return GetAsync<T>(requestBuilder).Result;
         }
 
-        public async Task<T> GetAsync<T>(Action<IRestRequest> requestBuilder) 
+        public async Task<T> GetAsync<T>(Action<IRestRequest> requestBuilder)
         {
             return await GetAsync(requestBuilder)
                 .ContinueWith(response => response.Result.As<T>());
@@ -150,15 +154,15 @@ namespace Skeleton.Web.Client
             return await SendAsync(request).ConfigureAwait(false);
         }
 
-        public IRestResponse Put(IRestRequest request) 
+        public IRestResponse Put(IRestRequest request)
         {
             return PutAsync(request).Result;
         }
 
-        public async Task<IRestResponse> PutAsync(IRestRequest request) 
+        public async Task<IRestResponse> PutAsync(IRestRequest request)
         {
             EnsureRequestNotNull(request);
-            
+
             return await SendAsync(request.AsPut())
                 .ConfigureAwait(false);
         }
@@ -178,12 +182,12 @@ namespace Skeleton.Web.Client
             return await SendAsync(request).ConfigureAwait(false);
         }
 
-        public IRestResponse Post(IRestRequest request) 
+        public IRestResponse Post(IRestRequest request)
         {
             return PostAsync(request).Result;
         }
 
-        public async Task<IRestResponse> PostAsync(IRestRequest request) 
+        public async Task<IRestResponse> PostAsync(IRestRequest request)
         {
             EnsureRequestNotNull(request);
 
@@ -203,12 +207,12 @@ namespace Skeleton.Web.Client
                 .ContinueWith(response => response.Result.As<T>());
         }
 
-        public IRestResponse Post(Action<IRestRequest> requestBuilder) 
+        public IRestResponse Post(Action<IRestRequest> requestBuilder)
         {
             return PostAsync(requestBuilder).Result;
         }
 
-        public async Task<IRestResponse> PostAsync(Action<IRestRequest> requestBuilder) 
+        public async Task<IRestResponse> PostAsync(Action<IRestRequest> requestBuilder)
         {
             EnsureRequestBuilderNotNull(requestBuilder);
 
@@ -274,7 +278,7 @@ namespace Skeleton.Web.Client
 
         private static void EnsureRequestBuilderNotNull(Action<IRestRequest> requestBuilder)
         {
-            if (requestBuilder==null)
+            if (requestBuilder == null)
                 throw new ArgumentNullException(nameof(requestBuilder));
         }
 
@@ -288,6 +292,23 @@ namespace Skeleton.Web.Client
         {
             if (_disposed)
                 throw new ObjectDisposedException(GetType().FullName);
+        }
+
+        private static HttpRequestMessage Clone(HttpRequestMessage request)
+        {
+            var clone = new HttpRequestMessage(request.Method, request.RequestUri)
+            {
+                Content = request.Content,
+                Version = request.Version
+            };
+
+            foreach (var prop in request.Properties)
+                clone.Properties.Add(prop);
+
+            foreach (var header in request.Headers)
+                clone.Headers.TryAddWithoutValidation(header.Key, header.Value);
+
+            return clone;
         }
 
         protected virtual void Dispose(bool disposing)

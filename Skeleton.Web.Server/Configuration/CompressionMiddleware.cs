@@ -46,16 +46,15 @@ namespace Skeleton.Web.Server.Configuration
         private ICompressor GetCompressor(IOwinRequest request)
         {
             if (!request.Headers.ContainsKey(Constants.AcceptEncoding))
-            {
                 return null;
-            }
 
             return (from c in compressors
                     from e in request.Headers.GetCommaSeparatedValues(Constants.AcceptEncoding)
                                      .Select(x => StringWithQualityHeaderValue.Parse(x))
                     orderby e.Quality descending
                     where string.Compare(c.ContentEncoding, e.Value, StringComparison.OrdinalIgnoreCase) == 0
-                    select c).FirstOrDefault();
+                    select c)
+                    .FirstOrDefault();
         }
     }
 }
