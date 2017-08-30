@@ -9,6 +9,7 @@ namespace Skeleton.Web.Client
 {
     public sealed class RestRequest : IRestRequest
     {
+        private const string Message = "Resource cannot be null or empty";
         private readonly static SupportedFormatters Formatters = new SupportedFormatters();
 
         public RestRequest()
@@ -18,7 +19,7 @@ namespace Skeleton.Web.Client
         public RestRequest(string resource)
         {
             if (string.IsNullOrEmpty(resource))
-                throw new ArgumentException(nameof(resource));
+                throw new ArgumentException(Message, nameof(resource));
 
             Resource = EnsureTrailingSlash(resource);
         }
@@ -75,7 +76,7 @@ namespace Skeleton.Web.Client
         public IRestRequest AddResource(string resource)
         {
             if (string.IsNullOrEmpty(resource))
-                throw new ArgumentException(nameof(resource));
+                throw new ArgumentException(Message, nameof(resource));
 
             if (!string.IsNullOrEmpty(Resource))
                 Resource = EnsureTrailingSlash(Resource);
@@ -88,7 +89,7 @@ namespace Skeleton.Web.Client
         public IRestRequest AddQueryParameter(string key, object value)
         {
             if (string.IsNullOrEmpty(key))
-                throw new ArgumentException(nameof(key));
+                throw new ArgumentException(Message, nameof(key));
 
             if (value == null)
                 throw new ArgumentNullException(nameof(value));

@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Skeleton.Tests.Common;
 using Skeleton.Web.Client;
-using System;
 using System.Linq;
 using System.Net;
 
@@ -13,8 +12,7 @@ namespace Skeleton.Tests.Web
         private const int PageSize = 50;
         private const int NumberOfPages = 5;
 
-        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/customers"));
-
+        private readonly RestClient _client = new RestClient(AppConfiguration.CustomersUri);
 
         [Test]
         public void EntityReader_GetAll()
@@ -90,7 +88,7 @@ namespace Skeleton.Tests.Web
         {
             var request = new RestRequest()
                     .AddResource("retry");
-            var response = _client.Get(request);
+             _client.Get(request);
 
             Assert.IsTrue(_client.RetryPolicy.RetryCount == 5);
         }

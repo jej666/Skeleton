@@ -55,7 +55,7 @@ namespace Skeleton.Infrastructure.Orm.SqlBuilder
             var orderByFields = _query.OrderBy.Split(',');
             foreach (var field in orderByFields)
             {
-                if (field.StartsWith("-", StringComparison.InvariantCultureIgnoreCase))
+                if (field.StartsWith("-", StringComparison.OrdinalIgnoreCase))
                 {
                     var propertyName = field.Substring(1);
                     var evaluatedExpression = EvaluateProperty(propertyName);

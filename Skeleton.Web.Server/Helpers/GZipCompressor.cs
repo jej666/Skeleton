@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace Skeleton.Web.Server.Configuration
+namespace Skeleton.Web.Server.Helpers
 {
     public class GZipCompressor : ICompressor
     {

@@ -9,11 +9,11 @@ namespace Skeleton.Infrastructure.Dependency.Configuration
         HideObjectMethodsBase,
         IDatabaseConfiguration
     {
-        private static readonly int DefaultTimeout = 300;
-        private static readonly int DefaultRetryCount = 10;
-        private static readonly int DefaultRetryInterval = 1;
-        private static readonly string DefaultProvider = "System.Data.SqlClient";
-        private static readonly string DefaultName = "Default";
+        private const int DefaultTimeout = 300;
+        private const int DefaultRetryCount = 10;
+        private const int DefaultRetryInterval = 1;
+        private const string DefaultProvider = "System.Data.SqlClient";
+        private const string DefaultName = "Default";
 
         private int _commandTimeout;
         private int _retryCount;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Owin;
-using Skeleton.Core;
+using Skeleton.Web.Server.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

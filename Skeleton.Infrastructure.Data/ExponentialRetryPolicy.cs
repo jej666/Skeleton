@@ -13,7 +13,7 @@ namespace Skeleton.Infrastructure.Data
 
         internal static readonly TimeSpan DefaultMaxBackoff = TimeSpan.FromSeconds(30.0);
         internal static readonly TimeSpan DefaultMinBackoff = TimeSpan.FromSeconds(1.0);
-        internal static readonly bool FirstFastRetry = true;
+        
         private int _currentRetry;
 
         internal ExponentialRetryPolicy(IDatabaseConfiguration configuration, ILogger logger)
@@ -83,11 +83,7 @@ namespace Skeleton.Infrastructure.Data
         private TimeSpan CalculateExponentialBackoff()
         {
             var defaultInterval = TimeSpan.FromSeconds(_configuration.RetryInterval);
-
-            if (FirstFastRetry && _currentRetry == 0)
-                return defaultInterval;
-
-            int randomInterval = GetRandomInterval(defaultInterval);
+            var randomInterval = GetRandomInterval(defaultInterval);
             var delta = (int)(Math.Pow(2.0, _currentRetry) * randomInterval);
             var interval = (int)Math.Min(checked(DefaultMinBackoff.TotalMilliseconds + delta), DefaultMaxBackoff.TotalMilliseconds);
 

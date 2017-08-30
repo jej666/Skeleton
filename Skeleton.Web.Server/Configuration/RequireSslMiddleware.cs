@@ -6,8 +6,6 @@ namespace Skeleton.Web.Server.Configuration
 {
     public sealed class RequireSslMiddleware: OwinMiddleware
     {
-        private readonly OwinMiddleware _next;
-
         public RequireSslMiddleware(OwinMiddleware next)
             : base(next)
         {   

@@ -12,7 +12,7 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientAsyncEntityWriterTests
     {
-        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/asynccustomers"));
+        private readonly RestClient _client = new RestClient(AppConfiguration.AsyncCustomersUri);
 
         [Test]
         public async Task EntityWriter_UpdateAsync()

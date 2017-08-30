@@ -26,10 +26,6 @@ namespace Skeleton.Tests.Common
             var startup = new OwinStartup();
             _server = startup.StartServer(baseUrl,
                 bootstrapper => bootstrapper
-                    .UseSwagger()
-                    .UseCheckModelForNull()
-                    .UseValidateModelState()
-                    .UseGlobalExceptionHandling()
                     .UseSqlServer(_databaseConfigurator)
                     .WithOrm());
         }

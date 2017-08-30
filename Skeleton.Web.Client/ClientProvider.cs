@@ -46,7 +46,7 @@ namespace Skeleton.Web.Client
         private static void EnsureKeyNotNullOrEmpty(string key)
         {
             if (string.IsNullOrEmpty(key))
-                throw new ArgumentException(nameof(key));
+                throw new ArgumentException("Key cannot be null or empty", nameof(key));
         }
     }
 }

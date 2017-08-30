@@ -1,9 +1,6 @@
 ﻿using Microsoft.Owin;
 using Skeleton.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Skeleton.Web.Server.Helpers;
 using System.Threading.Tasks;
 
 namespace Skeleton.Web.Server.Configuration

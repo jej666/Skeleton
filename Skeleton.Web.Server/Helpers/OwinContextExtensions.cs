@@ -1,6 +1,6 @@
 ﻿using Microsoft.Owin;
 
-namespace Skeleton.Web.Server
+namespace Skeleton.Web.Server.Helpers
 {
     public static class OwinContextExtensions
     {

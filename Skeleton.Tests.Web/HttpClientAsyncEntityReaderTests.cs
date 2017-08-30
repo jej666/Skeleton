@@ -15,7 +15,7 @@ namespace Skeleton.Tests.Web
         private const int PageSize = 50;
         private const int NumberOfPages = 5;
 
-        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/asynccustomers"));
+        private readonly RestClient _client = new RestClient(AppConfiguration.AsyncCustomersUri);
 
         [Test]
         public async Task EntityReader_GetAllAsync()

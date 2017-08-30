@@ -1,10 +1,8 @@
 ﻿using Microsoft.Owin;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Skeleton.Web.Server.Configuration
+namespace Skeleton.Web.Server.Helpers
 {
     internal class OwinCompression
     {

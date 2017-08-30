@@ -11,7 +11,7 @@ namespace Skeleton.Tests.Web
     [TestFixture]
     public class HttpClientEntityWriterTests
     {
-        private readonly RestClient _client = new RestClient(new Uri(AppConfiguration.BaseAddress, "api/customers"), new NoRetryPolicy());
+        private readonly RestClient _client = new RestClient(AppConfiguration.CustomersUri);
 
         [Test]
         public void EntityWriter_Update()
