@@ -35,7 +35,7 @@ namespace Skeleton.Web.Server.Configuration
         {
             context.ThrowIfNull();
 
-            var content = Constants.DefaultErrorMessage;
+            var content = Constants.Messages.DefaultErrorMessage;
 #if DEBUG
             content = context.Exception.Message;
 #endif

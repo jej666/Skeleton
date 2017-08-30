@@ -11,8 +11,8 @@ namespace Skeleton.Web.Server.Configuration
         private const int BufferSize = 8192;
 
         internal async Task Compress(
-            Func<IDictionary<string, object>, Task> next,
-            OwinContext context,
+            OwinMiddleware next,
+            IOwinContext context,
             ICompressor compressor,
             Stream httpOutputStream)
         {
@@ -21,7 +21,7 @@ namespace Skeleton.Web.Server.Configuration
                 using (var compressedStream = compressor.CreateStream(memoryStream))
                 {
                     context.Response.Body = compressedStream;
-                    await next.Invoke(context.Environment);
+                    await next.Invoke(context);
                 }
 
                 if (memoryStream.Length > 0)
@@ -35,11 +35,11 @@ namespace Skeleton.Web.Server.Configuration
         }
 
         private static void SetResponseHeaders(
-            OwinContext context,
+            IOwinContext context,
             ICompressor compressor,
             MemoryStream memoryStream)
         {
-            context.Response.Headers[Constants.ContentEncoding] = compressor.ContentEncoding;
+            context.Response.Headers[Constants.Headers.ContentEncoding] = compressor.ContentEncoding;
             context.Response.ContentLength = memoryStream.Length;
         }
     }

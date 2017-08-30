@@ -1,32 +1,31 @@
 ﻿using Microsoft.Owin;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Skeleton.Web.Server.Configuration
 {
-    public class RequireSslMiddleware
+    public sealed class RequireSslMiddleware: OwinMiddleware
     {
-        private readonly Func<IDictionary<string, object>, Task> _next;
+        private readonly OwinMiddleware _next;
 
-        public RequireSslMiddleware(Func<IDictionary<string, object>, Task> next)
-        {
-            _next = next;
+        public RequireSslMiddleware(OwinMiddleware next)
+            : base(next)
+        {   
         }
 
-        public async Task Invoke(IDictionary<string, object> env)
+        public override async Task Invoke(IOwinContext context)
         {
-            var context = new OwinContext(env);
-
             if (context.Request.Uri.Scheme != Uri.UriSchemeHttps)
             {
                 context.Response.StatusCode = 403;
                 context.Response.ReasonPhrase = "SSL is required.";
 
+                await context.Response.WriteAsync(context.Response.ReasonPhrase);
+
                 return;
             }
 
-            await _next(env);
+            await Next.Invoke(context);
         }
     }
 }

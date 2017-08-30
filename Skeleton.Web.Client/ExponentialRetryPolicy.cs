@@ -62,7 +62,7 @@ namespace Skeleton.Web.Client
         public async Task<IRestResponse> ExecuteAsync(Func<Task<IRestResponse>> func)
         {
             IRestResponse response = null;
-            for (RetryCount = 0; RetryCount <= _maxRetries; RetryCount++)
+            for (RetryCount = 0; RetryCount < _maxRetries; RetryCount++)
             {
                 if (RetryCount != 0)
                     Task.Delay(DelayInterval).Wait();

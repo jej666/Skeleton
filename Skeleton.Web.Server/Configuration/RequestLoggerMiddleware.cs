@@ -23,23 +23,16 @@ namespace Skeleton.Web.Server.Configuration
             await LogRequest(context).ConfigureAwait(false);
         }
 
+        // https://blog.heroku.com/http_request_id_s_improve_visibility_across_the_application_stack
         private async Task LogRequest(IOwinContext context)
         {
+            var requestId = context.GetRequestId();
+            
             var stopWath = Stopwatch.StartNew();
-
             await Next.Invoke(context).ConfigureAwait(false);
-
             stopWath.Stop();
-
-            _log.Info($"RequestId: {GetRequestId(context)} - Method :{context.Request.Method} - Url: {context.Request.Uri.PathAndQuery} - TimeElapsed: {stopWath.ElapsedMilliseconds} ms");
-        }
-
-        private string GetRequestId(IOwinContext context)
-        {
-            object id;
-            context.Environment.TryGetValue("owin.RequestId", out id);
-
-            return id.ToString();
-        }
+           
+            _log.Info($"RequestId: {requestId} - Method :{context.Request.Method} - Url: {context.Request.Uri.PathAndQuery} - TimeElapsed: {stopWath.ElapsedMilliseconds} ms");
+        } 
     }
 }

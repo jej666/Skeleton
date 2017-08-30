@@ -52,9 +52,9 @@ namespace Skeleton.Web.Server
             if (request == null)
                 return null;
 
-            if (request.Properties.ContainsKey(Constants.OwinContext))
+            if (request.Properties.ContainsKey(Constants.OwinEnvironment.Context))
             {
-                return ((OwinContext)request.Properties[Constants.OwinContext]).Request.RemoteIpAddress;
+                return ((OwinContext)request.Properties[Constants.OwinEnvironment.Context]).Request.RemoteIpAddress;
             }
             return null;
         }
@@ -109,14 +109,14 @@ namespace Skeleton.Web.Server
         private static string GetNextLink(this UrlHelper urlHelper, int pageNumber, int pageSize, int totalPages)
         {
             return pageNumber < totalPages - 1
-                ? urlHelper.Link(Constants.DefaultRpcRoute, new { page = pageNumber + 1, pageSize })
+                ? urlHelper.Link(Constants.Routes.DefaultRpcRoute, new { page = pageNumber + 1, pageSize })
                 : string.Empty;
         }
 
         private static string GetPrevLink(this UrlHelper urlHelper, int pageNumber, int pageSize)
         {
             return pageNumber > 0
-                ? urlHelper.Link(Constants.DefaultRpcRoute, new { page = pageNumber - 1, pageSize })
+                ? urlHelper.Link(Constants.Routes.DefaultRpcRoute, new { page = pageNumber - 1, pageSize })
                 : string.Empty;
         }
     }

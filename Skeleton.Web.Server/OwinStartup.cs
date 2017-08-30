@@ -17,13 +17,28 @@ namespace Skeleton.Web.Server
 
         private readonly OwinBootstrapper _bootstrapper =
             new OwinBootstrapper(HttpConfiguration.Value);
+        private OwinServerOptions _options = new OwinServerOptions
+        {
+            EnableCompression = true,
+            EnableRequestId = true,
+            EnableRequestLogging = true,
+            RequireSsl = false
+        };
 
         public IDisposable StartServer(Uri url, Action<IOwinBootstrapper> bootstrap)
         {
+            return StartServer(url, bootstrap, _options);
+        }
+
+        public IDisposable StartServer(Uri url, Action<IOwinBootstrapper> bootstrap, OwinServerOptions options)
+        {
             url.ThrowIfNull();
             bootstrap.ThrowIfNull();
+            options.ThrowIfNull();
 
+            _options = options;
             _bootstrapper.Configure();
+
             bootstrap(_bootstrapper);
 
             return WebApp.Start<OwinStartup>(url.ToString());
@@ -31,13 +46,19 @@ namespace Skeleton.Web.Server
 
         public void Configuration(IAppBuilder appBuilder)
         {
-#if DEBUG
-            appBuilder.Use<RequestLoggerMiddleware>(DependencyContainer.Instance.Resolve<ILoggerFactory>());
-#else
-            appBuilder.Use<RequireSslMiddleware>();
-#endif
-            appBuilder.Use<CompressionMiddleware>()
-                      .UseWebApi(HttpConfiguration.Value);
+            if (_options.EnableRequestId)
+                appBuilder.Use<RequestIdMiddleware>();
+
+            if (_options.EnableRequestLogging)
+                appBuilder.Use<RequestLoggerMiddleware>(DependencyContainer.Instance.Resolve<ILoggerFactory>());
+
+            if (_options.RequireSsl)
+                appBuilder.Use<RequireSslMiddleware>();
+
+            if (_options.EnableCompression)
+                appBuilder.Use<CompressionMiddleware>();
+
+            appBuilder.UseWebApi(HttpConfiguration.Value);
         }
     }
 }

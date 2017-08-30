@@ -64,6 +64,7 @@ namespace Skeleton.Web.Client
 
             return await RetryPolicy.ExecuteAsync(async () =>
             {
+                // Clone request is required as HttpClient forbid resending the same request 
                 var requestClone = RetryPolicy.RetryCount > 0
                 ? Clone(requestMessage)
                 : requestMessage;

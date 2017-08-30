@@ -19,7 +19,7 @@ namespace Skeleton.Web.Server.Controllers
             {
                var name = api.ActionDescriptor.ControllerDescriptor.ControllerName;
                var builder = Request.CreateUriBuilder();
-               builder.Path = Constants.DefaultApiPath + "/" + name;
+               builder.Path = Constants.Routes.DefaultApiPath + "/" + name;
 
                return new ServiceRegistry
                {

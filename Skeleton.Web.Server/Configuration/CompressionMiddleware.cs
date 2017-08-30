@@ -9,47 +9,43 @@ using System.Threading.Tasks;
 namespace Skeleton.Web.Server.Configuration
 {
     // Adapted from https://github.com/mikegore1000/SqueezeMe
-    public class CompressionMiddleware
+    public sealed class CompressionMiddleware: OwinMiddleware
     {
-        private readonly Func<IDictionary<string, object>, Task> next;
         private readonly OwinCompression compression = new OwinCompression();
-
         private readonly List<ICompressor> compressors = new List<ICompressor>
         {
             new GZipCompressor(),
             new DeflateCompressor()
         };
 
-        public CompressionMiddleware(Func<IDictionary<string, object>, Task> next)
+        public CompressionMiddleware(OwinMiddleware next)
+            :base(next)
         {
-            this.next = next;
         }
 
-        public async Task Invoke(IDictionary<string, object> environment)
+        public override async Task Invoke(IOwinContext context)
         {
-            environment.ThrowIfNull();
-
-            var context = new OwinContext(environment);
             var httpOutputStream = context.Response.Body;
             var compressor = GetCompressor(context.Request);
 
             if (compressor == null)
             {
-                await next.Invoke(environment);
+                await Next.Invoke(context);
                 return;
             }
 
-            await compression.Compress(next, context, compressor, httpOutputStream);
+            await compression.Compress(Next, context, compressor, httpOutputStream);
+
             context.Response.Body = httpOutputStream;
         }
 
         private ICompressor GetCompressor(IOwinRequest request)
         {
-            if (!request.Headers.ContainsKey(Constants.AcceptEncoding))
+            if (!request.Headers.ContainsKey(Constants.Headers.AcceptEncoding))
                 return null;
 
             return (from c in compressors
-                    from e in request.Headers.GetCommaSeparatedValues(Constants.AcceptEncoding)
+                    from e in request.Headers.GetCommaSeparatedValues(Constants.Headers.AcceptEncoding)
                                      .Select(x => StringWithQualityHeaderValue.Parse(x))
                     orderby e.Quality descending
                     where string.Compare(c.ContentEncoding, e.Value, StringComparison.OrdinalIgnoreCase) == 0

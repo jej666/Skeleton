@@ -21,10 +21,9 @@ namespace Skeleton.Web.Server
         {
             _configuration.DependencyResolver = new UnityResolver(DependencyContainer.Instance.UnityContainer);
             _configuration.MapHttpAttributeRoutes();
-
             _configuration.Routes.MapHttpRoute(
-                            name: Constants.DefaultRpcRoute,
-                            routeTemplate: Constants.DefaultRpcRouteTemplate,
+                            name: Constants.Routes.DefaultRpcRoute,
+                            routeTemplate: Constants.Routes.DefaultRpcRouteTemplate,
                             defaults: new { id = RouteParameter.Optional });
         }
 

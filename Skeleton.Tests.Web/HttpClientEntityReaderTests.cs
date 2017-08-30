@@ -70,6 +70,7 @@ namespace Skeleton.Tests.Web
         public void EntityReader_Query()
         {
             var request = new RestRequest()
+                    .AddResource("query")
                     .AddQueryParameters(
                         new Query
                         {
@@ -82,6 +83,16 @@ namespace Skeleton.Tests.Web
             var response = _client.Get(request);
 
             Assert.IsNotNull(response);
+        }
+
+        [Test]
+        public void EntityReader_Retry()
+        {
+            var request = new RestRequest()
+                    .AddResource("retry");
+            var response = _client.Get(request);
+
+            Assert.IsTrue(_client.RetryPolicy.RetryCount == 5);
         }
     }
 }

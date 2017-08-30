@@ -74,7 +74,7 @@ namespace Skeleton.Web.Server.Controllers
                 var newDto = Mapper.Map(entity);
 
                 return CreatedAtRoute(
-                    Constants.DefaultRpcRoute,
+                    Constants.Routes.DefaultRpcRoute,
                     new { id = entity.Id },
                     newDto);
             });
