@@ -5,4 +5,4 @@ install:
   - nuget install NUnit.ConsoleRunner -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release Skeleton.sln
- * - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Skeleton.Tests.Core/bin/Release/Skeleton.Tests.Core.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Skeleton.Tests.Core/obj/Release/Skeleton.Tests.Core.dll
